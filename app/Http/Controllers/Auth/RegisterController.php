@@ -7,11 +7,25 @@ use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    public function register(){
-        dd('register view');
+    public function register()
+    {
+        return view('main');
     }
 
-    public function registerAndAuthenticate(){
+    public function registerAndAuthenticate()
+    {
         //todo:
     }
+
+    public function nurseRegister()
+    {
+        return view('main');
+    }
+
+    public function clientRegister()
+    {
+        return view('main');
+    }
+
+
 }

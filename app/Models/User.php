@@ -7,10 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
-class User extends Authenticatable
+Relation::morphMap([
+    'admin' => 'App\Models\Admin',
+    'nurse' => 'App\Models\Nurse',
+    'client' => 'App\Models\Client',
+]);
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $with = [
+        'entity'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +29,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'phone',
+        'zip_code',
+        'entity_id',
+        'entity_type',
         'email',
         'password',
     ];
@@ -41,4 +57,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //get a parent model of admin or client or nurse
+    public function entity(){
+        return $this->morphTo();
+    }
+
+    //check user is admin
+    public function getIsAdminAttribute(){
+        if($this->entity instanceof Admin){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //check user is nurse
+    public function getIsNurseAttribute(){
+        if($this->entity instanceof Nurse){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //check user is client
+    public function getIsClientAttribute(){
+        if($this->entity instanceof Client){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

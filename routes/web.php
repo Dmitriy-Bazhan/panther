@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,19 +15,39 @@ use App\Http\Controllers\Auth\RegisterController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+| nurse - медсестра
+| nurse - медсестра
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MainPageController::class, 'index']);
 
-//Route::middleware('auth:sanctum')->get('/', function () {
-//    return view('welcome');
-//});
 
-//Route::get('/login', [LoginController::class, 'logIn'])->name('login');
-//Route::post('/login', [LoginController::class, 'authenticate']);
-//
-//Route::get('/register', [RegisterController::class, 'register'])->name('login');
-//Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);
 
+
+
+/*
+ * Login , register, log out
+ *
+ */
+Route::middleware('auth:sanctum')->get('/get-auth', [MainPageController::class, 'getAuth']);
+
+//Login
+Route::get('/login', [LoginController::class, 'logIn'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+//Register
+Route::get('/register', [RegisterController::class, 'register'])->name('register');
+Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);
+
+//NurseRegister
+Route::get('/nurse-register', [RegisterController::class, 'nurseRegister']);
+Route::post('/nurse-register', [RegisterController::class, 'registerAndAuthenticateNurse']);
+
+//ClientRegister
+Route::get('/client-register', [RegisterController::class, 'clientRegister']);
+Route::post('/client-register', [RegisterController::class, 'registerAndAuthenticateClient']);
+
+//Log out
+Route::get('/log-out', [LoginController::class, 'logOut']);
+
+Route::get('/test', [TestController::class, 'index']);
