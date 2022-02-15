@@ -1,11 +1,12 @@
 <template>
 
-    <pf-header :auth="authUsers"></pf-header>
+    <div>
+        <pf-header :auth="authUsers"></pf-header>
 
-    <router-view></router-view>
+        <router-view></router-view>
 
-    <pf-footer></pf-footer>
-
+        <pf-footer></pf-footer>
+    </div>
 
 </template>
 

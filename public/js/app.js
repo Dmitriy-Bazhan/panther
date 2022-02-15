@@ -18849,13 +18849,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_pf_footer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pf-footer");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pf_header, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pf_header, {
     auth: $data.authUsers
   }, null, 8
   /* PROPS */
-  , ["auth"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pf_footer)], 64
-  /* STABLE_FRAGMENT */
-  );
+  , ["auth"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pf_footer)]);
 }
 
 /***/ }),
