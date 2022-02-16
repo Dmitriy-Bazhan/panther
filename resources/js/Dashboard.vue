@@ -1,16 +1,12 @@
 <template>
     <div>
-        <pf-header :auth="authUsers"></pf-header>
-
-        <router-view></router-view>
-
-        <pf-footer></pf-footer>
+        <h1>Dashboard</h1>
     </div>
 </template>
 
 <script>
 export default {
-    name: "app",
+    name: "Dashboard",
     data() {
         return {
             auth: window.guard,
@@ -28,7 +24,6 @@ export default {
                 });
         }
     }
-
 }
 </script>
 

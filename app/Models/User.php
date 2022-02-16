@@ -20,7 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $with = [
-        'entity'
+        'entity',
+        'prefs'
     ];
 
     /**
@@ -88,5 +89,9 @@ class User extends Authenticatable implements MustVerifyEmail
         }else{
             return false;
         }
+    }
+
+    public function prefs(){
+        return $this->hasOne('App\Models\UserPref','user_id', 'id');
     }
 }

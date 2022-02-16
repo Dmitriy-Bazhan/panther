@@ -54,7 +54,7 @@ export default {
                 .then((response) => {
                     console.log(response);
                     if(response.data.success){
-                        location.href = response.data.dashboards;
+                        location.href = '/dashboard/' + response.data.dashboards;
                     }else{
                         this.errors = response.data.errors;
                         console.log(this.errors);

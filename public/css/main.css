@@ -3,3 +3,8 @@
     background: #e8e8e8;
     margin-bottom: 10px;
 }
+
+.register-form-error {
+    font-size: 10px;
+    color: red;
+}
