@@ -21,8 +21,15 @@ use App\Http\Controllers\TestController;
 
 Route::get('/', [MainPageController::class, 'index']);
 
-
-
+/*
+ * admin
+ *
+ */
+Route::prefix('admin')->middleware(['auth:sanctum','checkAdmin'])->group(function(){
+        Route::get('/', function (){
+            dd('admin');
+        });
+});
 
 
 /*
