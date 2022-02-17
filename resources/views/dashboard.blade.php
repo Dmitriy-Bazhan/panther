@@ -15,15 +15,8 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
     <script>
-        //first enter in site
-        let checkLocale = window.localStorage.getItem('locale');
-        if(checkLocale === undefined){
-            window.localStorage.setItem('locale', 'de');
-        }
-        //first enter in site
-
         window.guard = '{{ auth()->user()->entity_type ?? 'guest'}}';
-        window.locale = @auth()'{{ auth()->user()->prefs->pref_lang }}' @else window.localStorage.getItem('locale') @endauth;
+        window.locale = '{{ auth()->user()->prefs->pref_lang }}';
         window.dashboard = '{{ request()->segment(1) ?? 'no'}}';
     </script>
 
@@ -31,7 +24,7 @@
 
 <body>
 
-<div id="app">
+<div id="dashboard">
 </div>
 
 <script src="{{asset('js/app.js')}}"></script>

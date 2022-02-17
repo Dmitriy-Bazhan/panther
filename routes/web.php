@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\Clients\ClientDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Nurses\NurseDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +19,38 @@ use App\Http\Controllers\TestController;
 | contains the "web" middleware group. Now create something great!
 |
 | nurse - медсестра
-| nurse - медсестра
 */
 
 Route::get('/', [MainPageController::class, 'index']);
 
+Route::prefix('dashboard')->group(function () {
+
+    /*
+     * admin
+     */
+    Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
+
+    });
+    Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
 
+    /*
+     * client
+     */
+    Route::prefix('client')->middleware(['auth:sanctum', 'checkClient'])->group(function () {
+
+    });
+    Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient']);
+
+
+    /*
+     * nurse
+     */
+    Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse'])->group(function () {
+
+    });
+    Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse']);
+});
 
 
 /*
@@ -41,13 +69,25 @@ Route::post('/register', [RegisterController::class, 'registerAndAuthenticate'])
 
 //NurseRegister
 Route::get('/nurse-register', [RegisterController::class, 'nurseRegister']);
-Route::post('/nurse-register', [RegisterController::class, 'registerAndAuthenticateNurse']);
+Route::post('/nurse-register', [RegisterController::class, 'nurseRegistration']);
 
 //ClientRegister
 Route::get('/client-register', [RegisterController::class, 'clientRegister']);
-Route::post('/client-register', [RegisterController::class, 'registerAndAuthenticateClient']);
+Route::post('/client-register', [RegisterController::class, 'clientRegistration']);
 
 //Log out
 Route::get('/log-out', [LoginController::class, 'logOut']);
 
+/*
+ * 404
+ */
+Route::get('/404', function () {
+    return view('404');
+});
+
+/*
+ * test
+ */
 Route::get('/test', [TestController::class, 'index']);
+
+Route::get('change-lang', [MainPageController::class, 'changeLang']);

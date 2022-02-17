@@ -11,7 +11,11 @@ class LoginController extends Controller
 {
     public function logIn()
     {
-        return view('main');
+        if(!auth()->check()){
+            return view('main');
+        }else{
+            return redirect()->to('/');
+        }
     }
 
     public function authenticate(Request $request)
@@ -25,7 +29,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'dashboards' => auth()->user()->entity_type]);
         }
 
         $errors['email'] = 'The provided credentials do not match our records.';

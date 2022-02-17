@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Nurses;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MainPageController extends Controller
+class NurseDashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class MainPageController extends Controller
      */
     public function index()
     {
-        return view('main');
+        return view('dashboard');
     }
 
     /**
@@ -80,22 +81,5 @@ class MainPageController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function getAuth() {
-        return response()->json(['auth' => auth()->user()]);
-    }
-
-    public function changeLang(){
-        if(auth()->user()->prefs->pref_lang == 'en'){
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'de'
-            ]);
-        }else{
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'en'
-            ]);
-        }
-        return response()->json(['success' => true]);
     }
 }

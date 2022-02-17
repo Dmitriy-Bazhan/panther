@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\UserPref;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,5 +31,11 @@ class UserSeeder extends Seeder
         $admin->entity_id = $entityId;
         $admin->entity_type = 'admin';
         $admin->save();
+        $adminId = $admin->id;
+
+        $userPrefs = new UserPref();
+        $userPrefs->user_id = $adminId;
+        $userPrefs->pref_lang = 'de';
+        $userPrefs->save();
     }
 }

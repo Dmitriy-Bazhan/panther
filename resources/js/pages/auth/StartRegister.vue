@@ -1,19 +1,17 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4 offset-4">
+            <div class="col-4 offset-4 btn-group-vertical">
 
-                <div class="col-12">
+                <button v-on:click="toClientRegister" class="btn btn-lg btn-primary">Client</button>
 
-                    <button v-on:click="toClientRegister">Client</button>
+                <br>
 
-                </div>
+                <button v-on:click="toNurseRegister" class="btn btn-lg btn-primary">Nurse</button>
 
-                <div class="col-12">
+                <br>
 
-                    <button v-on:click="toNurseRegister">Nurse</button>
-
-                </div>
+                <button v-on:click="backToHome" class="btn btn-lg btn-primary">Back</button>
 
             </div>
         </div>
@@ -24,12 +22,15 @@
 <script>
 export default {
     name: "StartRegister",
-    methods : {
-        toClientRegister(){
+    methods: {
+        toClientRegister() {
             location.href = '/client-register';
         },
-        toNurseRegister(){
+        toNurseRegister() {
             location.href = '/nurse-register';
+        },
+        backToHome(){
+            location.href = '/';
         }
     }
 }
