@@ -5,6 +5,8 @@ import Login from '../pages/auth/Login';
 import StartRegister from '../pages/auth/StartRegister';
 import NurseRegister from '../pages/auth/NurseRegister';
 import ClientRegister from '../pages/auth/ClientRegister';
+import EmailVerify from '../WaitVerify';
+import YouWelcome from "../YouWelcome";
 
 const routes = [
     {
@@ -28,10 +30,18 @@ const routes = [
         component: ClientRegister
     },
     {
+        path: "/email/verify",
+        component: EmailVerify
+    },
+    {
+        path: "/you-welcome",
+        component: YouWelcome
+    },
+    {
         path: "/test",
         component: Test
     },
-    ];
+];
 
 const router = VueRouter.createRouter({
     routes,

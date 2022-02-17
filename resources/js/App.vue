@@ -1,23 +1,32 @@
 <template>
     <div>
-        <pf-header :auth="authUsers"></pf-header>
+        <pf-header :auth="authUsers" v-if="showHeader"></pf-header>
 
         <router-view></router-view>
 
-        <pf-footer></pf-footer>
+        <pf-footer v-if="showFooter"></pf-footer>
     </div>
 </template>
 
 <script>
 export default {
     name: "app",
+
     data() {
         return {
             auth: window.guard,
             authUsers: null,
+            showHeader: true,
+            showFooter: true,
         }
     },
     mounted() {
+
+        this.emitter.on('not-show-layouts', e => {
+            this.showHeader = false;
+            this.showFooter = false;
+        });
+
         if (this.auth !== 'guest') {
             axios.get('/get-auth')
                 .then((response) => {
@@ -27,7 +36,8 @@ export default {
                     console.log(error);
                 });
         }
-    }
+    },
+    methods: {}
 
 }
 </script>

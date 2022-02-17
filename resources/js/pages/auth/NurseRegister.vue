@@ -95,7 +95,7 @@ export default {
                     this.errors = null;
                     console.log(response);
                     if(response.data.success){
-                        location.href = '/dashboard/nurse';
+                        location.href = '/email/verify';
                     }else{
                         this.errors = response.data.errors;
                     }

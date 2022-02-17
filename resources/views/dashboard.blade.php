@@ -25,6 +25,9 @@
 <body>
 
 <div id="dashboard">
+    <dashboard :user="{{ auth()->user() }}">
+
+    </dashboard>
 </div>
 
 <script src="{{asset('js/app.js')}}"></script>

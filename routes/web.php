@@ -8,6 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Nurses\NurseDashboardController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,19 +38,19 @@ Route::prefix('dashboard')->group(function () {
     /*
      * client
      */
-    Route::prefix('client')->middleware(['auth:sanctum', 'checkClient'])->group(function () {
+    Route::prefix('client')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
 
     });
-    Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient']);
+    Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
 
     /*
      * nurse
      */
-    Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse'])->group(function () {
+    Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
 
     });
-    Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse']);
+    Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
 
@@ -91,3 +92,30 @@ Route::get('/404', function () {
 Route::get('/test', [TestController::class, 'index']);
 
 Route::get('change-lang', [MainPageController::class, 'changeLang']);
+
+
+Route::get('/email/verify', function () {
+    return view('main');
+})->middleware('auth:sanctum')->name('verification.notice');
+
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/you-welcome');
+
+//    if(auth()->user()->is_client){
+//        return redirect('/dashboard/client');
+//    }
+//
+//    if(auth()->user()->is_nurse){
+//        return redirect('/dashboard/nurse');
+//    }
+
+
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('/you-welcome', function (){
+    return view('main');
+});

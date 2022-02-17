@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
+
+
 
 class RegisterController extends Controller
 {
@@ -103,6 +106,7 @@ class RegisterController extends Controller
         $user->entity_type = 'client';
 
         if ($user->save()) {
+
             $userId = $user->id;
             $userPrefs = new UserPref();
             $userPrefs->user_id = $userId;
@@ -114,6 +118,7 @@ class RegisterController extends Controller
                 'password' => $data['password'],
             ]);
 
+            event(new Registered($user));
             return true;
         } else {
             //todo: I will ask my comrades for best practices for logs and errors
@@ -189,6 +194,7 @@ class RegisterController extends Controller
                 'password' => $data['password'],
             ]);
 
+            event(new Registered($user));
             return true;
         } else {
             //todo: I will ask my comrades for best practices for logs and errors
