@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
 
 class NurseDashboardController extends Controller
@@ -14,7 +15,8 @@ class NurseDashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $data['data']['provider_supports'] = ProvideSupport::all();
+        return view('dashboard', $data);
     }
 
     /**

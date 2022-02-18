@@ -32,6 +32,7 @@
 <body>
 
 <div id="app">
+    <app :user="@auth {{ auth()->user() }} @else false @endauth"></app>
 </div>
 
 <script src="{{asset('js/app.js')}}"></script>

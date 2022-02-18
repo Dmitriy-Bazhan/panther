@@ -40,7 +40,7 @@ const routes = [
     {
         path: "/test",
         component: Test
-    },
+    }
 ];
 
 const router = VueRouter.createRouter({

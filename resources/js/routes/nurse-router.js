@@ -1,0 +1,56 @@
+import * as VueRouter from "vue-router";
+import Overview from "../dashboards/nurse-dashboard/components/Overview";
+import Messages from "../dashboards/nurse-dashboard/components/Messages";
+import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
+import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
+import Payments from "../dashboards/nurse-dashboard/components/Payments";
+import MyInformation from "../dashboards/nurse-dashboard/components/MyInformation";
+import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";
+
+const routes = [
+    {
+        path: "/dashboard/nurse",
+        name: 'NurseDashboard',
+        component: Overview
+    },
+    {
+        path: "/dashboard/nurse/messages",
+        name: 'NurseDashboardMessages',
+        component: Messages
+    },
+    {
+        path: "/dashboard/nurse/ratings",
+        name: 'NurseDashboardRatings',
+        component: Ratings
+    },
+    {
+        path: "/dashboard/nurse/bookings",
+        name: 'NurseDashboardBookings',
+        component: Bookings
+    },
+    {
+        path: "/dashboard/nurse/payments",
+        name: 'NurseDashboardPayments',
+        component: Payments
+    },
+    {
+        path: "/dashboard/nurse/my-information/",
+        name: 'NurseDashboardMyInformation',
+        component: MyInformation,
+        props: true,
+    },
+    {
+        path: "/dashboard/nurse/help-end-service",
+        name: 'NurseDashboardHelpEndService',
+        component: HelpAndService
+    },
+
+];
+
+const router = VueRouter.createRouter({
+    routes,
+    history: VueRouter.createWebHistory(),
+});
+
+
+export default router;

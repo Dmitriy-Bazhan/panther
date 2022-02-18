@@ -16,7 +16,7 @@
                         <input type="password" class="form-control" id="input_password" v-model="password">
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="check">
+                        <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
                         <label class="form-check-label" for="check">Check me out</label>
                     </div>
                     <div class="row">
@@ -44,13 +44,14 @@ export default {
         return {
             email: null,
             password: null,
-            errors : null
+            errors : null,
+            checkbox: false,
         };
     },
     methods: {
         SendLogin(event){
             event.preventDefault();
-            axios.post('/login', {'email' : this.email, 'password' : this.password})
+            axios.post('/login', {'email' : this.email, 'password' : this.password, 'checkbox' : this.checkbox})
                 .then((response) => {
                     console.log(response);
                     if(response.data.success){

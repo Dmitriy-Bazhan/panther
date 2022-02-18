@@ -25,7 +25,10 @@
 <body>
 
 <div id="dashboard">
-    <dashboard :user="{{ auth()->user() }}">
+    <dashboard
+        :user="{{ auth()->user() }}"
+        :data="{{ json_encode($data) ?? '' }}"
+    >
 
     </dashboard>
 </div>

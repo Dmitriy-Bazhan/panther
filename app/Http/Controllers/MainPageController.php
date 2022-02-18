@@ -82,10 +82,6 @@ class MainPageController extends Controller
         //
     }
 
-    public function getAuth() {
-        return response()->json(['auth' => auth()->user()]);
-    }
-
     public function changeLang(){
         if(auth()->user()->prefs->pref_lang == 'en'){
             \App\Models\UserPref::where('user_id', auth()->id())->update([

@@ -30,7 +30,7 @@ Route::prefix('dashboard')->group(function () {
      * admin
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-
+        Route::get('/settings', [AdminDashboardController::class, 'settings']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
@@ -39,7 +39,12 @@ Route::prefix('dashboard')->group(function () {
      * client
      */
     Route::prefix('client')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
-
+        Route::get('messages', [ClientDashboardController::class, 'index']);
+        Route::get('ratings', [ClientDashboardController::class, 'index']);
+        Route::get('bookings', [ClientDashboardController::class, 'index']);
+        Route::get('payments', [ClientDashboardController::class, 'index']);
+        Route::get('my-information', [ClientDashboardController::class, 'index']);
+        Route::get('help-end-service', [ClientDashboardController::class, 'index']);
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
@@ -48,7 +53,12 @@ Route::prefix('dashboard')->group(function () {
      * nurse
      */
     Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
-
+        Route::get('messages', [NurseDashboardController::class, 'index']);
+        Route::get('ratings', [NurseDashboardController::class, 'index']);
+        Route::get('bookings', [NurseDashboardController::class, 'index']);
+        Route::get('payments', [NurseDashboardController::class, 'index']);
+        Route::get('my-information', [NurseDashboardController::class, 'index']);
+        Route::get('help-end-service', [NurseDashboardController::class, 'index']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
@@ -58,7 +68,6 @@ Route::prefix('dashboard')->group(function () {
  * Login , register, log out
  *
  */
-Route::middleware('auth:sanctum')->get('/get-auth', [MainPageController::class, 'getAuth']);
 
 //Login
 Route::get('/login', [LoginController::class, 'logIn'])->name('login');
@@ -91,29 +100,21 @@ Route::get('/404', function () {
  */
 Route::get('/test', [TestController::class, 'index']);
 
+/*
+ * Change languages
+ */
 Route::get('change-lang', [MainPageController::class, 'changeLang']);
 
-
+/*
+ * Email verify
+ */
 Route::get('/email/verify', function () {
     return view('main');
 })->middleware('auth:sanctum')->name('verification.notice');
 
-
-
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
     return redirect('/you-welcome');
-
-//    if(auth()->user()->is_client){
-//        return redirect('/dashboard/client');
-//    }
-//
-//    if(auth()->user()->is_nurse){
-//        return redirect('/dashboard/nurse');
-//    }
-
-
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/you-welcome', function (){
