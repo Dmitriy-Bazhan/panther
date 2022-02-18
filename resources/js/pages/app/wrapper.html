@@ -1,0 +1,7 @@
+<div>
+    <panther-header :auth="user" v-if="showHeader"></panther-header>
+
+    <router-view></router-view>
+
+    <panther-footer v-if="showFooter"></panther-footer>
+</div>

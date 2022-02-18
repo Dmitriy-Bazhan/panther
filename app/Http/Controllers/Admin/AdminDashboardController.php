@@ -82,4 +82,8 @@ class AdminDashboardController extends Controller
     {
         //
     }
+
+    public function settings(){
+        return view('dashboard');
+    }
 }

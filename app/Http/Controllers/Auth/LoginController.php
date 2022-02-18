@@ -21,12 +21,23 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $errors = [];
-        $credentials = $request->validate([
+        $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'checkbox' => ['sometimes','boolean'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $rememberMe = false;
+        if($request->filled('checkbox') && $request->post('checkbox') == true){
+            $rememberMe = true;
+        }
+
+        $credentials = [
+            'email' => $request->post('email'),
+            'password' => $request->post('password'),
+        ];
+
+        if (Auth::attempt($credentials, $rememberMe)) {
             $request->session()->regenerate();
 
             return response()->json(['success' => true, 'dashboards' => auth()->user()->entity_type]);

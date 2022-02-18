@@ -21,7 +21,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = [
         'entity',
-        'prefs'
+        'prefs',
+        'provideSupports'
     ];
 
     /**
@@ -47,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token'
     ];
 
     /**
@@ -60,38 +61,54 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     //get a parent model of admin or client or nurse
-    public function entity(){
+    public function entity()
+    {
         return $this->morphTo();
     }
 
     //check user is admin
-    public function getIsAdminAttribute(){
-        if($this->entity instanceof Admin){
+    public function getIsAdminAttribute()
+    {
+        if ($this->entity instanceof Admin) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //check user is nurse
-    public function getIsNurseAttribute(){
-        if($this->entity instanceof Nurse){
+    public function getIsNurseAttribute()
+    {
+        if ($this->entity instanceof Nurse) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //check user is client
-    public function getIsClientAttribute(){
-        if($this->entity instanceof Client){
+    public function getIsClientAttribute()
+    {
+        if ($this->entity instanceof Client) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public function prefs(){
-        return $this->hasOne('App\Models\UserPref','user_id', 'id');
+    public function prefs()
+    {
+        return $this->hasOne('App\Models\UserPref', 'user_id', 'id');
+    }
+
+    public function provideSupports()
+    {
+        return $this->hasManyThrough(
+            'App\Models\ProvideSupport',
+            'App\Models\ProvideSupportAssigned',
+            'user_id',                                  //from ProvideSupportAssigned
+            'id',                                     //from App\Models\ProvideSupport
+            'id',                                       //from User
+            'support_id');                        //from ProvideSupportAssigned
     }
 }

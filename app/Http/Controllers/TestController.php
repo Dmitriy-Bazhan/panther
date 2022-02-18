@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Client;
+use App\Models\Nurse;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,11 @@ class TestController extends Controller
 {
     public function index(){
 
-        $user = User::with('entity')->first();
+        $user = auth()->user();
+        dd($user->provideSupports);
+
+        $nurse = Nurse::where('id', auth()->user()->entity_id)->with('user')->first();
+        dd($nurse);
 
         dd(auth()->user());
 

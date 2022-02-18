@@ -13,4 +13,9 @@ class Nurse extends Model
     {
         return $this->morphMany(User::class, 'entity');
     }
+
+    public function user()
+    {
+        return $this->morphOne(User::class, 'entity');
+    }
 }
