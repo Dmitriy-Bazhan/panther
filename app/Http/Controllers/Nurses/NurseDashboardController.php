@@ -71,7 +71,7 @@ class NurseDashboardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response()->json(['success' => 'OK']);
     }
 
     /**

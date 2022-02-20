@@ -21,8 +21,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = [
         'entity',
-        'prefs',
-        'provideSupports'
     ];
 
     /**
@@ -59,6 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeEntity(){
+
+    	if($this->entity instanceof Client){
+	    	return $this->entity();
+    	}
+    	return $this->entity();
+    }
 
     //get a parent model of admin or client or nurse
     public function entity()
@@ -99,16 +105,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function prefs()
     {
         return $this->hasOne('App\Models\UserPref', 'user_id', 'id');
-    }
-
-    public function provideSupports()
-    {
-        return $this->hasManyThrough(
-            'App\Models\ProvideSupport',
-            'App\Models\ProvideSupportAssigned',
-            'user_id',                                  //from ProvideSupportAssigned
-            'id',                                     //from App\Models\ProvideSupport
-            'id',                                       //from User
-            'support_id');                        //from ProvideSupportAssigned
     }
 }

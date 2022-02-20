@@ -7,10 +7,10 @@ export default {
     props: ['user', 'data'],
     template: template,
     components: {
-        'nurse-header' : NurseHeader,
-        'left-panel' : LeftPanel,
+        'nurse-header': NurseHeader,
+        'left-panel': LeftPanel,
     },
     mounted() {
-
+        // console.log(this.user);
     }
 }

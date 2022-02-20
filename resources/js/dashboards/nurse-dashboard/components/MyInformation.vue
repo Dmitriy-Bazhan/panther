@@ -14,7 +14,8 @@
                             <label for="first_name" class="form-label col-form-label-sm">First name</label>
                         </div>
                         <div class="col-8">
-                            <input type="text" class="form-control form-control-sm" v-model="user.first_name" id="first_name">
+                            <input type="text" class="form-control form-control-sm" v-model="user.first_name"
+                                   id="first_name">
                         </div>
                     </div>
 
@@ -24,7 +25,8 @@
                             <label for="last_name" class="form-label col-form-label-sm">Last name</label>
                         </div>
                         <div class="col-8">
-                            <input type="text" class="form-control form-control-sm" v-model="user.last_name" id="last_name">
+                            <input type="text" class="form-control form-control-sm" v-model="user.last_name"
+                                   id="last_name">
                         </div>
                     </div>
 
@@ -57,7 +59,8 @@
                         </div>
 
                         <div class="col-8">
-                            <input type="text" class="form-control form-control-sm" v-model="user.zip_code" id="zip_code">
+                            <input type="text" class="form-control form-control-sm" v-model="user.zip_code"
+                                   id="zip_code">
                         </div>
                     </div>
 
@@ -82,7 +85,8 @@
                         </div>
 
                         <div class="col-8">
-                            <input type="number" class="form-control form-control-sm" v-model="user.entity.age" id="age" min="18" max="100">
+                            <input type="number" class="form-control form-control-sm" v-model="user.entity.age" id="age"
+                                   min="18" max="100">
                         </div>
                     </div>
 
@@ -93,18 +97,23 @@
                         </div>
 
                         <div class="col-8">
-                            <input type="number" class="form-control form-control-sm" v-model="user.entity.experience" id="experience" min="18" max="100">
+                            <input type="number" class="form-control form-control-sm" v-model="user.entity.experience"
+                                   id="experience" min="18" max="100">
                         </div>
                     </div>
+                </div>
 
+                <div class="col-3">
                     <!-- pref client gender -->
                     <div class="row">
                         <div class="col-4">
-                            <label for="pref_client_gender" class="form-label col-form-label-sm">Preference client gender</label>
+                            <label for="pref_client_gender" class="form-label col-form-label-sm">Preference client
+                                gender</label>
                         </div>
 
                         <div class="col-8">
-                            <select class="form-control form-control-sm" v-model="user.entity.pref_client_gender" id="pref_client_gender">
+                            <select class="form-control form-control-sm" v-model="user.entity.pref_client_gender"
+                                    id="pref_client_gender">
                                 <option value="no_matter">No matter</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -115,11 +124,13 @@
                     <!-- available care range -->
                     <div class="row">
                         <div class="col-4">
-                            <label for="available_care_range" class="form-label col-form-label-sm">Available care range</label>
+                            <label for="available_care_range" class="form-label col-form-label-sm">Available care
+                                range</label>
                         </div>
 
                         <div class="col-8">
-                            <select class="form-control form-control-sm" v-model="user.entity.available_care_range" id="available_care_range">
+                            <select class="form-control form-control-sm" v-model="user.entity.available_care_range"
+                                    id="available_care_range">
                                 <option value="1">1</option>
                                 <option value="1">2</option>
                                 <option value="1">3</option>
@@ -132,11 +143,13 @@
                     <!-- multiple bookings -->
                     <div class="row">
                         <div class="col-4">
-                            <label for="multiple_bookings" class="form-label col-form-label-sm">Multiple bookings</label>
+                            <label for="multiple_bookings" class="form-label col-form-label-sm">Multiple
+                                bookings</label>
                         </div>
 
                         <div class="col-8">
-                            <select class="form-control form-control-sm" v-model="user.entity.multiple_bookings" id="multiple_bookings">
+                            <select class="form-control form-control-sm" v-model="user.entity.multiple_bookings"
+                                    id="multiple_bookings">
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
@@ -150,8 +163,8 @@
                         </div>
 
                         <div class="col-8">
-                            <select class="form-control form-control-sm" v-model="user.provide_supports" id="provide_supports" multiple
-                                    v-on:change="look">
+                            <select class="form-control form-control-sm" v-model="user.entity.provide_supports"
+                                    id="provide_supports" multiple>
                                 <option v-for="support in data.provider_supports"
                                         :value="support">
                                     {{ $t(support.name) }}
@@ -161,7 +174,7 @@
                     </div>
                 </div>
 
-                <div class="col-2 offset-6">
+                <div class="col-2 offset-3">
 
                     <div v-if="user.entity.photo !== null" class="my-information-photo-wrapper">
                         <img :src="path + '/' + user.entity.photo" alt="" class="my-information-photo">
@@ -186,13 +199,22 @@
                         </div>
 
                         <div class="col-8">
-                            <textarea class="form-control form-control-sm" v-model="user.entity.description" id="description" rows="6">
+                            <textarea class="form-control form-control-sm" v-model="user.entity.description"
+                                      id="description" rows="6">
 
                             </textarea>
                         </div>
                     </div>
                 </div>
 
+            </div>
+
+            <div class="row">
+                <div class="col-2 offset-10">
+
+                    <button class="btn btn-success btn-sm" v-on:click="updateInformation">Update</button>
+
+                </div>
             </div>
         </div>
 
@@ -208,14 +230,31 @@ export default {
             path: location.origin,
         }
     },
+    watch: {
+        // user: {
+        //     handler(newValue, oldValue) {
+        //         console.log('Watch');
+        //         console.log(newValue);
+        //         console.log(oldValue);
+        //     },
+        //     immediate: true
+        // },
+        user: function (val){
+            console.log('FFFF');
+        }
+    },
     mounted() {
-        // console.log(this.data);
-        // console.log(this.user);
+
     },
     methods: {
-        look(){
-            console.log(this.user.provide_supports);
-        }
+        updateInformation() {
+            console.log(this.user);
+            axios.put('/dashboard/nurse/' + this.user.id, {'user': this.user})
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch();
+        },
     }
 
 }

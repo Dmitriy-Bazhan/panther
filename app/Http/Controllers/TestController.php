@@ -12,23 +12,12 @@ class TestController extends Controller
 {
     public function index(){
 
-        $user = auth()->user();
-        dd($user->provideSupports);
+//        dd(auth()->user());
 
-        $nurse = Nurse::where('id', auth()->user()->entity_id)->with('user')->first();
-        dd($nurse);
+        $users = User::where('entity_type', 'nurse')->get();
 
-        dd(auth()->user());
+            $data['data'] = $users;
 
-        dump($user->is_admin);
-        dump($user->is_nurse);
-        dump($user->is_client);
-
-        dd($user);
-        $admins = Admin::with('users')->get();
-
-        dd($admins);
-
-        dd('Stop');
+        return view('test', $data);
     }
 }

@@ -15,11 +15,11 @@ class CreateProvideSupportAssignedsTable extends Migration
     {
         Schema::create('provide_support_assigneds', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('nurse_id')->unsigned();
             $table->bigInteger('support_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('nurse_id')->references('id')->on('nurses')->cascadeOnDelete();
             $table->foreign('support_id')->references('id')->on('provide_supports')->cascadeOnDelete();
         });
     }
