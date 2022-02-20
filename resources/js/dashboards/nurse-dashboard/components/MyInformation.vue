@@ -236,17 +236,14 @@ export default {
         }
     },
     watch: {
-        // user: {
-        //     handler(newValue, oldValue) {
-        //         console.log('Watch');
-        //         console.log(newValue);
-        //         console.log(oldValue);
-        //     },
-        //     immediate: true
-        // },
-        user: function (val) {
-            console.log('FFFF');
-        }
+        user: {
+            handler(newValue, oldValue) {
+                console.log('Watch');
+                console.log(newValue);
+                console.log(oldValue);
+            },
+            immediate: true
+        },
     },
     mounted() {
 

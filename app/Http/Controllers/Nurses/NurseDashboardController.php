@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateNurseRequest;
 use App\Http\Requests\UploadNursePhotoRequest;
 use App\Http\Repositories\NurseRepository;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class NurseDashboardController extends Controller
 {
@@ -90,29 +91,27 @@ class NurseDashboardController extends Controller
         return response()->json(['success' => 'OK']);
     }
 
-    public function uploadPhoto(UploadNursePhotoRequest $request, $id)
+    public function uploadPhoto(Request $request, $id)
     {
-        $f = '';
-        $this->nurseRepo->uploadPhoto();
+        $rules = [
+            'file' => 'required|file|mimes:jpeg,jpg,jpe,bmp,png'
+        ];
 
-        if ($request->file()) {
-            $file_name = 'user_' . $id . '_' . $request->file->getClientOriginalName();
-            $directory_name = 'user_' . $id . '/photo';
-            $existedPhotos = Storage::disk('public')->files($directory_name);
-            if(count($existedPhotos) > 0){
-                Storage::disk('public')->deleteDirectory($directory_name);
-                $file_path = Storage::disk('public')->putFileAs($directory_name, $request->file('file'), $file_name);
-            }else{
-                $file_path = Storage::disk('public')->putFileAs($directory_name, $request->file('file'), $file_name);
-            }
-
-            Nurse::where('id', auth()->user()->entity_id)->update([
-                'photo' => $directory_name . '/' .$file_name
-            ]);
+        $validator = Validator::make($request->file(), $rules);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['success' => false, 'errors' => $errors]);
         }
 
+        if(!$file_path = $this->nurseRepo->uploadPhoto($request, $id)){
+            return response()->json(['success' => false]);
+        }
 
-        return response()->json(['success' => $file_name, 'id' => $id]);
+        Nurse::where('id', auth()->user()->entity_id)->update([
+            'photo' => $file_path
+        ]);
+
+        return response()->json(['success' => $file_path, 'id' => $id]);
     }
 
     /**
