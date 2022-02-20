@@ -177,14 +177,19 @@
                 <div class="col-2 offset-3">
 
                     <div v-if="user.entity.photo !== null" class="my-information-photo-wrapper">
-                        <img :src="path + '/' + user.entity.photo" alt="" class="my-information-photo">
+                        <img v-bind:src="path + '/storage/' + user.entity.photo" alt="no-photo" class="my-information-photo">
                     </div>
 
                     <div v-else class="my-information-photo-wrapper">
                         <img :src="path + '/images/no-photo.jpg'" alt="no-photo" class="my-information-photo">
+
+
                     </div>
 
-                    <input type="file" name="nurse_new_photo" class="form-control-file form-control-sm">
+                    <input type="file" name="nurse_new_photo"
+                           ref="file"
+                           v-on:change="photoUpload()"
+                           class="form-control-file form-control-sm">
 
                 </div>
             </div>
@@ -239,7 +244,7 @@ export default {
         //     },
         //     immediate: true
         // },
-        user: function (val){
+        user: function (val) {
             console.log('FFFF');
         }
     },
@@ -250,6 +255,21 @@ export default {
         updateInformation() {
             console.log(this.user);
             axios.put('/dashboard/nurse/' + this.user.id, {'user': this.user})
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch();
+        },
+        photoUpload() {
+            let formData = new FormData();
+            formData.append('file', this.$refs.file.files[0]);
+
+            axios.post('/dashboard/nurse/upload-photo/' + this.user.id,
+                formData,
+                {headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }})
                 .then((response) => {
                     console.log(response);
                 })

@@ -17,4 +17,9 @@ class NurseRepository
 
         return true;
     }
+
+    public function uploadPhoto(){
+
+        return true;
+    }
 }

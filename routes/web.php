@@ -59,6 +59,8 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
+
+        Route::post('upload-photo/{id}', [NurseDashboardController::class, 'uploadPhoto']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
