@@ -15,7 +15,8 @@ class CreateNursesTable extends Migration
     {
         Schema::create('nurses', function (Blueprint $table) {
             $table->id();
-            $table->string('photo')->nullable()->default(null);
+            $table->string('original_photo')->nullable()->default(null);
+            $table->string('thumbnail_photo')->nullable()->default(null);
             $table->tinyInteger('age')->unsigned()->nullable()->default(null);
             $table->tinyInteger('experience')->unsigned()->default(0);
             $table->tinyInteger('available_care_range')->unsigned()->default(1)->comment('1|2|3|4|5');

@@ -101,6 +101,7 @@ Route::get('/404', function () {
  * test
  */
 Route::get('/test', [TestController::class, 'index']);
+Route::post('test/message',[TestController::class, 'testSetMessage'])->middleware('auth:sanctum');
 
 /*
  * Change languages

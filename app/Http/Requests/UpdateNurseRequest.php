@@ -31,18 +31,21 @@ class UpdateNurseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user1.id' => 'required|numeric',
         ];
     }
 
-//    public function failedValidation(Validator $validator) {
+    public function failedValidation(Validator $validator) {
 
-//        $errors = $validator->errors();
-//        $messages = '';
-//        foreach ($errors->all() as $message) {
-//            $messages .= "<li>$message</li>";
-//        }
-//
+        $errors = $validator->errors();
+        $messages = '';
+        foreach ($errors->all() as $message) {
+            $messages .= "<li>$message</li>";
+        }
+//        return response()->json(['success' => false, 'errors' => $errors]);
+        abort(
+            response()->json(['success' => false, 'errors' => $errors], 409)
+        );
 //        abort(409, $messages);
-//    }
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdminsTable extends Migration
+class CreateNurseLangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('nurse_langs', function (Blueprint $table) {
             $table->id();
-            $table->string('original_photo')->nullable()->default(null);
-            $table->string('thumbnail_photo')->nullable()->default(null);
+            $table->bigInteger('nurse_id')->unsigned();
+            $table->string('lang')->default('Deutsche');
+            $table->string('level')->default('A1');
             $table->timestamps();
+
+            $table->foreign('nurse_id')->references('id')->on('nurses')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +31,6 @@ class CreateAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('nurse_langs');
     }
 }

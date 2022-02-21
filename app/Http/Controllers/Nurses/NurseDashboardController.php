@@ -84,11 +84,42 @@ class NurseDashboardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateNurseRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->nurseRepo->update();
+        $rules = [
+            'user.id' => 'required|numeric',
+            'user.email' => 'required|email',
+            'user.first_name' => 'required',
+            'user.last_name' => 'required',
+            'user.phone' => 'required',
+            'user.zip_code' => 'required',
+            'user.entity.age' => 'required|numeric|min:18|max:100',
+            'user.entity.available_care_range' => 'required|numeric|min:1|max:5',
+            'user.entity.description' => 'required',
+            'user.entity.gender' => 'required',
+            'user.entity.experience' => 'required',
+            'user.entity.multiple_bookings' => 'required',
+            'user.entity.pref_client_gender' => 'required',
 
-        return response()->json(['success' => 'OK']);
+            'user.entity.languages.lang' => 'required',
+            'user.entity.languages.level' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        $nurses = $this->nurseRepo->search(request('user.id'));
+        $nurse = $nurses->first();
+
+        $nursesUp = $this->nurseRepo->update($nurse->id);
+
+
+
+        return response()->json(['success' => true, 'user' => $nursesUp]);
     }
 
     public function uploadPhoto(Request $request, $id)
@@ -103,15 +134,16 @@ class NurseDashboardController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if(!$file_path = $this->nurseRepo->uploadPhoto($request, $id)){
+        if(!$file_paths = $this->nurseRepo->uploadPhoto($request, $id)){
             return response()->json(['success' => false]);
         }
 
         Nurse::where('id', auth()->user()->entity_id)->update([
-            'photo' => $file_path
+            'original_photo' => $file_paths['original_path'],
+            'thumbnail_photo' => $file_paths['thumbnail_path'],
         ]);
 
-        return response()->json(['success' => $file_path, 'id' => $id]);
+        return response()->json(['success' => $file_paths['thumbnail_path'], 'id' => $id]);
     }
 
     /**

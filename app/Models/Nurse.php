@@ -10,7 +10,8 @@ class Nurse extends Model
     use HasFactory;
 
     protected $with = [
-        'provideSupports'
+        'provideSupports',
+        'languages'
     ];
 
     public function users()
@@ -21,6 +22,12 @@ class Nurse extends Model
     public function user()
     {
         return $this->morphOne(User::class, 'entity');
+    }
+
+    public function languages(){
+        return $this->hasOne('App\Models\NurseLang', 'nurse_id', 'id')->withDefault([
+            'lang' => 'Deutsche', 'level' => 'A1'
+        ]);
     }
 
     public function provideSupports()

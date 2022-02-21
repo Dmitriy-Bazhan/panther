@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'last_name' => 'required',
             'phone' => 'required',
             'zip_code' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ];
 
@@ -135,7 +135,7 @@ class RegisterController extends Controller
             'last_name' => 'required',
             'phone' => 'required',
             'zip_code' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ];
 
