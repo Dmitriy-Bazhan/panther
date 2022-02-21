@@ -117,14 +117,14 @@
                         </div>
 
                         <div class="col-6">
-                            <select class="form-control form-control-sm" v-model="user.entity.languages['lang']" id="languages">
+                            <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm" v-model="user.entity.languages[0].lang" id="languages">
                                 <option value="English">English</option>
                                 <option value="Deutsche">Deutsche</option>
                             </select>
                         </div>
 
                         <div class="col-2">
-                            <select class="form-control form-control-sm" v-model="user.entity.languages['level']" id="">
+                            <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm" v-model="user.entity.languages[0].level" id="">
                                 <option value="A1">A1</option>
                                 <option value="A2">A2</option>
                                 <option value="B1">B1</option>
@@ -279,6 +279,17 @@ export default {
     watch: {
         user: {
             handler(newValue, oldValue) {
+                if(this.user.entity.languages.length === 0){
+                    this.user.entity.languages = [];
+                    let lang = new Object({
+                        lang : null,
+                        level : null
+                    });
+                    this.user.entity.languages.push(lang);
+                    console.log(this.user);
+                }
+
+
                 // console.log('Watch');
                 // console.log(newValue);
                 // console.log(oldValue);
@@ -287,7 +298,15 @@ export default {
         },
     },
     mounted() {
-
+        // if(this.user.entity.languages.length === 0){
+        //     this.user.entity.languages = [];
+        //     let lang = new Object({
+        //         lang : null,
+        //         level : null
+        //     });
+        //     this.user.entity.languages.push(lang);
+        //     console.log(this.user);
+        // }
     },
     methods: {
         updateInformation() {

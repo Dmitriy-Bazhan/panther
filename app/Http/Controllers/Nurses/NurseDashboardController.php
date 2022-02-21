@@ -101,8 +101,8 @@ class NurseDashboardController extends Controller
             'user.entity.multiple_bookings' => 'required',
             'user.entity.pref_client_gender' => 'required',
 
-            'user.entity.languages.lang' => 'required',
-            'user.entity.languages.level' => 'required',
+            'user.entity.languages.*.lang' => 'required',
+            'user.entity.languages.*.level' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);

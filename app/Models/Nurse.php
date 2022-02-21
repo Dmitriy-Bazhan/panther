@@ -25,9 +25,7 @@ class Nurse extends Model
     }
 
     public function languages(){
-        return $this->hasOne('App\Models\NurseLang', 'nurse_id', 'id')->withDefault([
-            'lang' => 'Deutsche', 'level' => 'A1'
-        ]);
+        return $this->hasMany('App\Models\NurseLang', 'nurse_id', 'id');
     }
 
     public function provideSupports()
