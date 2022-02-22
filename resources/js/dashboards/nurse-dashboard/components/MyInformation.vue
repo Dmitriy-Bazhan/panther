@@ -17,7 +17,7 @@
                             <input type="text" class="form-control form-control-sm" v-model="user.first_name"
                                    id="first_name">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.first_name'] !== undefined">{{ errors['user.first_name'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['first_name'] !== undefined">{{ errors['first_name'][0] }}</span>
                     </div>
 
                     <!-- last name -->
@@ -29,7 +29,7 @@
                             <input type="text" class="form-control form-control-sm" v-model="user.last_name"
                                    id="last_name">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.last_name'] !== undefined">{{ errors['user.last_name'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['last_name'] !== undefined">{{ errors['last_name'][0] }}</span>
                     </div>
 
                     <!-- email -->
@@ -41,7 +41,7 @@
                         <div class="col-8">
                             <input type="email" class="form-control form-control-sm" v-model="user.email" id="email">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.email'] !== undefined">{{ errors['user.email'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['email'] !== undefined">{{ errors['email'][0] }}</span>
                     </div>
 
                     <!-- phone -->
@@ -53,7 +53,7 @@
                         <div class="col-8">
                             <input type="text" class="form-control form-control-sm" v-model="user.phone" id="phone">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.phone'] !== undefined">{{ errors['user.phone'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['phone'] !== undefined">{{ errors['phone'][0] }}</span>
                     </div>
 
                     <!-- zip code -->
@@ -66,7 +66,7 @@
                             <input type="text" class="form-control form-control-sm" v-model="user.zip_code"
                                    id="zip_code">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.zip_code'] !== undefined">{{ errors['user.zip_code'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['zip_code'] !== undefined">{{ errors['zip_code'][0] }}</span>
                     </div>
 
                     <!-- gender -->
@@ -81,7 +81,7 @@
                                 <option value="female">Female</option>
                             </select>
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.gender'] !== undefined">{{ errors['user.entity.gender'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.gender'] !== undefined">{{ errors['entity.gender'][0] }}</span>
                     </div>
 
                     <!-- age -->
@@ -94,7 +94,7 @@
                             <input type="number" class="form-control form-control-sm" v-model="user.entity.age" id="age"
                                    min="18" max="100">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.age'] !== undefined">{{ errors['user.entity.age'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.age'] !== undefined">{{ errors['entity.age'][0] }}</span>
                     </div>
 
                     <!-- experience -->
@@ -107,7 +107,7 @@
                             <input type="number" class="form-control form-control-sm" v-model="user.entity.experience"
                                    id="experience" min="18" max="100">
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.experience'] !== undefined">{{ errors['user.entity.experience'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.experience'] !== undefined">{{ errors['entity.experience'][0] }}</span>
                     </div>
 
                     <!-- languages -->
@@ -133,8 +133,8 @@
                                 <option value="C2">C2</option>
                             </select>
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.languages.lang'] !== undefined">{{ errors['user.entity.languages.lang'][0] }}</span>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.languages.level'] !== undefined">{{ errors['user.entity.languages.level'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.languages.0.lang'] !== undefined">{{ errors['entity.languages.0.lang'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.languages.0.level'] !== undefined">{{ errors['entity.languages.0.level'][0] }}</span>
                     </div>
                 </div>
 
@@ -154,7 +154,7 @@
                                 <option value="female">Female</option>
                             </select>
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.pref_client_gender'] !== undefined">{{ errors['user.entity.pref_client_gender'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.pref_client_gender'] !== undefined">{{ errors['entity.pref_client_gender'][0] }}</span>
                     </div>
 
                     <!-- available care range -->
@@ -174,7 +174,7 @@
                                 <option value="1">5</option>
                             </select>
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.available_care_range'] !== undefined">{{ errors['user.entity.available_care_range'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.available_care_range'] !== undefined">{{ errors['entity.available_care_range'][0] }}</span>
                     </div>
 
                     <!-- multiple bookings -->
@@ -191,7 +191,7 @@
                                 <option value="no">No</option>
                             </select>
                         </div>
-                        <span class="register-form-error" v-if="errors !== null && errors['user.entity.multiple_bookings'] !== undefined">{{ errors['user.entity.multiple_bookings'][0] }}</span>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
                     </div>
 
                     <!-- provide supports -->
@@ -209,6 +209,8 @@
                                 </option>
                             </select>
                         </div>
+                        <span class="register-form-error" v-if="errors !== null && errors['entity.provide_supports'] !== undefined">{{ errors['entity.provide_supports'][0] }}</span>
+
                     </div>
 
                 </div>
@@ -247,11 +249,42 @@
                                       id="description" rows="6">
 
                             </textarea>
-                            <span class="register-form-error" v-if="errors !== null && errors['user.entity.description'] !== undefined">{{ errors['user.entity.description'][0] }}</span>
+                            <span class="register-form-error" v-if="errors !== null && errors['entity.description'] !== undefined">{{ errors['entity.description'][0] }}</span>
                         </div>
                     </div>
                 </div>
 
+            </div>
+
+            <div class="row">
+
+                <div class="col-3" style="border: solid 1px lightgray">
+                    <div>
+                        criminal record
+                        <input type="file" id="criminal_record" ref="criminal_record" multiple class="form-control-file form-control-sm"/>
+                        <p class="file_name" v-for="item in filterFiles(user.entity.files, 'criminal_record')">{{ item.original_name }}</p><br>
+                        <span class="register-form-error" v-if="errors !== null && errors['criminal_record'] !== undefined">{{ errors['criminal_record'][0] }}</span>
+                    </div>
+
+                    <div>
+                        documentation of training
+                        <input type="file" id="documentation_of_training" ref="documentation_of_training" multiple class="form-control-file form-control-sm"/>
+                        <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'documentation_of_training')">{{ item.original_name }}</p>
+                        <span class="register-form-error" v-if="errors !== null && errors['documentation_of_training'] !== undefined">{{ errors['documentation_of_training'][0] }}</span>
+                    </div>
+
+                    <div>
+                        CPR course
+                        <input type="file" id="CPR_course" ref="CPR_course" multiple class="form-control-file form-control-sm"/>
+                        <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'CPR_course')">{{ item.original_name }}</p>
+                    </div>
+
+                    <div>
+                        references
+                        <input type="file" id="references" ref="references" multiple class="form-control-file form-control-sm"/>
+                        <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'references')">{{ item.original_name }}</p>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -273,17 +306,22 @@ export default {
     data() {
         return {
             path: location.origin,
-            errors : null
+            errors: null,
+            criminal_record: '',
+            documentation_of_training: '',
+            CPR_course: '',
+            references: '',
+
         }
     },
     watch: {
         user: {
             handler(newValue, oldValue) {
-                if(this.user.entity.languages.length === 0){
+                if (this.user.entity.languages.length === 0) {
                     this.user.entity.languages = [];
                     let lang = new Object({
-                        lang : null,
-                        level : null
+                        lang: '',
+                        level: ''
                     });
                     this.user.entity.languages.push(lang);
                     console.log(this.user);
@@ -298,26 +336,61 @@ export default {
         },
     },
     mounted() {
-        // if(this.user.entity.languages.length === 0){
-        //     this.user.entity.languages = [];
-        //     let lang = new Object({
-        //         lang : null,
-        //         level : null
-        //     });
-        //     this.user.entity.languages.push(lang);
-        //     console.log(this.user);
-        // }
+        console.log();
     },
     methods: {
+        filterFiles(data, type){
+            return data.filter(function (el){
+                if(el.file_type === type){
+                    return true;
+                }
+            })
+        },
+
         updateInformation() {
-            console.log(this.user);
-            axios.put('/dashboard/nurse/' + this.user.id, {'user': this.user})
+            this.criminal_record = this.$refs.criminal_record.files;
+            this.documentation_of_training = this.$refs.documentation_of_training.files;
+            this.CPR_course = this.$refs.CPR_course.files;
+            this.references = this.$refs.references.files;
+            let formData = new FormData();
+
+            for (let i = 0; i < this.criminal_record.length; i++) {
+                let file = this.criminal_record[i];
+                formData.append('criminal_record[' + i + ']', file);
+            }
+
+            for (let i = 0; i < this.documentation_of_training.length; i++) {
+                let file = this.documentation_of_training[i];
+                formData.append('documentation_of_training[' + i + ']', file);
+            }
+
+            for (let i = 0; i < this.CPR_course.length; i++) {
+                let file = this.CPR_course[i];
+                formData.append('CPR_course[' + i + ']', file);
+            }
+
+            for (let i = 0; i < this.references.length; i++) {
+                let file = this.references[i];
+                formData.append('references[' + i + ']', file);
+            }
+
+            let user = JSON.stringify(this.user);
+            formData.append('user', user);
+
+            axios.post('/dashboard/nurse/' + this.user.id,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
                 .then((response) => {
                     console.log(response.data);
-                    if(response.data.success){
+                    if (response.data.success) {
                         this.errors = null;
+                        this.emitter.emit('user-finished-fill-info');
                         console.log('OK');
-                    }else{
+                    } else {
                         this.errors = response.data.errors;
                         console.log(response.data.errors);
                     }
@@ -331,17 +404,24 @@ export default {
             formData.append('file', this.$refs.file.files[0]);
             axios.post('/dashboard/nurse/upload-photo/' + this.user.id,
                 formData,
-                {headers: {
+                {
+                    headers: {
                         'Content-Type': 'multipart/form-data',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }})
+                    }
+                })
                 .then((response) => {
-                    // console.log(response);
+                    console.log(response.data);
+                    if (response.data.success) {
+                        this.errors = null;
+                        this.emitter.emit('user-upload-photo');
+                    } else {
+                        this.errors = response.data.errors;
+                    }
                 })
                 .catch();
         },
     }
-
 }
 </script>
 
@@ -353,6 +433,10 @@ export default {
 
 .my-information-photo-wrapper {
     border: solid 1px gray;
+}
+
+.file_name {
+    font-size: 10px;
 }
 
 </style>

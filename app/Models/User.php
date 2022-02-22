@@ -58,18 +58,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeEntity(){
-
-    	if($this->entity instanceof Client){
-	    	return $this->entity();
-    	}
-    	return $this->entity();
-    }
-
     //get a parent model of admin or client or nurse
     public function entity()
     {
         return $this->morphTo();
+    }
+
+    public function nurse()
+    {
+        return $this->hasOne('App\Models\Nurse', 'id', 'entity_id');
     }
 
     //check user is admin

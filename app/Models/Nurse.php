@@ -11,7 +11,8 @@ class Nurse extends Model
 
     protected $with = [
         'provideSupports',
-        'languages'
+        'languages',
+        'files'
     ];
 
     public function users()
@@ -26,6 +27,10 @@ class Nurse extends Model
 
     public function languages(){
         return $this->hasMany('App\Models\NurseLang', 'nurse_id', 'id');
+    }
+
+    public function files(){
+        return $this->hasMany('App\Models\NurseFile', 'nurse_id', 'id');
     }
 
     public function provideSupports()

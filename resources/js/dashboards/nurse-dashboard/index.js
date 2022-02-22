@@ -1,6 +1,7 @@
 import template from './wrapper.html';
 import NurseHeader from "../nurse-dashboard/Header";
 import LeftPanel from "../nurse-dashboard/LeftPanel";
+import Notification from "./Notification";
 // import TestChat from "../../TestChat";
 
 export default {
@@ -10,6 +11,7 @@ export default {
     components: {
         'nurse-header': NurseHeader,
         'left-panel': LeftPanel,
+        'notification': Notification
         // 'test-chat' : TestChat,
     },
     mounted() {

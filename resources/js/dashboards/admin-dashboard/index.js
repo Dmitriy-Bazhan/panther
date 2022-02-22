@@ -5,7 +5,7 @@ import LeftPanel from "./LeftPanel";
 
 export default {
     name: 'admin-dashboard',
-    props: ['user'],
+    props: ['user', 'data'],
     template: template,
     components: {
       'admin-header' : AdminHeader,

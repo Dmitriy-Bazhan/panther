@@ -6,18 +6,32 @@ use App\Events\TestChatMessage;
 use App\Models\Admin;
 use App\Models\Client;
 use App\Models\Nurse;
+use App\Models\NurseFile;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
-//        dd(auth()->user());
+        $user1 = new User();
+        $user = $user1->newQuery();
+        $user->where('entity_type', 'nurse');
+
+        $user->whereHas('nurse', function ($query) {
+            return $query->where('info_is_full', 'yes');
+        });
+
+        $d = $user->get();
+
+        dd($d);
+
+        dd(auth()->id(), auth()->user()->entity);
 
         $users = User::where('entity_type', 'nurse')->get();
 
-            $data['data'] = $users;
+        $data['data'] = $users;
 
         return view('test', $data);
     }

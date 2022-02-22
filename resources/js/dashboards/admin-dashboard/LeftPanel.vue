@@ -7,7 +7,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><router-link :to="{ name : 'AdminDashboard' }">Dashboard</router-link></li>
             <li class="list-group-item">Clients</li>
-            <li class="list-group-item">Nurses</li>
+            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardNurses' }">Nurses</router-link></li>
             <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardSettings' }">Settings</router-link></li>
         </ul>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
 use App\Models\Nurse;
+use App\Models\NurseFile;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateNurseRequest;
@@ -47,7 +48,7 @@ class NurseDashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -58,7 +59,7 @@ class NurseDashboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -69,7 +70,7 @@ class NurseDashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,46 +81,76 @@ class NurseDashboardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $rules = [
-            'user.id' => 'required|numeric',
-            'user.email' => 'required|email',
-            'user.first_name' => 'required',
-            'user.last_name' => 'required',
-            'user.phone' => 'required',
-            'user.zip_code' => 'required',
-            'user.entity.age' => 'required|numeric|min:18|max:100',
-            'user.entity.available_care_range' => 'required|numeric|min:1|max:5',
-            'user.entity.description' => 'required',
-            'user.entity.gender' => 'required',
-            'user.entity.experience' => 'required',
-            'user.entity.multiple_bookings' => 'required',
-            'user.entity.pref_client_gender' => 'required',
+//        return response()->json(['success' => true, 'request' => $request->allFiles()]);
 
-            'user.entity.languages.*.lang' => 'required',
-            'user.entity.languages.*.level' => 'required',
+        $rules = [
+            'id' => 'required|numeric',
+            'email' => 'required|email',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required',
+            'zip_code' => 'required',
+            'entity.age' => 'required|numeric|min:18|max:100',
+            'entity.available_care_range' => 'required|numeric|min:1|max:5',
+            'entity.description' => 'required',
+            'entity.gender' => 'required',
+            'entity.experience' => 'required',
+            'entity.multiple_bookings' => 'required',
+            'entity.pref_client_gender' => 'required',
+
+            'entity.languages.*.lang' => 'required',
+            'entity.languages.*.level' => 'required',
+
+            'entity.provide_supports' => 'required',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make(json_decode($request->all('user')['user'], true), $rules);
 
+        $errors = [];
         if ($validator->fails()) {
-            $errors = $validator->errors();
+            $errors = array_merge($errors, $validator->errors()->toArray());
+        }
+
+        $rules = [
+            'criminal_record' => 'required',
+            'documentation_of_training' => 'required',
+
+        ];
+
+        $nurses = $this->nurseRepo->search($id);
+        $nurse = $nurses->first();
+
+        if (!NurseFile::where([['nurse_id', $nurse->entity_id], ['file_type', 'criminal_record']])->first() &&
+            !NurseFile::where([['nurse_id', $nurse->entity_id], ['file_type', 'documentation_of_training']])->first()) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
+
+        if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        $nurses = $this->nurseRepo->search(request('user.id'));
-        $nurse = $nurses->first();
+        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
 
-        $nursesUp = $this->nurseRepo->update($nurse->id);
 
+        if (!$this->nurseRepo->update($nurse)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
 
-
-        return response()->json(['success' => true, 'user' => $nursesUp]);
+        $this->makeEventSendProfileToAdmin();
+        return response()->json(['success' => true]);
     }
 
     public function uploadPhoto(Request $request, $id)
@@ -134,7 +165,7 @@ class NurseDashboardController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if(!$file_paths = $this->nurseRepo->uploadPhoto($request, $id)){
+        if (!$file_paths = $this->nurseRepo->uploadPhoto($request, $id)) {
             return response()->json(['success' => false]);
         }
 
@@ -142,18 +173,24 @@ class NurseDashboardController extends Controller
             'original_photo' => $file_paths['original_path'],
             'thumbnail_photo' => $file_paths['thumbnail_path'],
         ]);
-
-        return response()->json(['success' => $file_paths['thumbnail_path'], 'id' => $id]);
+        $this->makeEventSendProfileToAdmin();
+        return response()->json(['success' => true]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    private function makeEventSendProfileToAdmin()
+    {
+        //todo:email later
+        //todo:make event
     }
 }

@@ -3,10 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\NurseRepository;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
+    protected $nursesRepo;
+
+    public function __construct(NurseRepository $nursesRepo)
+    {
+        parent::__construct();
+        $this->nursesRepo = $nursesRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -85,5 +94,16 @@ class AdminDashboardController extends Controller
 
     public function settings(){
         return view('dashboard');
+    }
+
+    public function nurses(){
+        request()->merge([
+            'only_full_info' => true
+        ]);
+
+        $nurses = $this->nursesRepo->search();
+
+        $data['data']['nurses'] = $nurses;
+        return view('dashboard', $data);
     }
 }
