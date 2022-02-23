@@ -1,7 +1,7 @@
 import * as VueRouter from "vue-router";
 import Settings from '../dashboards/admin-dashboard/components/Settings'
 import Dashboard from "../dashboards/admin-dashboard/components/Dashboard";
-import Nurses from "../dashboards/admin-dashboard/components/Nurses";
+import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
 
 const routes = [
     {

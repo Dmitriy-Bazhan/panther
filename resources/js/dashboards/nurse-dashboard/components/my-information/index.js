@@ -1,0 +1,106 @@
+import template from './template.html';
+
+export default {
+    name: "MyInformation",
+    template: template,
+    props: ['user', 'data'],
+    data() {
+        return {
+            path: location.origin,
+            errors: null,
+            criminal_record: '',
+            documentation_of_training: '',
+            CPR_course: '',
+            references: '',
+            file: '',
+        }
+    },
+    watch: {
+        user: {
+            handler(newValue, oldValue) {
+                if (this.user.entity.languages.length === 0) {
+                    this.user.entity.languages = [];
+                    let lang = new Object({
+                        lang: '',
+                        level: ''
+                    });
+                    this.user.entity.languages.push(lang);
+                    console.log(this.user);
+                }
+            },
+            immediate: true
+        },
+    },
+    mounted() {
+        console.log(this.data);
+    },
+    methods: {
+        filterFiles(data, type) {
+            return data.filter(function (el) {
+                if (el.file_type === type) {
+                    return true;
+                }
+            })
+        },
+
+        updateInformation() {
+            this.criminal_record = this.$refs.criminal_record.files;
+            this.documentation_of_training = this.$refs.documentation_of_training.files;
+            this.CPR_course = this.$refs.CPR_course.files;
+            this.references = this.$refs.references.files;
+            this.file = this.$refs.file.files[0];
+            let formData = new FormData();
+
+            formData.append('file', this.file);
+
+            for (let i = 0; i < this.criminal_record.length; i++) {
+                let file = this.criminal_record[i];
+                formData.append('criminal_record[' + i + ']', file);
+            }
+
+
+
+            for (let i = 0; i < this.documentation_of_training.length; i++) {
+                let file = this.documentation_of_training[i];
+                formData.append('documentation_of_training[' + i + ']', file);
+            }
+
+            for (let i = 0; i < this.CPR_course.length; i++) {
+                let file = this.CPR_course[i];
+                formData.append('CPR_course[' + i + ']', file);
+            }
+
+            for (let i = 0; i < this.references.length; i++) {
+                let file = this.references[i];
+                formData.append('references[' + i + ']', file);
+            }
+
+            let user = JSON.stringify(this.user);
+            formData.append('user', user);
+
+            axios.post('/dashboard/nurse/' + this.user.id,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    if (response.data.success) {
+                        this.errors = null;
+                        this.emitter.emit('user-finished-fill-info');
+                    } else {
+                        this.errors = response.data.errors;
+                        console.log(response.data.errors);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        photoUpload() {
+            //todo:: photo preview
+        },
+    }
+}

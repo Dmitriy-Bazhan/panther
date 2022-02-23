@@ -31,7 +31,8 @@ Route::prefix('dashboard')->group(function () {
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'settings']);
-        Route::get('/nurses', [AdminDashboardController::class, 'nurses']);
+        Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
@@ -61,7 +62,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
 
-        Route::post('upload-photo/{id}', [NurseDashboardController::class, 'uploadPhoto']);
         Route::post('{id}', [NurseDashboardController::class, 'update']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);

@@ -1,6 +1,7 @@
 import template from './wrapper.html';
 import AdminHeader from './Header';
 import LeftPanel from "./LeftPanel";
+import Notification from "../admin-dashboard/Notification";
 // import TestChat from "../../TestChat";
 
 export default {
@@ -10,9 +11,10 @@ export default {
     components: {
       'admin-header' : AdminHeader,
       'left-panel' : LeftPanel,
+      'notification': Notification
       // 'test-chat' : TestChat,
     },
     mounted() {
-        console.log(this.user);
+        console.log(this.data);
     }
 }

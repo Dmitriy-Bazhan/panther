@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Nurses;
 
+use App\Events\Admin\NurseAddNewProfile;
 use App\Http\Controllers\Controller;
+use App\Models\AdditionalInfo;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
-use App\Http\Requests\UpdateNurseRequest;
-use App\Http\Requests\UploadNursePhotoRequest;
 use App\Http\Repositories\NurseRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -24,71 +24,36 @@ class NurseDashboardController extends Controller
         $this->nurseRepo = $nurseRepo;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data['data']['provider_supports'] = ProvideSupport::all();
+        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
         return view('dashboard', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 //        return response()->json(['success' => true, 'request' => $request->allFiles()]);
-
         $rules = [
             'id' => 'required|numeric',
             'email' => 'required|email',
@@ -120,14 +85,25 @@ class NurseDashboardController extends Controller
         $rules = [
             'criminal_record' => 'required',
             'documentation_of_training' => 'required',
-
+            'file' => 'required|file|mimes:jpeg,bmp,png'
         ];
 
         $nurses = $this->nurseRepo->search($id);
         $nurse = $nurses->first();
 
-        if (!NurseFile::where([['nurse_id', $nurse->entity_id], ['file_type', 'criminal_record']])->first() &&
-            !NurseFile::where([['nurse_id', $nurse->entity_id], ['file_type', 'documentation_of_training']])->first()) {
+        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
+                && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
+
+        $rules = [
+            'file' => 'required|file|mimes:jpeg,bmp,png'
+        ];
+
+        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
             $validator = Validator::make($request->allFiles(), $rules);
             if ($validator->fails()) {
                 $errors = array_merge($errors, $validator->errors()->toArray());
@@ -138,59 +114,40 @@ class NurseDashboardController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => []]);
-        }
-
-
         if (!$this->nurseRepo->update($nurse)) {
             //todo:: hmm
             return response()->json(['success' => false, 'errors' => []]);
         }
 
-        $this->makeEventSendProfileToAdmin();
+        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
+
+        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => 'Cant upload']);
+        }
+
+        $this->makeEventSendProfileToAdmin($id);
         return response()->json(['success' => true]);
     }
 
-    public function uploadPhoto(Request $request, $id)
-    {
-        $rules = [
-            'file' => 'required|file|mimes:jpeg,jpg,jpe,bmp,png'
-        ];
-
-        $validator = Validator::make($request->file(), $rules);
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            return response()->json(['success' => false, 'errors' => $errors]);
-        }
-
-        if (!$file_paths = $this->nurseRepo->uploadPhoto($request, $id)) {
-            return response()->json(['success' => false]);
-        }
-
-        Nurse::where('id', auth()->user()->entity_id)->update([
-            'original_photo' => $file_paths['original_path'],
-            'thumbnail_photo' => $file_paths['thumbnail_path'],
-        ]);
-        $this->makeEventSendProfileToAdmin();
-        return response()->json(['success' => true]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
     }
 
-    private function makeEventSendProfileToAdmin()
+    private function makeEventSendProfileToAdmin($id)
     {
         //todo:email later
-        //todo:make event
+
+        //todo:check, are pusher is work?
+        try{
+            broadcast(new NurseAddNewProfile())->toOthers();
+        }catch (\Exception $ex){
+
+        };
+
     }
 }

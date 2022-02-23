@@ -33,12 +33,24 @@ class NurseRepository
             $user->where('id', $id);
         }
 
-        if(request()->filled('only_full_info') && request('only_full_info')){
+        //get nurses to admin/nurses list
+        if (request()->filled('only_full_info') && request('only_full_info')) {
             $user->whereHas('nurse', function ($query) {
-                return $query->where('info_is_full', 'yes');
+                return $query->where('info_is_full', 'yes')->orWhere('change_info', 'yes')->orWhere('is_approved', 'yes');
             });
         }
 
+        //order (only for some nurses)
+        if (is_null($id)) {
+            if (request()->filled('order_by')) {
+
+            } else {
+                //default order(info_is_full is hidden var, needed only order)
+                $user->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
+                    ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
+                $user->orderByDesc('info_is_full')->orderByDesc('change_info');
+            }
+        }
         return $user->paginate(10);
     }
 
@@ -49,12 +61,23 @@ class NurseRepository
 
         User::where('id', $nurse->id)->update([
             'first_name' => $data['first_name'],
-            'last_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'zip_code' => $data['zip_code'],
         ]);
 
+        $change_info = 'no';
+        $info_is_full = 'yes';
+        if ($nurse->entity->info_is_full == 'yes') {
+            $change_info = 'yes';
+            $info_is_full = 'no';
+        }
+
+        Nurse::where('id', $nurse->entity_id)->update([
+            'info_is_full' => $info_is_full,
+            'change_info' => $change_info,
+        ]);
 
         Nurse::where('id', $data['entity_id'])->update([
             'age' => $data['entity']['age'],
@@ -64,7 +87,6 @@ class NurseRepository
             'gender' => $data['entity']['gender'],
             'multiple_bookings' => $data['entity']['multiple_bookings'],
             'pref_client_gender' => $data['entity']['pref_client_gender'],
-            'info_is_full' => 'yes'
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)
@@ -131,9 +153,9 @@ class NurseRepository
     public function uploadPhoto(Request $request, $id)
     {
 
-        if ($request->file()) {
-            $file_name = 'original_photo_user_'.$id.'_'.$request->file->getClientOriginalName();
-            $thumbnail_name = 'thumbnail_photo_user_'.$id.'_'.$request->file->getClientOriginalName();
+        if ($request->file('file')) {
+            $file_name = 'original_photo_user_'.$id.'_'.$request->file('file')->getClientOriginalName();
+            $thumbnail_name = 'thumbnail_photo_user_'.$id.'_'.$request->file('file')->getClientOriginalName();
             $directory_name = 'user_'.$id.'/photo';
             $existedPhotos = Storage::disk('public')->files($directory_name);
             if (count($existedPhotos) > 0) {
@@ -146,14 +168,18 @@ class NurseRepository
             }
 
             //make thumbnail or avatar
-            $img = Image::make('storage/'.$thumbnail_path)->resize(50, 50, function ($constraint) {
+            $img = Image::make('storage/'.$thumbnail_path)->resize(40, 40, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
             $img->save();
-        } else {
-            return false;
+
+            Nurse::where('id', auth()->user()->entity_id)->update([
+                'original_photo' => $original_path,
+                'thumbnail_photo' => $thumbnail_path,
+            ]);
+
         }
-        return ['original_path' => $original_path, 'thumbnail_path' => $thumbnail_path];
+        return true;
     }
 }

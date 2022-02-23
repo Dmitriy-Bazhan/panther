@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\TestChatMessage;
+use App\Http\Repositories\NurseRepository;
 use App\Models\Admin;
 use App\Models\Client;
 use App\Models\Nurse;
@@ -12,42 +13,29 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    protected $nurseRepo;
+
+    public function __construct(NurseRepository $nurseRepo)
+    {
+        parent::__construct();
+
+        $this->nurseRepo = $nurseRepo;
+    }
+
     public function index()
     {
+        $id = null;
+        request()->merge([
+            'only_full_info' => true
+        ]);
 
-        $user1 = new User();
-        $user = $user1->newQuery();
-        $user->where('entity_type', 'nurse');
-
-        $user->whereHas('nurse', function ($query) {
-            return $query->where('info_is_full', 'yes');
-        });
-
-        $d = $user->get();
-
-        dd($d);
-
-        dd(auth()->id(), auth()->user()->entity);
-
-        $users = User::where('entity_type', 'nurse')->get();
-
-        $data['data'] = $users;
+        $data['data'] = $this->nurseRepo->search();
 
         return view('test', $data);
     }
 
     public function testSetMessage(Request $request)
     {
-//        if (!$request->filled('message') || !$request->filled('user_id')) {
-//            return response()->json([
-//                'message' => 'No message to send'
-//            ], 422);
-//        }
-//
-//        ChatComment::create([
-//            'user_id' => (int)$request->input('user_id'),
-//            'message' => $request->input('message'),
-//        ]);
 
         broadcast(new TestChatMessage($request->input('message'), $request->input('user_id'), $request->input('username')))->toOthers();
 

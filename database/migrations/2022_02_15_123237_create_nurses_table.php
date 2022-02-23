@@ -19,6 +19,7 @@ class CreateNursesTable extends Migration
             $table->string('thumbnail_photo')->nullable()->default(null);
             $table->string('is_approved')->default('no')->comment('is admin approved? yes|no');
             $table->string('info_is_full')->default('no')->comment('is nurse filled all info? yes|no');
+            $table->string('change_info')->default('no')->comment('is nurse change info? yes|no');
             $table->tinyInteger('age')->unsigned()->nullable()->default(null);
             $table->tinyInteger('experience')->unsigned()->default(0);
             $table->tinyInteger('available_care_range')->unsigned()->default(1)->comment('1|2|3|4|5');
@@ -26,6 +27,7 @@ class CreateNursesTable extends Migration
             $table->string('gender')->default('male')->comment('male|female');
             $table->string('pref_client_gender')->default('no_matter')->comment('no_matter|male|female');
             $table->string('multiple_bookings')->default('no')->comment('yes|no');
+            $table->string('additional_info')->nullable()->default(null)->comment('json string of additional info');
             $table->timestamps();
         });
     }
