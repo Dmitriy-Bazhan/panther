@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Nurses;
 use App\Events\Admin\NurseAddNewProfile;
 use App\Http\Controllers\Controller;
 use App\Models\AdditionalInfo;
+use App\Models\AdditionalInfoData;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\ProvideSupport;
@@ -27,7 +28,8 @@ class NurseDashboardController extends Controller
     public function index()
     {
         $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
+        $data['data']['additional_info'] = AdditionalInfo::all();
+        $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
         return view('dashboard', $data);
     }
 

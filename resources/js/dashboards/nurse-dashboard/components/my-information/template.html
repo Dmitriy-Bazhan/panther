@@ -261,9 +261,9 @@
 
                         <select class="form-control form-control-sm" v-model="user.entity.additional_info"
                                 id="additional_info" multiple>
-                            <option v-for="info_item in data.additional_info"
+                            <option v-for="(info_item, index) in data.additional_info"
                                     :value="info_item">
-                                {{ info_item.id }}
+                                {{ data.additional_info_data[index].data }}
                             </option>
                         </select>
 
