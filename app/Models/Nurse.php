@@ -43,4 +43,14 @@ class Nurse extends Model
             'id',                                       //from User
             'support_id');                        //from ProvideSupportAssigned
     }
+
+    public function getAdditionalInfoAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function setAdditionalInfoAttribute($value)
+    {
+        $this->attributes['additional_info'] = json_encode($value);
+    }
 }

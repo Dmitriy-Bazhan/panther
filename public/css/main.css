@@ -8,3 +8,63 @@
     font-size: 10px;
     color: red;
 }
+
+.my-information-photo {
+    width: 100%;
+}
+
+.nurse-card-photo {
+    width: 70%;
+}
+
+.my-information-photo-wrapper {
+    border: solid 1px gray;
+}
+
+.file_name {
+    font-size: 10px;
+}
+
+.alarm {
+    color: red;
+    font-size: 14px;
+}
+
+.alarm-signal {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    background-color: #fd6060;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.blink {
+    animation-name: blinker;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(1.0, 2.0, 0, 1.0);
+    animation-duration: 3s;
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0, 2.0, 0, 1.0);
+    -webkit-animation-duration: 3s;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}
+
+@-webkit-keyframes blinker {
+    from {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}

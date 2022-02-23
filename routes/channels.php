@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('chat', function () {
     return true;
+});
+
+Broadcast::channel('admin', function ($user) {
+    if ($user->is_admin) {
+        return true;
+    }
+    return false;
 });
