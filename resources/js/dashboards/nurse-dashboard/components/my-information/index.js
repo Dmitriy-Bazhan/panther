@@ -32,7 +32,7 @@ export default {
         },
     },
     mounted() {
-        console.log();
+
     },
     methods: {
         filterFiles(data, type) {
@@ -90,7 +90,6 @@ export default {
                     if (response.data.success) {
                         this.errors = null;
                         this.emitter.emit('user-finished-fill-info');
-                        console.log('OK');
                     } else {
                         this.errors = response.data.errors;
                         console.log(response.data.errors);

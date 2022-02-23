@@ -12,7 +12,8 @@ class Nurse extends Model
     protected $with = [
         'provideSupports',
         'languages',
-        'files'
+        'files',
+        'additionalInfo'
     ];
 
     public function users()
@@ -33,6 +34,16 @@ class Nurse extends Model
         return $this->hasMany('App\Models\NurseFile', 'nurse_id', 'id');
     }
 
+    public function additionalInfo(){
+        return $this->hasManyThrough(
+            'App\Models\AdditionalInfo',
+            'App\Models\AdditionalInfoAssigned',
+            'nurse_id',
+            'id',
+            'id',
+            'additional_info_id');
+    }
+
     public function provideSupports()
     {
         return $this->hasManyThrough(
@@ -40,17 +51,7 @@ class Nurse extends Model
             'App\Models\ProvideSupportAssigned',
             'nurse_id',                                  //from ProvideSupportAssigned
             'id',                                     //from App\Models\ProvideSupport
-            'id',                                       //from User
+            'id',                                       //from nurse
             'support_id');                        //from ProvideSupportAssigned
-    }
-
-    public function getAdditionalInfoAttribute($value)
-    {
-        return json_decode($value, true);
-    }
-
-    public function setAdditionalInfoAttribute($value)
-    {
-        $this->attributes['additional_info'] = json_encode($value);
     }
 }

@@ -223,7 +223,6 @@
                 <div v-else class="my-information-photo-wrapper">
                     <img :src="path + '/images/no-photo.jpg'" alt="no-photo" class="my-information-photo">
 
-
                 </div>
 
                 <input type="file" name="nurse_new_photo"
@@ -250,6 +249,26 @@
                             </textarea>
                         <span class="register-form-error" v-if="errors !== null && errors['entity.description'] !== undefined">{{ errors['entity.description'][0] }}</span>
                     </div>
+                </div>
+                <div class="row">
+
+
+                    <div class="col-2">
+                        <label for="additional_info" class="form-label col-form-label-sm">Additional info</label>
+                    </div>
+
+                    <div class="col-6">
+
+                        <select class="form-control form-control-sm" v-model="user.entity.additional_info"
+                                id="additional_info" multiple>
+                            <option v-for="info_item in data.additional_info"
+                                    :value="info_item.id">
+                                {{ info_item.data.data }}
+                            </option>
+                        </select>
+
+                    </div>
+
                 </div>
             </div>
 

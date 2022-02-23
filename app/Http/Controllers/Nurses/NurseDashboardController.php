@@ -27,7 +27,7 @@ class NurseDashboardController extends Controller
     public function index()
     {
         $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::all();
+        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
         return view('dashboard', $data);
     }
 

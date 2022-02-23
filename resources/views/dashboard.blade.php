@@ -25,6 +25,8 @@
 
 <body>
 
+
+
 <div id="dashboard">
     <dashboard
         :user="{{ auth()->user() }}"

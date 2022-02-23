@@ -28,7 +28,6 @@ class CreateNursesTable extends Migration
             $table->string('pref_client_gender')->default('no_matter')->comment('no_matter|male|female');
             $table->string('multiple_bookings')->default('no')->comment('yes|no');
             $table->string('additional_info')->nullable()->default(null)->comment('json string of additional info');
-            $table->string('additional_info_other')->nullable()->default(null);
             $table->timestamps();
         });
     }

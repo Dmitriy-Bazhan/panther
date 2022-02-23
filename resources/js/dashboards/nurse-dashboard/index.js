@@ -15,6 +15,6 @@ export default {
         // 'test-chat' : TestChat,
     },
     mounted() {
-        console.log(this.data);
+        // console.log(this.data);
     }
 }
