@@ -24980,6 +24980,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var user = JSON.stringify(this.user);
       formData.append('user', user);
+      console.log(this.user);
       axios.post('/dashboard/nurse/' + this.user.id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'

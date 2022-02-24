@@ -77,7 +77,7 @@ export default {
 
             let user = JSON.stringify(this.user);
             formData.append('user', user);
-
+            console.log(this.user);
             axios.post('/dashboard/nurse/' + this.user.id,
                 formData,
                 {

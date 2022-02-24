@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Requests\UploadNursePhotoRequest;
+use App\Models\AdditionalInfoAssigned;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\NurseLang;
@@ -107,6 +108,17 @@ class NurseRepository
             }
         }
 
+        //additional info
+        AdditionalInfoAssigned::where('nurse_id', $data['entity_id'])->delete();
+        if (count($data['entity']['additional_info']) > 0) {
+            foreach ($data['entity']['additional_info'] as $item) {
+                AdditionalInfoAssigned::create([
+                    'nurse_id' => $data['entity_id'],
+                    'additional_info_id' => $item['id'],
+                ]);
+            }
+        }
+
 
         return true;
     }
@@ -126,7 +138,7 @@ class NurseRepository
             }
 
             $files = $request->file($key);
-            $directory_name = 'user_'.$nurse->id.'/'.$key;
+            $directory_name = 'user_' . $nurse->id . '/' . $key;
             $existedPhotos = Storage::disk('public')->files($directory_name);
             if (count($existedPhotos) > 0) {
                 Storage::disk('public')->deleteDirectory($directory_name);
@@ -135,7 +147,7 @@ class NurseRepository
 
             foreach ($files as $document) {
                 $original_name = $document->getClientOriginalName();
-                $file_name = $key.'_photo_user_'.$nurse->id.'_'.$document->getClientOriginalName();
+                $file_name = $key . '_photo_user_' . $nurse->id . '_' . $document->getClientOriginalName();
                 $file_path = Storage::disk('public')->putFileAs($directory_name, $document, $file_name);
 
                 NurseFile::create([
@@ -154,9 +166,9 @@ class NurseRepository
     {
 
         if ($request->file('file')) {
-            $file_name = 'original_photo_user_'.$id.'_'.$request->file('file')->getClientOriginalName();
-            $thumbnail_name = 'thumbnail_photo_user_'.$id.'_'.$request->file('file')->getClientOriginalName();
-            $directory_name = 'user_'.$id.'/photo';
+            $file_name = 'original_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
+            $thumbnail_name = 'thumbnail_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
+            $directory_name = 'user_' . $id . '/photo';
             $existedPhotos = Storage::disk('public')->files($directory_name);
             if (count($existedPhotos) > 0) {
                 Storage::disk('public')->deleteDirectory($directory_name);
@@ -168,7 +180,7 @@ class NurseRepository
             }
 
             //make thumbnail or avatar
-            $img = Image::make('storage/'.$thumbnail_path)->resize(40, 40, function ($constraint) {
+            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
