@@ -15,13 +15,17 @@
 <script>
 export default {
     name: "Notification",
-    props: ['user'],
+    props: ['user', 'data'],
     data() {
         return {
             incoming_new_user_info: false,
         }
     },
     mounted() {
+        if(this.data.incoming_new_user_info){
+            this.incoming_new_user_info = true;
+        }
+
         try{
         window.Echo.private('admin')
             .listen('Admin.NurseAddNewProfile', (response) => {

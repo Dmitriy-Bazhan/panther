@@ -21814,7 +21814,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Notification",
-  props: ['user'],
+  props: ['user', 'data'],
   data: function data() {
     return {
       incoming_new_user_info: false
@@ -21822,6 +21822,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var _this = this;
+
+    if (this.data.incoming_new_user_info) {
+      this.incoming_new_user_info = true;
+    }
 
     try {
       window.Echo["private"]('admin').listen('Admin.NurseAddNewProfile', function (response) {
@@ -25663,7 +25667,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n\n    <admin-header></admin-header>\n\n<!--    <test-chat :user=\"user\"></test-chat>-->\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <notification :user=\"user\"></notification>\n\n                <router-view :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n</div>\n";
+var code = "<div>\n\n    <admin-header></admin-header>\n\n<!--    <test-chat :user=\"user\"></test-chat>-->\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <notification :user=\"user\" :data=\"data\"></notification>\n\n                <router-view :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n</div>\n";
 // Exports
 module.exports = code;
 

@@ -21,9 +21,13 @@ class AdminDashboardController extends Controller
 
     public function index()
     {
+        $data['data']['incoming_new_user_info'] = null;
+        if(Nurse::where('info_is_full', 'yes')->first() || Nurse::where('change_info', 'yes')->first()){
+            $data['data']['incoming_new_user_info'] = true;
+        }
+
         $data['data']['provider_supports'] = ProvideSupport::all();
         $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-
 
         return view('dashboard', $data);
     }
