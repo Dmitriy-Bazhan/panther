@@ -1,0 +1,54 @@
+<div class="nurse-card-wrapper">
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-2">
+
+                <h5>Nurse Info</h5>
+
+            </div>
+
+            <div class="col-1 offset-9">
+
+                <button class="btn btn-danger btn-sm" v-on:click="closeNurseCard()">Close</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div v-if="nurse !== null">
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-4">
+
+                    <p>Id: {{ nurse.id}}</p>
+                    <p>Name: {{ nurse.first_name}}</p>
+                    <p>Last name: {{ nurse.last_name}}</p>
+                    <p>Email: {{ nurse.email}}</p>
+                    <p>Phone: {{ nurse.phone}}</p>
+                    <p>Zip code: {{ nurse.zip_code}}</p>
+
+                </div>
+
+                <div class="col-4">
+
+                </div>
+
+                <div class="col-4">
+
+                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo" class="nurse-card-photo">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div>
+    <nurse-header :user="user"></nurse-header>
+
+<!--    <test-chat :user="user"></test-chat>-->
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-2" style="padding: unset;">
+
+                <left-panel></left-panel>
+
+            </div>
+
+            <div class="col-10">
+
+                <notification :user="user"></notification>
+
+                <router-view :user="user" :data="data"></router-view>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>

@@ -12,9 +12,11 @@
     "devDependencies": {
         "@vue/compiler-sfc": "^3.2.31",
         "axios": "^0.21",
+        "laravel-echo": "^1.11.3",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
+        "pusher-js": "^7.0.6",
         "vue-loader": "^16.8.3",
         "vue-router": "^4.0.12",
         "vue-template-compiler": "^2.6.14"
@@ -22,10 +24,13 @@
     "dependencies": {
         "alpine": "^0.2.1",
         "alpinejs": "^3.9.0",
-        "vue": "^3.2.29",
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "mitt": "^3.0.0",
+        "postcss": "^8.1.14",
+        "vue": "^3.2.29",
+        "vue-i18n": "^9.1.9",
+        "vuex": "^4.0.2"
     }
 }
