@@ -27,9 +27,9 @@
 
                 <div class="col-4">
 
-                    <p>Id: {{ nurse.id}}</p>
                     <p>Name: {{ nurse.first_name}}</p>
                     <p>Last name: {{ nurse.last_name}}</p>
+                    <p>Age: {{ nurse.entity.age}}</p>
                     <p>Email: {{ nurse.email}}</p>
                     <p>Phone: {{ nurse.phone}}</p>
                     <p>Zip code: {{ nurse.zip_code}}</p>
@@ -38,11 +38,22 @@
 
                 <div class="col-4">
 
+                    <p>Additional info <span style="cursor: pointer;" v-on:click="showHideAdditionalInfo()">&#8964;</span></p>
+                    <div v-if="showAdditionalInfo" class="showAdditionalInfo">
+                        <p v-if="nurse.entity.additional_info.length > 0"
+                           v-for="item in nurse.entity.additional_info"> {{ filterAdditionalInfo(item.id) }} </p>
+                    </div>
+                    <p>Provider supports <span style="cursor: pointer;" v-on:click="showHideProviderSupports()">&#8964;</span></p>
+                    <div v-if="showProviderSupports" class="showProviderSupports">
+                        <p v-if="nurse.entity.provide_supports.length > 0"
+                           v-for="item in nurse.entity.provide_supports"> {{ $t(filterProvideSupports(item.id)) }} </p>
+                    </div>
                 </div>
 
                 <div class="col-4">
 
-                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo" class="nurse-card-photo">
+                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                         class="nurse-card-photo">
 
                 </div>
 

@@ -52,6 +52,9 @@ class NurseRepository
                 $user->orderByDesc('info_is_full')->orderByDesc('change_info');
             }
         }
+
+        $user->without('prefs');
+
         return $user->paginate(10);
     }
 

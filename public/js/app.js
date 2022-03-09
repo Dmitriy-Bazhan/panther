@@ -29063,16 +29063,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NursesCard",
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
-  props: ['nurse'],
+  props: ['nurse', 'data'],
   data: function data() {
     return {
-      path: location.origin
+      path: location.origin,
+      showAdditionalInfo: false,
+      showProviderSupports: false
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.data);
+    console.log(this.nurse);
+  },
   methods: {
     closeNurseCard: function closeNurseCard() {
       this.emitter.emit('close-nurse-card');
+    },
+    showHideAdditionalInfo: function showHideAdditionalInfo() {
+      this.showAdditionalInfo === true ? this.showAdditionalInfo = false : this.showAdditionalInfo = true;
+    },
+    showHideProviderSupports: function showHideProviderSupports() {
+      this.showProviderSupports === true ? this.showProviderSupports = false : this.showProviderSupports = true;
+    },
+    filterAdditionalInfo: function filterAdditionalInfo(id) {
+      var info = this.data.additional_info.filter(function (value) {
+        if (value.id === id) {
+          return value.data.data;
+        }
+      });
+      return info[0].data.data;
+    },
+    filterProvideSupports: function filterProvideSupports(id) {
+      var info = this.data.provider_supports.filter(function (value) {
+        if (value.id === id) {
+          return value.name;
+        }
+      });
+      return info[0].name;
     }
   }
 });
@@ -29103,6 +29130,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     'nurses-card': _nurses_card_index__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  props: ['data'],
   data: function data() {
     return {
       path: location.origin,
@@ -29120,16 +29148,14 @@ __webpack_require__.r(__webpack_exports__);
       _this.nurseCardIsVisible = false;
     });
   },
-  created: function created() {
-    console.log(this.nurses);
-  },
+  created: function created() {},
   methods: {
     getNurses: function getNurses() {
       var _this2 = this;
 
       axios.get('get-nurses').then(function (response) {
-        console.log(response.data);
-        _this2.nurses = response.data.nurses.data;
+        console.log(response.data.data);
+        _this2.nurses = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -29701,7 +29727,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".nurse-card-wrapper {\r\n    position: fixed;\r\n    top: 10%;\r\n    left: 20%;\r\n    width: 60%;\r\n    border: solid 1px red;\r\n    border-radius: 20px;\r\n    background: #b3b3b3;\r\n    z-index: 100;\r\n    padding: 10px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".nurse-card-wrapper {\n    position: fixed;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    border: solid 1px red;\n    border-radius: 20px;\n    background: #b3b3b3;\n    z-index: 100;\n    padding: 10px;\n}\n.showAdditionalInfo, .showProviderSupports {\n    position: absolute;\n    padding: 10px;\n    border: solid 1px black;\n    border-radius: 10px;\n    background: #0a53be;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29959,7 +29985,7 @@ module.exports = function (cssWithMappingToString) {
 /***/ ((module) => {
 
 // Module
-var code = "<div class=\"nurse-card-wrapper\">\r\n\r\n    <div class=\"container-fluid\">\r\n\r\n        <div class=\"row\">\r\n\r\n            <div class=\"col-2\">\r\n\r\n                <h5>Nurse Info</h5>\r\n\r\n            </div>\r\n\r\n            <div class=\"col-1 offset-9\">\r\n\r\n                <button class=\"btn btn-danger btn-sm\" v-on:click=\"closeNurseCard()\">Close</button>\r\n\r\n            </div>\r\n\r\n        </div>\r\n\r\n    </div>\r\n\r\n    <div v-if=\"nurse !== null\">\r\n        <div class=\"container-fluid\">\r\n\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-4\">\r\n\r\n                    <p>Id: {{ nurse.id}}</p>\r\n                    <p>Name: {{ nurse.first_name}}</p>\r\n                    <p>Last name: {{ nurse.last_name}}</p>\r\n                    <p>Email: {{ nurse.email}}</p>\r\n                    <p>Phone: {{ nurse.phone}}</p>\r\n                    <p>Zip code: {{ nurse.zip_code}}</p>\r\n\r\n                </div>\r\n\r\n                <div class=\"col-4\">\r\n\r\n                </div>\r\n\r\n                <div class=\"col-4\">\r\n\r\n                    <img v-bind:src=\"path + '/storage/' + nurse.entity.original_photo\" alt=\"no-photo\" class=\"nurse-card-photo\">\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n";
+var code = "<div class=\"nurse-card-wrapper\">\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\">\n\n                <h5>Nurse Info</h5>\n\n            </div>\n\n            <div class=\"col-1 offset-9\">\n\n                <button class=\"btn btn-danger btn-sm\" v-on:click=\"closeNurseCard()\">Close</button>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <div v-if=\"nurse !== null\">\n        <div class=\"container-fluid\">\n\n            <div class=\"row\">\n\n                <div class=\"col-4\">\n\n                    <p>Name: {{ nurse.first_name}}</p>\n                    <p>Last name: {{ nurse.last_name}}</p>\n                    <p>Age: {{ nurse.entity.age}}</p>\n                    <p>Email: {{ nurse.email}}</p>\n                    <p>Phone: {{ nurse.phone}}</p>\n                    <p>Zip code: {{ nurse.zip_code}}</p>\n\n                </div>\n\n                <div class=\"col-4\">\n\n                    <p>Additional info <span style=\"cursor: pointer;\" v-on:click=\"showHideAdditionalInfo()\">&#8964;</span></p>\n                    <div v-if=\"showAdditionalInfo\" class=\"showAdditionalInfo\">\n                        <p v-if=\"nurse.entity.additional_info.length > 0\"\n                           v-for=\"item in nurse.entity.additional_info\"> {{ filterAdditionalInfo(item.id) }} </p>\n                    </div>\n                    <p>Provider supports <span style=\"cursor: pointer;\" v-on:click=\"showHideProviderSupports()\">&#8964;</span></p>\n                    <div v-if=\"showProviderSupports\" class=\"showProviderSupports\">\n                        <p v-if=\"nurse.entity.provide_supports.length > 0\"\n                           v-for=\"item in nurse.entity.provide_supports\"> {{ $t(filterProvideSupports(item.id)) }} </p>\n                    </div>\n                </div>\n\n                <div class=\"col-4\">\n\n                    <img v-bind:src=\"path + '/storage/' + nurse.entity.original_photo\" alt=\"no-photo\"\n                         class=\"nurse-card-photo\">\n\n                </div>\n\n            </div>\n\n        </div>\n\n    </div>\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -29972,7 +29998,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\r\n    <h1>Nurses</h1>\r\n\r\n    <table rules=\"all\">\r\n        <thead>\r\n        <tr>\r\n            <th>ID</th>\r\n            <th>Name</th>\r\n            <th>Age</th>\r\n            <th>Photo</th>\r\n            <th>Is New Info</th>\r\n            <th>Is Change</th>\r\n            <th>Action</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\r\n\r\n            <td>{{ nurse.id }}</td>\r\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\r\n            <td>{{ nurse.entity.age }}</td>\r\n            <td>\r\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\r\n            </td>\r\n            <td><span v-if=\"nurse.entity.info_is_full === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.info_is_full }}</td>\r\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\r\n            <td>\r\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>&nbsp;\r\n                <button v-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\">Approve</button>\r\n                <button v-else class=\"btn btn-secondary btn-sm\">Dismiss</button>\r\n            </td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n\r\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\"></nurses-card>\r\n</div>\r\n";
+var code = "<div>\n    <h1>Nurses</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Is New Info</th>\n            <th>Is Change</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.id }}</td>\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td><span v-if=\"nurse.entity.info_is_full === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.info_is_full }}</td>\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\n            <td>\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>&nbsp;\n                <button v-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\">Approve</button>\n                <button v-else class=\"btn btn-secondary btn-sm\">Dismiss</button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\" :data=\"data\"></nurses-card>\n</div>\n";
 // Exports
 module.exports = code;
 

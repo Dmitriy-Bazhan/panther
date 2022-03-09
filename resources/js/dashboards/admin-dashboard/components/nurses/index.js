@@ -8,6 +8,7 @@ export default {
     components: {
         'nurses-card': NursesCard,
     },
+    props: ['data'],
     data() {
         return {
             path: location.origin,
@@ -25,14 +26,14 @@ export default {
         });
     },
     created() {
-        console.log(this.nurses);
+
     },
     methods: {
         getNurses() {
             axios.get('get-nurses')
                 .then((response) => {
-                    console.log(response.data);
-                    this.nurses = response.data.nurses.data;
+                    console.log(response.data.data);
+                    this.nurses = response.data.data;
 
                 })
                 .catch((error) => {

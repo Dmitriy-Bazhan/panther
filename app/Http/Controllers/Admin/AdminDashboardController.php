@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\NurseRepository;
+use App\Http\Resources\NurseCollection;
 use App\Models\AdditionalInfo;
 use App\Models\Nurse;
 use App\Models\ProvideSupport;
@@ -73,7 +74,6 @@ class AdminDashboardController extends Controller
 
         $nurses = $this->nursesRepo->search();
 
-        $data['nurses'] = $nurses;
-        return response()->json($data);
+        return new NurseCollection($nurses);
     }
 }
