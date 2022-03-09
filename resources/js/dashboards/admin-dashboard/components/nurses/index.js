@@ -4,38 +4,42 @@ import NursesCard from '../nurses-card/index'
 
 export default {
     name: "Nurses",
-    template : template,
+    template: template,
     components: {
-        'nurses-card' : NursesCard,
+        'nurses-card': NursesCard,
     },
     data() {
         return {
             path: location.origin,
             nurses: [],
             nurse: null,
-            nurseCardIsVisible : false,
+            nurseCardIsVisible: false,
         }
     },
     mounted() {
         this.getNurses();
 
         this.emitter.on('close-nurse-card', (e) => {
-                this.nurse = null;
-                this.nurseCardIsVisible = false;
+            this.nurse = null;
+            this.nurseCardIsVisible = false;
         });
     },
+    created() {
+        console.log(this.nurses);
+    },
     methods: {
-        getNurses(){
+        getNurses() {
             axios.get('get-nurses')
                 .then((response) => {
-                    // console.log(response.data);
+                    console.log(response.data);
                     this.nurses = response.data.nurses.data;
+
                 })
-                .catch((error)=>{
+                .catch((error) => {
                     console.log(error);
                 });
         },
-        checkUser(nurse){
+        checkUser(nurse) {
             this.nurse = nurse;
             this.nurseCardIsVisible = true;
         }
