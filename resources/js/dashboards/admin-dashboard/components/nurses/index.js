@@ -15,26 +15,27 @@ export default {
             nurses: [],
             nurse: null,
             nurseCardIsVisible: false,
+            filterString: '?only_full_info=yes'
         }
     },
     mounted() {
         this.getNurses();
-
         this.emitter.on('close-nurse-card', (e) => {
             this.nurse = null;
             this.nurseCardIsVisible = false;
         });
+
+
     },
     created() {
 
     },
     methods: {
         getNurses() {
-            axios.get('get-nurses')
+            axios.get('get-nurses' + this.filterString)
                 .then((response) => {
-                    console.log(response.data.data);
+                    console.log(response.data.data[0]);
                     this.nurses = response.data.data;
-
                 })
                 .catch((error) => {
                     console.log(error);
@@ -46,3 +47,6 @@ export default {
         }
     }
 }
+
+
+

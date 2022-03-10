@@ -29136,7 +29136,8 @@ __webpack_require__.r(__webpack_exports__);
       path: location.origin,
       nurses: [],
       nurse: null,
-      nurseCardIsVisible: false
+      nurseCardIsVisible: false,
+      filterString: '?only_full_info=yes'
     };
   },
   mounted: function mounted() {
@@ -29153,8 +29154,8 @@ __webpack_require__.r(__webpack_exports__);
     getNurses: function getNurses() {
       var _this2 = this;
 
-      axios.get('get-nurses').then(function (response) {
-        console.log(response.data.data);
+      axios.get('get-nurses' + this.filterString).then(function (response) {
+        console.log(response.data.data[0]);
         _this2.nurses = response.data.data;
       })["catch"](function (error) {
         console.log(error);
@@ -29998,7 +29999,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Nurses</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Is New Info</th>\n            <th>Is Change</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.id }}</td>\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td><span v-if=\"nurse.entity.info_is_full === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.info_is_full }}</td>\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\n            <td>\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>&nbsp;\n                <button v-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\">Approve</button>\n                <button v-else class=\"btn btn-secondary btn-sm\">Dismiss</button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\" :data=\"data\"></nurses-card>\n</div>\n";
+var code = "<div>\n    <h1>Nurses</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Is New Info</th>\n            <th>Is Change</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.id }}</td>\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td><span v-if=\"nurse.entity.info_is_full === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.info_is_full }}</td>\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\n            <td>\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>&nbsp;\n                <button v-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\">Approve</button>\n                <button v-else class=\"btn btn-secondary btn-sm\">Dismiss</button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\" :data=\"data\"></nurses-card>\n<!--    <iframe v-bind:src=\"path + '/storage/user_3/criminal_record/criminal_record_photo_user_3_permission (4).txt'\"></iframe>-->\n<!--    <iframe v-bind:src=\"path + '/storage/user_3/documentation_of_training/documentation_of_training_photo_user_3_Pfleger HCT Original (v03).pdf'\"></iframe>-->\n</div>\n\n\n";
 // Exports
 module.exports = code;
 

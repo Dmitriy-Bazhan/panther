@@ -28,6 +28,7 @@ class NurseRepository
     {
 
         $user = $this->user->newQuery();
+        //only nurses
         $user->where('entity_type', 'nurse');
 
         if (!is_null($id)) {
@@ -35,7 +36,7 @@ class NurseRepository
         }
 
         //get nurses to admin/nurses list
-        if (request()->filled('only_full_info') && request('only_full_info')) {
+        if (request()->filled('only_full_info') && request('only_full_info') === 'yes') {
             $user->whereHas('nurse', function ($query) {
                 return $query->where('info_is_full', 'yes')->orWhere('change_info', 'yes')->orWhere('is_approved', 'yes');
             });

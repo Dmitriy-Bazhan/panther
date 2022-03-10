@@ -68,12 +68,7 @@ class AdminDashboardController extends Controller
     }
 
     public function getNurses(){
-        request()->merge([
-            'only_full_info' => true
-        ]);
-
         $nurses = $this->nursesRepo->search();
-
         return new NurseCollection($nurses);
     }
 }

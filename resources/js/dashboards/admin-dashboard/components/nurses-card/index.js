@@ -42,6 +42,13 @@ export default {
                 }
             });
             return info[0].name;
-        }
+        },
+        filterFiles(data, type) {
+            return data.filter(function (el) {
+                if (el.file_type === type) {
+                    return true;
+                }
+            })
+        },
     }
 }
