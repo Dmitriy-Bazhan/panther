@@ -13,7 +13,8 @@ class Nurse extends Model
         'provideSupports',
         'languages',
         'files',
-        'additionalInfo'
+        'additionalInfo',
+        'workTime',
     ];
 
     public function users()
@@ -53,5 +54,9 @@ class Nurse extends Model
             'id',                                     //from App\Models\ProvideSupport
             'id',                                       //from nurse
             'support_id');                        //from ProvideSupportAssigned
+    }
+
+    public function workTime(){
+        return $this->hasMany('App\Models\NurseWorkTimePref', 'nurse_id', 'id');
     }
 }

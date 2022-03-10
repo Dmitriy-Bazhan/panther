@@ -30,23 +30,67 @@
                     <p>Name: {{ nurse.first_name}}</p>
                     <p>Last name: {{ nurse.last_name}}</p>
                     <p>Age: {{ nurse.entity.age}}</p>
+                    <p>Gender: {{ nurse.entity.gender}}</p>
                     <p>Email: {{ nurse.email}}</p>
                     <p>Phone: {{ nurse.phone}}</p>
                     <p>Zip code: {{ nurse.zip_code}}</p>
+                    <p>Language: {{ nurse.entity.languages[0].lang + ' ' + nurse.entity.languages[0].level }} </p>
 
                 </div>
 
                 <div class="col-4">
 
-                    <p>Additional info <span style="cursor: pointer;" v-on:click="showHideAdditionalInfo()">&#8964;</span></p>
+                    <p>Additional info <span style="cursor: pointer;"
+                                             id="additional_info_arrow"
+                                             v-on:click="showHideAdditionalInfo()">&#8964;</span></p>
                     <div v-if="showAdditionalInfo" class="showAdditionalInfo">
                         <p v-if="nurse.entity.additional_info.length > 0"
                            v-for="item in nurse.entity.additional_info"> {{ filterAdditionalInfo(item.id) }} </p>
                     </div>
-                    <p>Provider supports <span style="cursor: pointer;" v-on:click="showHideProviderSupports()">&#8964;</span></p>
+                    <p>Provider supports <span style="cursor: pointer;"
+                                               id="provider_supports_arrow"
+                                               v-on:click="showHideProviderSupports()">&#8964;</span></p>
                     <div v-if="showProviderSupports" class="showProviderSupports">
                         <p v-if="nurse.entity.provide_supports.length > 0"
                            v-for="item in nurse.entity.provide_supports"> {{ $t(filterProvideSupports(item.id)) }} </p>
+                    </div>
+
+                    <p>Files <span style="cursor: pointer;"
+                                   id="files_arrow"
+                                   v-on:click="showHideFilesWindow()">&#8964;</span></p>
+                    <div v-if="showFilesWindow" class="showFilesWindow" id="files_wrapper">
+                        <div>
+                            criminal record
+                            <p class="nurse_file_name"
+                               v-for="item in filterFiles(nurse.entity.files, 'criminal_record')"
+                               v-on:click="showContent(item)">
+                                {{ item.original_name }}
+                            </p>
+                            <br>
+                        </div>
+
+                        <div>
+                            documentation of training
+                            <p class="nurse_file_name"
+                               v-for="item in filterFiles(nurse.entity.files, 'documentation_of_training')"
+                               v-on:click="showContent(item)">
+                                {{ item.original_name }}</p>
+                        </div>
+
+                        <div>
+                            CPR course
+                            <p class="nurse_file_name" v-for="item in filterFiles(nurse.entity.files, 'CPR_course')"
+                               v-on:click="showContent(item)">
+                                {{ item.original_name }}</p>
+                        </div>
+
+                        <div>
+                            references
+                            <p class="nurse_file_name" v-for="item in filterFiles(nurse.entity.files, 'references')"
+                               v-on:click="showContent(item)">
+                                {{ item.original_name }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -59,7 +103,35 @@
 
             </div>
 
+            <div class="row">
+                <div class="col-10 offset-1">
+                    Description : {{ nurse.entity.description }}
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-4">
+                    <p>Available care range: {{ nurse.entity.available_care_range }} </p>
+                    <p>Experience: {{ nurse.entity.experience }} </p>
+                </div>
+
+                <div class="col-4">
+                    <p>Pref client gender: {{ nurse.entity.pref_client_gender }} </p>
+                    <p>Multiple bookings: {{ nurse.entity.multiple_bookings }} </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-4 offset-8">
+                    <button class="btn btn-danger btn-sm">Forbidden</button>&nbsp;
+                    <button class="btn btn-success btn-sm">Approve</button>
+                </div>
+            </div>
         </div>
 
     </div>
+
+    <file_modal v-if="showFileModal" :userFile="userFile"></file_modal>
 </div>

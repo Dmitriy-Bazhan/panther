@@ -18,6 +18,9 @@ export default {
             filterString: '?only_full_info=yes'
         }
     },
+    watch : {
+
+    },
     mounted() {
         this.getNurses();
         this.emitter.on('close-nurse-card', (e) => {
@@ -34,7 +37,7 @@ export default {
         getNurses() {
             axios.get('get-nurses' + this.filterString)
                 .then((response) => {
-                    console.log(response.data.data[0]);
+                    console.log(response.data.data[0].entity);
                     this.nurses = response.data.data;
                 })
                 .catch((error) => {

@@ -26191,6 +26191,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "FileModal",
+  props: ['userFile'],
+  data: function data() {
+    return {
+      path: location.origin
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    closeFileModal: function closeFileModal() {
+      this.emitter.emit('close-file-modal');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/Header.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/Header.vue?vue&type=script&lang=js ***!
@@ -27203,6 +27232,69 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_2 = [_hoisted_1];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-aff219aa"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "file_modal_wrapper"
+};
+var _hoisted_2 = {
+  "class": "container-fluid"
+};
+var _hoisted_3 = {
+  "class": "row"
+};
+
+var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-10"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_5 = {
+  "class": "col-2"
+};
+var _hoisted_6 = {
+  "class": "row"
+};
+var _hoisted_7 = {
+  "class": "col-10 offset-1"
+};
+var _hoisted_8 = ["src"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success btn-sm",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.closeFileModal();
+    })
+  }, "Close")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    <iframe v-bind:src=\"path + '/storage/' + userFile.file_path\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                            type=\"application/pdf\" class=\"file_modal_iframe\"></iframe>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("embed", {
+    src: $data.path + '/storage/' + $props.userFile.file_path,
+    type: "application/pdf",
+    "class": "file_modal_iframe"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_8)])])])]);
 }
 
 /***/ }),
@@ -29057,23 +29149,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/template.html");
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/style.css");
+/* harmony import */ var _FileModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileModal */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/style.css");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NursesCard",
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  components: {
+    'file_modal': _FileModal__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: ['nurse', 'data'],
   data: function data() {
     return {
       path: location.origin,
       showAdditionalInfo: false,
-      showProviderSupports: false
+      showProviderSupports: false,
+      showFilesWindow: false,
+      showFileModal: false,
+      userFile: ''
     };
   },
+  watch: {
+    showAdditionalInfo: function showAdditionalInfo(_showAdditionalInfo) {
+      if (_showAdditionalInfo) {
+        document.addEventListener('click', this.closeInfoWindows);
+      }
+    },
+    showProviderSupports: function showProviderSupports(_showProviderSupports) {
+      if (_showProviderSupports) {
+        document.addEventListener('click', this.closeInfoWindows);
+      }
+    },
+    showFilesWindow: function showFilesWindow(_showFilesWindow) {
+      if (_showFilesWindow) {
+        document.addEventListener('click', this.closeFileList);
+      }
+    }
+  },
   mounted: function mounted() {
-    console.log(this.data);
-    console.log(this.nurse);
+    var _this = this;
+
+    this.emitter.on('close-file-modal', function (e) {
+      _this.showFileModal = false;
+    });
   },
   methods: {
     closeNurseCard: function closeNurseCard() {
@@ -29081,9 +29201,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     showHideAdditionalInfo: function showHideAdditionalInfo() {
       this.showAdditionalInfo === true ? this.showAdditionalInfo = false : this.showAdditionalInfo = true;
+      this.showProviderSupports = false;
+      this.showFilesWindow = false;
     },
     showHideProviderSupports: function showHideProviderSupports() {
       this.showProviderSupports === true ? this.showProviderSupports = false : this.showProviderSupports = true;
+      this.showAdditionalInfo = false;
+      this.showFilesWindow = false;
+    },
+    showHideFilesWindow: function showHideFilesWindow() {
+      this.showFilesWindow === true ? this.showFilesWindow = false : this.showFilesWindow = true;
+      this.showProviderSupports = false;
+      this.showAdditionalInfo = false;
     },
     filterAdditionalInfo: function filterAdditionalInfo(id) {
       var info = this.data.additional_info.filter(function (value) {
@@ -29100,6 +29229,31 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
       return info[0].name;
+    },
+    filterFiles: function filterFiles(data, type) {
+      return data.filter(function (el) {
+        if (el.file_type === type) {
+          return true;
+        }
+      });
+    },
+    showContent: function showContent(item) {
+      this.userFile = item;
+      this.showFileModal = true;
+      document.removeEventListener('click', this.closeFileList);
+    },
+    closeInfoWindows: function closeInfoWindows(event) {
+      if (!document.getElementById('provider_supports_arrow').contains(event.target) && !document.getElementById('additional_info_arrow').contains(event.target) && !document.getElementById('files_arrow').contains(event.target)) {
+        this.showAdditionalInfo = false;
+        this.showProviderSupports = false;
+        document.removeEventListener('click', this.closeInfoWindows);
+      }
+    },
+    closeFileList: function closeFileList(event) {
+      if (!document.getElementById('files_arrow').contains(event.target)) {
+        this.showFilesWindow = false;
+        document.removeEventListener('click', this.closeFileList);
+      }
     }
   }
 });
@@ -29140,6 +29294,7 @@ __webpack_require__.r(__webpack_exports__);
       filterString: '?only_full_info=yes'
     };
   },
+  watch: {},
   mounted: function mounted() {
     var _this = this;
 
@@ -29155,7 +29310,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('get-nurses' + this.filterString).then(function (response) {
-        console.log(response.data.data[0]);
+        console.log(response.data.data[0].entity);
         _this2.nurses = response.data.data;
       })["catch"](function (error) {
         console.log(error);
@@ -29279,7 +29434,6 @@ __webpack_require__.r(__webpack_exports__);
             level: ''
           });
           this.user.entity.languages.push(lang);
-          console.log(this.user);
         }
       },
       immediate: true
@@ -29287,6 +29441,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log(this.data);
+    console.log(this.user);
   },
   methods: {
     filterFiles: function filterFiles(data, type) {
@@ -29728,7 +29883,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".nurse-card-wrapper {\n    position: fixed;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    border: solid 1px red;\n    border-radius: 20px;\n    background: #b3b3b3;\n    z-index: 100;\n    padding: 10px;\n}\n.showAdditionalInfo, .showProviderSupports {\n    position: absolute;\n    padding: 10px;\n    border: solid 1px black;\n    border-radius: 10px;\n    background: #0a53be;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".nurse-card-wrapper {\n    position: fixed;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    border: solid 1px red;\n    border-radius: 20px;\n    background: #b3b3b3;\n    z-index: 100;\n    padding: 10px;\n}\n.showAdditionalInfo, .showProviderSupports, .showFilesWindow {\n    position: absolute;\n    padding: 10px;\n    border: solid 1px black;\n    border-radius: 10px;\n    background: #0a53be;\n}\n\n.nurse_file_name {\n    font-size: 12px;\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29801,6 +29956,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-dashboard-left-panel[data-v-1ef2a29c] {\r\n    height: 100%;\r\n    background: #d9d9d9;\r\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-1ef2a29c] {\r\n    background: #d9d9d9;\n}\n.list-group-item[data-v-1ef2a29c]:hover {\r\n    background: #f8f7f7;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.file_modal_wrapper[data-v-aff219aa] {\n        position: fixed;\n        z-index: 100;\n        top: 10%;\n        left: 20%;\n        width: 60%;\n        height: 600px;\n        max-height: 600px;\n        overflow: auto;\n        background: white;\n        border: solid 1px green;\n        border-radius: 15px;\n        padding: 15px;\n}\n.file_modal_iframe[data-v-aff219aa] {\n        width: 100%;\n        height: 500px;\n        max-height: 500px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29986,7 +30165,7 @@ module.exports = function (cssWithMappingToString) {
 /***/ ((module) => {
 
 // Module
-var code = "<div class=\"nurse-card-wrapper\">\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\">\n\n                <h5>Nurse Info</h5>\n\n            </div>\n\n            <div class=\"col-1 offset-9\">\n\n                <button class=\"btn btn-danger btn-sm\" v-on:click=\"closeNurseCard()\">Close</button>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <div v-if=\"nurse !== null\">\n        <div class=\"container-fluid\">\n\n            <div class=\"row\">\n\n                <div class=\"col-4\">\n\n                    <p>Name: {{ nurse.first_name}}</p>\n                    <p>Last name: {{ nurse.last_name}}</p>\n                    <p>Age: {{ nurse.entity.age}}</p>\n                    <p>Email: {{ nurse.email}}</p>\n                    <p>Phone: {{ nurse.phone}}</p>\n                    <p>Zip code: {{ nurse.zip_code}}</p>\n\n                </div>\n\n                <div class=\"col-4\">\n\n                    <p>Additional info <span style=\"cursor: pointer;\" v-on:click=\"showHideAdditionalInfo()\">&#8964;</span></p>\n                    <div v-if=\"showAdditionalInfo\" class=\"showAdditionalInfo\">\n                        <p v-if=\"nurse.entity.additional_info.length > 0\"\n                           v-for=\"item in nurse.entity.additional_info\"> {{ filterAdditionalInfo(item.id) }} </p>\n                    </div>\n                    <p>Provider supports <span style=\"cursor: pointer;\" v-on:click=\"showHideProviderSupports()\">&#8964;</span></p>\n                    <div v-if=\"showProviderSupports\" class=\"showProviderSupports\">\n                        <p v-if=\"nurse.entity.provide_supports.length > 0\"\n                           v-for=\"item in nurse.entity.provide_supports\"> {{ $t(filterProvideSupports(item.id)) }} </p>\n                    </div>\n                </div>\n\n                <div class=\"col-4\">\n\n                    <img v-bind:src=\"path + '/storage/' + nurse.entity.original_photo\" alt=\"no-photo\"\n                         class=\"nurse-card-photo\">\n\n                </div>\n\n            </div>\n\n        </div>\n\n    </div>\n</div>\n";
+var code = "<div class=\"nurse-card-wrapper\">\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\">\n\n                <h5>Nurse Info</h5>\n\n            </div>\n\n            <div class=\"col-1 offset-9\">\n\n                <button class=\"btn btn-danger btn-sm\" v-on:click=\"closeNurseCard()\">Close</button>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <div v-if=\"nurse !== null\">\n        <div class=\"container-fluid\">\n\n            <div class=\"row\">\n\n                <div class=\"col-4\">\n\n                    <p>Name: {{ nurse.first_name}}</p>\n                    <p>Last name: {{ nurse.last_name}}</p>\n                    <p>Age: {{ nurse.entity.age}}</p>\n                    <p>Gender: {{ nurse.entity.gender}}</p>\n                    <p>Email: {{ nurse.email}}</p>\n                    <p>Phone: {{ nurse.phone}}</p>\n                    <p>Zip code: {{ nurse.zip_code}}</p>\n                    <p>Language: {{ nurse.entity.languages[0].lang + ' ' + nurse.entity.languages[0].level }} </p>\n\n                </div>\n\n                <div class=\"col-4\">\n\n                    <p>Additional info <span style=\"cursor: pointer;\"\n                                             id=\"additional_info_arrow\"\n                                             v-on:click=\"showHideAdditionalInfo()\">&#8964;</span></p>\n                    <div v-if=\"showAdditionalInfo\" class=\"showAdditionalInfo\">\n                        <p v-if=\"nurse.entity.additional_info.length > 0\"\n                           v-for=\"item in nurse.entity.additional_info\"> {{ filterAdditionalInfo(item.id) }} </p>\n                    </div>\n                    <p>Provider supports <span style=\"cursor: pointer;\"\n                                               id=\"provider_supports_arrow\"\n                                               v-on:click=\"showHideProviderSupports()\">&#8964;</span></p>\n                    <div v-if=\"showProviderSupports\" class=\"showProviderSupports\">\n                        <p v-if=\"nurse.entity.provide_supports.length > 0\"\n                           v-for=\"item in nurse.entity.provide_supports\"> {{ $t(filterProvideSupports(item.id)) }} </p>\n                    </div>\n\n                    <p>Files <span style=\"cursor: pointer;\"\n                                   id=\"files_arrow\"\n                                   v-on:click=\"showHideFilesWindow()\">&#8964;</span></p>\n                    <div v-if=\"showFilesWindow\" class=\"showFilesWindow\" id=\"files_wrapper\">\n                        <div>\n                            criminal record\n                            <p class=\"nurse_file_name\"\n                               v-for=\"item in filterFiles(nurse.entity.files, 'criminal_record')\"\n                               v-on:click=\"showContent(item)\">\n                                {{ item.original_name }}\n                            </p>\n                            <br>\n                        </div>\n\n                        <div>\n                            documentation of training\n                            <p class=\"nurse_file_name\"\n                               v-for=\"item in filterFiles(nurse.entity.files, 'documentation_of_training')\"\n                               v-on:click=\"showContent(item)\">\n                                {{ item.original_name }}</p>\n                        </div>\n\n                        <div>\n                            CPR course\n                            <p class=\"nurse_file_name\" v-for=\"item in filterFiles(nurse.entity.files, 'CPR_course')\"\n                               v-on:click=\"showContent(item)\">\n                                {{ item.original_name }}</p>\n                        </div>\n\n                        <div>\n                            references\n                            <p class=\"nurse_file_name\" v-for=\"item in filterFiles(nurse.entity.files, 'references')\"\n                               v-on:click=\"showContent(item)\">\n                                {{ item.original_name }}\n                            </p>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"col-4\">\n\n                    <img v-bind:src=\"path + '/storage/' + nurse.entity.original_photo\" alt=\"no-photo\"\n                         class=\"nurse-card-photo\">\n\n                </div>\n\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-10 offset-1\">\n                    Description : {{ nurse.entity.description }}\n                </div>\n            </div>\n\n            <div class=\"row\">\n\n                <div class=\"col-4\">\n                    <p>Available care range: {{ nurse.entity.available_care_range }} </p>\n                    <p>Experience: {{ nurse.entity.experience }} </p>\n                </div>\n\n                <div class=\"col-4\">\n                    <p>Pref client gender: {{ nurse.entity.pref_client_gender }} </p>\n                    <p>Multiple bookings: {{ nurse.entity.multiple_bookings }} </p>\n                </div>\n\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-4 offset-8\">\n                    <button class=\"btn btn-danger btn-sm\">Forbidden</button>&nbsp;\n                    <button class=\"btn btn-success btn-sm\">Approve</button>\n                </div>\n            </div>\n        </div>\n\n    </div>\n\n    <file_modal v-if=\"showFileModal\" :userFile=\"userFile\"></file_modal>\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -30038,7 +30217,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\r\n    <h2>My information</h2>\r\n    <span style=\"font-size: 10px\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\r\n\r\n    <div class=\"container-fluid\">\r\n\r\n        <div class=\"row\">\r\n            <div class=\"col-3\">\r\n\r\n                <!-- first name -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"first_name\" class=\"form-label col-form-label-sm\">First name</label>\r\n                    </div>\r\n                    <div class=\"col-8\">\r\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.first_name\"\r\n                               id=\"first_name\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['first_name'] !== undefined\">{{ errors['first_name'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- last name -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\r\n                    </div>\r\n                    <div class=\"col-8\">\r\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.last_name\"\r\n                               id=\"last_name\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- email -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"email\" class=\"form-label col-form-label-sm\">Email</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <input type=\"email\" class=\"form-control form-control-sm\" v-model=\"user.email\" id=\"email\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['email'] !== undefined\">{{ errors['email'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- phone -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"phone\" class=\"form-label col-form-label-sm\">Phone</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.phone\" id=\"phone\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['phone'] !== undefined\">{{ errors['phone'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- zip code -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"zip_code\" class=\"form-label col-form-label-sm\">Zip code</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.zip_code\"\r\n                               id=\"zip_code\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['zip_code'] !== undefined\">{{ errors['zip_code'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- gender -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"gender\" class=\"form-label col-form-label-sm\">Gender</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.gender\" id=\"gender\">\r\n                            <option value=\"male\">Male</option>\r\n                            <option value=\"female\">Female</option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.gender'] !== undefined\">{{ errors['entity.gender'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- age -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"age\" class=\"form-label col-form-label-sm\">Age</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.age\" id=\"age\"\r\n                               min=\"18\" max=\"100\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.age'] !== undefined\">{{ errors['entity.age'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- experience -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"experience\" class=\"form-label col-form-label-sm\">Experience</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.experience\"\r\n                               id=\"experience\" min=\"0\" max=\"100\">\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.experience'] !== undefined\">{{ errors['entity.experience'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- languages -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"languages\" class=\"form-label col-form-label-sm\">Languages</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-6\">\r\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].lang\" id=\"languages\">\r\n                            <option value=\"English\">English</option>\r\n                            <option value=\"Deutsche\">Deutsche</option>\r\n                        </select>\r\n                    </div>\r\n\r\n                    <div class=\"col-2\">\r\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].level\" id=\"\">\r\n                            <option value=\"A1\">A1</option>\r\n                            <option value=\"A2\">A2</option>\r\n                            <option value=\"B1\">B1</option>\r\n                            <option value=\"B2\">B2</option>\r\n                            <option value=\"C1\">C1</option>\r\n                            <option value=\"C2\">C2</option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.lang'] !== undefined\">{{ errors['entity.languages.0.lang'][0] }}</span>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.level'] !== undefined\">{{ errors['entity.languages.0.level'][0] }}</span>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"col-3\">\r\n                <!-- pref client gender -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"pref_client_gender\" class=\"form-label col-form-label-sm\">Preference client\r\n                            gender</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.pref_client_gender\"\r\n                                id=\"pref_client_gender\">\r\n                            <option value=\"no_matter\">No matter</option>\r\n                            <option value=\"male\">Male</option>\r\n                            <option value=\"female\">Female</option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.pref_client_gender'] !== undefined\">{{ errors['entity.pref_client_gender'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- available care range -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"available_care_range\" class=\"form-label col-form-label-sm\">Available care\r\n                            range</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.available_care_range\"\r\n                                id=\"available_care_range\">\r\n                            <option value=\"1\">1</option>\r\n                            <option value=\"1\">2</option>\r\n                            <option value=\"1\">3</option>\r\n                            <option value=\"1\">4</option>\r\n                            <option value=\"1\">5</option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.available_care_range'] !== undefined\">{{ errors['entity.available_care_range'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- multiple bookings -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"multiple_bookings\" class=\"form-label col-form-label-sm\">Multiple\r\n                            bookings</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.multiple_bookings\"\r\n                                id=\"multiple_bookings\">\r\n                            <option value=\"yes\">Yes</option>\r\n                            <option value=\"no\">No</option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\r\n                </div>\r\n\r\n                <!-- provide supports -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-4\">\r\n                        <label for=\"provide_supports\" class=\"form-label col-form-label-sm\">Provide supports</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-8\">\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.provide_supports\"\r\n                                id=\"provide_supports\" multiple>\r\n                            <option v-for=\"support in data.provider_supports\"\r\n                                    :value=\"support\">\r\n                                {{ $t(support.name) }}\r\n                            </option>\r\n                        </select>\r\n                    </div>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.provide_supports'] !== undefined\">{{ errors['entity.provide_supports'][0] }}</span>\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n            <div class=\"col-2 offset-3\">\r\n\r\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\r\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\" class=\"my-information-photo\">\r\n                </div>\r\n\r\n                <div v-else class=\"my-information-photo-wrapper\">\r\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\r\n\r\n                </div>\r\n\r\n                <input type=\"file\" name=\"nurse_new_photo\"\r\n                       ref=\"file\"\r\n                       v-on:change=\"photoUpload()\"\r\n                       class=\"form-control-file form-control-sm\">\r\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"row\">\r\n\r\n            <div class=\"col-6\">\r\n                <!-- description -->\r\n                <div class=\"row\">\r\n                    <div class=\"col-2\">\r\n                        <label for=\"description\" class=\"form-label col-form-label-sm\">Description</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-10\">\r\n                            <textarea class=\"form-control form-control-sm\" v-model=\"user.entity.description\"\r\n                                      id=\"description\" rows=\"6\">\r\n\r\n                            </textarea>\r\n                        <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.description'] !== undefined\">{{ errors['entity.description'][0] }}</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"row\">\r\n\r\n\r\n                    <div class=\"col-2\">\r\n                        <label for=\"additional_info\" class=\"form-label col-form-label-sm\">Additional info</label>\r\n                    </div>\r\n\r\n                    <div class=\"col-6\">\r\n\r\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.additional_info\"\r\n                                id=\"additional_info\" multiple>\r\n                            <option v-for=\"(info_item, index) in data.additional_info\"\r\n                                    :value=\"info_item\">\r\n                                {{ data.additional_info_data[index].data }}\r\n                            </option>\r\n                        </select>\r\n\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\r\n                <div>\r\n                    criminal record\r\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple class=\"form-control-file form-control-sm\"/>\r\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{ item.original_name }}</p><br>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\r\n                </div>\r\n\r\n                <div>\r\n                    documentation of training\r\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple class=\"form-control-file form-control-sm\"/>\r\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{ item.original_name }}</p>\r\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\r\n                </div>\r\n\r\n                <div>\r\n                    CPR course\r\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple class=\"form-control-file form-control-sm\"/>\r\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{ item.original_name }}</p>\r\n                </div>\r\n\r\n                <div>\r\n                    references\r\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple class=\"form-control-file form-control-sm\"/>\r\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'references')\">{{ item.original_name }}</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"row\">\r\n            <div class=\"col-2 offset-10\">\r\n\r\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">Update</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n\r\n";
+var code = "<div>\n    <h2>My information</h2>\n    <span style=\"font-size: 10px\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!-- first name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"first_name\" class=\"form-label col-form-label-sm\">First name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.first_name\"\n                               id=\"first_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['first_name'] !== undefined\">{{ errors['first_name'][0] }}</span>\n                </div>\n\n                <!-- last name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.last_name\"\n                               id=\"last_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n                </div>\n\n                <!-- email -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"email\" class=\"form-label col-form-label-sm\">Email</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"email\" class=\"form-control form-control-sm\" v-model=\"user.email\" id=\"email\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['email'] !== undefined\">{{ errors['email'][0] }}</span>\n                </div>\n\n                <!-- phone -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"phone\" class=\"form-label col-form-label-sm\">Phone</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.phone\" id=\"phone\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['phone'] !== undefined\">{{ errors['phone'][0] }}</span>\n                </div>\n\n                <!-- zip code -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"zip_code\" class=\"form-label col-form-label-sm\">Zip code</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.zip_code\"\n                               id=\"zip_code\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['zip_code'] !== undefined\">{{ errors['zip_code'][0] }}</span>\n                </div>\n\n                <!-- gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"gender\" class=\"form-label col-form-label-sm\">Gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.gender\" id=\"gender\">\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.gender'] !== undefined\">{{ errors['entity.gender'][0] }}</span>\n                </div>\n\n                <!-- age -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"age\" class=\"form-label col-form-label-sm\">Age</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.age\" id=\"age\"\n                               min=\"18\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.age'] !== undefined\">{{ errors['entity.age'][0] }}</span>\n                </div>\n\n                <!-- experience -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"experience\" class=\"form-label col-form-label-sm\">Experience</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.experience\"\n                               id=\"experience\" min=\"0\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.experience'] !== undefined\">{{ errors['entity.experience'][0] }}</span>\n                </div>\n\n                <!-- languages -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"languages\" class=\"form-label col-form-label-sm\">Languages</label>\n                    </div>\n\n                    <div class=\"col-6\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].lang\" id=\"languages\">\n                            <option value=\"English\">English</option>\n                            <option value=\"Deutsche\">Deutsche</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-2\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].level\" id=\"\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.lang'] !== undefined\">{{ errors['entity.languages.0.lang'][0] }}</span>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.level'] !== undefined\">{{ errors['entity.languages.0.level'][0] }}</span>\n                </div>\n            </div>\n\n            <div class=\"col-3\">\n                <!-- pref client gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"pref_client_gender\" class=\"form-label col-form-label-sm\">Preference client\n                            gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.pref_client_gender\"\n                                id=\"pref_client_gender\">\n                            <option value=\"no_matter\">No matter</option>\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.pref_client_gender'] !== undefined\">{{ errors['entity.pref_client_gender'][0] }}</span>\n                </div>\n\n                <!-- available care range -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"available_care_range\" class=\"form-label col-form-label-sm\">Available care\n                            range</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.available_care_range\"\n                                id=\"available_care_range\">\n                            <option value=\"1\">1</option>\n                            <option value=\"1\">2</option>\n                            <option value=\"1\">3</option>\n                            <option value=\"1\">4</option>\n                            <option value=\"1\">5</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.available_care_range'] !== undefined\">{{ errors['entity.available_care_range'][0] }}</span>\n                </div>\n\n                <!-- multiple bookings -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"multiple_bookings\" class=\"form-label col-form-label-sm\">Multiple\n                            bookings</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.multiple_bookings\"\n                                id=\"multiple_bookings\">\n                            <option value=\"yes\">Yes</option>\n                            <option value=\"no\">No</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\n                </div>\n\n                <!-- provide supports -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"provide_supports\" class=\"form-label col-form-label-sm\">Provide supports</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.provide_supports\"\n                                id=\"provide_supports\" multiple>\n                            <option v-for=\"support in data.provider_supports\"\n                                    :value=\"support\">\n                                {{ $t(support.name) }}\n                            </option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.provide_supports'] !== undefined\">{{ errors['entity.provide_supports'][0] }}</span>\n\n                </div>\n\n            </div>\n\n            <div class=\"col-2 offset-3\">\n\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\" class=\"my-information-photo\">\n                </div>\n\n                <div v-else class=\"my-information-photo-wrapper\">\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\n\n                </div>\n\n                <input type=\"file\" name=\"nurse_new_photo\"\n                       ref=\"file\"\n                       v-on:change=\"photoUpload()\"\n                       class=\"form-control-file form-control-sm\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-6\">\n                <!-- description -->\n                <div class=\"row\">\n                    <div class=\"col-2\">\n                        <label for=\"description\" class=\"form-label col-form-label-sm\">Description</label>\n                    </div>\n\n                    <div class=\"col-10\">\n                            <textarea class=\"form-control form-control-sm\" v-model=\"user.entity.description\"\n                                      id=\"description\" rows=\"6\">\n\n                            </textarea>\n                        <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.description'] !== undefined\">{{ errors['entity.description'][0] }}</span>\n                    </div>\n                </div>\n                <div class=\"row\">\n\n\n                    <div class=\"col-2\">\n                        <label for=\"additional_info\" class=\"form-label col-form-label-sm\">Additional info</label>\n                    </div>\n\n                    <div class=\"col-6\">\n\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.additional_info\"\n                                id=\"additional_info\" multiple>\n                            <option v-for=\"(info_item, index) in data.additional_info\"\n                                    :value=\"info_item\">\n                                {{ data.additional_info_data[index].data }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-12 justify-content-center\">\n                        <span class=\"form-label col-form-label-sm\">Indicate the hours you available to work</span>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-8 offset-2\">\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Weekdays</div>\n                            <div class=\"col-4 justify-content-center\">Weekends</div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Mon-Fri</div>\n                            <div class=\"col-4 justify-content-center\">Sat-Sun</div>\n                        </div>\n\n<!--                        Morning-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">6a - 12p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_morning\"\n                                       v-model=\"user.entity.work_time[0]\"\n\n                                >\n                                &nbsp;<label for=\"weekdays_morning\">Morning</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_morning\" v-model=\"user.entity.work_time[1]\">\n                                &nbsp;<label for=\"weekends_morning\">Morning</label>\n                            </div>\n                        </div>\n<!--                        Afternoon-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">12p - 4p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_afternoon\" v-model=\"user.entity.work_time[2]\">\n                                &nbsp;<label for=\"weekdays_afternoon\">Afternoon</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_afternoon\" v-model=\"user.entity.work_time[3]\">\n                                &nbsp;<label for=\"weekends_afternoon\">Afternoon</label>\n                            </div>\n                        </div>\n<!--                        Evening-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">4p - 8p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_evening\">\n                                &nbsp;<label for=\"weekdays_evening\">Evening</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_evening\">\n                                &nbsp;<label for=\"weekends_evening\">Evening</label>\n                            </div>\n                        </div>\n<!--                        Overnight-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">8p - 6a</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_overnight\">\n                                &nbsp;<label for=\"weekdays_overnight\">Overnight</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_overnight\">\n                                &nbsp;<label for=\"weekends_overnight\">Overnight</label>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\n                <div>\n                    criminal record\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{ item.original_name }}</p><br>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\n                </div>\n\n                <div>\n                    documentation of training\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{ item.original_name }}</p>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\n                </div>\n\n                <div>\n                    CPR course\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{ item.original_name }}</p>\n                </div>\n\n                <div>\n                    references\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'references')\">{{ item.original_name }}</p>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">Update</button>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n\n\n";
 // Exports
 module.exports = code;
 
@@ -53765,6 +53944,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_style_index_0_id_aff219aa_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_style_index_0_id_aff219aa_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_style_index_0_id_aff219aa_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/Header.vue?vue&type=style&index=0&id=37b0ced0&scoped=true&lang=css":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/Header.vue?vue&type=style&index=0&id=37b0ced0&scoped=true&lang=css ***!
@@ -56651,6 +56860,37 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileModal_vue_vue_type_template_id_aff219aa_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileModal.vue?vue&type=template&id=aff219aa&scoped=true */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true");
+/* harmony import */ var _FileModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileModal.vue?vue&type=script&lang=js */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js");
+/* harmony import */ var _FileModal_vue_vue_type_style_index_0_id_aff219aa_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css */ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_FileModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_FileModal_vue_vue_type_template_id_aff219aa_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-aff219aa"],['__file',"resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/Header.vue":
 /*!*************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/Header.vue ***!
@@ -57559,6 +57799,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FileModal.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/Header.vue?vue&type=script&lang=js":
 /*!*************************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/Header.vue?vue&type=script&lang=js ***!
@@ -58119,6 +58375,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true ***!
+  \********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_template_id_aff219aa_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_template_id_aff219aa_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FileModal.vue?vue&type=template&id=aff219aa&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=template&id=aff219aa&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/Header.vue?vue&type=template&id=37b0ced0&scoped=true":
 /*!*******************************************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/Header.vue?vue&type=template&id=37b0ced0&scoped=true ***!
@@ -58589,6 +58861,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_1ef2a29c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=1ef2a29c&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/LeftPanel.vue?vue&type=style&index=0&id=1ef2a29c&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css":
+/*!**********************************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FileModal_vue_vue_type_style_index_0_id_aff219aa_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/admin-dashboard/components/nurses-card/FileModal.vue?vue&type=style&index=0&id=aff219aa&scoped=true&lang=css");
 
 
 /***/ }),

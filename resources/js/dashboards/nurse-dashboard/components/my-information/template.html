@@ -270,6 +270,77 @@
                     </div>
 
                 </div>
+
+                <div class="row">
+                    <div class="col-12 justify-content-center">
+                        <span class="form-label col-form-label-sm">Indicate the hours you available to work</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-8 offset-2">
+                        <div class="row">
+                            <div class="col-4 offset-4 justify-content-center">Weekdays</div>
+                            <div class="col-4 justify-content-center">Weekends</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 offset-4 justify-content-center">Mon-Fri</div>
+                            <div class="col-4 justify-content-center">Sat-Sun</div>
+                        </div>
+
+<!--                        Morning-->
+                        <div class="row">
+                            <div class="col-4">6a - 12p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_morning"
+                                       v-model="user.entity.work_time[0]"
+
+                                >
+                                &nbsp;<label for="weekdays_morning">Morning</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_morning" v-model="user.entity.work_time[1]">
+                                &nbsp;<label for="weekends_morning">Morning</label>
+                            </div>
+                        </div>
+<!--                        Afternoon-->
+                        <div class="row">
+                            <div class="col-4">12p - 4p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_afternoon" v-model="user.entity.work_time[2]">
+                                &nbsp;<label for="weekdays_afternoon">Afternoon</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_afternoon" v-model="user.entity.work_time[3]">
+                                &nbsp;<label for="weekends_afternoon">Afternoon</label>
+                            </div>
+                        </div>
+<!--                        Evening-->
+                        <div class="row">
+                            <div class="col-4">4p - 8p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_evening">
+                                &nbsp;<label for="weekdays_evening">Evening</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_evening">
+                                &nbsp;<label for="weekends_evening">Evening</label>
+                            </div>
+                        </div>
+<!--                        Overnight-->
+                        <div class="row">
+                            <div class="col-4">8p - 6a</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_overnight">
+                                &nbsp;<label for="weekdays_overnight">Overnight</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_overnight">
+                                &nbsp;<label for="weekends_overnight">Overnight</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-3 offset-1" style="border: solid 1px lightgray">

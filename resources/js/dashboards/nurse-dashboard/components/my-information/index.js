@@ -25,7 +25,6 @@ export default {
                         level: ''
                     });
                     this.user.entity.languages.push(lang);
-                    console.log(this.user);
                 }
             },
             immediate: true
@@ -33,6 +32,7 @@ export default {
     },
     mounted() {
         console.log(this.data);
+        console.log(this.user);
     },
     methods: {
         filterFiles(data, type) {
