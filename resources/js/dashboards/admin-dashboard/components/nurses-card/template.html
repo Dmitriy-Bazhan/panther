@@ -40,6 +40,7 @@
 
                 <div class="col-4">
 
+                    <!--                    Additional info-->
                     <p>Additional info <span style="cursor: pointer;"
                                              id="additional_info_arrow"
                                              v-on:click="showHideAdditionalInfo()">&#8964;</span></p>
@@ -47,6 +48,8 @@
                         <p v-if="nurse.entity.additional_info.length > 0"
                            v-for="item in nurse.entity.additional_info"> {{ filterAdditionalInfo(item.id) }} </p>
                     </div>
+
+                    <!--                    Provider support-->
                     <p>Provider supports <span style="cursor: pointer;"
                                                id="provider_supports_arrow"
                                                v-on:click="showHideProviderSupports()">&#8964;</span></p>
@@ -55,6 +58,7 @@
                            v-for="item in nurse.entity.provide_supports"> {{ $t(filterProvideSupports(item.id)) }} </p>
                     </div>
 
+                    <!--                    Files-->
                     <p>Files <span style="cursor: pointer;"
                                    id="files_arrow"
                                    v-on:click="showHideFilesWindow()">&#8964;</span></p>
@@ -92,46 +96,129 @@
                             </p>
                         </div>
                     </div>
+
+
+                    <!--                Work time pref-->
+                    <p>Work time pref <span style="cursor: pointer;"
+                                            id="work_time_arrow_arrow"
+                                            v-on:click="showHideWorkTimePrefWindow()">&#8964;</span></p>
+                    <div v-if="showWorkTimePrefWindow" class="showHideWorkTimePrefWindow" id="work_time_arrow_wrapper">
+                        <div class="row">
+                            <div class="col-8 offset-2">
+                                <div class="row">
+                                    <div class="col-4 offset-4 justify-content-center">Weekdays</div>
+                                    <div class="col-4 justify-content-center">Weekends</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 offset-4 justify-content-center">Mon-Fri</div>
+                                    <div class="col-4 justify-content-center">Sat-Sun</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                        Morning-->
+                        <div class="row">
+                            <div class="col-4">6a - 12p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekdays_morning">
+                                &nbsp;<label for="weekdays_morning">Morning</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekends_morning">
+                                &nbsp;<label for="weekends_morning">Morning</label>
+                            </div>
+                        </div>
+                        <!--                        Afternoon-->
+                        <div class="row">
+                            <div class="col-4">12p - 4p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekdays_afternoon">
+                                &nbsp;<label for="weekdays_afternoon">Afternoon</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekends_afternoon">
+                                &nbsp;<label for="weekends_afternoon">Afternoon</label>
+                            </div>
+                        </div>
+                        <!--                        Evening-->
+                        <div class="row">
+                            <div class="col-4">4p - 8p</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekdays_evening">
+                                &nbsp;<label for="weekdays_evening">Evening</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekends_evening">
+                                &nbsp;<label for="weekends_evening">Evening</label>
+                            </div>
+                        </div>
+                        <!--                        Overnight-->
+                        <div class="row">
+                            <div class="col-4">8p - 6a</div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekdays_overnight">
+                                &nbsp;<label for="weekdays_overnight">Overnight</label>
+                            </div>
+                            <div class="col-4 justify-content-center">
+                                <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
+                                       v-model="nurse.entity.work_time_pref.weekends_overnight">
+                                &nbsp;<label for="weekends_overnight">Overnight</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-4">
+        <!--                Photo-->
+        <div class="col-4">
 
-                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
-                         class="nurse-card-photo">
+            <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                 class="nurse-card-photo">
 
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-10 offset-1">
-                    Description : {{ nurse.entity.description }}
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-4">
-                    <p>Available care range: {{ nurse.entity.available_care_range }} </p>
-                    <p>Experience: {{ nurse.entity.experience }} </p>
-                </div>
-
-                <div class="col-4">
-                    <p>Pref client gender: {{ nurse.entity.pref_client_gender }} </p>
-                    <p>Multiple bookings: {{ nurse.entity.multiple_bookings }} </p>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-4 offset-8">
-                    <button class="btn btn-danger btn-sm">Forbidden</button>&nbsp;
-                    <button class="btn btn-success btn-sm">Approve</button>
-                </div>
-            </div>
         </div>
 
     </div>
 
-    <file_modal v-if="showFileModal" :userFile="userFile"></file_modal>
+    <div class="row">
+        <div class="col-12">
+            Description :
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10 offset-1 nurse-card-description-field">
+            {{ nurse.entity.description }}
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-4">
+            <p>Available care range: {{ nurse.entity.available_care_range }} </p>
+            <p>Experience: {{ nurse.entity.experience }} </p>
+        </div>
+
+        <div class="col-4">
+            <p>Pref client gender: {{ nurse.entity.pref_client_gender }} </p>
+            <p>Multiple bookings: {{ nurse.entity.multiple_bookings }} </p>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-4 offset-8">
+            <button class="btn btn-danger btn-sm">Forbidden</button>&nbsp;
+            <button class="btn btn-success btn-sm" v-on:click="approveNurse()">Approve</button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<file_modal v-if="showFileModal" :userFile="userFile"></file_modal>
 </div>

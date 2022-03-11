@@ -33,6 +33,32 @@ class AdminDashboardController extends Controller
         return view('dashboard', $data);
     }
 
+    public function approveNurse(){
+        if(request()->filled('id') && is_numeric(request('id'))){
+            Nurse::where('id', request('id'))->update([
+                'is_approved' => 'yes',
+                'change_info' => 'no',
+                'info_is_full' => 'no',
+            ]);
+        }else{
+            abort(409);
+        }
+
+        return response()->json(['id' => request('id')]);
+    }
+
+    public function dismissNurse(){
+        if(request()->filled('id') && is_numeric(request('id'))){
+            Nurse::where('id', request('id'))->update([
+                'is_approved' => 'no',
+            ]);
+        }else{
+            abort(409);
+        }
+
+        return response()->json(['id' => request('id')]);
+    }
+
     public function create()
     {
         //

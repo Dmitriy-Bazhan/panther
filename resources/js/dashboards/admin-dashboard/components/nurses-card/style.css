@@ -9,7 +9,7 @@
     z-index: 100;
     padding: 10px;
 }
-.showAdditionalInfo, .showProviderSupports, .showFilesWindow {
+.showAdditionalInfo, .showProviderSupports, .showFilesWindow, .showHideWorkTimePrefWindow {
     position: absolute;
     padding: 10px;
     border: solid 1px black;
@@ -20,4 +20,14 @@
 .nurse_file_name {
     font-size: 12px;
     cursor: pointer;
+}
+.nurse-card-description-field {
+    border: solid 1px green;
+    border-radius: 10px;
+    background: #a2b39c;
+    padding: 15px;
+}
+
+.showHideWorkTimePrefWindow {
+    width: 500px;
 }

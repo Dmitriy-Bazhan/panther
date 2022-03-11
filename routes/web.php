@@ -33,6 +33,8 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'settings']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
+        Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
+        Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 

@@ -16,7 +16,7 @@
         <tbody>
         <tr v-if="nurses.length > 0" v-for="nurse in nurses">
 
-            <td>{{ nurse.id }}</td>
+            <td>{{ nurse.entity.id }}</td>
             <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
             <td>{{ nurse.entity.age }}</td>
             <td>
@@ -26,16 +26,14 @@
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
                 <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>&nbsp;
-                <button v-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm">Approve</button>
-                <button v-else class="btn btn-secondary btn-sm">Dismiss</button>
+                <button v-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
+                <button v-else class="btn btn-secondary btn-sm" v-on:click="dismissNurse(nurse.entity.id)">Dismiss</button>
             </td>
         </tr>
         </tbody>
     </table>
 
     <nurses-card v-if="nurseCardIsVisible" :nurse="nurse" :data="data"></nurses-card>
-<!--    <iframe v-bind:src="path + '/storage/user_3/criminal_record/criminal_record_photo_user_3_permission (4).txt'"></iframe>-->
-<!--    <iframe v-bind:src="path + '/storage/user_3/documentation_of_training/documentation_of_training_photo_user_3_Pfleger HCT Original (v03).pdf'"></iframe>-->
 </div>
 
 

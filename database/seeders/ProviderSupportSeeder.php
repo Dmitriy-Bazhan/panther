@@ -26,20 +26,22 @@ class ProviderSupportSeeder extends Seeder
             'technical_assistance',
         ];
 
-        foreach ($supports as $support){
+        foreach ($supports as $support) {
             $provide = new ProvideSupport();
             $provide->name = $support;
             $provide->save();
         }
 
-        $provideAssigned = new ProvideSupportAssigned();
-        $provideAssigned->nurse_id = 1;
-        $provideAssigned->support_id = 1;
-        $provideAssigned->save();
+        for ($i = 1; $i <= 5; $i++) {
+            $provideAssigned = new ProvideSupportAssigned();
+            $provideAssigned->nurse_id = $i;
+            $provideAssigned->support_id = rand(1, 8);
+            $provideAssigned->save();
 
-        $provideAssigned = new ProvideSupportAssigned();
-        $provideAssigned->nurse_id = 1;
-        $provideAssigned->support_id = 2;
-        $provideAssigned->save();
+            $provideAssigned = new ProvideSupportAssigned();
+            $provideAssigned->nurse_id = $i;
+            $provideAssigned->support_id = rand(1, 8);
+            $provideAssigned->save();
+        }
     }
 }
