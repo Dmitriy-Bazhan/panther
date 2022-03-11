@@ -26,7 +26,9 @@ export default {
                     });
                     this.user.entity.languages.push(lang);
                 }
-                this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
+                if (typeof this.user.entity.work_time_pref === "string") {
+                    this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
+                }
             },
             immediate: true
         },
