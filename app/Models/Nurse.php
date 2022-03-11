@@ -9,12 +9,36 @@ class Nurse extends Model
 {
     use HasFactory;
 
+    /*
+    * 0 weekdays_morning
+    * 1 weekdays_afternoon
+    * 2 weekdays_evening
+    * 3 weekdays_overnight
+    * 4 weekends_morning
+    * 5 weekends_afternoon
+    * 6 weekends_evening
+    * 7 weekends_overnight
+    */
+
+    protected $attributes = [
+        'work_time_pref' => '{
+
+        "weekdays_morning" : "0",
+        "weekdays_afternoon" : "0",
+        "weekdays_evening" : "0",
+        "weekdays_overnight" : "0",
+        "weekends_morning" : "0",
+        "weekends_afternoon" : "0",
+        "weekends_evening" : "0",
+        "weekends_overnight" : "0"
+        }',
+    ];
+
     protected $with = [
         'provideSupports',
         'languages',
         'files',
         'additionalInfo',
-        'workTime',
     ];
 
     public function users()
@@ -27,15 +51,18 @@ class Nurse extends Model
         return $this->morphOne(User::class, 'entity');
     }
 
-    public function languages(){
+    public function languages()
+    {
         return $this->hasMany('App\Models\NurseLang', 'nurse_id', 'id');
     }
 
-    public function files(){
+    public function files()
+    {
         return $this->hasMany('App\Models\NurseFile', 'nurse_id', 'id');
     }
 
-    public function additionalInfo(){
+    public function additionalInfo()
+    {
         return $this->hasManyThrough(
             'App\Models\AdditionalInfo',
             'App\Models\AdditionalInfoAssigned',
@@ -54,9 +81,5 @@ class Nurse extends Model
             'id',                                     //from App\Models\ProvideSupport
             'id',                                       //from nurse
             'support_id');                        //from ProvideSupportAssigned
-    }
-
-    public function workTime(){
-        return $this->hasMany('App\Models\NurseWorkTimePref', 'nurse_id', 'id');
     }
 }

@@ -26,13 +26,13 @@ export default {
                     });
                     this.user.entity.languages.push(lang);
                 }
+                this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
             },
             immediate: true
         },
     },
     mounted() {
-        console.log(this.data);
-        console.log(this.user);
+
     },
     methods: {
         filterFiles(data, type) {
@@ -59,7 +59,6 @@ export default {
             }
 
 
-
             for (let i = 0; i < this.documentation_of_training.length; i++) {
                 let file = this.documentation_of_training[i];
                 formData.append('documentation_of_training[' + i + ']', file);
@@ -77,7 +76,7 @@ export default {
 
             let user = JSON.stringify(this.user);
             formData.append('user', user);
-            console.log(this.user);
+            console.log(this.user.entity.work_time_pref);
             axios.post('/dashboard/nurse/' + this.user.id,
                 formData,
                 {

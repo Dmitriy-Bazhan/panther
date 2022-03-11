@@ -92,6 +92,7 @@ class NurseRepository
             'gender' => $data['entity']['gender'],
             'multiple_bookings' => $data['entity']['multiple_bookings'],
             'pref_client_gender' => $data['entity']['pref_client_gender'],
+            'work_time_pref' => json_encode($data['entity']['work_time_pref']),
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)
