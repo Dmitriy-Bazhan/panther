@@ -1,10 +1,12 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid main-header">
+
         <div class="row header-wrapper">
 
             <div class="col-2 offset-8">
                 <localization-component></localization-component>
             </div>
+
             <div v-if="!auth || auth.email_verified_at === null" class="col-2">
                 <a href="login">
                     <button class="btn btn-sm btn-success">Login</button>
@@ -61,5 +63,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .main-header {
+        padding: 5px;
+        background: #9dc3fc;
+    }
 </style>

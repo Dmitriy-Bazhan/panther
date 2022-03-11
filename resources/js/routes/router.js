@@ -7,6 +7,7 @@ import NurseRegister from '../pages/auth/NurseRegister';
 import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
+import Listing from '../pages/listing/index';
 
 const routes = [
     {
@@ -40,6 +41,11 @@ const routes = [
     {
         path: "/test",
         component: Test
+    },
+    {
+        path: "/listing",
+        name: 'Listing',
+        component: Listing
     }
 ];
 

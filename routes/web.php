@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -23,6 +24,12 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', [MainPageController::class, 'index']);
+
+
+Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function (){
+    Route::get('/', [MainPageController::class, 'index']);
+    Route::get('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+});
 
 Route::prefix('dashboard')->group(function () {
 
