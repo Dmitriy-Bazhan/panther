@@ -1,0 +1,20 @@
+.listing-reminder-begin {
+    font-size: 14px;
+    color: green;
+}
+
+.listing-reminder-end {
+    font-size: 12px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.block-with-reminder {
+    position: absolute;
+    border: solid 1px red;
+    border-radius: 10px;
+    background: blue;
+    padding: 10px;
+    width: 50%;
+}

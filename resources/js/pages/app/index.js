@@ -5,7 +5,7 @@ import LeftPanel from "../../layouts/app/LeftPanel";
 
 export default {
     name: 'app',
-    props: ['user'],
+    props: ['user', 'data'],
     data() {
         return {
             showHeader : true,

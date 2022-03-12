@@ -12,8 +12,10 @@
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
     <!-- jQuery -->
-    <script src="{{ asset('js/jQuery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('js/jQuery.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <script>
         //first enter in site
@@ -33,7 +35,11 @@
 <body>
 
 <div id="app">
-    <app :user="@auth {{ auth()->user() }} @else false @endauth"></app>
+    <app
+        :user="@auth {{ auth()->user() }} @else false @endauth"
+        :data="{{ json_encode($data ?? []) }}"
+    >
+    </app>
 </div>
 
 <script src="{{asset('js/app.js')}}"></script>

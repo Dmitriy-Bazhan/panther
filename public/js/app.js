@@ -26646,8 +26646,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LeftPanel",
   props: ['user'],
-  mounted: function mounted() {
-    console.log(this.user);
+  mounted: function mounted() {// console.log(this.user);
   }
 });
 
@@ -29791,7 +29790,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'app',
-  props: ['user'],
+  props: ['user', 'data'],
   data: function data() {
     return {
       showHeader: true,
@@ -29829,18 +29828,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/pages/listing/template.html");
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/pages/listing/style.css");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'listing',
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  props: ['data'],
   data: function data() {
     return {
       path: location.origin,
       filterString: '?only_full_info=yes',
-      nurses: []
+      nurses: [],
+      showReminder: false
     };
   },
+  watch: {
+    showReminder: function showReminder(_showReminder) {
+      if (_showReminder) {
+        document.addEventListener('click', this.closeReminderBlock);
+      }
+    }
+  },
   mounted: function mounted() {
+    console.log(this.data);
     this.getNurses();
   },
   methods: {
@@ -29852,6 +29863,15 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    showReminderBlock: function showReminderBlock() {
+      this.showReminder === true ? this.showReminder = false : this.showReminder = true;
+    },
+    closeReminderBlock: function closeReminderBlock(event) {
+      if (!document.getElementById('listing-reminder-end').contains(event.target)) {
+        this.showReminder = false;
+        document.removeEventListener('click', this.closeReminderBlock);
+      }
     }
   }
 });
@@ -30137,6 +30157,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "table , th, td{\r\n    border: solid 1px gray;\r\n    font-size: 14px;\r\n}\r\nth, td {\r\n    padding: 5px;\r\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/pages/listing/style.css":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/pages/listing/style.css ***!
+  \******************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".listing-reminder-begin {\n    font-size: 14px;\n    color: green;\n}\n\n.listing-reminder-end {\n    font-size: 12px;\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\n\n.block-with-reminder {\n    position: absolute;\n    border: solid 1px red;\n    border-radius: 10px;\n    background: blue;\n    padding: 10px;\n    width: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30520,7 +30564,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n\n    <panther-header :auth=\"user\" v-if=\"showHeader\"></panther-header>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel :user=\"user\"></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <router-view></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <panther-footer v-if=\"showFooter\"></panther-footer>\n\n</div>\n";
+var code = "<div>\n\n    <panther-header :auth=\"user\" v-if=\"showHeader\"></panther-header>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel :user=\"user\"></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <router-view :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <panther-footer v-if=\"showFooter\"></panther-footer>\n\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -30533,7 +30577,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>LISTING</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Zip code</th>\n            <th>Price</th>\n            <th>Description</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td>{{ nurse.zip_code }}</td>\n            <td>Price</td>\n            <td>\n                {{ nurse.entity.description}}\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>\n";
+var code = "<div>\n    <h4>LISTING</h4>\n\n    <span class=\"listing-reminder-begin\">\n        How does the booking process work?\n        <span class=\"listing-reminder-end\" id=\"listing-reminder-end\" v-on:click=\"showReminderBlock()\">\n            Click to show more\n        </span>\n    </span>\n\n    <div v-if=\"showReminder\" class=\"block-with-reminder\">\n        <span>When you book a nurse on our site, you specify exactly what you want to book them for.\n            That is, you specify your wishes in the areas in which Pflege Panther is active.\n            Here you also have the option of specifying whether you prefer a female or a male nurse.\n            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n            who offer exactly what you are looking for, allowing you to select an individual nurse.\n            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n            booking request.\n        </span>\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-4\">\n                <h4>Filters</h4>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label>Who are you looking for help for?</label>\n                <select>\n                    <option>Für mich</option>\n                    <option>Für einen Angehörigen</option>\n                </select>\n            </div>\n\n            <div class=\"col-3\">\n                <label>Information about the person in need of care</label>\n\n                <label for=\"name\" class=\"form-label col-form-label-sm\">Name</label>\n                <input id=\"name\" class=\"form-control form-control-sm\" type=\"text\">\n\n                <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                <input id=\"last_name\" class=\"form-control form-control-sm\" type=\"text\">\n\n                <label for=\"age_range\" class=\"form-label col-form-label-sm\">Age Range</label>\n                <select id=\"age_range\" class=\"form-select form-select-sm\">\n                    <option>0-20</option>\n                    <option>20-40</option>\n                    <option>40-60</option>\n                    <option>60-70</option>\n                    <option>70-80</option>\n                    <option>80-90</option>\n                    <option>over 90</option>\n                </select>\n\n            </div>\n            <div class=\"col-3\">\n                <label for=\"one_time_or_regular\" class=\"form-label col-form-label-sm\">One-time or regular</label><br>\n                <input id=\"one_time_or_regular\" placeholder=\"Later\">\n            </div>\n\n            <div class=\"col-3\">\n                <label for=\"provider_support\" class=\"form-label col-form-label-sm\">What kind of support are you looking for</label>\n                <select id=\"provider_support\" class=\"form-select form-select-sm\" multiple>\n                    <option v-if=\"data.provider_supports.length > 0\"\n                            v-for=\"provider_support in data.provider_supports\"\n                            v-bind:value=\"provider_support.id\">\n                        {{ $t(provider_support.name) }}\n                    </option>\n                </select>\n            </div>\n        </div>\n        <br>\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <div class=\"col-3\">\n                    <label for=\"where_should_help_be_provided\" class=\"form-label col-form-label-sm\">Where should help be provided?</label><br>\n                    <input id=\"where_should_help_be_provided\" placeholder=\"Later\">\n                </div>\n            </div>\n            <div class=\"col-3\">\n                <label for=\"is_the_degree_of_care_available\" class=\"form-label col-form-label-sm\">Is the degree of care available</label><br>\n                <select id=\"is_the_degree_of_care_available\" class=\"form-select form-select-sm\">\n                    <option>1</option>\n                    <option>2</option>\n                    <option>3</option>\n                    <option>4</option>\n                    <option>5</option>\n                </select>\n            </div>\n            <div class=\"col-3\">\n                <label class=\"form-label col-form-label-sm\">Language skills</label><br>\n                <div class=\"row\">\n                    <div class=\"col-6\">\n                        <select class=\"form-control form-control-sm\" id=\"languages\">\n                            <option value=\"English\">English</option>\n                            <option value=\"Deutsche\">Deutsche</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-2\">\n                        <select class=\"form-control form-control-sm\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                        </select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-3\">\n                <label for=\"one_time_or_regular\" class=\"form-label col-form-label-sm\">One-time or regular</label><br>\n                <input id=\"one_time_or_regular\" placeholder=\"Later\">\n            </div>\n        </div>\n    </div>\n\n    <!--    <table rules=\"all\">-->\n    <!--        <thead>-->\n    <!--        <tr>-->\n    <!--            <th>Name</th>-->\n    <!--            <th>Age</th>-->\n    <!--            <th>Photo</th>-->\n    <!--            <th>Zip code</th>-->\n    <!--            <th>Price</th>-->\n    <!--            <th>Description</th>-->\n    <!--        </tr>-->\n    <!--        </thead>-->\n    <!--        <tbody>-->\n    <!--        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">-->\n\n    <!--            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>-->\n    <!--            <td>{{ nurse.entity.age }}</td>-->\n    <!--            <td>-->\n    <!--                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">-->\n    <!--            </td>-->\n    <!--            <td>{{ nurse.zip_code }}</td>-->\n    <!--            <td>Price</td>-->\n    <!--            <td>-->\n    <!--                {{ nurse.entity.description}}-->\n    <!--            </td>-->\n    <!--        </tr>-->\n    <!--        </tbody>-->\n    <!--    </table>-->\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -54158,6 +54202,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/nurses/style.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/pages/listing/style.css":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/listing/style.css ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/pages/listing/style.css");
 
             
 

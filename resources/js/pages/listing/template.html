@@ -1,31 +1,150 @@
 <div>
-    <h1>LISTING</h1>
+    <h4>LISTING</h4>
 
-    <table rules="all">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Photo</th>
-            <th>Zip code</th>
-            <th>Price</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-if="nurses.length > 0" v-for="nurse in nurses">
+    <span class="listing-reminder-begin">
+        How does the booking process work?
+        <span class="listing-reminder-end" id="listing-reminder-end" v-on:click="showReminderBlock()">
+            Click to show more
+        </span>
+    </span>
 
-            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
-            <td>{{ nurse.entity.age }}</td>
-            <td>
-                <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
-            </td>
-            <td>{{ nurse.zip_code }}</td>
-            <td>Price</td>
-            <td>
-                {{ nurse.entity.description}}
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div v-if="showReminder" class="block-with-reminder">
+        <span>When you book a nurse on our site, you specify exactly what you want to book them for.
+            That is, you specify your wishes in the areas in which Pflege Panther is active.
+            Here you also have the option of specifying whether you prefer a female or a male nurse.
+            With another click, your booking request is sent off. Our matching system then searches the database for nurses
+            who offer exactly what you are looking for, allowing you to select an individual nurse.
+            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your
+            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your
+            booking request.
+        </span>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <h4>Filters</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <label>Who are you looking for help for?</label>
+                <select>
+                    <option>Für mich</option>
+                    <option>Für einen Angehörigen</option>
+                </select>
+            </div>
+
+            <div class="col-3">
+                <label>Information about the person in need of care</label>
+
+                <label for="name" class="form-label col-form-label-sm">Name</label>
+                <input id="name" class="form-control form-control-sm" type="text">
+
+                <label for="last_name" class="form-label col-form-label-sm">Last name</label>
+                <input id="last_name" class="form-control form-control-sm" type="text">
+
+                <label for="age_range" class="form-label col-form-label-sm">Age Range</label>
+                <select id="age_range" class="form-select form-select-sm">
+                    <option>0-20</option>
+                    <option>20-40</option>
+                    <option>40-60</option>
+                    <option>60-70</option>
+                    <option>70-80</option>
+                    <option>80-90</option>
+                    <option>over 90</option>
+                </select>
+
+            </div>
+            <div class="col-3">
+                <label for="one_time_or_regular" class="form-label col-form-label-sm">One-time or regular</label><br>
+                <input id="one_time_or_regular" placeholder="Later">
+            </div>
+
+            <div class="col-3">
+                <label for="provider_support" class="form-label col-form-label-sm">What kind of support are you looking for</label>
+                <select id="provider_support" class="form-select form-select-sm" multiple>
+                    <option v-if="data.provider_supports.length > 0"
+                            v-for="provider_support in data.provider_supports"
+                            v-bind:value="provider_support.id">
+                        {{ $t(provider_support.name) }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-3">
+                <div class="col-3">
+                    <label for="where_should_help_be_provided" class="form-label col-form-label-sm">Where should help be provided?</label><br>
+                    <input id="where_should_help_be_provided" placeholder="Later">
+                </div>
+            </div>
+            <div class="col-3">
+                <label for="is_the_degree_of_care_available" class="form-label col-form-label-sm">Is the degree of care available</label><br>
+                <select id="is_the_degree_of_care_available" class="form-select form-select-sm">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <label class="form-label col-form-label-sm">Language skills</label><br>
+                <div class="row">
+                    <div class="col-6">
+                        <select class="form-control form-control-sm" id="languages">
+                            <option value="English">English</option>
+                            <option value="Deutsche">Deutsche</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2">
+                        <select class="form-control form-control-sm">
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="C1">C1</option>
+                            <option value="C2">C2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label for="one_time_or_regular" class="form-label col-form-label-sm">One-time or regular</label><br>
+                <input id="one_time_or_regular" placeholder="Later">
+            </div>
+        </div>
+    </div>
+
+    <!--    <table rules="all">-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>Name</th>-->
+    <!--            <th>Age</th>-->
+    <!--            <th>Photo</th>-->
+    <!--            <th>Zip code</th>-->
+    <!--            <th>Price</th>-->
+    <!--            <th>Description</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr v-if="nurses.length > 0" v-for="nurse in nurses">-->
+
+    <!--            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>-->
+    <!--            <td>{{ nurse.entity.age }}</td>-->
+    <!--            <td>-->
+    <!--                <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">-->
+    <!--            </td>-->
+    <!--            <td>{{ nurse.zip_code }}</td>-->
+    <!--            <td>Price</td>-->
+    <!--            <td>-->
+    <!--                {{ nurse.entity.description}}-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
 </div>

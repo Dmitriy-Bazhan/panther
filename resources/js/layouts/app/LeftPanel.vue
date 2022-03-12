@@ -18,7 +18,7 @@
         name: "LeftPanel",
         props: ['user'],
         mounted() {
-            console.log(this.user);
+            // console.log(this.user);
         }
 
     }

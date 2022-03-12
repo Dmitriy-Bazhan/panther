@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdditionalInfo;
+use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
@@ -13,7 +15,10 @@ class MainPageController extends Controller
      */
     public function index()
     {
-        return view('main');
+        $data['data']['provider_supports'] = ProvideSupport::all();
+        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
+
+        return view('main', $data);
     }
 
     /**
