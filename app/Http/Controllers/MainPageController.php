@@ -15,9 +15,11 @@ class MainPageController extends Controller
      */
     public function index()
     {
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-
+        $data = [];
+        if (auth()->check()) {
+            $data['data']['provider_supports'] = ProvideSupport::all();
+            $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
+        }
         return view('main', $data);
     }
 
@@ -34,7 +36,7 @@ class MainPageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -45,7 +47,7 @@ class MainPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -56,7 +58,7 @@ class MainPageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -67,8 +69,8 @@ class MainPageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -79,7 +81,7 @@ class MainPageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -87,12 +89,13 @@ class MainPageController extends Controller
         //
     }
 
-    public function changeLang(){
-        if(auth()->user()->prefs->pref_lang == 'en'){
+    public function changeLang()
+    {
+        if (auth()->user()->prefs->pref_lang == 'en') {
             \App\Models\UserPref::where('user_id', auth()->id())->update([
                 'pref_lang' => 'de'
             ]);
-        }else{
+        } else {
             \App\Models\UserPref::where('user_id', auth()->id())->update([
                 'pref_lang' => 'en'
             ]);

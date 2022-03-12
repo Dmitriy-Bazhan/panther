@@ -2,43 +2,88 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Requests\UploadNursePhotoRequest;
 use App\Models\AdditionalInfoAssigned;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\NurseLang;
 use App\Models\ProvideSupportAssigned;
 use App\Models\User;
-use Database\Seeders\ProviderSupportSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Image;
 
 class NurseRepository
 {
-    protected $user;
+    protected $nurse;
 
     public function __construct(User $nurse)
     {
-        $this->user = $nurse;
+        $this->nurse = $nurse;
     }
 
     public function search($id = null)
     {
 
-        $user = $this->user->newQuery();
+        $nurse = $this->nurse->newQuery();
         //only nurses
-        $user->where('entity_type', 'nurse');
+        $nurse->where('entity_type', 'nurse');
 
         if (!is_null($id)) {
-            $user->where('id', $id);
+            $nurse->where('id', $id);
         }
 
         //get nurses to admin/nurses list
-        if (request()->filled('only_full_info') && request('only_full_info') === 'yes') {
-            $user->whereHas('nurse', function ($query) {
+        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
+            $nurse->whereHas('nurse', function ($query) {
                 return $query->where('info_is_full', 'yes')->orWhere('change_info', 'yes')->orWhere('is_approved', 'yes');
+            });
+        }
+
+        //filters is approved
+        if (request()->filled('is_approved') && request('is_approved') == 'yes') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('is_approved', '=', 'yes');
+            });
+        }
+
+        //filter provider_supports
+        if (request()->filled('provider_supports') && is_array(request('provider_supports'))) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('provideSupports', function ($query) {
+                    return $query->whereIn('support_id', request('provider_supports'));
+                });
+            });
+        }
+
+        //filter degree_of_care_available
+        if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('available_care_range', '=', request('degree_of_care_available'));
+            });
+        }
+
+        //filter language
+        if (request()->filled('language') && request('language') != 'no_matter') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('languages', function ($query) {
+                    return $query->where('lang', request('language'));
+                });
+            });
+        }
+
+        //filter language_level
+        if (request()->filled('language_level') && request('language_level') != 'no_matter') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('languages', function ($query) {
+                    return $query->where('level', request('language_level'));
+                });
+            });
+        }
+
+        //filter preference_for_the_nurse
+        if (request()->filled('preference_for_the_nurse')) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('pref_client_gender', '=', request('preference_for_the_nurse'));
             });
         }
 
@@ -47,18 +92,17 @@ class NurseRepository
             if (request()->filled('order_by')) {
 
             } else {
-                //default order(info_is_full is hidden var, needed only order)
-                $user->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
+//                default order(info_is_full is hidden var, needed only order)
+                $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
                     ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
-                $user->orderByDesc('info_is_full')->orderByDesc('change_info');
+                $nurse->orderByDesc('info_is_full')->orderByDesc('change_info');
             }
         }
 
-        $user->without('prefs');
+        $nurse->without('prefs');
 
-        return $user->paginate(10);
+        return $nurse->paginate(10);
     }
-
 
     public function update($nurse)
     {
@@ -123,8 +167,6 @@ class NurseRepository
                 ]);
             }
         }
-
-
         return true;
     }
 

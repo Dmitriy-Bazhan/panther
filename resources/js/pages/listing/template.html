@@ -29,122 +29,235 @@
 
         <div class="row">
             <div class="col-3">
-                <label>Who are you looking for help for?</label>
-                <select>
-                    <option>Für mich</option>
-                    <option>Für einen Angehörigen</option>
+                <!--                for whom-->
+                <label for="for_whom" class="form-label col-form-label-sm">Who are you looking for help for?</label>
+                <select id="for_whom" class="form-select form-select-sm" v-model="clientSearchInfo.for_whom">
+                    <option value="to_me">to_me</option>
+                    <option value="for_a_relative">for_a_relative</option>
                 </select>
-            </div>
+                <br>
 
-            <div class="col-3">
-                <label>Information about the person in need of care</label>
+                <!--                Person information-->
+                <label class="form-label col-form-label-sm">Information about the person in need of care</label>
+                <br>
 
                 <label for="name" class="form-label col-form-label-sm">Name</label>
-                <input id="name" class="form-control form-control-sm" type="text">
+                <input id="name" class="form-control form-control-sm" type="text" v-model="clientSearchInfo.name">
+                <span class="register-form-error" v-if="errors !== null && errors['name'] !== undefined">{{ errors['name'][0] }}</span>
 
                 <label for="last_name" class="form-label col-form-label-sm">Last name</label>
-                <input id="last_name" class="form-control form-control-sm" type="text">
+                <input id="last_name" class="form-control form-control-sm" type="text"
+                       v-model="clientSearchInfo.last_name">
+                <span class="register-form-error" v-if="errors !== null && errors['last_name'] !== undefined">{{ errors['last_name'][0] }}</span>
 
                 <label for="age_range" class="form-label col-form-label-sm">Age Range</label>
-                <select id="age_range" class="form-select form-select-sm">
-                    <option>0-20</option>
-                    <option>20-40</option>
-                    <option>40-60</option>
-                    <option>60-70</option>
-                    <option>70-80</option>
-                    <option>80-90</option>
-                    <option>over 90</option>
+                <select id="age_range" class="form-select form-select-sm" v-model="clientSearchInfo.age_range">
+                    <option value="0-20">0-20</option>
+                    <option value="20-40">20-40</option>
+                    <option value="40-60">40-60</option>
+                    <option value="60-70">60-70</option>
+                    <option value="70-80">70-80</option>
+                    <option value="80-90">80-90</option>
+                    <option value="90+">90+</option>
                 </select>
-
-            </div>
-            <div class="col-3">
-                <label for="one_time_or_regular" class="form-label col-form-label-sm">One-time or regular</label><br>
-                <input id="one_time_or_regular" placeholder="Later">
             </div>
 
             <div class="col-3">
-                <label for="provider_support" class="form-label col-form-label-sm">What kind of support are you looking for</label>
-                <select id="provider_support" class="form-select form-select-sm" multiple>
+                <!--provider supports-->
+                <label for="provider_support" class="form-label col-form-label-sm">What kind of support are you looking
+                    for</label>
+                <select id="provider_support" class="form-select form-select-sm" multiple
+                        v-model="clientSearchInfo.provider_supports">
                     <option v-if="data.provider_supports.length > 0"
                             v-for="provider_support in data.provider_supports"
                             v-bind:value="provider_support.id">
                         {{ $t(provider_support.name) }}
                     </option>
                 </select>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-3">
-                <div class="col-3">
-                    <label for="where_should_help_be_provided" class="form-label col-form-label-sm">Where should help be provided?</label><br>
-                    <input id="where_should_help_be_provided" placeholder="Later">
-                </div>
-            </div>
-            <div class="col-3">
-                <label for="is_the_degree_of_care_available" class="form-label col-form-label-sm">Is the degree of care available</label><br>
-                <select id="is_the_degree_of_care_available" class="form-select form-select-sm">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <span class="register-form-error" v-if="errors !== null && errors['provider_supports'] !== undefined">{{ errors['provider_supports'][0] }}</span>
+
+                <!--                additional info , disease -->
+                <label for="disease" class="form-label col-form-label-sm">Disease</label>
+                <select id="disease" class="form-select form-select-sm" multiple v-model="clientSearchInfo.disease">
+                    <option v-if="data.additional_info.length > 0"
+                            v-for="info in data.additional_info"
+                            v-bind:value="info.id">
+                        {{ info.data.data }}
+                    </option>
                 </select>
+
+                <label for="other_disease" class="form-label col-form-label-sm">Other disease</label>
+                <input id="other_disease" class="form-control form-control-sm" type="text"
+                       v-model="clientSearchInfo.other_disease">
+
+                <!--degree of care available-->
+                <label for="degree_of_care_available" class="form-label col-form-label-sm">Is the degree of care
+                    available</label><br>
+                <select id="degree_of_care_available" class="form-select form-select-sm"
+                        v-model="clientSearchInfo.degree_of_care_available">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
             </div>
+
+
             <div class="col-3">
+                <!--languages-->
                 <label class="form-label col-form-label-sm">Language skills</label><br>
                 <div class="row">
-                    <div class="col-6">
-                        <select class="form-control form-control-sm" id="languages">
-                            <option value="English">English</option>
-                            <option value="Deutsche">Deutsche</option>
+                    <div class="col-8">
+                        <select class="form-control form-control-sm" id="language" v-model="clientSearchInfo.language">
+                            <option value="english">english</option>
+                            <option value="deutsche">deutsche</option>
+                            <option value="no_matter">no_matter</option>
                         </select>
                     </div>
 
-                    <div class="col-2">
-                        <select class="form-control form-control-sm">
+                    <div class="col-4">
+                        <select class="form-control form-control-sm" v-model="clientSearchInfo.language_level">
                             <option value="A1">A1</option>
                             <option value="A2">A2</option>
                             <option value="B1">B1</option>
                             <option value="B2">B2</option>
                             <option value="C1">C1</option>
                             <option value="C2">C2</option>
+                            <option value="no_matter">no_matter</option>
                         </select>
                     </div>
                 </div>
+
+                <!--                help to move-->
+                <label for="do_you_need_help_moving" class="form-label col-form-label-sm">Do you need help
+                    moving/walking?</label><br>
+                <select class="form-control form-control-sm" id="do_you_need_help_moving"
+                        v-model="clientSearchInfo.do_you_need_help_moving">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
+                <!--                additional means of transportation-->
+                <label for="additional_transportation" class="form-label col-form-label-sm">Additional means of
+                    transportation?</label><br>
+                <select class="form-control form-control-sm" id="additional_transportation"
+                        v-model="clientSearchInfo.additional_transportation">
+                    <option value="need_help_with_walking">need_help_with_walking</option>
+                    <option value="wheelchair">wheelchair</option>
+                    <option value="crutches">crutches</option>
+                    <option value="nothing">nothing</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
+                <!--                Memory-->
+                <label for="memory" class="form-label col-form-label-sm">Memory</label><br>
+                <select class="form-control form-control-sm" id="memory" v-model="clientSearchInfo.memory">
+                    <option value="good">good</option>
+                    <option value="minor_difficulties">minor_difficulties</option>
+                    <option value="significant_difficulties">significant_difficulties</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
+                <!--                suffer from urinary incontinence-->
+                <label for="incontinence" class="form-label col-form-label-sm">Suffer from urinary incontinence?</label><br>
+                <select class="form-control form-control-sm" id="incontinence" v-model="clientSearchInfo.incontinence">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
             </div>
+
+            <div class="col-3">
+
+                <!--                Is there a gender preference for the nurse-->
+                <label for="preference_for_the_nurse" class="form-label col-form-label-sm">Is there a gender preference
+                    for the nurse?</label><br>
+                <select class="form-control form-control-sm" id="preference_for_the_nurse"
+                        v-model="clientSearchInfo.preference_for_the_nurse">
+                    <option value="male">male</option>
+                    <option value="female">female</option>
+                    <option value="no_matter">no_matter</option>
+                </select>
+
+                <!--                hearing-->
+                <label for="hearing" class="form-label col-form-label-sm">Hearing</label><br>
+                <select class="form-control form-control-sm" id="hearing" v-model="clientSearchInfo.hearing">
+                    <option value="good">good</option>
+                    <option value="weak">weak</option>
+                    <option value="difficulties">difficulties</option>
+                    <option value="essential">essential</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
+                <!--                Vision-->
+                <label for="vision" class="form-label col-form-label-sm">Vision</label><br>
+                <select class="form-control form-control-sm" id="vision" v-model="clientSearchInfo.vision">
+                    <option value="good">good</option>
+                    <option value="minor_difficulties">minor_difficulties</option>
+                    <option value="significant_difficulties">significant_difficulties</option>
+                    <option value="unknown">unknown</option>
+                </select>
+
+                <!--                Areas where help is needed-->
+                <label for="areas_help" class="form-label col-form-label-sm">Areas where help is needed</label><br>
+                <select class="form-control form-control-sm" id="areas_help" v-model="clientSearchInfo.areas_help">
+                    <option value="dressing">dressing</option>
+                    <option value="mobility">mobility</option>
+                    <option value="hygiene">hygiene</option>
+                    <option value="preparation_of_medicines">preparation_of_medicines</option>
+                    <option value="skin_care">skin_care</option>
+                </select>
+
+                <label for="other_areas" class="form-label col-form-label-sm">Other areas</label>
+                <input id="other_areas" class="form-control form-control-sm" type="text"
+                       v-model="clientSearchInfo.other_areas">
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <div class="col-3">
                 <label for="one_time_or_regular" class="form-label col-form-label-sm">One-time or regular</label><br>
                 <input id="one_time_or_regular" placeholder="Later">
+
+                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">Where should help be
+                    provided?</label><br>
+                <input id="where_should_help_be_provided" placeholder="Later">
+            </div>
+            <div class="col-3 offset-6">
+                <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">Find</button>
             </div>
         </div>
     </div>
 
-    <!--    <table rules="all">-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>Name</th>-->
-    <!--            <th>Age</th>-->
-    <!--            <th>Photo</th>-->
-    <!--            <th>Zip code</th>-->
-    <!--            <th>Price</th>-->
-    <!--            <th>Description</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr v-if="nurses.length > 0" v-for="nurse in nurses">-->
+    <table v-if="nurses.length > 0" rules="all">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Photo</th>
+            <th>Zip code</th>
+            <th>Price</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="nurses.length > 0" v-for="nurse in nurses">
 
-    <!--            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>-->
-    <!--            <td>{{ nurse.entity.age }}</td>-->
-    <!--            <td>-->
-    <!--                <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">-->
-    <!--            </td>-->
-    <!--            <td>{{ nurse.zip_code }}</td>-->
-    <!--            <td>Price</td>-->
-    <!--            <td>-->
-    <!--                {{ nurse.entity.description}}-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
+            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
+            <td>{{ nurse.entity.age }}</td>
+            <td>
+                <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
+            </td>
+            <td>{{ nurse.zip_code }}</td>
+            <td>Price</td>
+            <td>
+                {{ nurse.entity.description}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

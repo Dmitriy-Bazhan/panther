@@ -55,7 +55,6 @@ class NurseDashboardController extends Controller
 
     public function update(Request $request, $id)
     {
-//        return response()->json(['success' => true, 'request' => $request->allFiles()]);
         $rules = [
             'id' => 'required|numeric',
             'email' => 'required|email',

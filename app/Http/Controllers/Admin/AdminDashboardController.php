@@ -38,7 +38,6 @@ class AdminDashboardController extends Controller
             Nurse::where('id', request('id'))->update([
                 'is_approved' => 'yes',
                 'change_info' => 'no',
-                'info_is_full' => 'no',
             ]);
         }else{
             abort(409);

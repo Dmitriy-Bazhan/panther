@@ -28,7 +28,8 @@ Route::get('/', [MainPageController::class, 'index']);
 
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function (){
     Route::get('/', [MainPageController::class, 'index']);
-    Route::get('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+    Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
+    Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
 });
 
 Route::prefix('dashboard')->group(function () {

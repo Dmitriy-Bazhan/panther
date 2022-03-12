@@ -8,9 +8,30 @@ export default {
     data() {
         return {
             path: location.origin,
-            filterString: '?only_full_info=yes',
             nurses: [],
+            errors: null,
             showReminder: false,
+            clientSearchInfo : {
+                for_whom : 'for_a_relative',
+                name: '',
+                last_name: '',
+                age_range: '40-60',
+                provider_supports: [],
+                disease: [],
+                other_disease : '',
+                degree_of_care_available : 3,
+                language: 'no_matter',
+                language_level: 'no_matter',
+                do_you_need_help_moving: 'unknown',
+                additional_transportation: 'unknown',
+                memory: 'unknown',
+                incontinence: 'unknown',
+                preference_for_the_nurse: 'no_matter',
+                hearing: 'unknown',
+                vision: 'unknown',
+                areas_help: 'hygiene',
+                other_areas: '',
+            }
         }
     },
     watch: {
@@ -18,18 +39,36 @@ export default {
             if (showReminder) {
                 document.addEventListener('click', this.closeReminderBlock);
             }
-        }
+        },
     },
 
     mounted() {
-        console.log(this.data);
-        this.getNurses();
+        this.getClientSearchInfo();
     },
     methods: {
-        getNurses() {
-            axios.get('listing/get-nurses-to-listing' + this.filterString)
+        getClientSearchInfo(){
+            axios.get('listing/get-client-search-info')
                 .then((response) => {
-                    this.nurses = response.data.data;
+                    this.clientSearchInfo = response.data.clientSearchInfo;
+                    this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
+                    this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+
+        findNeedNurses() {
+            // console.log(this.clientSearchInfo);
+            axios.post('listing/get-nurses-to-listing', {'clientSearchInfo' : this.clientSearchInfo})
+                .then((response) => {
+                    if (response.data.success) {
+                        this.errors = null;
+                        console.log(response.data);
+                        this.nurses = response.data.nurses;
+                    } else {
+                        this.errors = response.data.errors;
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
