@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Nurse;
+use App\Models\NursePrice;
 use App\Models\User;
 use App\Models\UserPref;
 use Illuminate\Http\Request;
@@ -188,6 +189,10 @@ class RegisterController extends Controller
             $userPrefs->user_id = $userId;
             $userPrefs->pref_lang = 'de';
             $userPrefs->save();
+
+            $nursePrice = new NursePrice();
+            $nursePrice->nurse_id = $newNurseId;
+            $nursePrice->save();
 
             request()->merge([
                 'email' => $data['email'],

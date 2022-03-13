@@ -1,0 +1,76 @@
+<div>
+    <h1>Payments</h1>
+
+    <h1>Prices</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+
+                <!--                hourly_payment-->
+                <label for="hourly_payment" class="form-label col-form-label-sm">hourly_payment</label>
+                <input type="number" id="hourly_payment" min="15" step="1"
+                       v-model="price.hourly_payment"
+                       v-on:change="checkChangesInPrices()">
+
+            </div>
+            <div class="col-3">
+
+                <!--                weekend_surcharge-->
+                <label for="weekend_surcharge" class="form-label col-form-label-sm">weekend_surcharge</label>
+                <select id="weekend_surcharge" class="form-select form-select-sm" v-model="price.weekend_surcharge">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                </select>
+
+                <!--                weekend_surcharge_payment-->
+                <label for="weekend_surcharge_payment" class="form-label col-form-label-sm">weekend_surcharge_payment</label>
+                <input type="number" id="weekend_surcharge_payment" min="10" step="10"
+                       v-model="price.weekend_surcharge_payment"
+                       v-on:change="checkChangesInPrices()">
+
+            </div>
+
+            <div class="col-3">
+
+                <!--                holiday_surcharge-->
+                <label for="holiday_surcharge" class="form-label col-form-label-sm">holiday_surcharge</label>
+                <select id="holiday_surcharge" class="form-select form-select-sm" v-model="price.holiday_surcharge">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                </select>
+
+                <!--                holiday_surcharge_payment-->
+                <label for="holiday_surcharge_payment" class="form-label col-form-label-sm">holiday_surcharge_payment</label>
+                <input type="number" id="holiday_surcharge_payment" min="10" step="10"
+                       v-model="price.holiday_surcharge_payment"
+                       v-on:change="checkChangesInPrices()">
+
+            </div>
+
+            <div class="col-3">
+
+                <!--                fare_surcharge-->
+                <label for="fare_surcharge" class="form-label col-form-label-sm">fare_surcharge</label>
+                <select id="fare_surcharge" class="form-select form-select-sm" v-model="price.fare_surcharge">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                </select>
+
+                <!--                fare_surcharge_payment-->
+                <label for="fare_surcharge_payment" class="form-label col-form-label-sm">fare_surcharge_payment</label>
+                <input type="number" id="fare_surcharge_payment" min="10" max="50" step="5"
+                       v-model="price.fare_surcharge_payment"
+                       v-on:change="checkChangesInPrices()">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-success btn-sm" v-on:click="storePrices()">Store</button>
+
+<!--<select id="for_whom" class="form-select form-select-sm" v-model="clientSearchInfo.for_whom">-->
+<!--    <option value="to_me">to_me</option>-->
+<!--    <option value="for_a_relative">for_a_relative</option>-->
+<!--</select>-->

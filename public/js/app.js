@@ -26539,23 +26539,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js ***!
-  \*****************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Payments"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Ratings.vue?vue&type=script&lang=js":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Ratings.vue?vue&type=script&lang=js ***!
@@ -28091,31 +28074,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Overview", -1
-/* HOISTED */
-);
-
-var _hoisted_2 = [_hoisted_1];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49 ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Payments", -1
 /* HOISTED */
 );
 
@@ -29663,7 +29621,7 @@ __webpack_require__.r(__webpack_exports__);
       var user = JSON.stringify(this.user);
       formData.append('user', user);
       console.log(this.user.entity);
-      axios.post('/dashboard/nurse/' + this.user.id, formData, {
+      axios.post('/dashboard/nurse-my-information/' + this.user.id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -29683,6 +29641,76 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     photoUpload: function photoUpload() {//todo:: photo preview
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/payments/index.js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/payments/index.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/nurse-dashboard/components/payments/template.html");
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/dashboards/nurse-dashboard/components/payments/style.css");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Payments",
+  template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  props: ['user', 'data'],
+  data: function data() {
+    return {
+      price: {}
+    };
+  },
+  mounted: function mounted() {
+    this.price = this.user.entity.price;
+  },
+  methods: {
+    storePrices: function storePrices() {
+      this.user.entity.price = this.price;
+      axios.put('/dashboard/nurse-payments/' + this.user.entity.id, {
+        'price': this.user.entity.price
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    checkChangesInPrices: function checkChangesInPrices() {
+      this.price.hourly_payment = Math.round(this.price.hourly_payment);
+      this.price.weekend_surcharge_payment = Math.ceil(this.price.weekend_surcharge_payment / 10) * 10;
+      this.price.holiday_surcharge_payment = Math.ceil(this.price.holiday_surcharge_payment / 10) * 10;
+      this.price.fare_surcharge_payment = Math.ceil(this.price.fare_surcharge_payment / 5) * 5;
+
+      if (this.price.hourly_payment < 15) {
+        this.price.hourly_payment = 15;
+      }
+
+      if (this.price.weekend_surcharge_payment < 10) {
+        this.price.weekend_surcharge_payment = 10;
+      }
+
+      if (this.price.holiday_surcharge_payment < 10) {
+        this.price.holiday_surcharge_payment = 10;
+      }
+
+      if (this.price.fare_surcharge_payment < 5) {
+        this.price.fare_surcharge_payment = 5;
+      }
+
+      if (this.price.fare_surcharge_payment > 50) {
+        this.price.fare_surcharge_payment = 50;
+      }
     }
   }
 });
@@ -30038,7 +30066,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dashboards_nurse_dashboard_components_Messages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/Messages */ "./resources/js/dashboards/nurse-dashboard/components/Messages.vue");
 /* harmony import */ var _dashboards_nurse_dashboard_components_Ratings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/Ratings */ "./resources/js/dashboards/nurse-dashboard/components/Ratings.vue");
 /* harmony import */ var _dashboards_nurse_dashboard_components_Bookings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/Bookings */ "./resources/js/dashboards/nurse-dashboard/components/Bookings.vue");
-/* harmony import */ var _dashboards_nurse_dashboard_components_Payments__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/Payments */ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue");
+/* harmony import */ var _dashboards_nurse_dashboard_components_payments_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/payments/index */ "./resources/js/dashboards/nurse-dashboard/components/payments/index.js");
 /* harmony import */ var _dashboards_nurse_dashboard_components_my_information_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/my-information/index */ "./resources/js/dashboards/nurse-dashboard/components/my-information/index.js");
 /* harmony import */ var _dashboards_nurse_dashboard_components_HelpAndService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dashboards/nurse-dashboard/components/HelpAndService */ "./resources/js/dashboards/nurse-dashboard/components/HelpAndService.vue");
 
@@ -30068,7 +30096,8 @@ var routes = [{
 }, {
   path: "/dashboard/nurse/payments",
   name: 'NurseDashboardPayments',
-  component: _dashboards_nurse_dashboard_components_Payments__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _dashboards_nurse_dashboard_components_payments_index__WEBPACK_IMPORTED_MODULE_4__["default"],
+  props: true
 }, {
   path: "/dashboard/nurse/my-information/",
   name: 'NurseDashboardMyInformation',
@@ -30197,6 +30226,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "table , th, td{\r\n    border: solid 1px gray;\r\n    font-size: 14px;\r\n}\r\nth, td {\r\n    padding: 5px;\r\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/nurse-dashboard/components/payments/style.css":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/nurse-dashboard/components/payments/style.css ***!
+  \***************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30579,6 +30632,19 @@ module.exports = code;
 
 // Module
 var code = "<div>\n    <h2>My information</h2>\n    <span style=\"font-size: 10px\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!-- first name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"first_name\" class=\"form-label col-form-label-sm\">First name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.first_name\"\n                               id=\"first_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['first_name'] !== undefined\">{{ errors['first_name'][0] }}</span>\n                </div>\n\n                <!-- last name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.last_name\"\n                               id=\"last_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n                </div>\n\n                <!-- email -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"email\" class=\"form-label col-form-label-sm\">Email</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"email\" class=\"form-control form-control-sm\" v-model=\"user.email\" id=\"email\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['email'] !== undefined\">{{ errors['email'][0] }}</span>\n                </div>\n\n                <!-- phone -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"phone\" class=\"form-label col-form-label-sm\">Phone</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.phone\" id=\"phone\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['phone'] !== undefined\">{{ errors['phone'][0] }}</span>\n                </div>\n\n                <!-- zip code -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"zip_code\" class=\"form-label col-form-label-sm\">Zip code</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.zip_code\"\n                               id=\"zip_code\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['zip_code'] !== undefined\">{{ errors['zip_code'][0] }}</span>\n                </div>\n\n                <!-- gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"gender\" class=\"form-label col-form-label-sm\">Gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.gender\" id=\"gender\">\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.gender'] !== undefined\">{{ errors['entity.gender'][0] }}</span>\n                </div>\n\n                <!-- age -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"age\" class=\"form-label col-form-label-sm\">Age</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.age\" id=\"age\"\n                               min=\"18\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.age'] !== undefined\">{{ errors['entity.age'][0] }}</span>\n                </div>\n\n                <!-- experience -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"experience\" class=\"form-label col-form-label-sm\">Experience</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.experience\"\n                               id=\"experience\" min=\"0\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.experience'] !== undefined\">{{ errors['entity.experience'][0] }}</span>\n                </div>\n\n                <!-- languages -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"languages\" class=\"form-label col-form-label-sm\">Languages</label>\n                    </div>\n\n                    <div class=\"col-6\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].lang\" id=\"languages\">\n                            <option value=\"English\">English</option>\n                            <option value=\"Deutsche\">Deutsche</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-2\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].level\" id=\"\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.lang'] !== undefined\">{{ errors['entity.languages.0.lang'][0] }}</span>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.level'] !== undefined\">{{ errors['entity.languages.0.level'][0] }}</span>\n                </div>\n            </div>\n\n            <div class=\"col-3\">\n                <!-- pref client gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"pref_client_gender\" class=\"form-label col-form-label-sm\">Preference client\n                            gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.pref_client_gender\"\n                                id=\"pref_client_gender\">\n                            <option value=\"no_matter\">No matter</option>\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.pref_client_gender'] !== undefined\">{{ errors['entity.pref_client_gender'][0] }}</span>\n                </div>\n\n                <!-- available care range -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"available_care_range\" class=\"form-label col-form-label-sm\">Available care\n                            range</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.available_care_range\"\n                                id=\"available_care_range\">\n                            <option value=\"1\">1</option>\n                            <option value=\"2\">2</option>\n                            <option value=\"3\">3</option>\n                            <option value=\"4\">4</option>\n                            <option value=\"5\">5</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.available_care_range'] !== undefined\">{{ errors['entity.available_care_range'][0] }}</span>\n                </div>\n\n                <!-- multiple bookings -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"multiple_bookings\" class=\"form-label col-form-label-sm\">Multiple\n                            bookings</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.multiple_bookings\"\n                                id=\"multiple_bookings\">\n                            <option value=\"yes\">Yes</option>\n                            <option value=\"no\">No</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\n                </div>\n\n                <!-- provide supports -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"provide_supports\" class=\"form-label col-form-label-sm\">Provide supports</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.provide_supports\"\n                                id=\"provide_supports\" multiple>\n                            <option v-for=\"support in data.provider_supports\"\n                                    :value=\"support\">\n                                {{ $t(support.name) }}\n                            </option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.provide_supports'] !== undefined\">{{ errors['entity.provide_supports'][0] }}</span>\n\n                </div>\n\n            </div>\n\n            <div class=\"col-2 offset-3\">\n\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\" class=\"my-information-photo\">\n                </div>\n\n                <div v-else class=\"my-information-photo-wrapper\">\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\n\n                </div>\n\n                <input type=\"file\" name=\"nurse_new_photo\"\n                       ref=\"file\"\n                       v-on:change=\"photoUpload()\"\n                       class=\"form-control-file form-control-sm\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-6\">\n                <!-- description -->\n                <div class=\"row\">\n                    <div class=\"col-2\">\n                        <label for=\"description\" class=\"form-label col-form-label-sm\">Description</label>\n                    </div>\n\n                    <div class=\"col-10\">\n                            <textarea class=\"form-control form-control-sm\" v-model=\"user.entity.description\"\n                                      id=\"description\" rows=\"6\">\n\n                            </textarea>\n                        <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.description'] !== undefined\">{{ errors['entity.description'][0] }}</span>\n                    </div>\n                </div>\n                <div class=\"row\">\n\n\n                    <div class=\"col-2\">\n                        <label for=\"additional_info\" class=\"form-label col-form-label-sm\">Additional info</label>\n                    </div>\n\n                    <div class=\"col-6\">\n\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.additional_info\"\n                                id=\"additional_info\" multiple>\n                            <option v-for=\"(info_item, index) in data.additional_info\"\n                                    :value=\"info_item\">\n                                {{ data.additional_info_data[index].data }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-12 justify-content-center\">\n                        <span class=\"form-label col-form-label-sm\">Indicate the hours you available to work</span>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-8 offset-2\">\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Weekdays</div>\n                            <div class=\"col-4 justify-content-center\">Weekends</div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Mon-Fri</div>\n                            <div class=\"col-4 justify-content-center\">Sat-Sun</div>\n                        </div>\n\n<!--                        Morning-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">6a - 12p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_morning\">\n                                &nbsp;<label for=\"weekdays_morning\">Morning</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_morning\">\n                                &nbsp;<label for=\"weekends_morning\">Morning</label>\n                            </div>\n                        </div>\n<!--                        Afternoon-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">12p - 4p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_afternoon\">\n                                &nbsp;<label for=\"weekdays_afternoon\">Afternoon</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_afternoon\">\n                                &nbsp;<label for=\"weekends_afternoon\">Afternoon</label>\n                            </div>\n                        </div>\n<!--                        Evening-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">4p - 8p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_evening\">\n                                &nbsp;<label for=\"weekdays_evening\">Evening</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_evening\">\n                                &nbsp;<label for=\"weekends_evening\">Evening</label>\n                            </div>\n                        </div>\n<!--                        Overnight-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">8p - 6a</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_overnight\">\n                                &nbsp;<label for=\"weekdays_overnight\">Overnight</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_overnight\">\n                                &nbsp;<label for=\"weekends_overnight\">Overnight</label>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\n                <div>\n                    criminal record\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{ item.original_name }}</p><br>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\n                </div>\n\n                <div>\n                    documentation of training\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{ item.original_name }}</p>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\n                </div>\n\n                <div>\n                    CPR course\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{ item.original_name }}</p>\n                </div>\n\n                <div>\n                    references\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'references')\">{{ item.original_name }}</p>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">Update</button>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n\n\n";
+// Exports
+module.exports = code;
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/payments/template.html":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/payments/template.html ***!
+  \***********************************************************************************/
+/***/ ((module) => {
+
+// Module
+var code = "<div>\n    <h1>Payments</h1>\n\n    <h1>Prices</h1>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!--                hourly_payment-->\n                <label for=\"hourly_payment\" class=\"form-label col-form-label-sm\">hourly_payment</label>\n                <input type=\"number\" id=\"hourly_payment\" min=\"15\" step=\"1\"\n                       v-model=\"price.hourly_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n            <div class=\"col-3\">\n\n                <!--                weekend_surcharge-->\n                <label for=\"weekend_surcharge\" class=\"form-label col-form-label-sm\">weekend_surcharge</label>\n                <select id=\"weekend_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.weekend_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                weekend_surcharge_payment-->\n                <label for=\"weekend_surcharge_payment\" class=\"form-label col-form-label-sm\">weekend_surcharge_payment</label>\n                <input type=\"number\" id=\"weekend_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.weekend_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                holiday_surcharge-->\n                <label for=\"holiday_surcharge\" class=\"form-label col-form-label-sm\">holiday_surcharge</label>\n                <select id=\"holiday_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.holiday_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                holiday_surcharge_payment-->\n                <label for=\"holiday_surcharge_payment\" class=\"form-label col-form-label-sm\">holiday_surcharge_payment</label>\n                <input type=\"number\" id=\"holiday_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.holiday_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                fare_surcharge-->\n                <label for=\"fare_surcharge\" class=\"form-label col-form-label-sm\">fare_surcharge</label>\n                <select id=\"fare_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.fare_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                fare_surcharge_payment-->\n                <label for=\"fare_surcharge_payment\" class=\"form-label col-form-label-sm\">fare_surcharge_payment</label>\n                <input type=\"number\" id=\"fare_surcharge_payment\" min=\"10\" max=\"50\" step=\"5\"\n                       v-model=\"price.fare_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n        </div>\n    </div>\n</div>\n\n<button class=\"btn btn-success btn-sm\" v-on:click=\"storePrices()\">Store</button>\n\n<!--<select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">-->\n<!--    <option value=\"to_me\">to_me</option>-->\n<!--    <option value=\"for_a_relative\">for_a_relative</option>-->\n<!--</select>-->\n";
 // Exports
 module.exports = code;
 
@@ -54258,6 +54324,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/nurse-dashboard/components/payments/style.css":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/payments/style.css ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/nurse-dashboard/components/payments/style.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/pages/listing/style.css":
 /*!**********************************************!*\
   !*** ./resources/js/pages/listing/style.css ***!
@@ -57815,34 +57911,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue":
-/*!*************************************************************************!*\
-  !*** ./resources/js/dashboards/nurse-dashboard/components/Payments.vue ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Payments_vue_vue_type_template_id_48c23a49__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Payments.vue?vue&type=template&id=48c23a49 */ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49");
-/* harmony import */ var _Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Payments.vue?vue&type=script&lang=js */ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Payments_vue_vue_type_template_id_48c23a49__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/nurse-dashboard/components/Payments.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/nurse-dashboard/components/Ratings.vue":
 /*!************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/Ratings.vue ***!
@@ -58569,22 +58637,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************!*\
-  !*** ./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Payments.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/nurse-dashboard/components/Ratings.vue?vue&type=script&lang=js":
 /*!************************************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/Ratings.vue?vue&type=script&lang=js ***!
@@ -59157,22 +59209,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Overview_vue_vue_type_template_id_0b811295__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Overview_vue_vue_type_template_id_0b811295__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Overview.vue?vue&type=template&id=0b811295 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Overview.vue?vue&type=template&id=0b811295");
-
-
-/***/ }),
-
-/***/ "./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49 ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_template_id_48c23a49__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_template_id_48c23a49__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Payments.vue?vue&type=template&id=48c23a49 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/Payments.vue?vue&type=template&id=48c23a49");
 
 
 /***/ }),

@@ -39,6 +39,7 @@ class Nurse extends Model
         'languages',
         'files',
         'additionalInfo',
+        'price',
     ];
 
     public function users()
@@ -59,6 +60,10 @@ class Nurse extends Model
     public function files()
     {
         return $this->hasMany('App\Models\NurseFile', 'nurse_id', 'id');
+    }
+
+    public function price(){
+        return $this->hasOne('App\Models\NursePrice', 'nurse_id', 'id');
     }
 
     public function additionalInfo()

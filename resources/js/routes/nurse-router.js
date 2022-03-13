@@ -3,7 +3,7 @@ import Overview from "../dashboards/nurse-dashboard/components/Overview";
 import Messages from "../dashboards/nurse-dashboard/components/Messages";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
-import Payments from "../dashboards/nurse-dashboard/components/Payments";
+import Payments from "../dashboards/nurse-dashboard/components/payments/index";
 import MyInformation from "../dashboards/nurse-dashboard/components/my-information/index";
 import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";
 
@@ -31,7 +31,8 @@ const routes = [
     {
         path: "/dashboard/nurse/payments",
         name: 'NurseDashboardPayments',
-        component: Payments
+        component: Payments,
+        props: true,
     },
     {
         path: "/dashboard/nurse/my-information/",

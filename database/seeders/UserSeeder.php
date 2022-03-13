@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\NurseLang;
+use App\Models\NursePrice;
 use App\Models\User;
 use App\Models\UserPref;
 use Illuminate\Database\Seeder;
@@ -93,6 +94,10 @@ class UserSeeder extends Seeder
             $userPrefs->user_id = $nurseId;
             $userPrefs->pref_lang = 'de';
             $userPrefs->save();
+
+            $nursePrice = new NursePrice();
+            $nursePrice->nurse_id = $entityId;
+            $nursePrice->save();
         }
 
         Nurse::where('id', 1)->update([

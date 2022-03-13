@@ -6,6 +6,7 @@ use App\Models\AdditionalInfoAssigned;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\NurseLang;
+use App\Models\NursePrice;
 use App\Models\ProvideSupportAssigned;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -240,5 +241,29 @@ class NurseRepository
 
         }
         return true;
+    }
+
+    public function updatePrice($price = null)
+    {
+        if (is_null($price) || !is_array($price)) {
+            return false;
+        }
+
+        $success = NursePrice::where('id', $price['id'])->update([
+            'hourly_payment' => $price['hourly_payment'],
+            'weekend_surcharge' => $price['weekend_surcharge'],
+            'weekend_surcharge_payment' => $price['weekend_surcharge_payment'],
+            'holiday_surcharge' => $price['holiday_surcharge'],
+            'holiday_surcharge_payment' => $price['holiday_surcharge_payment'],
+            'fare_surcharge' => $price['fare_surcharge'],
+            'fare_surcharge_payment' => $price['fare_surcharge_payment'],
+        ]);
+
+        if ($success) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
