@@ -1,6 +1,6 @@
 <template>
     <div v-on:click="changeLang">
-        Lang : {{ $t('lang') }}
+        Lang : <span  class="locale-name">{{ $t('lang') }}</span>
     </div>
 </template>
 
@@ -34,5 +34,8 @@ export default {
 </script>
 
 <style scoped>
+.locale-name{
+    cursor:pointer;
 
+}
 </style>

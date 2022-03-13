@@ -26556,85 +26556,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Footer"
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _pages_components_Localization__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../pages/components/Localization */ "./resources/js/pages/components/Localization.vue");
-/* harmony import */ var _pages_components_Logout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../pages/components/Logout */ "./resources/js/pages/components/Logout.vue");
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Header",
-  props: ['auth'],
-  components: {
-    'localization-component': _pages_components_Localization__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'logout-component': _pages_components_Logout__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  mounted: function mounted() {},
-  methods: {
-    toDashboard: function toDashboard() {
-      if (window.guard === 'admin') {
-        location.href = '/dashboard/admin';
-      }
-
-      if (window.guard === 'client') {
-        location.href = '/dashboard/client';
-      }
-
-      if (window.guard === 'nurse') {
-        location.href = '/dashboard/nurse';
-      }
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js":
-/*!****************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "LeftPanel",
-  props: ['user'],
-  mounted: function mounted() {// console.log(this.user);
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/auth/ClientRegister.vue?vue&type=script&lang=js":
 /*!********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/auth/ClientRegister.vue?vue&type=script&lang=js ***!
@@ -26661,6 +26582,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       errors: null
     };
+  },
+  mounted: function mounted() {
+    this.emitter.emit('not-show-left-panel');
   },
   methods: {
     sendForm: function sendForm(event) {
@@ -26710,6 +26634,9 @@ __webpack_require__.r(__webpack_exports__);
       errors: null,
       checkbox: false
     };
+  },
+  mounted: function mounted() {
+    this.emitter.emit('not-show-left-panel');
   },
   methods: {
     SendLogin: function SendLogin(event) {
@@ -26768,6 +26695,9 @@ __webpack_require__.r(__webpack_exports__);
       errors: null
     };
   },
+  mounted: function mounted() {
+    this.emitter.emit('not-show-left-panel');
+  },
   methods: {
     sendForm: function sendForm(event) {
       var _this = this;
@@ -26809,6 +26739,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "StartRegister",
+  mounted: function mounted() {
+    this.emitter.emit('not-show-left-panel');
+  },
   methods: {
     toClientRegister: function toClientRegister() {
       location.href = '/client-register';
@@ -26905,6 +26838,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Home"
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Footer"
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_Localization__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Localization */ "./resources/js/pages/components/Localization.vue");
+/* harmony import */ var _components_Logout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Logout */ "./resources/js/pages/components/Logout.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Header",
+  props: ['auth'],
+  components: {
+    'localization-component': _components_Localization__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'logout-component': _components_Logout__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  mounted: function mounted() {},
+  methods: {
+    toDashboard: function toDashboard() {
+      if (window.guard === 'admin') {
+        location.href = '/dashboard/admin';
+      }
+
+      if (window.guard === 'client') {
+        location.href = '/dashboard/client';
+      }
+
+      if (window.guard === 'nurse') {
+        location.href = '/dashboard/nurse';
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "LeftPanel",
+  props: ['user'],
+  mounted: function mounted() {// console.log(this.user);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "NursesListing",
+  props: ['nurses', 'data'],
+  data: function data() {
+    return {
+      path: location.origin
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.nurses);
+  },
+  methods: {
+    cliseModalNurseListing: function cliseModalNurseListing() {
+      this.emitter.emit('clise-modal-nurse-listing');
+    },
+    newPage: function newPage(url) {
+      console.log(url);
+    }
+  }
 });
 
 /***/ }),
@@ -28109,193 +28155,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6 ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-var _hoisted_1 = {
-  style: {
-    "margin-top": "40%"
-  }
-};
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Footer", -1
-/* HOISTED */
-);
-
-var _hoisted_3 = [_hoisted_2];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _hoisted_3);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _withScopeId = function _withScopeId(n) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-26ff7fc2"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
-};
-
-var _hoisted_1 = {
-  "class": "container-fluid main-header"
-};
-var _hoisted_2 = {
-  "class": "row header-wrapper"
-};
-var _hoisted_3 = {
-  "class": "col-2 offset-8"
-};
-var _hoisted_4 = {
-  key: 0,
-  "class": "col-2"
-};
-
-var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "login"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-success"
-  }, "Login")], -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
-
-var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "register"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-success"
-  }, "Register")], -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_8 = [_hoisted_5, _hoisted_6, _hoisted_7];
-var _hoisted_9 = {
-  key: 1,
-  "class": "col-2"
-};
-
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_localization_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("localization-component");
-
-  var _component_logout_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("logout-component");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_localization_component)]), !$props.auth || $props.auth.email_verified_at === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_8)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.auth.first_name), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.toDashboard && $options.toDashboard.apply($options, arguments);
-    }),
-    "class": "btn btn-sm btn-success"
-  }, "Dashboard"), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_component)]))])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _withScopeId = function _withScopeId(n) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-57b462ca"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
-};
-
-var _hoisted_1 = {
-  "class": "main-left-panel"
-};
-
-var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, " Main Left Panel ", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_3 = {
-  "class": "list-group list-group-flush"
-};
-
-var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "list-group-item"
-  }, "Home", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_5 = {
-  key: 0,
-  "class": "list-group-item"
-};
-var _hoisted_6 = {
-  key: 1,
-  "class": "list-group-item"
-};
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Listing");
-
-var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "list-group-item"
-  }, "Bookings", -1
-  /* HOISTED */
-  );
-});
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [_hoisted_4, $props.user.entity_type !== 'nurse' && $props.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_5, "Search")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.user.entity_type !== 'nurse' && $props.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: {
-      name: 'Listing'
-    }
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_7];
-    }),
-    _: 1
-    /* STABLE */
-
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_8])]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/auth/ClientRegister.vue?vue&type=template&id=0e76469c":
 /*!************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/auth/ClientRegister.vue?vue&type=template&id=0e76469c ***!
@@ -28948,10 +28807,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9 ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -28961,14 +28820,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-6b3e96b9"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Lang : ");
+
+var _hoisted_2 = {
+  "class": "locale-name"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.changeLang && $options.changeLang.apply($options, arguments);
     })
-  }, " Lang : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('lang')), 1
+  }, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('lang')), 1
   /* TEXT */
-  );
+  )]);
 }
 
 /***/ }),
@@ -29018,6 +28887,337 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_2 = [_hoisted_1];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-811a6dac"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "footer-wrapper"
+};
+
+var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Footer", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_3 = [_hoisted_2];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _hoisted_3);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3eb5a5c8"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "container-fluid main-header"
+};
+var _hoisted_2 = {
+  "class": "row header-wrapper"
+};
+var _hoisted_3 = {
+  "class": "col-2 offset-8"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "col-2"
+};
+
+var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "login"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-success"
+  }, "Login")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "register"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-success"
+  }, "Register")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_8 = [_hoisted_5, _hoisted_6, _hoisted_7];
+var _hoisted_9 = {
+  key: 1,
+  "class": "col-2"
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_localization_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("localization-component");
+
+  var _component_logout_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("logout-component");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_localization_component)]), !$props.auth || $props.auth.email_verified_at === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_8)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.auth.first_name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.toDashboard && $options.toDashboard.apply($options, arguments);
+    }),
+    "class": "btn btn-sm btn-success"
+  }, "Dashboard"), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_component)]))])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-293c647e"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "main-left-panel"
+};
+
+var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, " Main Left Panel ", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_3 = {
+  "class": "list-group list-group-flush"
+};
+
+var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "list-group-item"
+  }, "Home", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_5 = {
+  key: 0,
+  "class": "list-group-item"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Listing");
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "list-group-item"
+  }, "Bookings", -1
+  /* HOISTED */
+  );
+});
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [_hoisted_4, $props.user.entity_type !== 'nurse' && $props.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: {
+      name: 'Listing'
+    }
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_6];
+    }),
+    _: 1
+    /* STABLE */
+
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_7])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-8670cdac"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "container-fluid"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-1 offset-11"
+};
+var _hoisted_4 = {
+  "class": "container-fluid nurse-cards-container"
+};
+var _hoisted_5 = {
+  "class": "row"
+};
+var _hoisted_6 = {
+  "class": "col-4 nurse-cards-wrapper"
+};
+var _hoisted_7 = {
+  "class": "nurse-card"
+};
+var _hoisted_8 = {
+  "class": "row"
+};
+var _hoisted_9 = {
+  "class": "col-7"
+};
+var _hoisted_10 = {
+  "class": "nurse-card-item"
+};
+var _hoisted_11 = {
+  "class": "nurse-card-item"
+};
+var _hoisted_12 = {
+  "class": "nurse-card-item"
+};
+var _hoisted_13 = {
+  "class": "nurse-card-item"
+};
+
+var _hoisted_14 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "nurse-card-item"
+  }, "distance: distance", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_15 = {
+  "class": "col-5 nurse-card-image-wrapper"
+};
+var _hoisted_16 = ["src"];
+var _hoisted_17 = {
+  "class": "row"
+};
+var _hoisted_18 = {
+  "class": "col-12"
+};
+
+var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_20 = {
+  "class": "container-fluid"
+};
+var _hoisted_21 = {
+  "class": "row"
+};
+var _hoisted_22 = {
+  "class": "col-12 justify-content-center"
+};
+var _hoisted_23 = {
+  "class": "nurse-link-wrapper"
+};
+var _hoisted_24 = ["onClick"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success btn-sm",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.cliseModalNurseListing();
+    })
+  }, "close")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [$props.nurses.data.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nurses.data, function (nurse) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, "name: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nurse.first_name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, "last_name: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nurse.last_name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, "age: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nurse.entity.age), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, "price: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nurse.entity.price.hourly_payment), 1
+    /* TEXT */
+    ), _hoisted_14])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: $data.path + '/storage/' + nurse.entity.original_photo,
+      alt: "no-photo",
+      "class": "nurse-card-image"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_16)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "description: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nurse.entity.description), 1
+    /* TEXT */
+    )])])])]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [$props.nurses.links.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nurses.links, function (link) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      onClick: function onClick($event) {
+        return $options.newPage(link.url);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(link.label), 9
+    /* TEXT, PROPS */
+    , _hoisted_24)]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),
@@ -29809,9 +30009,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wrapper_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wrapper.html */ "./resources/js/pages/app/wrapper.html");
 /* harmony import */ var _wrapper_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wrapper_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _layouts_app_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../layouts/app/Header */ "./resources/js/layouts/app/Header.vue");
-/* harmony import */ var _layouts_app_Footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../layouts/app/Footer */ "./resources/js/layouts/app/Footer.vue");
-/* harmony import */ var _layouts_app_LeftPanel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../layouts/app/LeftPanel */ "./resources/js/layouts/app/LeftPanel.vue");
+/* harmony import */ var _layouts_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../layouts/Header */ "./resources/js/pages/layouts/Header.vue");
+/* harmony import */ var _layouts_Footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../layouts/Footer */ "./resources/js/pages/layouts/Footer.vue");
+/* harmony import */ var _layouts_LeftPanel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../layouts/LeftPanel */ "./resources/js/pages/layouts/LeftPanel.vue");
 
 
 
@@ -29822,14 +30022,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showHeader: true,
-      showFooter: true
+      showFooter: true,
+      showLeftPanel: true
     };
   },
   template: (_wrapper_html__WEBPACK_IMPORTED_MODULE_0___default()),
   components: {
-    'panther-header': _layouts_app_Header__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'panther-footer': _layouts_app_Footer__WEBPACK_IMPORTED_MODULE_2__["default"],
-    'left-panel': _layouts_app_LeftPanel__WEBPACK_IMPORTED_MODULE_3__["default"]
+    'panther-header': _layouts_Header__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'panther-footer': _layouts_Footer__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'left-panel': _layouts_LeftPanel__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   mounted: function mounted() {
     var _this = this;
@@ -29838,6 +30039,13 @@ __webpack_require__.r(__webpack_exports__);
       _this.showHeader = false;
       _this.showFooter = false;
     });
+    this.emitter.on('not-show-left-panel', function (e) {
+      _this.showLeftPanel = false;
+    });
+
+    if (this.user === false) {
+      this.showLeftPanel = false;
+    }
   }
 });
 
@@ -29856,12 +30064,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/pages/listing/template.html");
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/pages/listing/style.css");
+/* harmony import */ var _NursesListing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NursesListing */ "./resources/js/pages/listing/NursesListing.vue");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ "./resources/js/pages/listing/style.css");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'listing',
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  components: {
+    'nurses-listing': _NursesListing__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: ['data'],
   data: function data() {
     return {
@@ -29869,6 +30082,7 @@ __webpack_require__.r(__webpack_exports__);
       nurses: [],
       errors: null,
       showReminder: false,
+      showModalNursesListing: false,
       clientSearchInfo: {
         for_whom: 'for_a_relative',
         name: '',
@@ -29900,33 +30114,38 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.getClientSearchInfo();
+    this.emitter.on('clise-modal-nurse-listing', function (e) {
+      _this.showModalNursesListing = false;
+    });
   },
   methods: {
     getClientSearchInfo: function getClientSearchInfo() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('listing/get-client-search-info').then(function (response) {
-        _this.clientSearchInfo = response.data.clientSearchInfo;
-        _this.clientSearchInfo.provider_supports = JSON.parse(_this.clientSearchInfo.provider_supports);
-        _this.clientSearchInfo.disease = JSON.parse(_this.clientSearchInfo.disease);
+        _this2.clientSearchInfo = response.data.clientSearchInfo;
+        _this2.clientSearchInfo.provider_supports = JSON.parse(_this2.clientSearchInfo.provider_supports);
+        _this2.clientSearchInfo.disease = JSON.parse(_this2.clientSearchInfo.disease);
       })["catch"](function (error) {
         console.log(error);
       });
     },
     findNeedNurses: function findNeedNurses() {
-      var _this2 = this;
+      var _this3 = this;
 
-      // console.log(this.clientSearchInfo);
       axios.post('listing/get-nurses-to-listing', {
         'clientSearchInfo': this.clientSearchInfo
       }).then(function (response) {
         if (response.data.success) {
-          _this2.errors = null;
+          _this3.errors = null;
           console.log(response.data);
-          _this2.nurses = response.data.nurses;
+          _this3.nurses = response.data.nurses;
+          _this3.showModalNursesListing = true;
         } else {
-          _this2.errors = response.data.errors;
+          _this3.errors = response.data.errors;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -30273,7 +30492,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".listing-reminder-begin {\n    font-size: 14px;\n    color: green;\n}\n\n.listing-reminder-end {\n    font-size: 12px;\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\n\n.block-with-reminder {\n    position: absolute;\n    border: solid 1px red;\n    border-radius: 10px;\n    background: blue;\n    padding: 10px;\n    width: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".listing-reminder-begin {\n    font-size: 14px;\n    color: green;\n}\n\n.listing-reminder-end {\n    font-size: 12px;\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\n\n.block-with-reminder {\n    position: absolute;\n    border: solid 1px red;\n    border-radius: 10px;\n    background: blue;\n    padding: 10px;\n    width: 50%;\n}\n\n.nurses-listing-wrapper {\n    position: fixed;\n    width: 70%;\n    top: 10%;\n    left: 20%;\n    background: #d9d9d9;\n    padding: 15px;\n    border: #888888;\n    border-radius: 10px;\n    height: 70%;\n    z-index: 100;\n    overflow: auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30448,10 +30667,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-dashboard-left-panel[data-v-d
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -30465,17 +30684,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.main-header[data-v-26ff7fc2] {\n        padding: 5px;\n        background: #9dc3fc;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.locale-name[data-v-6b3e96b9]{\n    cursor:pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -30489,7 +30708,79 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.main-left-panel[data-v-57b462ca] {\n        height: 100%;\n        background: #d9d9d9;\n        min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-57b462ca] {\n        background: #d9d9d9;\n}\n.list-group-item[data-v-57b462ca]:hover {\n        background: #f8f7f7;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.footer-wrapper[data-v-811a6dac] {\n        background: dimgray;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.main-header[data-v-3eb5a5c8] {\n        padding: 5px;\n        background: #9dc3fc;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.main-left-panel[data-v-293c647e] {\n        height: 100%;\n        background: #d9d9d9;\n        min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-293c647e] {\n        background: #d9d9d9;\n}\n.list-group-item[data-v-293c647e]:hover {\n        background: #f8f7f7;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-cards-container[data-v-8670cdac] {\n        height: 80%;\n        overflow: auto;\n}\n.nurse-cards-wrapper[data-v-8670cdac] {\n        padding: 10px;\n}\n.nurse-card[data-v-8670cdac] {\n        border: solid 1px black;\n        box-shadow: 10px 5px 5px #afafaf;\n        height: 300px;\n}\n.nurse-card-image-wrapper[data-v-8670cdac] {\n        padding: 10px;\n        height: 180px;\n}\n.nurse-card-image[data-v-8670cdac] {\n        width: 90%;\n}\n.nurse-card-item[data-v-8670cdac] {\n        font-size: 14px;\n        font-weight: 600;\n}\n.nurse-link-wrapper[data-v-8670cdac] {\n        background: #0a58ca;\n        padding: 10px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30631,7 +30922,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h2>My information</h2>\n    <span style=\"font-size: 10px\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!-- first name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"first_name\" class=\"form-label col-form-label-sm\">First name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.first_name\"\n                               id=\"first_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['first_name'] !== undefined\">{{ errors['first_name'][0] }}</span>\n                </div>\n\n                <!-- last name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.last_name\"\n                               id=\"last_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n                </div>\n\n                <!-- email -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"email\" class=\"form-label col-form-label-sm\">Email</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"email\" class=\"form-control form-control-sm\" v-model=\"user.email\" id=\"email\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['email'] !== undefined\">{{ errors['email'][0] }}</span>\n                </div>\n\n                <!-- phone -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"phone\" class=\"form-label col-form-label-sm\">Phone</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.phone\" id=\"phone\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['phone'] !== undefined\">{{ errors['phone'][0] }}</span>\n                </div>\n\n                <!-- zip code -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"zip_code\" class=\"form-label col-form-label-sm\">Zip code</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.zip_code\"\n                               id=\"zip_code\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['zip_code'] !== undefined\">{{ errors['zip_code'][0] }}</span>\n                </div>\n\n                <!-- gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"gender\" class=\"form-label col-form-label-sm\">Gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.gender\" id=\"gender\">\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.gender'] !== undefined\">{{ errors['entity.gender'][0] }}</span>\n                </div>\n\n                <!-- age -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"age\" class=\"form-label col-form-label-sm\">Age</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.age\" id=\"age\"\n                               min=\"18\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.age'] !== undefined\">{{ errors['entity.age'][0] }}</span>\n                </div>\n\n                <!-- experience -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"experience\" class=\"form-label col-form-label-sm\">Experience</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.experience\"\n                               id=\"experience\" min=\"0\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.experience'] !== undefined\">{{ errors['entity.experience'][0] }}</span>\n                </div>\n\n                <!-- languages -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"languages\" class=\"form-label col-form-label-sm\">Languages</label>\n                    </div>\n\n                    <div class=\"col-6\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].lang\" id=\"languages\">\n                            <option value=\"English\">English</option>\n                            <option value=\"Deutsche\">Deutsche</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-2\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].level\" id=\"\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.lang'] !== undefined\">{{ errors['entity.languages.0.lang'][0] }}</span>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.level'] !== undefined\">{{ errors['entity.languages.0.level'][0] }}</span>\n                </div>\n            </div>\n\n            <div class=\"col-3\">\n                <!-- pref client gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"pref_client_gender\" class=\"form-label col-form-label-sm\">Preference client\n                            gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.pref_client_gender\"\n                                id=\"pref_client_gender\">\n                            <option value=\"no_matter\">No matter</option>\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.pref_client_gender'] !== undefined\">{{ errors['entity.pref_client_gender'][0] }}</span>\n                </div>\n\n                <!-- available care range -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"available_care_range\" class=\"form-label col-form-label-sm\">Available care\n                            range</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.available_care_range\"\n                                id=\"available_care_range\">\n                            <option value=\"1\">1</option>\n                            <option value=\"2\">2</option>\n                            <option value=\"3\">3</option>\n                            <option value=\"4\">4</option>\n                            <option value=\"5\">5</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.available_care_range'] !== undefined\">{{ errors['entity.available_care_range'][0] }}</span>\n                </div>\n\n                <!-- multiple bookings -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"multiple_bookings\" class=\"form-label col-form-label-sm\">Multiple\n                            bookings</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.multiple_bookings\"\n                                id=\"multiple_bookings\">\n                            <option value=\"yes\">Yes</option>\n                            <option value=\"no\">No</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\n                </div>\n\n                <!-- provide supports -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"provide_supports\" class=\"form-label col-form-label-sm\">Provide supports</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.provide_supports\"\n                                id=\"provide_supports\" multiple>\n                            <option v-for=\"support in data.provider_supports\"\n                                    :value=\"support\">\n                                {{ $t(support.name) }}\n                            </option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.provide_supports'] !== undefined\">{{ errors['entity.provide_supports'][0] }}</span>\n\n                </div>\n\n            </div>\n\n            <div class=\"col-2 offset-3\">\n\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\" class=\"my-information-photo\">\n                </div>\n\n                <div v-else class=\"my-information-photo-wrapper\">\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\n\n                </div>\n\n                <input type=\"file\" name=\"nurse_new_photo\"\n                       ref=\"file\"\n                       v-on:change=\"photoUpload()\"\n                       class=\"form-control-file form-control-sm\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-6\">\n                <!-- description -->\n                <div class=\"row\">\n                    <div class=\"col-2\">\n                        <label for=\"description\" class=\"form-label col-form-label-sm\">Description</label>\n                    </div>\n\n                    <div class=\"col-10\">\n                            <textarea class=\"form-control form-control-sm\" v-model=\"user.entity.description\"\n                                      id=\"description\" rows=\"6\">\n\n                            </textarea>\n                        <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.description'] !== undefined\">{{ errors['entity.description'][0] }}</span>\n                    </div>\n                </div>\n                <div class=\"row\">\n\n\n                    <div class=\"col-2\">\n                        <label for=\"additional_info\" class=\"form-label col-form-label-sm\">Additional info</label>\n                    </div>\n\n                    <div class=\"col-6\">\n\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.additional_info\"\n                                id=\"additional_info\" multiple>\n                            <option v-for=\"(info_item, index) in data.additional_info\"\n                                    :value=\"info_item\">\n                                {{ data.additional_info_data[index].data }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-12 justify-content-center\">\n                        <span class=\"form-label col-form-label-sm\">Indicate the hours you available to work</span>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-8 offset-2\">\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Weekdays</div>\n                            <div class=\"col-4 justify-content-center\">Weekends</div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Mon-Fri</div>\n                            <div class=\"col-4 justify-content-center\">Sat-Sun</div>\n                        </div>\n\n<!--                        Morning-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">6a - 12p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_morning\">\n                                &nbsp;<label for=\"weekdays_morning\">Morning</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_morning\">\n                                &nbsp;<label for=\"weekends_morning\">Morning</label>\n                            </div>\n                        </div>\n<!--                        Afternoon-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">12p - 4p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_afternoon\">\n                                &nbsp;<label for=\"weekdays_afternoon\">Afternoon</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_afternoon\">\n                                &nbsp;<label for=\"weekends_afternoon\">Afternoon</label>\n                            </div>\n                        </div>\n<!--                        Evening-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">4p - 8p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_evening\">\n                                &nbsp;<label for=\"weekdays_evening\">Evening</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_evening\">\n                                &nbsp;<label for=\"weekends_evening\">Evening</label>\n                            </div>\n                        </div>\n<!--                        Overnight-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">8p - 6a</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_overnight\">\n                                &nbsp;<label for=\"weekdays_overnight\">Overnight</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_overnight\">\n                                &nbsp;<label for=\"weekends_overnight\">Overnight</label>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\n                <div>\n                    criminal record\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{ item.original_name }}</p><br>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\n                </div>\n\n                <div>\n                    documentation of training\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{ item.original_name }}</p>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\n                </div>\n\n                <div>\n                    CPR course\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{ item.original_name }}</p>\n                </div>\n\n                <div>\n                    references\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'references')\">{{ item.original_name }}</p>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">Update</button>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n\n\n";
+var code = "<div>\n    <h2>My information</h2>\n    <span style=\"font-size: 10px\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!-- first name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"first_name\" class=\"form-label col-form-label-sm\">First name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.first_name\"\n                               id=\"first_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['first_name'] !== undefined\">{{ errors['first_name'][0] }}</span>\n                </div>\n\n                <!-- last name -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                    </div>\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.last_name\"\n                               id=\"last_name\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n                </div>\n\n                <!-- email -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"email\" class=\"form-label col-form-label-sm\">Email</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"email\" class=\"form-control form-control-sm\" v-model=\"user.email\" id=\"email\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['email'] !== undefined\">{{ errors['email'][0] }}</span>\n                </div>\n\n                <!-- phone -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"phone\" class=\"form-label col-form-label-sm\">Phone</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.phone\" id=\"phone\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['phone'] !== undefined\">{{ errors['phone'][0] }}</span>\n                </div>\n\n                <!-- zip code -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"zip_code\" class=\"form-label col-form-label-sm\">Zip code</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"text\" class=\"form-control form-control-sm\" v-model=\"user.zip_code\"\n                               id=\"zip_code\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['zip_code'] !== undefined\">{{ errors['zip_code'][0] }}</span>\n                </div>\n\n                <!-- gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"gender\" class=\"form-label col-form-label-sm\">Gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.gender\" id=\"gender\">\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.gender'] !== undefined\">{{ errors['entity.gender'][0] }}</span>\n                </div>\n\n                <!-- age -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"age\" class=\"form-label col-form-label-sm\">Age</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.age\" id=\"age\"\n                               min=\"18\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.age'] !== undefined\">{{ errors['entity.age'][0] }}</span>\n                </div>\n\n                <!-- experience -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"experience\" class=\"form-label col-form-label-sm\">Experience</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <input type=\"number\" class=\"form-control form-control-sm\" v-model=\"user.entity.experience\"\n                               id=\"experience\" min=\"0\" max=\"100\">\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.experience'] !== undefined\">{{ errors['entity.experience'][0] }}</span>\n                </div>\n\n                <!-- languages -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"languages\" class=\"form-label col-form-label-sm\">Languages</label>\n                    </div>\n\n                    <div class=\"col-6\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].lang\" id=\"languages\">\n                            <option value=\"English\">English</option>\n                            <option value=\"Deutsche\">Deutsche</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-2\">\n                        <select v-if=\"user.entity.languages.length > 0\" class=\"form-control form-control-sm\" v-model=\"user.entity.languages[0].level\" id=\"\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.lang'] !== undefined\">{{ errors['entity.languages.0.lang'][0] }}</span>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.languages.0.level'] !== undefined\">{{ errors['entity.languages.0.level'][0] }}</span>\n                </div>\n            </div>\n\n            <div class=\"col-3\">\n                <!-- pref client gender -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"pref_client_gender\" class=\"form-label col-form-label-sm\">Preference client\n                            gender</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.pref_client_gender\"\n                                id=\"pref_client_gender\">\n                            <option value=\"no_matter\">No matter</option>\n                            <option value=\"male\">Male</option>\n                            <option value=\"female\">Female</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.pref_client_gender'] !== undefined\">{{ errors['entity.pref_client_gender'][0] }}</span>\n                </div>\n\n                <!-- available care range -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"available_care_range\" class=\"form-label col-form-label-sm\">Available care\n                            range</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.available_care_range\"\n                                id=\"available_care_range\">\n                            <option value=\"1\">1</option>\n                            <option value=\"2\">2</option>\n                            <option value=\"3\">3</option>\n                            <option value=\"4\">4</option>\n                            <option value=\"5\">5</option>\n                            <option value=\"0\">not_sure</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.available_care_range'] !== undefined\">{{ errors['entity.available_care_range'][0] }}</span>\n                </div>\n\n                <!-- multiple bookings -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"multiple_bookings\" class=\"form-label col-form-label-sm\">Multiple\n                            bookings</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.multiple_bookings\"\n                                id=\"multiple_bookings\">\n                            <option value=\"yes\">Yes</option>\n                            <option value=\"no\">No</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\n                </div>\n\n                <!-- provide supports -->\n                <div class=\"row\">\n                    <div class=\"col-4\">\n                        <label for=\"provide_supports\" class=\"form-label col-form-label-sm\">Provide supports</label>\n                    </div>\n\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.provide_supports\"\n                                id=\"provide_supports\" multiple>\n                            <option v-for=\"support in data.provider_supports\"\n                                    :value=\"support\">\n                                {{ $t(support.name) }}\n                            </option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.provide_supports'] !== undefined\">{{ errors['entity.provide_supports'][0] }}</span>\n\n                </div>\n\n            </div>\n\n            <div class=\"col-2 offset-3\">\n\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\" class=\"my-information-photo\">\n                </div>\n\n                <div v-else class=\"my-information-photo-wrapper\">\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\n\n                </div>\n\n                <input type=\"file\" name=\"nurse_new_photo\"\n                       ref=\"file\"\n                       v-on:change=\"photoUpload()\"\n                       class=\"form-control-file form-control-sm\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"col-6\">\n                <!-- description -->\n                <div class=\"row\">\n                    <div class=\"col-2\">\n                        <label for=\"description\" class=\"form-label col-form-label-sm\">Description</label>\n                    </div>\n\n                    <div class=\"col-10\">\n                            <textarea class=\"form-control form-control-sm\" v-model=\"user.entity.description\"\n                                      id=\"description\" rows=\"6\">\n\n                            </textarea>\n                        <span class=\"register-form-error\" v-if=\"errors !== null && errors['entity.description'] !== undefined\">{{ errors['entity.description'][0] }}</span>\n                    </div>\n                </div>\n                <div class=\"row\">\n\n\n                    <div class=\"col-2\">\n                        <label for=\"additional_info\" class=\"form-label col-form-label-sm\">Additional info</label>\n                    </div>\n\n                    <div class=\"col-6\">\n\n                        <select class=\"form-control form-control-sm\" v-model=\"user.entity.additional_info\"\n                                id=\"additional_info\" multiple>\n                            <option v-for=\"(info_item, index) in data.additional_info\"\n                                    :value=\"info_item\">\n                                {{ data.additional_info_data[index].data }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-12 justify-content-center\">\n                        <span class=\"form-label col-form-label-sm\">Indicate the hours you available to work</span>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-8 offset-2\">\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Weekdays</div>\n                            <div class=\"col-4 justify-content-center\">Weekends</div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-4 offset-4 justify-content-center\">Mon-Fri</div>\n                            <div class=\"col-4 justify-content-center\">Sat-Sun</div>\n                        </div>\n\n<!--                        Morning-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">6a - 12p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_morning\">\n                                &nbsp;<label for=\"weekdays_morning\">Morning</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_morning\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_morning\">\n                                &nbsp;<label for=\"weekends_morning\">Morning</label>\n                            </div>\n                        </div>\n<!--                        Afternoon-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">12p - 4p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_afternoon\">\n                                &nbsp;<label for=\"weekdays_afternoon\">Afternoon</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_afternoon\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_afternoon\">\n                                &nbsp;<label for=\"weekends_afternoon\">Afternoon</label>\n                            </div>\n                        </div>\n<!--                        Evening-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">4p - 8p</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_evening\">\n                                &nbsp;<label for=\"weekdays_evening\">Evening</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_evening\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_evening\">\n                                &nbsp;<label for=\"weekends_evening\">Evening</label>\n                            </div>\n                        </div>\n<!--                        Overnight-->\n                        <div class=\"row\">\n                            <div class=\"col-4\">8p - 6a</div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekdays_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekdays_overnight\">\n                                &nbsp;<label for=\"weekdays_overnight\">Overnight</label>\n                            </div>\n                            <div class=\"col-4 justify-content-center\">\n                                <input type=\"checkbox\" id=\"weekends_overnight\" true-value=\"1\" false-value=\"0\"\n                                       v-model=\"user.entity.work_time_pref.weekends_overnight\">\n                                &nbsp;<label for=\"weekends_overnight\">Overnight</label>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\n                <div>\n                    criminal record\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{ item.original_name }}</p><br>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\n                </div>\n\n                <div>\n                    documentation of training\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{ item.original_name }}</p>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\n                </div>\n\n                <div>\n                    CPR course\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{ item.original_name }}</p>\n                </div>\n\n                <div>\n                    references\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\"  v-for=\"item in filterFiles(user.entity.files, 'references')\">{{ item.original_name }}</p>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">Update</button>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n\n\n";
 // Exports
 module.exports = code;
 
@@ -30644,7 +30935,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Payments</h1>\n\n    <h1>Prices</h1>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!--                hourly_payment-->\n                <label for=\"hourly_payment\" class=\"form-label col-form-label-sm\">hourly_payment</label>\n                <input type=\"number\" id=\"hourly_payment\" min=\"15\" step=\"1\"\n                       v-model=\"price.hourly_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n            <div class=\"col-3\">\n\n                <!--                weekend_surcharge-->\n                <label for=\"weekend_surcharge\" class=\"form-label col-form-label-sm\">weekend_surcharge</label>\n                <select id=\"weekend_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.weekend_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                weekend_surcharge_payment-->\n                <label for=\"weekend_surcharge_payment\" class=\"form-label col-form-label-sm\">weekend_surcharge_payment</label>\n                <input type=\"number\" id=\"weekend_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.weekend_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                holiday_surcharge-->\n                <label for=\"holiday_surcharge\" class=\"form-label col-form-label-sm\">holiday_surcharge</label>\n                <select id=\"holiday_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.holiday_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                holiday_surcharge_payment-->\n                <label for=\"holiday_surcharge_payment\" class=\"form-label col-form-label-sm\">holiday_surcharge_payment</label>\n                <input type=\"number\" id=\"holiday_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.holiday_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                fare_surcharge-->\n                <label for=\"fare_surcharge\" class=\"form-label col-form-label-sm\">fare_surcharge</label>\n                <select id=\"fare_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.fare_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                fare_surcharge_payment-->\n                <label for=\"fare_surcharge_payment\" class=\"form-label col-form-label-sm\">fare_surcharge_payment</label>\n                <input type=\"number\" id=\"fare_surcharge_payment\" min=\"10\" max=\"50\" step=\"5\"\n                       v-model=\"price.fare_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n        </div>\n    </div>\n</div>\n\n<button class=\"btn btn-success btn-sm\" v-on:click=\"storePrices()\">Store</button>\n\n<!--<select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">-->\n<!--    <option value=\"to_me\">to_me</option>-->\n<!--    <option value=\"for_a_relative\">for_a_relative</option>-->\n<!--</select>-->\n";
+var code = "<div>\n    <h1>Payments</h1>\n\n    <h1>Prices</h1>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-3\">\n\n                <!--                hourly_payment-->\n                <label for=\"hourly_payment\" class=\"form-label col-form-label-sm\">hourly_payment</label>\n                <input type=\"number\" class=\"form-control form-control-sm\" id=\"hourly_payment\" min=\"15\" step=\"1\"\n                       v-model=\"price.hourly_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n            <div class=\"col-3\">\n\n                <!--                weekend_surcharge-->\n                <label for=\"weekend_surcharge\" class=\"form-label col-form-label-sm\">weekend_surcharge</label>\n                <select id=\"weekend_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.weekend_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                weekend_surcharge_payment-->\n                <label for=\"weekend_surcharge_payment\" class=\"form-label col-form-label-sm\">weekend_surcharge_payment</label>\n                <input type=\"number\" class=\"form-control form-control-sm\" id=\"weekend_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.weekend_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                holiday_surcharge-->\n                <label for=\"holiday_surcharge\" class=\"form-label col-form-label-sm\">holiday_surcharge</label>\n                <select id=\"holiday_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.holiday_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                holiday_surcharge_payment-->\n                <label for=\"holiday_surcharge_payment\" class=\"form-label col-form-label-sm\">holiday_surcharge_payment</label>\n                <input type=\"number\" class=\"form-control form-control-sm\" id=\"holiday_surcharge_payment\" min=\"10\" step=\"10\"\n                       v-model=\"price.holiday_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                fare_surcharge-->\n                <label for=\"fare_surcharge\" class=\"form-label col-form-label-sm\">fare_surcharge</label>\n                <select id=\"fare_surcharge\" class=\"form-select form-select-sm\" v-model=\"price.fare_surcharge\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                </select>\n\n                <!--                fare_surcharge_payment-->\n                <label for=\"fare_surcharge_payment\" class=\"form-label col-form-label-sm\">fare_surcharge_payment</label>\n                <input type=\"number\" class=\"form-control form-control-sm\" id=\"fare_surcharge_payment\" min=\"10\" max=\"50\" step=\"5\"\n                       v-model=\"price.fare_surcharge_payment\"\n                       v-on:change=\"checkChangesInPrices()\">\n\n            </div>\n        </div>\n    </div>\n</div>\n\n<button class=\"btn btn-success btn-sm\" v-on:click=\"storePrices()\">Store</button>\n\n<!--<select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">-->\n<!--    <option value=\"to_me\">to_me</option>-->\n<!--    <option value=\"for_a_relative\">for_a_relative</option>-->\n<!--</select>-->\n";
 // Exports
 module.exports = code;
 
@@ -30670,7 +30961,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n\n    <panther-header :auth=\"user\" v-if=\"showHeader\"></panther-header>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel :user=\"user\"></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <router-view :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <panther-footer v-if=\"showFooter\"></panther-footer>\n\n</div>\n";
+var code = "<div>\n\n    <panther-header :auth=\"user\" v-if=\"showHeader\"></panther-header>\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div v-if=\"showLeftPanel\" class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel :user=\"user\"></left-panel>\n\n            </div>\n\n            <div :class=\"showLeftPanel  ? 'col-10' : 'col-12'\" >\n\n                <router-view :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n    <panther-footer v-if=\"showFooter\"></panther-footer>\n\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -30683,7 +30974,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h4>LISTING</h4>\n\n    <span class=\"listing-reminder-begin\">\n        How does the booking process work?\n        <span class=\"listing-reminder-end\" id=\"listing-reminder-end\" v-on:click=\"showReminderBlock()\">\n            Click to show more\n        </span>\n    </span>\n\n    <div v-if=\"showReminder\" class=\"block-with-reminder\">\n        <span>When you book a nurse on our site, you specify exactly what you want to book them for.\n            That is, you specify your wishes in the areas in which Pflege Panther is active.\n            Here you also have the option of specifying whether you prefer a female or a male nurse.\n            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n            who offer exactly what you are looking for, allowing you to select an individual nurse.\n            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n            booking request.\n        </span>\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-4\">\n                <h4>Filters</h4>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <!--                for whom-->\n                <label for=\"for_whom\" class=\"form-label col-form-label-sm\">Who are you looking for help for?</label>\n                <select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">\n                    <option value=\"to_me\">to_me</option>\n                    <option value=\"for_a_relative\">for_a_relative</option>\n                </select>\n                <br>\n\n                <!--                Person information-->\n                <label class=\"form-label col-form-label-sm\">Information about the person in need of care</label>\n                <br>\n\n                <label for=\"name\" class=\"form-label col-form-label-sm\">Name</label>\n                <input id=\"name\" class=\"form-control form-control-sm\" type=\"text\" v-model=\"clientSearchInfo.name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['name'] !== undefined\">{{ errors['name'][0] }}</span>\n\n                <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                <input id=\"last_name\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.last_name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n\n                <label for=\"age_range\" class=\"form-label col-form-label-sm\">Age Range</label>\n                <select id=\"age_range\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.age_range\">\n                    <option value=\"0-20\">0-20</option>\n                    <option value=\"20-40\">20-40</option>\n                    <option value=\"40-60\">40-60</option>\n                    <option value=\"60-70\">60-70</option>\n                    <option value=\"70-80\">70-80</option>\n                    <option value=\"80-90\">80-90</option>\n                    <option value=\"90+\">90+</option>\n                </select>\n            </div>\n\n            <div class=\"col-3\">\n                <!--provider supports-->\n                <label for=\"provider_support\" class=\"form-label col-form-label-sm\">What kind of support are you looking\n                    for</label>\n                <select id=\"provider_support\" class=\"form-select form-select-sm\" multiple\n                        v-model=\"clientSearchInfo.provider_supports\">\n                    <option v-if=\"data.provider_supports.length > 0\"\n                            v-for=\"provider_support in data.provider_supports\"\n                            v-bind:value=\"provider_support.id\">\n                        {{ $t(provider_support.name) }}\n                    </option>\n                </select>\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['provider_supports'] !== undefined\">{{ errors['provider_supports'][0] }}</span>\n\n                <!--                additional info , disease -->\n                <label for=\"disease\" class=\"form-label col-form-label-sm\">Disease</label>\n                <select id=\"disease\" class=\"form-select form-select-sm\" multiple v-model=\"clientSearchInfo.disease\">\n                    <option v-if=\"data.additional_info.length > 0\"\n                            v-for=\"info in data.additional_info\"\n                            v-bind:value=\"info.id\">\n                        {{ info.data.data }}\n                    </option>\n                </select>\n\n                <label for=\"other_disease\" class=\"form-label col-form-label-sm\">Other disease</label>\n                <input id=\"other_disease\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_disease\">\n\n                <!--degree of care available-->\n                <label for=\"degree_of_care_available\" class=\"form-label col-form-label-sm\">Is the degree of care\n                    available</label><br>\n                <select id=\"degree_of_care_available\" class=\"form-select form-select-sm\"\n                        v-model=\"clientSearchInfo.degree_of_care_available\">\n                    <option value=\"1\">1</option>\n                    <option value=\"2\">2</option>\n                    <option value=\"3\">3</option>\n                    <option value=\"4\">4</option>\n                    <option value=\"5\">5</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-3\">\n                <!--languages-->\n                <label class=\"form-label col-form-label-sm\">Language skills</label><br>\n                <div class=\"row\">\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" id=\"language\" v-model=\"clientSearchInfo.language\">\n                            <option value=\"english\">english</option>\n                            <option value=\"deutsche\">deutsche</option>\n                            <option value=\"no_matter\">no_matter</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-4\">\n                        <select class=\"form-control form-control-sm\" v-model=\"clientSearchInfo.language_level\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                            <option value=\"no_matter\">no_matter</option>\n                        </select>\n                    </div>\n                </div>\n\n                <!--                help to move-->\n                <label for=\"do_you_need_help_moving\" class=\"form-label col-form-label-sm\">Do you need help\n                    moving/walking?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"do_you_need_help_moving\"\n                        v-model=\"clientSearchInfo.do_you_need_help_moving\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                additional means of transportation-->\n                <label for=\"additional_transportation\" class=\"form-label col-form-label-sm\">Additional means of\n                    transportation?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"additional_transportation\"\n                        v-model=\"clientSearchInfo.additional_transportation\">\n                    <option value=\"need_help_with_walking\">need_help_with_walking</option>\n                    <option value=\"wheelchair\">wheelchair</option>\n                    <option value=\"crutches\">crutches</option>\n                    <option value=\"nothing\">nothing</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Memory-->\n                <label for=\"memory\" class=\"form-label col-form-label-sm\">Memory</label><br>\n                <select class=\"form-control form-control-sm\" id=\"memory\" v-model=\"clientSearchInfo.memory\">\n                    <option value=\"good\">good</option>\n                    <option value=\"minor_difficulties\">minor_difficulties</option>\n                    <option value=\"significant_difficulties\">significant_difficulties</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                suffer from urinary incontinence-->\n                <label for=\"incontinence\" class=\"form-label col-form-label-sm\">Suffer from urinary incontinence?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"incontinence\" v-model=\"clientSearchInfo.incontinence\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                Is there a gender preference for the nurse-->\n                <label for=\"preference_for_the_nurse\" class=\"form-label col-form-label-sm\">Is there a gender preference\n                    for the nurse?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"preference_for_the_nurse\"\n                        v-model=\"clientSearchInfo.preference_for_the_nurse\">\n                    <option value=\"male\">male</option>\n                    <option value=\"female\">female</option>\n                    <option value=\"no_matter\">no_matter</option>\n                </select>\n\n                <!--                hearing-->\n                <label for=\"hearing\" class=\"form-label col-form-label-sm\">Hearing</label><br>\n                <select class=\"form-control form-control-sm\" id=\"hearing\" v-model=\"clientSearchInfo.hearing\">\n                    <option value=\"good\">good</option>\n                    <option value=\"weak\">weak</option>\n                    <option value=\"difficulties\">difficulties</option>\n                    <option value=\"essential\">essential</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Vision-->\n                <label for=\"vision\" class=\"form-label col-form-label-sm\">Vision</label><br>\n                <select class=\"form-control form-control-sm\" id=\"vision\" v-model=\"clientSearchInfo.vision\">\n                    <option value=\"good\">good</option>\n                    <option value=\"minor_difficulties\">minor_difficulties</option>\n                    <option value=\"significant_difficulties\">significant_difficulties</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Areas where help is needed-->\n                <label for=\"areas_help\" class=\"form-label col-form-label-sm\">Areas where help is needed</label><br>\n                <select class=\"form-control form-control-sm\" id=\"areas_help\" v-model=\"clientSearchInfo.areas_help\">\n                    <option value=\"dressing\">dressing</option>\n                    <option value=\"mobility\">mobility</option>\n                    <option value=\"hygiene\">hygiene</option>\n                    <option value=\"preparation_of_medicines\">preparation_of_medicines</option>\n                    <option value=\"skin_care\">skin_care</option>\n                </select>\n\n                <label for=\"other_areas\" class=\"form-label col-form-label-sm\">Other areas</label>\n                <input id=\"other_areas\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_areas\">\n            </div>\n        </div>\n        <br>\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label for=\"one_time_or_regular\" class=\"form-label col-form-label-sm\">One-time or regular</label><br>\n                <input id=\"one_time_or_regular\" placeholder=\"Later\">\n\n                <label for=\"where_should_help_be_provided\" class=\"form-label col-form-label-sm\">Where should help be\n                    provided?</label><br>\n                <input id=\"where_should_help_be_provided\" placeholder=\"Later\">\n            </div>\n            <div class=\"col-3 offset-6\">\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"findNeedNurses()\">Find</button>\n            </div>\n        </div>\n    </div>\n\n    <table v-if=\"nurses.length > 0\" rules=\"all\">\n        <thead>\n        <tr>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Zip code</th>\n            <th>Price</th>\n            <th>Description</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td>{{ nurse.zip_code }}</td>\n            <td>Price</td>\n            <td>\n                {{ nurse.entity.description}}\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>\n";
+var code = "<div>\n    <h4>LISTING</h4>\n\n    <span class=\"listing-reminder-begin\">\n        How does the booking process work?\n        <span class=\"listing-reminder-end\" id=\"listing-reminder-end\" v-on:click=\"showReminderBlock()\">\n            Click to show more\n        </span>\n    </span>\n\n    <div v-if=\"showReminder\" class=\"block-with-reminder\">\n        <span>When you book a nurse on our site, you specify exactly what you want to book them for.\n            That is, you specify your wishes in the areas in which Pflege Panther is active.\n            Here you also have the option of specifying whether you prefer a female or a male nurse.\n            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n            who offer exactly what you are looking for, allowing you to select an individual nurse.\n            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n            booking request.\n        </span>\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-4\">\n                <h4>Filters</h4>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <!--                for whom-->\n                <label for=\"for_whom\" class=\"form-label col-form-label-sm\">Who are you looking for help for?</label>\n                <select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">\n                    <option value=\"to_me\">to_me</option>\n                    <option value=\"for_a_relative\">for_a_relative</option>\n                </select>\n                <br>\n\n                <!--                Person information-->\n                <label class=\"form-label col-form-label-sm\">Information about the person in need of care</label>\n                <br>\n\n                <label for=\"name\" class=\"form-label col-form-label-sm\">Name</label>\n                <input id=\"name\" class=\"form-control form-control-sm\" type=\"text\" v-model=\"clientSearchInfo.name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['name'] !== undefined\">{{ errors['name'][0] }}</span>\n\n                <label for=\"last_name\" class=\"form-label col-form-label-sm\">Last name</label>\n                <input id=\"last_name\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.last_name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n\n                <label for=\"age_range\" class=\"form-label col-form-label-sm\">Age Range</label>\n                <select id=\"age_range\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.age_range\">\n                    <option value=\"0-20\">0-20</option>\n                    <option value=\"20-40\">20-40</option>\n                    <option value=\"40-60\">40-60</option>\n                    <option value=\"60-70\">60-70</option>\n                    <option value=\"70-80\">70-80</option>\n                    <option value=\"80-90\">80-90</option>\n                    <option value=\"90+\">90+</option>\n                </select>\n            </div>\n\n            <div class=\"col-3\">\n                <!--provider supports-->\n                <label for=\"provider_support\" class=\"form-label col-form-label-sm\">What kind of support are you looking\n                    for</label>\n                <select id=\"provider_support\" class=\"form-select form-select-sm\" multiple\n                        v-model=\"clientSearchInfo.provider_supports\">\n                    <option v-if=\"data.provider_supports.length > 0\"\n                            v-for=\"provider_support in data.provider_supports\"\n                            v-bind:value=\"provider_support.id\">\n                        {{ $t(provider_support.name) }}\n                    </option>\n                </select>\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['provider_supports'] !== undefined\">{{ errors['provider_supports'][0] }}</span>\n\n                <!--                additional info , disease -->\n                <label for=\"disease\" class=\"form-label col-form-label-sm\">Disease</label>\n                <select id=\"disease\" class=\"form-select form-select-sm\" multiple v-model=\"clientSearchInfo.disease\">\n                    <option v-if=\"data.additional_info.length > 0\"\n                            v-for=\"info in data.additional_info\"\n                            v-bind:value=\"info.id\">\n                        {{ info.data.data }}\n                    </option>\n                </select>\n\n                <label for=\"other_disease\" class=\"form-label col-form-label-sm\">Other disease</label>\n                <input id=\"other_disease\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_disease\">\n\n                <!--degree of care available-->\n                <label for=\"degree_of_care_available\" class=\"form-label col-form-label-sm\">Is the degree of care\n                    available</label><br>\n                <select id=\"degree_of_care_available\" class=\"form-select form-select-sm\"\n                        v-model=\"clientSearchInfo.degree_of_care_available\">\n                    <option value=\"1\">1</option>\n                    <option value=\"2\">2</option>\n                    <option value=\"3\">3</option>\n                    <option value=\"4\">4</option>\n                    <option value=\"5\">5</option>\n                    <option value=\"0\">not_sure</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-3\">\n                <!--languages-->\n                <label class=\"form-label col-form-label-sm\">Language skills</label><br>\n                <div class=\"row\">\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" id=\"language\" v-model=\"clientSearchInfo.language\">\n                            <option value=\"english\">english</option>\n                            <option value=\"deutsche\">deutsche</option>\n                            <option value=\"no_matter\">no_matter</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-4\">\n                        <select class=\"form-control form-control-sm\" v-model=\"clientSearchInfo.language_level\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                            <option value=\"no_matter\">no_matter</option>\n                        </select>\n                    </div>\n                </div>\n\n                <!--                help to move-->\n                <label for=\"do_you_need_help_moving\" class=\"form-label col-form-label-sm\">Do you need help\n                    moving/walking?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"do_you_need_help_moving\"\n                        v-model=\"clientSearchInfo.do_you_need_help_moving\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                additional means of transportation-->\n                <label for=\"additional_transportation\" class=\"form-label col-form-label-sm\">Additional means of\n                    transportation?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"additional_transportation\"\n                        v-model=\"clientSearchInfo.additional_transportation\">\n                    <option value=\"need_help_with_walking\">need_help_with_walking</option>\n                    <option value=\"wheelchair\">wheelchair</option>\n                    <option value=\"crutches\">crutches</option>\n                    <option value=\"nothing\">nothing</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Memory-->\n                <label for=\"memory\" class=\"form-label col-form-label-sm\">Memory</label><br>\n                <select class=\"form-control form-control-sm\" id=\"memory\" v-model=\"clientSearchInfo.memory\">\n                    <option value=\"good\">good</option>\n                    <option value=\"minor_difficulties\">minor_difficulties</option>\n                    <option value=\"significant_difficulties\">significant_difficulties</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                suffer from urinary incontinence-->\n                <label for=\"incontinence\" class=\"form-label col-form-label-sm\">Suffer from urinary incontinence?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"incontinence\" v-model=\"clientSearchInfo.incontinence\">\n                    <option value=\"yes\">yes</option>\n                    <option value=\"no\">no</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                Is there a gender preference for the nurse-->\n                <label for=\"preference_for_the_nurse\" class=\"form-label col-form-label-sm\">Is there a gender preference\n                    for the nurse?</label><br>\n                <select class=\"form-control form-control-sm\" id=\"preference_for_the_nurse\"\n                        v-model=\"clientSearchInfo.preference_for_the_nurse\">\n                    <option value=\"male\">male</option>\n                    <option value=\"female\">female</option>\n                    <option value=\"no_matter\">no_matter</option>\n                </select>\n\n                <!--                hearing-->\n                <label for=\"hearing\" class=\"form-label col-form-label-sm\">Hearing</label><br>\n                <select class=\"form-control form-control-sm\" id=\"hearing\" v-model=\"clientSearchInfo.hearing\">\n                    <option value=\"good\">good</option>\n                    <option value=\"weak\">weak</option>\n                    <option value=\"difficulties\">difficulties</option>\n                    <option value=\"essential\">essential</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Vision-->\n                <label for=\"vision\" class=\"form-label col-form-label-sm\">Vision</label><br>\n                <select class=\"form-control form-control-sm\" id=\"vision\" v-model=\"clientSearchInfo.vision\">\n                    <option value=\"good\">good</option>\n                    <option value=\"minor_difficulties\">minor_difficulties</option>\n                    <option value=\"significant_difficulties\">significant_difficulties</option>\n                    <option value=\"unknown\">unknown</option>\n                </select>\n\n                <!--                Areas where help is needed-->\n                <label for=\"areas_help\" class=\"form-label col-form-label-sm\">Areas where help is needed</label><br>\n                <select class=\"form-control form-control-sm\" id=\"areas_help\" v-model=\"clientSearchInfo.areas_help\">\n                    <option value=\"dressing\">dressing</option>\n                    <option value=\"mobility\">mobility</option>\n                    <option value=\"hygiene\">hygiene</option>\n                    <option value=\"preparation_of_medicines\">preparation_of_medicines</option>\n                    <option value=\"skin_care\">skin_care</option>\n                </select>\n\n                <label for=\"other_areas\" class=\"form-label col-form-label-sm\">Other areas</label>\n                <input id=\"other_areas\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_areas\">\n            </div>\n        </div>\n        <br>\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label for=\"one_time_or_regular\" class=\"form-label col-form-label-sm\">One-time or regular</label><br>\n                <input id=\"one_time_or_regular\" placeholder=\"Later\">\n\n                <label for=\"where_should_help_be_provided\" class=\"form-label col-form-label-sm\">Where should help be\n                    provided?</label><br>\n                <input id=\"where_should_help_be_provided\" placeholder=\"Later\">\n            </div>\n            <div class=\"col-3 offset-6\">\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"findNeedNurses()\">Find</button>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"showModalNursesListing\" class=\"nurses-listing-wrapper\">\n        <nurses-listing :nurses=\"nurses\"></nurses-listing>\n    </div>\n\n\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -54594,10 +54885,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -54607,7 +54898,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_26ff7fc2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_style_index_0_id_6b3e96b9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css");
 
             
 
@@ -54616,18 +54907,18 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_26ff7fc2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_style_index_0_id_6b3e96b9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_26ff7fc2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_style_index_0_id_6b3e96b9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -54637,7 +54928,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_57b462ca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_style_index_0_id_811a6dac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css");
 
             
 
@@ -54646,11 +54937,101 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_57b462ca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_style_index_0_id_811a6dac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_57b462ca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_style_index_0_id_811a6dac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_3eb5a5c8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_3eb5a5c8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_3eb5a5c8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_293c647e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_293c647e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_293c647e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_style_index_0_id_8670cdac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_style_index_0_id_8670cdac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_style_index_0_id_8670cdac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -57939,96 +58320,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/layouts/app/Footer.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/layouts/app/Footer.vue ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Footer_vue_vue_type_template_id_696447a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Footer.vue?vue&type=template&id=696447a6 */ "./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6");
-/* harmony import */ var _Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Footer.vue?vue&type=script&lang=js */ "./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Footer_vue_vue_type_template_id_696447a6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/layouts/app/Footer.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/Header.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/layouts/app/Header.vue ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Header_vue_vue_type_template_id_26ff7fc2_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue?vue&type=template&id=26ff7fc2&scoped=true */ "./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true");
-/* harmony import */ var _Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Header.vue?vue&type=script&lang=js */ "./resources/js/layouts/app/Header.vue?vue&type=script&lang=js");
-/* harmony import */ var _Header_vue_vue_type_style_index_0_id_26ff7fc2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css */ "./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Header_vue_vue_type_template_id_26ff7fc2_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-26ff7fc2"],['__file',"resources/js/layouts/app/Header.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/LeftPanel.vue":
-/*!************************************************!*\
-  !*** ./resources/js/layouts/app/LeftPanel.vue ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _LeftPanel_vue_vue_type_template_id_57b462ca_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true */ "./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true");
-/* harmony import */ var _LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=script&lang=js */ "./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js");
-/* harmony import */ var _LeftPanel_vue_vue_type_style_index_0_id_57b462ca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css */ "./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_LeftPanel_vue_vue_type_template_id_57b462ca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-57b462ca"],['__file',"resources/js/layouts/app/LeftPanel.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/pages/auth/ClientRegister.vue":
 /*!****************************************************!*\
   !*** ./resources/js/pages/auth/ClientRegister.vue ***!
@@ -58152,15 +58443,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Localization_vue_vue_type_template_id_6b3e96b9__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Localization.vue?vue&type=template&id=6b3e96b9 */ "./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9");
+/* harmony import */ var _Localization_vue_vue_type_template_id_6b3e96b9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Localization.vue?vue&type=template&id=6b3e96b9&scoped=true */ "./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true");
 /* harmony import */ var _Localization_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Localization.vue?vue&type=script&lang=js */ "./resources/js/pages/components/Localization.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _Localization_vue_vue_type_style_index_0_id_6b3e96b9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css */ "./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Localization_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Localization_vue_vue_type_template_id_6b3e96b9__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/components/Localization.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Localization_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Localization_vue_vue_type_template_id_6b3e96b9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-6b3e96b9"],['__file',"resources/js/pages/components/Localization.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58217,6 +58511,130 @@ __webpack_require__.r(__webpack_exports__);
 
 ;
 const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Home_vue_vue_type_template_id_4c3f1cd4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/home/Home.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Footer.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/layouts/Footer.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Footer_vue_vue_type_template_id_811a6dac_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Footer.vue?vue&type=template&id=811a6dac&scoped=true */ "./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true");
+/* harmony import */ var _Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Footer.vue?vue&type=script&lang=js */ "./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js");
+/* harmony import */ var _Footer_vue_vue_type_style_index_0_id_811a6dac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css */ "./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Footer_vue_vue_type_template_id_811a6dac_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-811a6dac"],['__file',"resources/js/pages/layouts/Footer.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Header.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/layouts/Header.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Header_vue_vue_type_template_id_3eb5a5c8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue?vue&type=template&id=3eb5a5c8&scoped=true */ "./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true");
+/* harmony import */ var _Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Header.vue?vue&type=script&lang=js */ "./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js");
+/* harmony import */ var _Header_vue_vue_type_style_index_0_id_3eb5a5c8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css */ "./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Header_vue_vue_type_template_id_3eb5a5c8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-3eb5a5c8"],['__file',"resources/js/pages/layouts/Header.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/LeftPanel.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/pages/layouts/LeftPanel.vue ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LeftPanel_vue_vue_type_template_id_293c647e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=template&id=293c647e&scoped=true */ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true");
+/* harmony import */ var _LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=script&lang=js */ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js");
+/* harmony import */ var _LeftPanel_vue_vue_type_style_index_0_id_293c647e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css */ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_LeftPanel_vue_vue_type_template_id_293c647e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-293c647e"],['__file',"resources/js/pages/layouts/LeftPanel.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/pages/listing/NursesListing.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/listing/NursesListing.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _NursesListing_vue_vue_type_template_id_8670cdac_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NursesListing.vue?vue&type=template&id=8670cdac&scoped=true */ "./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true");
+/* harmony import */ var _NursesListing_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NursesListing.vue?vue&type=script&lang=js */ "./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js");
+/* harmony import */ var _NursesListing_vue_vue_type_style_index_0_id_8670cdac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css */ "./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_NursesListing_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NursesListing_vue_vue_type_template_id_8670cdac_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-8670cdac"],['__file',"resources/js/pages/listing/NursesListing.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58653,54 +59071,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js":
-/*!*********************************************************************!*\
-  !*** ./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/Header.vue?vue&type=script&lang=js":
-/*!*********************************************************************!*\
-  !*** ./resources/js/layouts/app/Header.vue?vue&type=script&lang=js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js":
-/*!************************************************************************!*\
-  !*** ./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js ***!
-  \************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/pages/auth/ClientRegister.vue?vue&type=script&lang=js":
 /*!****************************************************************************!*\
   !*** ./resources/js/pages/auth/ClientRegister.vue?vue&type=script&lang=js ***!
@@ -58809,6 +59179,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Home_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Home.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/home/Home.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NursesListing.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -59229,54 +59663,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6":
-/*!***************************************************************************!*\
-  !*** ./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6 ***!
-  \***************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_template_id_696447a6__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_template_id_696447a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=template&id=696447a6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Footer.vue?vue&type=template&id=696447a6");
-
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true ***!
-  \***************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_template_id_26ff7fc2_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_template_id_26ff7fc2_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=template&id=26ff7fc2&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=template&id=26ff7fc2&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true ***!
-  \******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_57b462ca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_57b462ca_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=template&id=57b462ca&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/pages/auth/ClientRegister.vue?vue&type=template&id=0e76469c":
 /*!**********************************************************************************!*\
   !*** ./resources/js/pages/auth/ClientRegister.vue?vue&type=template&id=0e76469c ***!
@@ -59341,18 +59727,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9 ***!
-  \**************************************************************************************/
+/***/ "./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true ***!
+  \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_template_id_6b3e96b9__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_template_id_6b3e96b9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_template_id_6b3e96b9__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Localization.vue?vue&type=template&id=6b3e96b9 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_template_id_6b3e96b9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Localization.vue?vue&type=template&id=6b3e96b9&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=template&id=6b3e96b9&scoped=true");
 
 
 /***/ }),
@@ -59385,6 +59771,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Home_vue_vue_type_template_id_4c3f1cd4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Home_vue_vue_type_template_id_4c3f1cd4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Home.vue?vue&type=template&id=4c3f1cd4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/home/Home.vue?vue&type=template&id=4c3f1cd4");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_template_id_811a6dac_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_template_id_811a6dac_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=template&id=811a6dac&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=template&id=811a6dac&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_template_id_3eb5a5c8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_template_id_3eb5a5c8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=template&id=3eb5a5c8&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=template&id=3eb5a5c8&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_293c647e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_293c647e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=template&id=293c647e&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=template&id=293c647e&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_template_id_8670cdac_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_template_id_8670cdac_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NursesListing.vue?vue&type=template&id=8670cdac&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=template&id=8670cdac&scoped=true");
 
 
 /***/ }),
@@ -59496,28 +59946,67 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css ***!
+  \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_26ff7fc2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/Header.vue?vue&type=style&index=0&id=26ff7fc2&scoped=true&lang=css");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Localization_vue_vue_type_style_index_0_id_6b3e96b9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/components/Localization.vue?vue&type=style&index=0&id=6b3e96b9&scoped=true&lang=css");
 
 
 /***/ }),
 
-/***/ "./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css ***!
-  \********************************************************************************************************/
+/***/ "./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css ***!
+  \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_57b462ca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/layouts/app/LeftPanel.vue?vue&type=style&index=0&id=57b462ca&scoped=true&lang=css");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Footer_vue_vue_type_style_index_0_id_811a6dac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Footer.vue?vue&type=style&index=0&id=811a6dac&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Header_vue_vue_type_style_index_0_id_3eb5a5c8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/Header.vue?vue&type=style&index=0&id=3eb5a5c8&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_293c647e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/layouts/LeftPanel.vue?vue&type=style&index=0&id=293c647e&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NursesListing_vue_vue_type_style_index_0_id_8670cdac_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/listing/NursesListing.vue?vue&type=style&index=0&id=8670cdac&scoped=true&lang=css");
 
 
 /***/ }),

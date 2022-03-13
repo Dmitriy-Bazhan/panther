@@ -87,6 +87,9 @@ export default {
             errors : null
         };
     },
+    mounted() {
+        this.emitter.emit('not-show-left-panel');
+    },
     methods: {
         sendForm(event){
             event.preventDefault();

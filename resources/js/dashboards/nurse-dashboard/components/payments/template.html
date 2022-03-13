@@ -9,7 +9,7 @@
 
                 <!--                hourly_payment-->
                 <label for="hourly_payment" class="form-label col-form-label-sm">hourly_payment</label>
-                <input type="number" id="hourly_payment" min="15" step="1"
+                <input type="number" class="form-control form-control-sm" id="hourly_payment" min="15" step="1"
                        v-model="price.hourly_payment"
                        v-on:change="checkChangesInPrices()">
 
@@ -25,7 +25,7 @@
 
                 <!--                weekend_surcharge_payment-->
                 <label for="weekend_surcharge_payment" class="form-label col-form-label-sm">weekend_surcharge_payment</label>
-                <input type="number" id="weekend_surcharge_payment" min="10" step="10"
+                <input type="number" class="form-control form-control-sm" id="weekend_surcharge_payment" min="10" step="10"
                        v-model="price.weekend_surcharge_payment"
                        v-on:change="checkChangesInPrices()">
 
@@ -42,7 +42,7 @@
 
                 <!--                holiday_surcharge_payment-->
                 <label for="holiday_surcharge_payment" class="form-label col-form-label-sm">holiday_surcharge_payment</label>
-                <input type="number" id="holiday_surcharge_payment" min="10" step="10"
+                <input type="number" class="form-control form-control-sm" id="holiday_surcharge_payment" min="10" step="10"
                        v-model="price.holiday_surcharge_payment"
                        v-on:change="checkChangesInPrices()">
 
@@ -59,7 +59,7 @@
 
                 <!--                fare_surcharge_payment-->
                 <label for="fare_surcharge_payment" class="form-label col-form-label-sm">fare_surcharge_payment</label>
-                <input type="number" id="fare_surcharge_payment" min="10" max="50" step="5"
+                <input type="number" class="form-control form-control-sm" id="fare_surcharge_payment" min="10" max="50" step="5"
                        v-model="price.fare_surcharge_payment"
                        v-on:change="checkChangesInPrices()">
 

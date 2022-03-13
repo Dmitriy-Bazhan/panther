@@ -74,6 +74,7 @@ class UserSeeder extends Seeder
             $nurseEntity = new Nurse();
             $nurseEntity->age = rand(20, 55);
             $nurseEntity->description = 'DESCRIPTION';
+            $nurseEntity->available_care_range = rand(0, 5);
             $nurseEntity->save();
             $entityId = $nurseEntity->id;
 
@@ -104,35 +105,30 @@ class UserSeeder extends Seeder
             'original_photo' => 'user_3/photo/original_photo_user_3_IMG_20180720_201158.jpg',
             'thumbnail_photo' => 'user_3/photo/thumbnail_photo_user_3_IMG_20180720_201158.jpg',
             'info_is_full' => 'yes',
-            'available_care_range' => rand(1, 5),
         ]);
 
         Nurse::where('id', 2)->update([
             'original_photo' => 'user_5/photo/original_photo_user_5_2017718160457.jpg',
             'thumbnail_photo' => 'user_5/photo/thumbnail_photo_user_5_2017718160457.jpg',
             'info_is_full' => 'yes',
-            'available_care_range' => rand(1, 5),
         ]);
 
         Nurse::where('id', 3)->update([
             'original_photo' => 'user_7/photo/original_photo_user_7_2017520162233.jpg',
             'thumbnail_photo' => 'user_7/photo/thumbnail_photo_user_7_2017520162233.jpg',
             'info_is_full' => 'yes',
-            'available_care_range' => rand(1, 5),
         ]);
 
         Nurse::where('id', 4)->update([
             'original_photo' => 'user_9/photo/original_photo_user_9_IMG-02e5517709c41500875e5623f8796f62-V.jpg',
             'thumbnail_photo' => 'user_9/photo/thumbnail_photo_user_9_IMG-02e5517709c41500875e5623f8796f62-V.jpg',
             'info_is_full' => 'yes',
-            'available_care_range' => rand(1, 5),
         ]);
 
         Nurse::where('id', 5)->update([
             'original_photo' => 'user_11/photo/original_photo_user_11_IMG_20180819_163512.jpg',
             'thumbnail_photo' => 'user_11/photo/thumbnail_photo_user_11_IMG_20180819_163512.jpg',
             'info_is_full' => 'yes',
-            'available_care_range' => rand(1, 5),
         ]);
 
         for ($i = 1; $i <= 5; $i++) {

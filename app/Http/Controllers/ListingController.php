@@ -85,7 +85,6 @@ class ListingController extends Controller
         ]);
 
         $nurses = $this->nursesRepo->search();
-        $nursesCollection = new NurseCollection($nurses);
-        return response()->json(['success' => true, 'nurses' => $nursesCollection]);
+        return response()->json(['success' => true, 'nurses' =>$nurses]);
     }
 }

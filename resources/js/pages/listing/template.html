@@ -100,6 +100,7 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
+                    <option value="0">not_sure</option>
                 </select>
 
             </div>
@@ -233,31 +234,9 @@
         </div>
     </div>
 
-    <table v-if="nurses.length > 0" rules="all">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Photo</th>
-            <th>Zip code</th>
-            <th>Price</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-if="nurses.length > 0" v-for="nurse in nurses">
+    <div v-if="showModalNursesListing" class="nurses-listing-wrapper">
+        <nurses-listing :nurses="nurses"></nurses-listing>
+    </div>
 
-            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
-            <td>{{ nurse.entity.age }}</td>
-            <td>
-                <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
-            </td>
-            <td>{{ nurse.zip_code }}</td>
-            <td>Price</td>
-            <td>
-                {{ nurse.entity.description}}
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
 </div>

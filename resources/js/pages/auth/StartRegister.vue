@@ -22,6 +22,9 @@
 <script>
 export default {
     name: "StartRegister",
+    mounted() {
+        this.emitter.emit('not-show-left-panel');
+    },
     methods: {
         toClientRegister() {
             location.href = '/client-register';

@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Localization from "../../pages/components/Localization";
-import Logout from "../../pages/components/Logout";
+import Localization from "../components/Localization";
+import Logout from "../components/Logout";
 
 export default {
     name: "Header",

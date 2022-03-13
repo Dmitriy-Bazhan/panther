@@ -1,9 +1,13 @@
 import template from "./template.html";
+import NursesListing from "./NursesListing";
 import './style.css';
 
 export default {
     name: 'listing',
     template: template,
+    components: {
+        'nurses-listing' : NursesListing,
+    },
     props: ['data'],
     data() {
         return {
@@ -11,6 +15,7 @@ export default {
             nurses: [],
             errors: null,
             showReminder: false,
+            showModalNursesListing: false,
             clientSearchInfo : {
                 for_whom : 'for_a_relative',
                 name: '',
@@ -44,6 +49,10 @@ export default {
 
     mounted() {
         this.getClientSearchInfo();
+
+        this.emitter.on('clise-modal-nurse-listing', e => {
+            this.showModalNursesListing = false;
+        });
     },
     methods: {
         getClientSearchInfo(){
@@ -59,13 +68,13 @@ export default {
         },
 
         findNeedNurses() {
-            // console.log(this.clientSearchInfo);
             axios.post('listing/get-nurses-to-listing', {'clientSearchInfo' : this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
                         this.errors = null;
                         console.log(response.data);
                         this.nurses = response.data.nurses;
+                        this.showModalNursesListing = true;
                     } else {
                         this.errors = response.data.errors;
                     }
