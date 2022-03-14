@@ -41,52 +41,52 @@ class NurseRepository
         }
 
         //filters is approved
-//        if (request()->filled('is_approved') && request('is_approved') == 'yes') {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->where('is_approved', '=', 'yes');
-//            });
-//        }
-//
-//        //filter provider_supports
-//        if (request()->filled('provider_supports') && is_array(request('provider_supports'))) {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->whereHas('provideSupports', function ($query) {
-//                    return $query->whereIn('support_id', request('provider_supports'));
-//                });
-//            });
-//        }
-//
-//        //filter degree_of_care_available
-//        if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->where('available_care_range', '=', request('degree_of_care_available'));
-//            });
-//        }
-//
-//        //filter language
-//        if (request()->filled('language') && request('language') != 'no_matter') {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->whereHas('languages', function ($query) {
-//                    return $query->where('lang', request('language'));
-//                });
-//            });
-//        }
-//
-//        //filter language_level
-//        if (request()->filled('language_level') && request('language_level') != 'no_matter') {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->whereHas('languages', function ($query) {
-//                    return $query->where('level', request('language_level'));
-//                });
-//            });
-//        }
-//
-//        //filter preference_for_the_nurse
-//        if (request()->filled('preference_for_the_nurse')) {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->where('pref_client_gender', '=', request('preference_for_the_nurse'));
-//            });
-//        }
+        if (request()->filled('is_approved') && request('is_approved') == 'yes') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('is_approved', '=', 'yes');
+            });
+        }
+
+        //filter provider_supports
+        if (request()->filled('provider_supports') && is_array(request('provider_supports'))) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('provideSupports', function ($query) {
+                    return $query->whereIn('support_id', request('provider_supports'));
+                });
+            });
+        }
+
+        //filter degree_of_care_available
+        if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('available_care_range', '=', request('degree_of_care_available'));
+            });
+        }
+
+        //filter language
+        if (request()->filled('language') && request('language') != 'no_matter') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('languages', function ($query) {
+                    return $query->where('lang', request('language'));
+                });
+            });
+        }
+
+        //filter language_level
+        if (request()->filled('language_level') && request('language_level') != 'no_matter') {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->whereHas('languages', function ($query) {
+                    return $query->where('level', request('language_level'));
+                });
+            });
+        }
+
+        //filter preference_for_the_nurse
+        if (request()->filled('preference_for_the_nurse')) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('pref_client_gender', '=', request('preference_for_the_nurse'));
+            });
+        }
 
         //order (only for some nurses)
         if (is_null($id)) {

@@ -16,6 +16,7 @@ export default {
             errors: null,
             showReminder: false,
             showModalNursesListing: false,
+            url: 'listing/get-nurses-to-listing',
             clientSearchInfo : {
                 for_whom : 'for_a_relative',
                 name: '',
@@ -50,8 +51,16 @@ export default {
     mounted() {
         this.getClientSearchInfo();
 
-        this.emitter.on('clise-modal-nurse-listing', e => {
+        this.emitter.on('close-modal-nurse-listing', e => {
             this.showModalNursesListing = false;
+        });
+
+        this.emitter.on('get-nurses-new-page', url => {
+            if(url !== null){
+                this.url = url;
+                this.findNeedNurses();
+            }
+
         });
     },
     methods: {
@@ -68,11 +77,10 @@ export default {
         },
 
         findNeedNurses() {
-            axios.post('listing/get-nurses-to-listing', {'clientSearchInfo' : this.clientSearchInfo})
+            axios.post(this.url, {'clientSearchInfo' : this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
                         this.errors = null;
-                        console.log(response.data);
                         this.nurses = response.data.nurses;
                         this.showModalNursesListing = true;
                     } else {

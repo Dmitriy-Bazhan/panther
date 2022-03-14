@@ -44,11 +44,20 @@
 
     </div>
     <br>
-    <div class="container-fluid">
+    <div v-if="nurses.links.length > 3" class="container-fluid">
         <div class="row">
-            <div class="col-12 justify-content-center">
+            <div class="col-12 d-flex justify-content-center">
             <span v-if="nurses.links.length > 0" v-for="link in nurses.links" class="nurse-link-wrapper">
-                <span v-on:click="newPage(link.url)">{{ link.label}}</span>
+                <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
+                     preview
+                </span>
+                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)" class="nurse-link">
+                    next
+                </span>
+                <span v-else v-on:click="newPage(link.url)"
+                      v-bind:class="link.active ? 'active-link': ''" class="nurse-link">
+                    {{ link.label }}
+                </span>
             </span>
             </div>
         </div>
@@ -69,10 +78,10 @@
         },
         methods: {
             cliseModalNurseListing() {
-                this.emitter.emit('clise-modal-nurse-listing');
+                this.emitter.emit('close-modal-nurse-listing');
             },
             newPage(url) {
-                console.log(url);
+               this.emitter.emit('get-nurses-new-page', url);
             }
         }
     }
@@ -111,5 +120,15 @@
     .nurse-link-wrapper {
         background: #0a58ca;
         padding: 10px;
+
+        margin: 1px;
+    }
+
+    .nurse-link {
+        cursor: pointer;
+    }
+
+    .active-link {
+        color:white;
     }
 </style>

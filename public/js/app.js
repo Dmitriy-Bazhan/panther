@@ -26945,10 +26945,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     cliseModalNurseListing: function cliseModalNurseListing() {
-      this.emitter.emit('clise-modal-nurse-listing');
+      this.emitter.emit('close-modal-nurse-listing');
     },
     newPage: function newPage(url) {
-      console.log(url);
+      this.emitter.emit('get-nurses-new-page', url);
     }
   }
 });
@@ -29163,18 +29163,21 @@ var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
 });
 
 var _hoisted_20 = {
+  key: 0,
   "class": "container-fluid"
 };
 var _hoisted_21 = {
   "class": "row"
 };
 var _hoisted_22 = {
-  "class": "col-12 justify-content-center"
+  "class": "col-12 d-flex justify-content-center"
 };
 var _hoisted_23 = {
   "class": "nurse-link-wrapper"
 };
 var _hoisted_24 = ["onClick"];
+var _hoisted_25 = ["onClick"];
+var _hoisted_26 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success btn-sm",
@@ -29203,19 +29206,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     )])])])]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [$props.nurses.links.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_19, $props.nurses.links.length > 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [$props.nurses.links.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nurses.links, function (link) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, [link.label.split(';')[1] === ' Previous' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: 0,
       onClick: function onClick($event) {
         return $options.newPage(link.url);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(link.label), 9
-    /* TEXT, PROPS */
-    , _hoisted_24)]);
+      },
+      "class": "nurse-link"
+    }, " preview ", 8
+    /* PROPS */
+    , _hoisted_24)) : link.label.split('&')[0] === 'Next ' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: 1,
+      onClick: function onClick($event) {
+        return $options.newPage(link.url);
+      },
+      "class": "nurse-link"
+    }, " next ", 8
+    /* PROPS */
+    , _hoisted_25)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: 2,
+      onClick: function onClick($event) {
+        return $options.newPage(link.url);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([link.active ? 'active-link' : '', "nurse-link"])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(link.label), 11
+    /* TEXT, CLASS, PROPS */
+    , _hoisted_26))]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])], 64
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -30083,6 +30104,7 @@ __webpack_require__.r(__webpack_exports__);
       errors: null,
       showReminder: false,
       showModalNursesListing: false,
+      url: 'listing/get-nurses-to-listing',
       clientSearchInfo: {
         for_whom: 'for_a_relative',
         name: '',
@@ -30117,8 +30139,15 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.getClientSearchInfo();
-    this.emitter.on('clise-modal-nurse-listing', function (e) {
+    this.emitter.on('close-modal-nurse-listing', function (e) {
       _this.showModalNursesListing = false;
+    });
+    this.emitter.on('get-nurses-new-page', function (url) {
+      if (url !== null) {
+        _this.url = url;
+
+        _this.findNeedNurses();
+      }
     });
   },
   methods: {
@@ -30136,12 +30165,11 @@ __webpack_require__.r(__webpack_exports__);
     findNeedNurses: function findNeedNurses() {
       var _this3 = this;
 
-      axios.post('listing/get-nurses-to-listing', {
+      axios.post(this.url, {
         'clientSearchInfo': this.clientSearchInfo
       }).then(function (response) {
         if (response.data.success) {
           _this3.errors = null;
-          console.log(response.data);
           _this3.nurses = response.data.nurses;
           _this3.showModalNursesListing = true;
         } else {
@@ -30780,7 +30808,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-cards-container[data-v-8670cdac] {\n        height: 80%;\n        overflow: auto;\n}\n.nurse-cards-wrapper[data-v-8670cdac] {\n        padding: 10px;\n}\n.nurse-card[data-v-8670cdac] {\n        border: solid 1px black;\n        box-shadow: 10px 5px 5px #afafaf;\n        height: 300px;\n}\n.nurse-card-image-wrapper[data-v-8670cdac] {\n        padding: 10px;\n        height: 180px;\n}\n.nurse-card-image[data-v-8670cdac] {\n        width: 90%;\n}\n.nurse-card-item[data-v-8670cdac] {\n        font-size: 14px;\n        font-weight: 600;\n}\n.nurse-link-wrapper[data-v-8670cdac] {\n        background: #0a58ca;\n        padding: 10px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-cards-container[data-v-8670cdac] {\n        height: 80%;\n        overflow: auto;\n}\n.nurse-cards-wrapper[data-v-8670cdac] {\n        padding: 10px;\n}\n.nurse-card[data-v-8670cdac] {\n        border: solid 1px black;\n        box-shadow: 10px 5px 5px #afafaf;\n        height: 300px;\n}\n.nurse-card-image-wrapper[data-v-8670cdac] {\n        padding: 10px;\n        height: 180px;\n}\n.nurse-card-image[data-v-8670cdac] {\n        width: 90%;\n}\n.nurse-card-item[data-v-8670cdac] {\n        font-size: 14px;\n        font-weight: 600;\n}\n.nurse-link-wrapper[data-v-8670cdac] {\n        background: #0a58ca;\n        padding: 10px;\n\n        margin: 1px;\n}\n.nurse-link[data-v-8670cdac] {\n        cursor: pointer;\n}\n.active-link[data-v-8670cdac] {\n        color:white;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
