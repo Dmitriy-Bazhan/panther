@@ -45,7 +45,8 @@ const routes = [
     {
         path: "/listing",
         name: 'Listing',
-        component: Listing
+        component: Listing,
+        props: true,
     }
 ];
 

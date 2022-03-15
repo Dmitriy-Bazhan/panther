@@ -1,8 +1,11 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-1 offset-11">
-                <button class="btn btn-success btn-sm" v-on:click="cliseModalNurseListing()">close</button>
+            <div class="col-4">
+                <h4>List of nurses by search results</h4>
+            </div>
+            <div class="col-1 offset-7">
+                <button class="btn btn-success btn-sm" v-on:click="closeModalNurseListing()">close</button>
             </div>
         </div>
 
@@ -10,7 +13,7 @@
     <div class="container-fluid nurse-cards-container">
         <div class="row">
             <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="col-4 nurse-cards-wrapper">
-                <div class="nurse-card">
+                <div class="nurse-card" v-on:click="showNurseProfile(nurse)">
                     <div class="row">
                         <div class="col-7">
                             <div>
@@ -74,14 +77,16 @@
             }
         },
         mounted() {
-            console.log(this.nurses);
         },
         methods: {
-            cliseModalNurseListing() {
+            closeModalNurseListing() {
                 this.emitter.emit('close-modal-nurse-listing');
             },
             newPage(url) {
                this.emitter.emit('get-nurses-new-page', url);
+            },
+            showNurseProfile(nurse){
+                this.emitter.emit('show-nurse-profile', nurse);
             }
         }
     }
@@ -103,6 +108,10 @@
         height: 300px;
     }
 
+    .nurse-card:hover {
+        box-shadow: 5px 2px 2px #afafaf;
+    }
+
     .nurse-card-image-wrapper {
         padding: 10px;
         height: 180px;
@@ -120,7 +129,6 @@
     .nurse-link-wrapper {
         background: #0a58ca;
         padding: 10px;
-
         margin: 1px;
     }
 

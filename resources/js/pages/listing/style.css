@@ -32,3 +32,17 @@
     z-index: 100;
     overflow: auto;
 }
+
+.nurse-profile-wrapper {
+    position: fixed;
+    width: 94%;
+    top: 3%;
+    left: 3%;
+    background: #98d9b2;
+    padding: 15px;
+    border: #388844;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 200;
+    overflow: auto;
+}

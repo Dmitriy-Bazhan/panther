@@ -1,6 +1,6 @@
 import * as VueRouter from "vue-router";
 import Overview from "../dashboards/nurse-dashboard/components/Overview";
-import Messages from "../dashboards/nurse-dashboard/components/Messages";
+import Messages from "../dashboards/nurse-dashboard/components/messages/index";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
 import Payments from "../dashboards/nurse-dashboard/components/payments/index";
@@ -16,7 +16,8 @@ const routes = [
     {
         path: "/dashboard/nurse/messages",
         name: 'NurseDashboardMessages',
-        component: Messages
+        component: Messages,
+        props: true,
     },
     {
         path: "/dashboard/nurse/ratings",

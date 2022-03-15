@@ -15,9 +15,5 @@ class NurseResource extends JsonResource
     public function toArray($request)
     {
         return parent::toArray($request);
-
-//        return [
-//            'work_time_pref' => json_decode($this->work_time_pref, true),
-//        ];
     }
 }

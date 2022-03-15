@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PrivateChat\ClientSentMessage;
+use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\NurseCollection;
+use App\Http\Resources\NurseResource;
 use App\Models\ClientSearchInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,17 +16,19 @@ class ListingController extends Controller
 {
     protected $nursesRepo;
     protected $clientsRepo;
+    protected $chatRepo;
 
-    public function __construct(NurseRepository $nursesRepo, ClientRepository $clientsRepo)
+    public function __construct(NurseRepository $nursesRepo, ClientRepository $clientsRepo, ChatRepository $chatRepo)
     {
         parent::__construct();
         $this->nursesRepo = $nursesRepo;
         $this->clientsRepo = $clientsRepo;
+        $this->chatRepo = $chatRepo;
     }
 
     public function getClientSearchInfo()
     {
-        if(!$clientSearchInfo = ClientSearchInfo::where('client_id', auth()->user()->entity->id)->first()){
+        if (!$clientSearchInfo = ClientSearchInfo::where('client_id', auth()->user()->entity->id)->first()) {
             return abort(409);
         }
 
@@ -85,6 +90,32 @@ class ListingController extends Controller
         ]);
 
         $nurses = $this->nursesRepo->search();
-        return response()->json(['success' => true, 'nurses' =>$nurses]);
+
+        return response()->json(['success' => true, 'nurses' => $nurses]);
+    }
+
+    public function sendPrivateMessage()
+    {
+        $nurse_id = null;
+        if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
+            $nurse_id = request('nurse_id');
+        }
+
+        $privateMessage = null;
+        if (request()->filled('privateMessage') && request('privateMessage') !== '') {
+            $privateMessage = request('privateMessage');
+        }
+
+        $client_id = auth()->id();
+        $user_name = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+
+        if (!$this->chatRepo->saveMessageClientToNurse($nurse_id, $client_id, $privateMessage, $user_name)) {
+            //todo: cant save message client to burse
+            return abort(409);
+        }
+
+        broadcast(new ClientSentMessage($nurse_id, $client_id, $privateMessage, $user_name));
+
+        return response()->json(['success' => $nurse_id]);
     }
 }

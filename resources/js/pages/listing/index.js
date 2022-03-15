@@ -1,5 +1,6 @@
 import template from "./template.html";
 import NursesListing from "./NursesListing";
+import NurseProfile from "./NurseProfile";
 import './style.css';
 
 export default {
@@ -7,15 +8,18 @@ export default {
     template: template,
     components: {
         'nurses-listing' : NursesListing,
+        'nurses-profile' : NurseProfile,
     },
-    props: ['data'],
+    props: ['data', 'user'],
     data() {
         return {
             path: location.origin,
             nurses: [],
+            nurse: null,
             errors: null,
             showReminder: false,
             showModalNursesListing: false,
+            showModalNurseProfile: false,
             url: 'listing/get-nurses-to-listing',
             clientSearchInfo : {
                 for_whom : 'for_a_relative',
@@ -47,12 +51,15 @@ export default {
             }
         },
     },
-
     mounted() {
         this.getClientSearchInfo();
-
         this.emitter.on('close-modal-nurse-listing', e => {
             this.showModalNursesListing = false;
+        });
+
+        this.emitter.on('close-modal-nurse-profile', e => {
+            this.nurse = null;
+            this.showModalNurseProfile = false;
         });
 
         this.emitter.on('get-nurses-new-page', url => {
@@ -61,6 +68,13 @@ export default {
                 this.findNeedNurses();
             }
 
+        });
+
+        this.emitter.on('show-nurse-profile', nurse => {
+            if(nurse !== null){
+                this.nurse = nurse;
+                this.showModalNurseProfile = true;
+            }
         });
     },
     methods: {

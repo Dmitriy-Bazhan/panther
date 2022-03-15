@@ -34,6 +34,7 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::get('/', [MainPageController::class, 'index']);
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
     Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+    Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
 });
 
 Route::prefix('dashboard')->group(function () {
@@ -61,6 +62,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [ClientDashboardController::class, 'index']);
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
+
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 

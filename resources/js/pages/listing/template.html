@@ -238,5 +238,7 @@
         <nurses-listing :nurses="nurses"></nurses-listing>
     </div>
 
-
+    <div v-if="showModalNurseProfile" class="nurse-profile-wrapper">
+        <nurses-profile :nurse="nurse" :data="data" :user="user"></nurses-profile>
+    </div>
 </div>
