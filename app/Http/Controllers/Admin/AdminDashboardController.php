@@ -29,7 +29,6 @@ class AdminDashboardController extends Controller
 
         $data['data']['provider_supports'] = ProvideSupport::all();
         $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-
         return view('dashboard', $data);
     }
 

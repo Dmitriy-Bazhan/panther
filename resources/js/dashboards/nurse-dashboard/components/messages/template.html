@@ -1,5 +1,10 @@
 <div>
     <h1>Messages</h1>
 
-    <chat :user="user"></chat>
+    <div v-if="chats" v-for="(chat, index) in chats">
+        <chat :user="user" :index="index" :chat="chat"></chat>
+    </div>
+
+
+
 </div>

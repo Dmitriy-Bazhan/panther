@@ -18,13 +18,15 @@ class ClientSentMessage implements ShouldBroadcast
     public $nurse_id;
     public $client_id;
     public $user_name;
+    public $created_at;
 
-    public function __construct($nurse_id, $client_id, $privateMessage, $user_name)
+    public function __construct($nurse_id, $client_id, $privateMessage, $user_name, $created_at)
     {
         $this->nurse_id = $nurse_id;
         $this->privateMessage = $privateMessage;
         $this->client_id = $client_id;
         $this->user_name = $user_name;
+        $this->created_at = $created_at;
     }
 
     public function broadcastOn()
@@ -39,6 +41,7 @@ class ClientSentMessage implements ShouldBroadcast
             'nurse_id' => $this->nurse_id,
             'client_id' => $this->client_id,
             'user_name' => $this->user_name,
+            'created_at' => $this->created_at,
         ];
     }
 }

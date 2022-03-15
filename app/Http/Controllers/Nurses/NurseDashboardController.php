@@ -57,6 +57,4 @@ class NurseDashboardController extends Controller
     {
         //
     }
-
-
 }

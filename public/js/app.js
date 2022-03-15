@@ -26552,7 +26552,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Chat",
-  props: ['user'],
+  props: ['user', 'index', 'chat'],
   data: function data() {
     return {
       comments: [],
@@ -26562,11 +26562,33 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    window.Echo["private"]('client-between-nurse.' + this.user.id + '.' + '2').listen('PrivateChat.ClientSentMessage', function (response) {
+    if (this.chat.length > 0) {
+      for (var value in this.chat) {
+        var message = {
+          'user_name': this.chat[value].user_name,
+          'message': this.chat[value].message,
+          'client_sent': this.chat[value].client_sent,
+          'nurse_sent': this.chat[value].client_sent,
+          'created_at': this.chat[value].created_at
+        };
+        this.comments.unshift(message);
+      }
+
+      ;
+    }
+
+    window.Echo["private"]('client-between-nurse.' + this.user.id + '.' + this.index).listen('PrivateChat.ClientSentMessage', function (response) {
       console.log('RESPONSE');
       console.log(response);
+      var message = {
+        'user_name': response.user_name,
+        'message': response.privateMessage,
+        'client_sent': response.client_sent,
+        'nurse_sent': response.client_sent,
+        'created_at': response.created_at
+      };
 
-      _this.comments.unshift(response.privateMessage);
+      _this.comments.unshift(message);
     }).error(function (error) {
       console.log('ERROR IN SOCKETS CONNTECT : ' + error);
     });
@@ -28259,7 +28281,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$data.comments.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.comments, function (comment) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment), 1
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.user_name + ': ' + comment.message + ' data: ' + comment.created_at), 1
     /* TEXT */
     );
   }), 256
@@ -30083,6 +30105,26 @@ __webpack_require__.r(__webpack_exports__);
   props: ['user', 'data'],
   components: {
     'chat': _Chat__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      chats: false
+    };
+  },
+  mounted: function mounted() {
+    this.getPrivateChats();
+  },
+  methods: {
+    getPrivateChats: function getPrivateChats() {
+      var _this = this;
+
+      axios.get('/dashboard/nurse-private-chats').then(function (response) {
+        _this.chats = response.data.chats;
+        console.log(_this.chats);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -31328,7 +31370,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Messages</h1>\n\n    <chat :user=\"user\"></chat>\n</div>\n";
+var code = "<div>\n    <h1>Messages</h1>\n\n    <div v-if=\"chats\" v-for=\"(chat, index) in chats\">\n        <chat :user=\"user\" :index=\"index\" :chat=\"chat\"></chat>\n    </div>\n\n\n\n</div>\n";
 // Exports
 module.exports = code;
 

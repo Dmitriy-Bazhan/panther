@@ -109,13 +109,13 @@ class ListingController extends Controller
         $client_id = auth()->id();
         $user_name = auth()->user()->first_name . ' ' . auth()->user()->last_name;
 
-        if (!$this->chatRepo->saveMessageClientToNurse($nurse_id, $client_id, $privateMessage, $user_name)) {
+        if (!$result = $this->chatRepo->saveMessageClientToNurse($nurse_id, $client_id, $privateMessage, $user_name)) {
             //todo: cant save message client to burse
             return abort(409);
         }
 
-        broadcast(new ClientSentMessage($nurse_id, $client_id, $privateMessage, $user_name));
+        broadcast(new ClientSentMessage($nurse_id, $client_id, $privateMessage, $user_name, $result->created_at));
 
-        return response()->json(['success' => $nurse_id]);
+        return response()->json(['success' => $result]);
     }
 }

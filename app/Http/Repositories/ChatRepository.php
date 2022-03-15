@@ -24,8 +24,14 @@ class ChatRepository
         ]);
 
         if ($success) {
-            return true;
+            return $success;
         }
         return false;
+    }
+
+    public function getNursePrivateChats(){
+        $chats = PrivateChat::where('nurse_user_id', auth()->id())->get()->groupBy('client_user_id');
+
+        return $chats;
     }
 }

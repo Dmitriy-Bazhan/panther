@@ -5,7 +5,9 @@
                 Chat:
             </div>
             <div class="col-10 chat-wrapper">
-                  <p v-if="comments.length > 0" v-for="comment in comments">{{ comment }}</p>
+                <p v-if="comments.length > 0" v-for="comment in comments">
+                    {{ comment.user_name + ': ' + comment.message  + ' data: ' + comment.created_at}}
+                </p>
             </div>
 
         </div>
@@ -27,25 +29,50 @@
 <script>
     export default {
         name: "Chat",
-        props: ['user'],
+        props: ['user', 'index', 'chat'],
         data() {
             return {
                 comments: [],
-                privateMessage : '',
+                privateMessage: '',
             }
         },
         mounted() {
-            window.Echo.private('client-between-nurse.' + this.user.id + '.' + '2')
+            if (this.chat.length > 0) {
+                for (let value in this.chat) {
+
+                    let message = {
+                        'user_name': this.chat[value].user_name,
+                        'message': this.chat[value].message,
+                        'client_sent' : this.chat[value].client_sent,
+                        'nurse_sent' : this.chat[value].client_sent,
+                        'created_at' : this.chat[value].created_at,
+                    };
+
+                    this.comments.unshift(message);
+                }
+                ;
+            }
+
+            window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.index)
                 .listen('PrivateChat.ClientSentMessage', (response) => {
                     console.log('RESPONSE');
                     console.log(response);
-                    this.comments.unshift(response.privateMessage);
+
+                    let message = {
+                        'user_name': response.user_name,
+                        'message': response.privateMessage,
+                        'client_sent' : response.client_sent,
+                        'nurse_sent' : response.client_sent,
+                        'created_at' : response.created_at,
+                    };
+
+                    this.comments.unshift(message);
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNTECT : ' + error);
             });
         },
-        methods : {
-            sendPrivateMessage(){
+        methods: {
+            sendPrivateMessage() {
                 console.log(this.privateMessage);
             },
         }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Nurses\NurseDashboardController;
 use App\Http\Controllers\Nurses\NursesMyInformationController;
 use App\Http\Controllers\Nurses\NursesPaymentsController;
+use App\Http\Controllers\Nurses\NursesMessageController;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -77,6 +78,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
+
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
@@ -91,6 +93,9 @@ Route::prefix('dashboard')->group(function () {
 
     });
     Route::resource('nurse-payments', NursesPaymentsController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
+    //nurse message
+    Route::resource( 'nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
 
