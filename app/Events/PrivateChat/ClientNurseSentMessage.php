@@ -10,27 +10,26 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NurseSentMessage
+class ClientNurseSentMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $result;
+
+    public function __construct($result)
     {
-        //
+        $this->result = $result;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('client-between-nurse.' . $this->result->nurse_user_id . '.' .$this->result->client_user_id);
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'result' => $this->result,
+        ];
     }
 }

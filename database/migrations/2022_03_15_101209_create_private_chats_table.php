@@ -17,7 +17,7 @@ class CreatePrivateChatsTable extends Migration
             $table->id();
             $table->bigInteger('client_user_id')->unsigned();
             $table->bigInteger('nurse_user_id')->unsigned();
-            $table->string('message')->default(' ');
+            $table->text('message')->nullable();
             $table->string('user_name')->default(' ');
             $table->string('client_sent')->nullable()->default(null)->comment('yes -> if client send');
             $table->string('nurse_sent')->nullable()->default(null)->comment('yes -> if nurse send');

@@ -6,8 +6,7 @@
 
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Home</li>
-            <li v-if="user.entity_type !== 'nurse' && user" class="list-group-item"><router-link :to="{ name : 'Listing' }">Listing</router-link></li>
-            <li class="list-group-item">Bookings</li>
+            <li v-if="user.entity_type !== 'nurse' && user && user.email_verified_at !== null" class="list-group-item"><router-link :to="{ name : 'Listing' }">Listing</router-link></li>
         </ul>
     </div>
 </template>

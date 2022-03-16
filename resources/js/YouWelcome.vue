@@ -20,6 +20,7 @@ export default {
     name: "YouWelcome",
     mounted() {
         this.emitter.emit('not-show-layouts');
+        this.emitter.emit('not-show-left-panel');
     },
     methods: {
         toDashboard() {

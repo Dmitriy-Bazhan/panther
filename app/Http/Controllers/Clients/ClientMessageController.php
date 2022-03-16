@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Nurses;
+namespace App\Http\Controllers\Clients;
 
 use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use Illuminate\Http\Request;
 
-class NursesMessageController extends Controller
+class ClientMessageController extends Controller
 {
     protected $chatRepo;
 
@@ -20,20 +20,20 @@ class NursesMessageController extends Controller
 
     public function index()
     {
-        $data = $this->chatRepo->getNursePrivateChats();
-        return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients']]);
+        $chats = $this->chatRepo->getClientPrivateChats();
+        return response()->json(['success' => true, 'chats' => $chats]);
     }
 
     public function create()
     {
-
+        //
     }
 
     public function store(Request $request)
     {
-        $client_id = null;
-        if (request()->filled('client_id') && is_numeric(request('client_id'))) {
-            $client_id = request('client_id');
+        $nurse_id = null;
+        if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
+            $nurse_id = request('nurse_id');
         }
 
         $privateMessage = null;
@@ -41,15 +41,16 @@ class NursesMessageController extends Controller
             $privateMessage = request('privateMessage');
         }
 
-        $nurse_id = auth()->id();
+        $client_id = auth()->id();
         $user_name = auth()->user()->first_name . ' ' . auth()->user()->last_name;
 
-        if (!$result = $this->chatRepo->saveMessageNurseToClient($nurse_id, $client_id, $privateMessage, $user_name)) {
+        if (!$result = $this->chatRepo->saveMessageClientToNurse($nurse_id, $client_id, $privateMessage, $user_name)) {
             //todo: cant save message client to burse
             return abort(409);
         }
+
         broadcast(new ClientNurseSentMessage($result));
-        return response()->json(['success' => true]);
+        return response()->json(['success' => $result]);
     }
 
     public function show($id)

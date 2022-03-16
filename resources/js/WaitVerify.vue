@@ -11,6 +11,7 @@ export default {
     name: "WaitVerify",
     mounted() {
         this.emitter.emit('not-show-layouts');
+        this.emitter.emit('not-show-left-panel');
     },
 }
 </script>

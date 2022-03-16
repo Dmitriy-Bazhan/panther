@@ -1,20 +1,16 @@
 import template from './template.html';
 import Chat from './Chat';
-import Client from "./Client";
 
 export default {
-    name: "MessagesClient",
+    name: "Messages",
     template: template,
     props: ['user', 'data'],
     components: {
-        'chat': Chat,
-        'client' : Client,
+        'chat': Chat
     },
     data() {
         return {
             chats: false,
-            clients: false,
-            firstChat: null,
         }
     },
     mounted() {
@@ -22,11 +18,10 @@ export default {
     },
     methods: {
         getPrivateChats() {
-            axios.get('/dashboard/nurse-private-chats')
+            axios.get('/dashboard/client-private-chats')
                 .then((response) => {
                     this.chats = response.data.chats;
-                    this.clients = response.data.clients;
-                    this.firstChat = Object.keys(this.chats)[0];
+                    console.log(this.chats);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -34,4 +29,3 @@ export default {
         }
     }
 }
-

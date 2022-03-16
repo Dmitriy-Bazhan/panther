@@ -7,13 +7,17 @@
                 <localization-component></localization-component>
             </div>
 
-            <div v-if="!auth || auth.email_verified_at === null" class="col-2">
+            <div v-if="!auth" class="col-2">
                 <a href="login">
                     <button class="btn btn-sm btn-success">Login</button>
                 </a>&nbsp;
                 <a href="register">
                     <button class="btn btn-sm btn-success">Register</button>
                 </a>
+            </div>
+
+            <div v-else-if="auth.email_verified_at === null" class="col-2">
+                <span>Waiting your email verification</span>
             </div>
 
             <div v-else class="col-2">

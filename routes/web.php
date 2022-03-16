@@ -6,8 +6,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+
+use App\Http\Controllers\Clients\ClientDashboardController;
+use App\Http\Controllers\Clients\ClientMessageController;
 
 use App\Http\Controllers\Nurses\NurseDashboardController;
 use App\Http\Controllers\Nurses\NursesMyInformationController;
@@ -36,6 +38,7 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
     Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
+    Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
 
 Route::prefix('dashboard')->group(function () {
@@ -67,6 +70,8 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
+    //client messages
+    Route::resource( 'client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     /*
      * nurse

@@ -1,7 +1,10 @@
 <template>
-    <div class="container-fluid" v-if="showChat">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12 chat-wrapper">
+            <div class="col-2">
+                Chat:
+            </div>
+            <div class="col-10 chat-wrapper">
                 <div v-if="comments.length > 0" v-for="comment in comments">
                     <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
                         <span class="chat-client-name">
@@ -54,29 +57,15 @@
 
 <script>
     export default {
-        name: "ChatClient",
-        props: ['user', 'index', 'chat', 'firstChat'],
+        name: "Chat",
+        props: ['user', 'index', 'chat'],
         data() {
             return {
                 comments: [],
                 privateMessage: '',
-                showChat: false,
             }
         },
         mounted() {
-            if(this.firstChat === this.index){
-                this.showChat = true;
-            }
-
-            this.emitter.on('show-chat', e => {
-                if(e === this.index){
-                    this.showChat = true;
-                }else{
-                    this.showChat = false;
-                }
-            });
-
-
             if (this.chat.length > 0) {
                 for (let value in this.chat) {
                     let message = {
@@ -91,7 +80,7 @@
             }
 
             try {
-                window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.index)
+                window.Echo.private('client-between-nurse.' + this.index + '.' + this.user.id)
                     .listen('PrivateChat.ClientNurseSentMessage', (response) => {
                         let message = {
                             'user_name': response.result.user_name,
@@ -110,12 +99,13 @@
         },
         methods: {
             sendPrivateMessage() {
-                axios.post('/dashboard/nurse-private-chats', {
-                    'client_id': this.index,
-                    'nurse_id': this.user.id,
+                axios.post('/dashboard/client-private-chats', {
+                    'client_id' :this.user.id,
+                    'nurse_id': this.index,
                     'privateMessage': this.privateMessage
                 }).then((response) => {
-                    if (response.data.success) {
+                    console.log(response);
+                    if(response.data.success){
                         this.privateMessage = '';
                     }
 
@@ -133,10 +123,8 @@
 
 <style scoped>
     .chat-wrapper {
-        height: 400px;
+        height: 250px;
         overflow: auto;
-        background: lightcyan;
-        padding: 10px;
     }
 
     .chat-client-message-wrapper {

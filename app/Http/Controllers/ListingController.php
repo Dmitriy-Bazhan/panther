@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Events\PrivateChat\ClientSentMessage;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
@@ -33,6 +34,17 @@ class ListingController extends Controller
         }
 
         return response()->json(['clientSearchInfo' => $clientSearchInfo]);
+    }
+
+    public function getPrivateChats($nurse_id = null){
+        if(is_null($nurse_id) || !is_numeric($nurse_id)){
+            //todo: logs
+            return abort(409);
+        }
+
+        $chat = $this->chatRepo->getClientPrivateChatsWithNurse($nurse_id);
+        return response()->json(['success' => true, 'chat' => $chat]);
+
     }
 
     public function getNursesToListing()
@@ -114,8 +126,7 @@ class ListingController extends Controller
             return abort(409);
         }
 
-        broadcast(new ClientSentMessage($nurse_id, $client_id, $privateMessage, $user_name, $result->created_at));
-
+        broadcast(new ClientNurseSentMessage($result));
         return response()->json(['success' => $result]);
     }
 }

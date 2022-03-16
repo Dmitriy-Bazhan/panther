@@ -42,12 +42,41 @@
                 <div class="col-2">
                     Chat:
                 </div>
-                <div class="col-10 chat-wrapper">
+                <div class="col-10 chat-wrapper" v-if="comments.length > 0">
+                    <div v-for="comment in comments">
+                        <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
+                        <span class="chat-client-name">
+                            {{ comment.user_name }}
+                        </span>
+                            <br>
+                            <span class="chat-client-message">
+                            {{ comment.message }}
+                        </span>
+                            <br>
+                            <span class="chat-client-date">
+                            {{ formatDate(comment.created_at) }}
+                        </span>
+                        </div>
 
+                        <div v-else class="nurse-client-message-wrapper">
+                        <span class="nurse-client-name">
+                            {{ comment.user_name }}
+                        </span>
+                            <br>
+                            <span class="nurse-client-message">
+                            {{ comment.message }}
+                        </span>
+                            <br>
+                            <span class="nurse-client-date">
+                            {{ formatDate(comment.created_at) }}
+                        </span>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
-
+            <br>
             <div class="row">
                 <div class="col-2">
                     Message:
@@ -72,19 +101,48 @@
             return {
                 path: location.origin,
                 privateMessage: '',
+                comments: [],
             }
         },
         mounted() {
+            this.getPrivateChats();
+
             window.Echo.private('client-between-nurse.' + this.nurse.id + '.' + this.user.id)
-                .listen('PrivateChat.ClientSentMessage', (response) => {
-                    console.log('RESPONSE');
-                    console.log(response);
-                    // this.comments.unshift(response);
+                .listen('PrivateChat.ClientNurseSentMessage', (response) => {
+                    let message = {
+                        'user_name': response.result.user_name,
+                        'message': response.result.message,
+                        'client_sent': response.result.client_sent,
+                        'nurse_sent': response.result.client_sent,
+                        'created_at': response.result.created_at,
+                    };
+                    this.comments.unshift(message);
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNTECT : ' + error);
             });
         },
         methods: {
+            getPrivateChats() {
+                axios.get('listing/get-private-chats/' + this.nurse.id)
+                    .then((response) => {
+                        console.log(response.data.chat.length);
+                        if (response.data.chat.length > 0) {
+                            for (let value in response.data.chat) {
+                                let message = {
+                                    'user_name': response.data.chat[value].user_name,
+                                    'message': response.data.chat[value].message,
+                                    'client_sent': response.data.chat[value].client_sent,
+                                    'nurse_sent': response.data.chat[value].client_sent,
+                                    'created_at': response.data.chat[value].created_at,
+                                };
+                                this.comments.unshift(message);
+                            }
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
             sendPrivateMessage() {
                 axios.post('listing/send-private-message', {
                     'nurse_id': this.nurse.id,
@@ -107,6 +165,10 @@
             closeModalNurseProfile() {
                 this.emitter.emit('close-modal-nurse-profile');
             },
+            formatDate(date) {
+                let a = String(date).split('T');
+                return a[0] + ' ' + String(a[1].split('.')[0]);
+            },
         },
     }
 </script>
@@ -126,5 +188,65 @@
     .nurse-profile-item {
         font-size: 14px;
         font-weight: 600;
+    }
+
+    .chat-wrapper {
+        height: 250px;
+        overflow: auto;
+    }
+
+    .chat-client-message-wrapper {
+        background: #85acff;
+        border: solid 1px #405dff;
+        padding: 10px;
+        border-radius: 10px;
+        width: 75%;
+        margin-bottom: 10px;
+    }
+
+    .chat-client-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #051dff;
+    }
+
+    .chat-client-message {
+        font-size: 14px;
+        font-weight: 700;
+        color: #6500ff;
+    }
+
+    .chat-client-date {
+        font-size: 10px;
+        font-weight: 700;
+        color: #051dff;
+    }
+
+    .nurse-client-message-wrapper {
+        background: #97ff05;
+        border: solid 1px #1eff14;
+        padding: 10px;
+        border-radius: 10px;
+        width: 75%;
+        margin-left: 25%;
+        margin-bottom: 10px;
+    }
+
+    .nurse-client-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #029612;
+    }
+
+    .nurse-client-message {
+        font-size: 14px;
+        font-weight: 700;
+        color: #10700a;
+    }
+
+    .nurse-client-date {
+        font-size: 10px;
+        font-weight: 700;
+        color: #0b5716;
     }
 </style>
