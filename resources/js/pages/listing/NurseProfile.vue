@@ -148,7 +148,7 @@
                     'nurse_id': this.nurse.id,
                     'privateMessage': this.privateMessage
                 }).then((response) => {
-                    console.log(response);
+                    this.privateMessage = '';
                 }).catch((error) => {
                         console.log(error);
                     });

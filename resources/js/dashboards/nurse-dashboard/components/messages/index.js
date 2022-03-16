@@ -19,6 +19,22 @@ export default {
     },
     mounted() {
         this.getPrivateChats();
+        this.emitter.emit('disable-show-alarm-new-message');
+
+        try {
+            window.Echo.private('nurse-have-new-message.' + this.user.id)
+                .listen('PrivateChat.NurseHaveNewMessage', (response) => {
+                    if(!this.chats){
+                        this.getPrivateChats();
+                    }else{
+                        console.log('Chats exists');
+                    }
+                }).error((error) => {
+                console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+            });
+        } catch (e) {
+            console.log('Websockets not work');
+        }
     },
     methods: {
         getPrivateChats() {

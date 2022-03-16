@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Events\PrivateChat\ClientSentMessage;
+use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
@@ -127,6 +128,7 @@ class ListingController extends Controller
         }
 
         broadcast(new ClientNurseSentMessage($result));
+        broadcast(new NurseHaveNewMessage($result['nurse_user_id']))->toOthers();
         return response()->json(['success' => $result]);
     }
 }

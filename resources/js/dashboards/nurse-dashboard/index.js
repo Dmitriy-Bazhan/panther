@@ -13,8 +13,25 @@ export default {
         'left-panel': LeftPanel,
         'notification': Notification
         // 'test-chat' : TestChat,
+    }, data() {
+        return {
+            showAlarmNewMessage: false,
+        }
     },
     mounted() {
-        // console.log(this.data);
+        this.emitter.on('disable-show-alarm-new-message', e => {
+            this.showAlarmNewMessage = false;
+        });
+
+        try {
+            window.Echo.private('nurse-have-new-message.' + this.user.id)
+                .listen('PrivateChat.NurseHaveNewMessage', (response) => {
+                    this.showAlarmNewMessage = true;
+                }).error((error) => {
+                console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+            });
+        } catch (e) {
+            console.log('Websockets not work');
+        }
     }
 }

@@ -26485,7 +26485,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "LeftPanel"
+  name: "LeftPanel",
+  props: ['showAlarmNewMessage']
 });
 
 /***/ }),
@@ -27170,11 +27171,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendPrivateMessage: function sendPrivateMessage() {
+      var _this3 = this;
+
       axios.post('listing/send-private-message', {
         'nurse_id': this.nurse.id,
         'privateMessage': this.privateMessage
       }).then(function (response) {
-        console.log(response);
+        _this3.privateMessage = '';
       })["catch"](function (error) {
         console.log(error);
       });
@@ -28270,34 +28273,38 @@ var _hoisted_6 = {
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Messages");
 
 var _hoisted_8 = {
+  key: 0,
+  "class": "alarm-signal blink"
+};
+var _hoisted_9 = {
   "class": "list-group-item"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ratings");
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ratings");
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "list-group-item"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Bookings");
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Bookings");
 
-var _hoisted_12 = {
+var _hoisted_13 = {
   "class": "list-group-item"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Payments");
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Payments");
 
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "list-group-item"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("My information");
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("My information");
 
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "list-group-item"
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Help && service");
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Help && service");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
@@ -28324,57 +28331,57 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  }), $props.showAlarmNewMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'NurseDashboardRatings'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_9];
+      return [_hoisted_10];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'NurseDashboardBookings'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_11];
+      return [_hoisted_12];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'NurseDashboardPayments'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_13];
+      return [_hoisted_14];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'NurseDashboardMyInformation'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_15];
+      return [_hoisted_16];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'NurseDashboardHelpEndService'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_17];
+      return [_hoisted_18];
     }),
     _: 1
     /* STABLE */
@@ -30686,16 +30693,33 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.getPrivateChats();
+    this.emitter.emit('disable-show-alarm-new-message');
+
+    try {
+      window.Echo["private"]('nurse-have-new-message.' + this.user.id).listen('PrivateChat.NurseHaveNewMessage', function (response) {
+        if (!_this.chats) {
+          _this.getPrivateChats();
+        } else {
+          console.log('Chats exists');
+        }
+      }).error(function (error) {
+        console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+      });
+    } catch (e) {
+      console.log('Websockets not work');
+    }
   },
   methods: {
     getPrivateChats: function getPrivateChats() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/dashboard/nurse-private-chats').then(function (response) {
-        _this.chats = response.data.chats;
-        _this.clients = response.data.clients;
-        _this.firstChat = Object.keys(_this.chats)[0];
+        _this2.chats = response.data.chats;
+        _this2.clients = response.data.clients;
+        _this2.firstChat = Object.keys(_this2.chats)[0];
       })["catch"](function (error) {
         console.log(error);
       });
@@ -30923,7 +30947,27 @@ __webpack_require__.r(__webpack_exports__);
     'notification': _Notification__WEBPACK_IMPORTED_MODULE_3__["default"] // 'test-chat' : TestChat,
 
   },
-  mounted: function mounted() {// console.log(this.data);
+  data: function data() {
+    return {
+      showAlarmNewMessage: false
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.emitter.on('disable-show-alarm-new-message', function (e) {
+      _this.showAlarmNewMessage = false;
+    });
+
+    try {
+      window.Echo["private"]('nurse-have-new-message.' + this.user.id).listen('PrivateChat.NurseHaveNewMessage', function (response) {
+        _this.showAlarmNewMessage = true;
+      }).error(function (error) {
+        console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+      });
+    } catch (e) {
+      console.log('Websockets not work');
+    }
   }
 });
 
@@ -31684,7 +31728,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-dashboard-left-panel[data-v-da52b700] {\r\n    height: 100%;\r\n    background: #d9d9d9;\r\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-da52b700] {\r\n    background: #d9d9d9;\n}\n.list-group-item[data-v-da52b700]:hover {\r\n    background: #f8f7f7;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-dashboard-left-panel[data-v-da52b700] {\n    height: 100%;\n    background: #d9d9d9;\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-da52b700] {\n    background: #d9d9d9;\n}\n.list-group-item[data-v-da52b700]:hover {\n    background: #f8f7f7;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -32070,7 +32114,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\r\n    <nurse-header :user=\"user\"></nurse-header>\r\n\r\n<!--    <test-chat :user=\"user\"></test-chat>-->\r\n\r\n    <div class=\"container-fluid\">\r\n\r\n        <div class=\"row\">\r\n\r\n            <div class=\"col-2\" style=\"padding: unset;\">\r\n\r\n                <left-panel></left-panel>\r\n\r\n            </div>\r\n\r\n            <div class=\"col-10\">\r\n\r\n                <notification :user=\"user\"></notification>\r\n\r\n                <router-view :user=\"user\" :data=\"data\"></router-view>\r\n\r\n            </div>\r\n\r\n        </div>\r\n\r\n    </div>\r\n\r\n\r\n\r\n</div>\r\n";
+var code = "<div>\n    <nurse-header :user=\"user\"></nurse-header>\n\n<!--    <test-chat :user=\"user\"></test-chat>-->\n\n    <div class=\"container-fluid\">\n\n        <div class=\"row\">\n\n            <div class=\"col-2\" style=\"padding: unset;\">\n\n                <left-panel :showAlarmNewMessage=\"showAlarmNewMessage\"></left-panel>\n\n            </div>\n\n            <div class=\"col-10\">\n\n                <notification :user=\"user\"></notification>\n\n                <router-view :user=\"user\" :data=\"data\"></router-view>\n\n            </div>\n\n        </div>\n\n    </div>\n\n\n\n</div>\n";
 // Exports
 module.exports = code;
 
