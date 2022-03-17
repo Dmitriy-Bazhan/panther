@@ -32,8 +32,37 @@
 
                     </div>
                 </div>
-            </div>
+                <div v-if="chat.length > 0" v-for="comment in chat">
+                    <div v-if="comment.client_sent === 'yes'" class="chat-nurse-message-wrapper">
+                        <span class="chat-nurse-name">
+                            {{ comment.user_name }}
+                        </span>
+                        <br>
+                        <span class="chat-nurse-message">
+                            {{ comment.message }}
+                        </span>
+                        <br>
+                        <span class="chat-nurse-date">
+                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
+                        </span>
+                    </div>
 
+                    <div v-else class="nurse-client-message-wrapper">
+                        <span class="nurse-client-name">
+                            {{ comment.user_name }}
+                        </span>
+                        <br>
+                        <span class="nurse-client-message">
+                            {{ comment.message }}
+                        </span>
+                        <br>
+                        <span class="nurse-client-date">
+                            {{ formatDate(comment.created_at) + ' ' + comment.status }}
+                        </span>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row" v-if="showMarkIsReadBlock">
@@ -93,20 +122,6 @@
                     this.showMarkIsReadBlock = true;
                 }
             });
-
-            if (this.chat.length > 0) {
-                for (let value in this.chat) {
-                    let message = {
-                        'user_name': this.chat[value].user_name,
-                        'message': this.chat[value].message,
-                        'client_sent': this.chat[value].client_sent,
-                        'nurse_sent': this.chat[value].client_sent,
-                        'created_at': this.chat[value].created_at,
-                        'status': this.chat[value].status,
-                    };
-                    this.comments.unshift(message);
-                }
-            }
 
             try {
                 window.Echo.private('client-between-nurse.' + this.index + '.' + this.user.id)

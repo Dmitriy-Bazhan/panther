@@ -14,15 +14,22 @@ class NurseHaveNewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $nurse_id;
+    public $result;
 
-    public function __construct($nurse_id)
+    public function __construct($result)
     {
-        $this->nurse_id = $nurse_id;
+        $this->result = $result;
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('nurse-have-new-message.' . $this->nurse_id);
+        return new PrivateChannel('nurse-have-new-message.' . $this->result['nurse_user_id']);
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'result' => $this->result,
+        ];
     }
 }

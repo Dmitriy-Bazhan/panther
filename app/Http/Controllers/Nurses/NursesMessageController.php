@@ -22,7 +22,8 @@ class NursesMessageController extends Controller
     public function index()
     {
         $data = $this->chatRepo->getNursePrivateChats();
-        return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients']]);
+        return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients']
+            , 'haveNewMessages' => $data['haveNewMessages']]);
     }
 
     public function create()
@@ -72,5 +73,25 @@ class NursesMessageController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function markAsRead(){
+
+        $client_id = null;
+        if(request()->filled('client_id') && is_numeric(request('client_id'))){
+            $client_id = request('client_id');
+        }
+
+        $nurse_id = null;
+        if(request()->filled('nurse_id') && is_numeric(request('nurse_id')) && auth()->id() == request('nurse_id')){
+            $nurse_id = request('nurse_id');
+        }
+
+        if(!$haveNewMessage = $this->chatRepo->markClientMessageAsRead($nurse_id, $client_id)){
+            //todo: log
+            abort(409);
+        }
+
+        return response()->json(['success' => true, 'have_new_message' => $haveNewMessage]);
     }
 }

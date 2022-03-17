@@ -13,7 +13,38 @@
                         </span>
                         <br>
                         <span class="chat-client-date">
+                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
+                        </span>
+                    </div>
+
+                    <div v-else class="nurse-client-message-wrapper">
+                        <span class="nurse-client-name">
+                            {{ comment.user_name }}
+                        </span>
+                        <br>
+                        <span class="nurse-client-message">
+                            {{ comment.message }}
+                        </span>
+                        <br>
+                        <span class="nurse-client-date">
                             {{ formatDate(comment.created_at) }}
+                        </span>
+
+                    </div>
+                </div>
+
+                <div v-if="chat.length > 0" v-for="comment in chat">
+                    <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
+                        <span class="chat-client-name">
+                            {{ comment.user_name }}
+                        </span>
+                        <br>
+                        <span class="chat-client-message">
+                            {{ comment.message }}
+                        </span>
+                        <br>
+                        <span class="chat-client-date">
+                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
                         </span>
                     </div>
 
@@ -36,6 +67,15 @@
 
         </div>
         <br>
+        <div class="row" v-if="showMarkIsReadBlock">
+            <div class="col-4">
+                Chat have unread messages
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success btn-sm" v-on:click="markAsReadThisChat()">mark_as_read</button>
+            </div>
+        </div>
+        <br>
         <div class="row">
             <div class="col-2">
                 Message:
@@ -55,15 +95,18 @@
 <script>
     export default {
         name: "ChatClient",
-        props: ['user', 'index', 'chat', 'firstChat'],
+        props: ['user', 'index', 'chat', 'firstChat', 'haveNewMessages'],
         data() {
             return {
                 comments: [],
                 privateMessage: '',
                 showChat: false,
+                showMarkIsReadBlock: false,
             }
         },
         mounted() {
+            this.checkChatsHaveUnreadMessages();
+
             if(this.firstChat === this.index){
                 this.showChat = true;
             }
@@ -76,19 +119,11 @@
                 }
             });
 
-
-            if (this.chat.length > 0) {
-                for (let value in this.chat) {
-                    let message = {
-                        'user_name': this.chat[value].user_name,
-                        'message': this.chat[value].message,
-                        'client_sent': this.chat[value].client_sent,
-                        'nurse_sent': this.chat[value].client_sent,
-                        'created_at': this.chat[value].created_at,
-                    };
-                    this.comments.unshift(message);
+            this.emitter.on('chat-have-unread-message', e => {
+                if (e == this.index) {
+                    this.showMarkIsReadBlock = true;
                 }
-            }
+            });
 
             try {
                 window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.index)
@@ -99,6 +134,7 @@
                             'client_sent': response.result.client_sent,
                             'nurse_sent': response.result.client_sent,
                             'created_at': response.result.created_at,
+                            'status': response.result.status,
                         };
                         this.comments.unshift(message);
                     }).error((error) => {
@@ -109,6 +145,22 @@
             }
         },
         methods: {
+            markAsReadThisChat(){
+                axios.post('/dashboard/nurse-private-chats/mark-as-read', {
+                    'nurse_id' :this.user.id,
+                    'client_id': this.index,
+                }).then((response) => {
+                    if(response.data.success === true){
+                        this.showMarkIsReadBlock = false;
+                        this.emitter.emit('disable-alert-on-nurse-name', this.index);
+                        if(response.data.have_new_message === 'yes'){
+                            this.emitter.emit('disable-show-alarm-new-message');
+                        }
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+            },
             sendPrivateMessage() {
                 axios.post('/dashboard/nurse-private-chats', {
                     'client_id': this.index,
@@ -126,6 +178,14 @@
             formatDate(date) {
                 let a = String(date).split('T');
                 return a[0] + ' ' + String(a[1].split('.')[0]);
+            },
+            checkChatsHaveUnreadMessages(){
+                for(let el in this.haveNewMessages){
+                    if(this.haveNewMessages[el] == this.index){
+                        this.emitter.emit('chat-have-unread-message', this.index);
+                        this.showMarkIsReadBlock = true;
+                    }
+                }
             }
         }
     }

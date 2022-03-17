@@ -8,27 +8,24 @@ export default {
     props: ['user', 'data'],
     components: {
         'chat': Chat,
-        'client' : Client,
+        'client': Client,
     },
     data() {
         return {
             chats: false,
             clients: false,
             firstChat: null,
+            haveNewMessages: [],
         }
     },
     mounted() {
         this.getPrivateChats();
-        this.emitter.emit('disable-show-alarm-new-message');
 
         try {
             window.Echo.private('nurse-have-new-message.' + this.user.id)
                 .listen('PrivateChat.NurseHaveNewMessage', (response) => {
-                    if(!this.chats){
-                        this.getPrivateChats();
-                    }else{
-                        console.log('Chats exists');
-                    }
+                    this.emitter.emit('chat-have-unread-message', response.result.client_user_id);
+                    this.getPrivateChats();
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNTECT : ' + error);
             });
@@ -42,6 +39,7 @@ export default {
                 .then((response) => {
                     this.chats = response.data.chats;
                     this.clients = response.data.clients;
+                    this.haveNewMessages = response.data.haveNewMessages;
                     this.firstChat = Object.keys(this.chats)[0];
                 })
                 .catch((error) => {

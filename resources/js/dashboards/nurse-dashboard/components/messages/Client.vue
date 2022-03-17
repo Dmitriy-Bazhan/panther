@@ -2,6 +2,7 @@
     <div v-on:click="showChat()"
          v-bind:class="[active ? 'client-chat-wrapper-active container-fluid' : 'client-chat-wrapper container-fluid']">
         <span class="client-name">{{ client[0].first_name + ' ' + client[0].last_name}}</span>
+        &nbsp;<span v-if="haveUnreadMessages" class="alarm-signal blink"></span>
     </div>
 </template>
 
@@ -12,6 +13,7 @@
         data() {
             return {
                 active: false,
+                haveUnreadMessages: false,
             }
         },
         mounted() {
@@ -24,6 +26,18 @@
                     this.active = true;
                 }else {
                     this.active = false;
+                }
+            });
+
+            this.emitter.on('disable-alert-on-nurse-name', e => {
+                if (e === this.index) {
+                    this.haveUnreadMessages = false;
+                }
+            });
+
+            this.emitter.on('chat-have-unread-message', e => {
+                if (e == this.index) {
+                    this.haveUnreadMessages = true;
                 }
             });
         },

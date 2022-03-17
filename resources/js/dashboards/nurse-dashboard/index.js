@@ -12,7 +12,6 @@ export default {
         'nurse-header': NurseHeader,
         'left-panel': LeftPanel,
         'notification': Notification
-        // 'test-chat' : TestChat,
     }, data() {
         return {
             showAlarmNewMessage: false,
@@ -22,6 +21,10 @@ export default {
         this.emitter.on('disable-show-alarm-new-message', e => {
             this.showAlarmNewMessage = false;
         });
+
+        if(this.data.have_new_message){
+            this.showAlarmNewMessage = true;
+        }
 
         try {
             window.Echo.private('nurse-have-new-message.' + this.user.id)

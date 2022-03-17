@@ -104,6 +104,10 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('nurse-payments', NursesPaymentsController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
     //nurse message
+    Route::prefix('nurse-private-chats')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+        Route::post('mark-as-read', [NursesMessageController::class, 'markAsRead']);
+    });
+
     Route::resource('nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
