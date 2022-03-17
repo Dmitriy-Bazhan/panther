@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Events\PrivateChat\ClientNurseSentMessage;
+use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class ClientMessageController extends Controller
 
     public function index()
     {
-        $chats = $this->chatRepo->getClientPrivateChats();
-        return response()->json(['success' => true, 'chats' => $chats]);
+        $data = $this->chatRepo->getClientPrivateChats();
+        return response()->json(['success' => true,  'chats' => $data['chats'], 'nurses' => $data['nurses'],
+            'haveNewMessages' => $data['haveNewMessages']]);
     }
 
     public function create()
@@ -50,6 +52,7 @@ class ClientMessageController extends Controller
         }
 
         broadcast(new ClientNurseSentMessage($result));
+        broadcast(new NurseHaveNewMessage($result['nurse_user_id']))->toOthers();
         return response()->json(['success' => $result]);
     }
 
@@ -71,5 +74,25 @@ class ClientMessageController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function markAsRead(){
+
+        $nurse_id = null;
+        if(request()->filled('nurse_id') && is_numeric(request('nurse_id'))){
+            $nurse_id = request('nurse_id');
+        }
+
+        $client_id = null;
+        if(request()->filled('client_id') && is_numeric(request('client_id')) && auth()->id() == request('client_id')){
+            $client_id = request('client_id');
+        }
+
+        if(!$haveNewMessage = $this->chatRepo->markNursesMessageAsRead($nurse_id, $client_id)){
+            //todo: log
+            abort(409);
+        }
+
+        return response()->json(['success' => true, 'have_new_message' => $haveNewMessage]);
     }
 }

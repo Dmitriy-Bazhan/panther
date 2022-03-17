@@ -45,6 +45,12 @@ Broadcast::channel('nurse-have-new-message.{nurse_id}', function ($user, $nurse_
     if($user->is_nurse){
         return true;
     }
+    return false;
+});
 
+Broadcast::channel('client-have-new-message.{client_id}', function ($user, $client_id){
+    if($user->is_client){
+        return true;
+    }
     return false;
 });

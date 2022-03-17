@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Nurses;
 
+use App\Events\PrivateChat\ClientHaveNewMessage;
 use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
@@ -49,6 +50,7 @@ class NursesMessageController extends Controller
             return abort(409);
         }
         broadcast(new ClientNurseSentMessage($result));
+        broadcast(new ClientHaveNewMessage($result))->toOthers();
         return response()->json(['success' => true]);
     }
 

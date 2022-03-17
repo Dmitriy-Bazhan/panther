@@ -1,22 +1,19 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="showChat">
         <div class="row">
-            <div class="col-2">
-                Chat:
-            </div>
-            <div class="col-10 chat-wrapper">
+            <div class="col-12 chat-wrapper">
                 <div v-if="comments.length > 0" v-for="comment in comments">
-                    <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
-                        <span class="chat-client-name">
+                    <div v-if="comment.client_sent === 'yes'" class="chat-nurse-message-wrapper">
+                        <span class="chat-nurse-name">
                             {{ comment.user_name }}
                         </span>
                         <br>
-                        <span class="chat-client-message">
+                        <span class="chat-nurse-message">
                             {{ comment.message }}
                         </span>
                         <br>
-                        <span class="chat-client-date">
-                            {{ formatDate(comment.created_at) }}
+                        <span class="chat-nurse-date">
+                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
                         </span>
                     </div>
 
@@ -30,13 +27,22 @@
                         </span>
                         <br>
                         <span class="nurse-client-date">
-                            {{ formatDate(comment.created_at) }}
+                            {{ formatDate(comment.created_at) + ' ' + comment.status }}
                         </span>
 
                     </div>
                 </div>
             </div>
 
+        </div>
+        <br>
+        <div class="row" v-if="showMarkIsReadBlock">
+            <div class="col-4">
+                Chat have unread messages
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success btn-sm" v-on:click="markAsReadThisChat()">mark_as_read</button>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -58,14 +64,36 @@
 <script>
     export default {
         name: "Chat",
-        props: ['user', 'index', 'chat'],
+        props: ['user', 'index', 'chat' ,'firstChat', 'haveNewMessages'],
         data() {
             return {
                 comments: [],
                 privateMessage: '',
+                showChat: false,
+                showMarkIsReadBlock: false,
             }
         },
         mounted() {
+            this.checkChatsHaveUnreadMessages();
+
+            if(this.firstChat === this.index){
+                this.showChat = true;
+            }
+
+            this.emitter.on('show-chat', e => {
+                if(e === this.index){
+                    this.showChat = true;
+                }else{
+                    this.showChat = false;
+                }
+            });
+
+            this.emitter.on('chat-have-unread-message', e => {
+                if (e == this.index) {
+                    this.showMarkIsReadBlock = true;
+                }
+            });
+
             if (this.chat.length > 0) {
                 for (let value in this.chat) {
                     let message = {
@@ -74,6 +102,7 @@
                         'client_sent': this.chat[value].client_sent,
                         'nurse_sent': this.chat[value].client_sent,
                         'created_at': this.chat[value].created_at,
+                        'status': this.chat[value].status,
                     };
                     this.comments.unshift(message);
                 }
@@ -88,6 +117,7 @@
                             'client_sent': response.result.client_sent,
                             'nurse_sent': response.result.client_sent,
                             'created_at': response.result.created_at,
+                            'status': response.result.status,
                         };
                         this.comments.unshift(message);
                     }).error((error) => {
@@ -96,19 +126,35 @@
             } catch (e) {
                 console.log('Websockets not work');
             }
+
+
         },
         methods: {
+            markAsReadThisChat(){
+                axios.post('/dashboard/client-private-chats/mark-as-read', {
+                    'client_id' :this.user.id,
+                    'nurse_id': this.index,
+                }).then((response) => {
+                    if(response.data.success === true){
+                        this.showMarkIsReadBlock = false;
+                        this.emitter.emit('disable-alert-on-nurse-name', this.index);
+                        if(response.data.have_new_message === 'yes'){
+                            this.emitter.emit('disable-show-alarm-new-message');
+                        }
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+            },
             sendPrivateMessage() {
                 axios.post('/dashboard/client-private-chats', {
                     'client_id' :this.user.id,
                     'nurse_id': this.index,
                     'privateMessage': this.privateMessage
                 }).then((response) => {
-                    console.log(response);
                     if(response.data.success){
                         this.privateMessage = '';
                     }
-
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -116,6 +162,14 @@
             formatDate(date) {
                 let a = String(date).split('T');
                 return a[0] + ' ' + String(a[1].split('.')[0]);
+            },
+            checkChatsHaveUnreadMessages(){
+                for(let el in this.haveNewMessages){
+                    if(this.haveNewMessages[el] == this.index){
+                        this.emitter.emit('chat-have-unread-message', this.index);
+                        this.showMarkIsReadBlock = true;
+                    }
+                }
             }
         }
     }
@@ -123,11 +177,11 @@
 
 <style scoped>
     .chat-wrapper {
-        height: 250px;
+        height: 400px;
         overflow: auto;
     }
 
-    .chat-client-message-wrapper {
+    .chat-nurse-message-wrapper {
         background: #85acff;
         border: solid 1px #405dff;
         padding: 10px;
@@ -136,19 +190,19 @@
         margin-bottom: 10px;
     }
 
-    .chat-client-name {
+    .chat-nurse-name {
         font-size: 14px;
         font-weight: 700;
         color: #051dff;
     }
 
-    .chat-client-message {
+    .chat-nurse-message {
         font-size: 14px;
         font-weight: 700;
         color: #6500ff;
     }
 
-    .chat-client-date {
+    .chat-nurse-date {
         font-size: 10px;
         font-weight: 700;
         color: #051dff;

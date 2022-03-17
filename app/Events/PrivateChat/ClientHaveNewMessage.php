@@ -14,13 +14,22 @@ class ClientHaveNewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct()
+    public $result;
+
+    public function __construct($result)
     {
-        //
+        $this->result = $result;
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('client-have-new-message');
+        return new PrivateChannel('client-have-new-message.' . $this->result['client_user_id']);
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'result' => $this->result,
+        ];
     }
 }

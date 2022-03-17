@@ -10,6 +10,7 @@
             </li>
             <li class="list-group-item">
                 <router-link :to="{ name: 'ClientDashboardMessages' }">Messages</router-link>
+                <span v-if="showAlarmNewMessage" class="alarm-signal blink"></span>
             </li>
             <li class="list-group-item">
                 <router-link :to="{ name: 'ClientDashboardRatings' }">Ratings</router-link>
@@ -32,7 +33,8 @@
 
 <script>
 export default {
-    name: "LeftPanel"
+    name: "LeftPanel",
+    props: ['showAlarmNewMessage']
 }
 </script>
 

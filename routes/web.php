@@ -71,7 +71,11 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client messages
-    Route::resource( 'client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+    Route::prefix('client-private-chats')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+        Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
+    });
+
+    Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     /*
      * nurse
@@ -100,7 +104,7 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('nurse-payments', NursesPaymentsController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
     //nurse message
-    Route::resource( 'nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+    Route::resource('nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
 
