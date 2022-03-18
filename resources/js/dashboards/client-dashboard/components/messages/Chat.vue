@@ -76,7 +76,7 @@
         <br>
         <div class="row">
             <div class="col-2">
-                Message:
+                {{ $t('message') }}:
             </div>
             <div class="col-8">
                 <input type="text" class="form-control form-control-sm" v-model="privateMessage">

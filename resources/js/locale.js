@@ -24,6 +24,7 @@ export default {
         send: 'Send',
         mark_as_read: 'Mark as read',
         chat_have_unread_messages: 'Chat have unread messages',
+        chat: 'Chat',
         store: 'Store',
         yes: 'Yes',
         no: 'No',
@@ -35,7 +36,6 @@ export default {
         fare_surcharge: 'Fare surcharge',
         fare_surcharge_payment: 'Fare surcharge payment',
         prices: 'Prices',
-
         name: 'Name',
         last_name: 'Last name',
         email: 'Email',
@@ -71,6 +71,10 @@ export default {
         CPR_course: 'CPR course',
         references: 'References',
         update: 'Update',
+        message: 'Message',
+        price: 'Price',
+        distance: 'Distance',
+        send_to_bookings: 'Send to bookings',
     },
     de : {
         lang: 'Deutsche',
@@ -97,6 +101,7 @@ export default {
         send: 'Schicken',
         mark_as_read: 'Als gelesen markieren',
         chat_have_unread_messages: 'Chat hat ungelesene nachrichten',
+        chat: 'Chat',
         store: 'Speichern',
         yes: 'Ja',
         no: 'Nein',
@@ -108,7 +113,6 @@ export default {
         fare_surcharge: 'Fahrpreiszuschlag',
         fare_surcharge_payment: 'Fahrpreiszuschlagszahlung',
         prices: 'Preise',
-
         name: 'Name',
         last_name: 'Nachname',
         email: 'Email',
@@ -144,5 +148,9 @@ export default {
         CPR_course: 'HLW kurs',
         references: 'Referenzen',
         update: 'Aktualisieren',
+        message: 'Nachricht',
+        price: 'Preis',
+        distance: 'Distanz',
+        send_to_bookings: 'An Buchungen senden',
     }
 }

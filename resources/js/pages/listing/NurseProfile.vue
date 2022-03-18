@@ -12,20 +12,20 @@
         <div v-if="nurse !== null" class="row">
             <div class="col-7">
                 <div>
-                    <div class="nurse-profile-item">name: {{ nurse.first_name }}</div>
-                    <div class="nurse-profile-item">last_name: {{ nurse.last_name }}</div>
-                    <div class="nurse-profile-item">age: {{ nurse.entity.age }}</div>
-                    <div class="nurse-profile-item">gender: {{ nurse.entity.gender }}</div>
-                    <div class="nurse-profile-item">experience: {{ nurse.entity.experience }}</div>
-                    <div class="nurse-profile-item">price: {{ nurse.entity.price.hourly_payment }}</div>
-                    <div class="nurse-profile-item">distance: distance</div>
+                    <div class="nurse-profile-item">{{ $t('name') }}: {{ nurse.first_name }}</div>
+                    <div class="nurse-profile-item">{{ $t('last_name') }}: {{ nurse.last_name }}</div>
+                    <div class="nurse-profile-item">{{ $t('age') }}: {{ nurse.entity.age }}</div>
+                    <div class="nurse-profile-item">{{ $t('gender') }}: {{ nurse.entity.gender }}</div>
+                    <div class="nurse-profile-item">{{ $t('experience') }}: {{ nurse.entity.experience }}</div>
+                    <div class="nurse-profile-item">{{ $t('price') }}: {{ nurse.entity.price.hourly_payment }}</div>
+                    <div class="nurse-profile-item">{{ $t('distance') }}: distance</div>
 
-                    <div class="nurse-profile-item">provide_supports :</div>
+                    <div class="nurse-profile-item">{{ $t('provide_supports') }}:</div>
                     <div class="nurse-profile-item" v-for="support in nurse.entity.provide_supports">
                         . {{ $t(support.name) }}
                     </div>
 
-                    <div class="nurse-profile-item">additional_info :</div>
+                    <div class="nurse-profile-item">{{ $t('additional_info') }} :</div>
                     <div class="nurse-profile-item" v-for="additional_info in nurse.entity.additional_info">
                         . {{ filterAdditionalInfo(additional_info.id) }}
                     </div>
@@ -40,7 +40,7 @@
 
             <div class="row">
                 <div class="col-2">
-                    Chat:
+                    {{ $t('chat') }}:
                 </div>
                 <div class="col-10 chat-wrapper" v-if="comments.length > 0">
                     <div v-for="comment in comments">
@@ -79,13 +79,18 @@
             <br>
             <div class="row">
                 <div class="col-2">
-                    Message:
+                    {{ $t('message') }}:
                 </div>
                 <div class="col-8">
                     <input type="text" class="form-control form-control-sm" v-model="privateMessage">
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">send</button>
+                    <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-dark btn-sm" v-on:click="sendToBookings">{{ $t('send_to_bookings') }}</button>
                 </div>
             </div>
 
@@ -126,6 +131,9 @@
             }
         },
         methods: {
+            sendToBookings(){
+                window.open('dashboard/client/bookings');
+            },
             getPrivateChats() {
                 axios.get('listing/get-private-chats/' + this.nurse.id)
                     .then((response) => {
