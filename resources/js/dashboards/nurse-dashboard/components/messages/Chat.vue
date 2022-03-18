@@ -69,10 +69,10 @@
         <br>
         <div class="row" v-if="showMarkIsReadBlock">
             <div class="col-4">
-                Chat have unread messages
+                {{ $t('chat_have_unread_messages') }}
             </div>
             <div class="col-2">
-                <button class="btn btn-success btn-sm" v-on:click="markAsReadThisChat()">mark_as_read</button>
+                <button class="btn btn-success btn-sm" v-on:click="markAsReadThisChat()">{{ $t('mark_as_read') }}</button>
             </div>
         </div>
         <br>
@@ -84,7 +84,7 @@
                 <input type="text" class="form-control form-control-sm" v-model="privateMessage">
             </div>
             <div class="col-2">
-                <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">send</button>
+                <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}</button>
             </div>
         </div>
         <br>

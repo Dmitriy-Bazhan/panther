@@ -29,7 +29,11 @@ class NurseDashboardController extends Controller
         $data['data']['have_new_message'] = PrivateChat::where('nurse_user_id', auth()->id())
             ->where('status', 'unread')
             ->whereNotNull('client_sent')
-            ->first() !== null ? true : false ;
+            ->first() !== null ? true : false;
+        $data['data']['last_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('client_sent', 'yes')
+            ->orderByDesc('created_at')->get()->groupBy('client_user_id');
         return view('dashboard', $data);
     }
 

@@ -24,7 +24,11 @@ class ClientDashboardController extends Controller
         $data['data']['have_new_message'] = PrivateChat::where('client_user_id', auth()->id())
             ->where('status', 'unread')
             ->whereNotNull('nurse_sent')
-            ->first() !== null ? true : false ;
+            ->first() !== null ? true : false;
+        $data['data']['last_unread_messages'] = PrivateChat::where('client_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('nurse_sent', 'yes')
+            ->orderByDesc('created_at')->get()->groupBy('nurse_user_id');
         return view('dashboard', $data);
     }
 

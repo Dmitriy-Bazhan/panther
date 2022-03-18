@@ -1,0 +1,33 @@
+.chat-wrapper {
+    height: 400px;
+    overflow: auto;
+    background: lightcyan;
+    padding: 10px;
+}
+
+.chat-client-message-wrapper {
+    background: #85acff;
+    border: solid 1px #405dff;
+    padding: 10px;
+    border-radius: 10px;
+    width: 75%;
+    margin-bottom: 10px;
+}
+
+.chat-client-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #051dff;
+}
+
+.chat-client-message {
+    font-size: 14px;
+    font-weight: 700;
+    color: #6500ff;
+}
+
+.chat-client-date {
+    font-size: 10px;
+    font-weight: 700;
+    color: #051dff;
+}

@@ -6,26 +6,26 @@
 
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboard' }">Dashboard</router-link>
+                <router-link :to="{ name: 'ClientDashboard' }">{{ $t('overview') }}</router-link>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardMessages' }">Messages</router-link>
+                <router-link :to="{ name: 'ClientDashboardMessages' }">{{ $t('messages') }}</router-link>
                 <span v-if="showAlarmNewMessage" class="alarm-signal blink"></span>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardRatings' }">Ratings</router-link>
+                <router-link :to="{ name: 'ClientDashboardRatings' }">{{ $t('ratings') }}</router-link>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardBookings' }">Bookings</router-link>
+                <router-link :to="{ name: 'ClientDashboardBookings' }">{{ $t('bookings') }}</router-link>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardPayments' }">Payments</router-link>
+                <router-link :to="{ name: 'ClientDashboardPayments' }">{{ $t('payments') }}</router-link>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardMyInformation' }">My information</router-link>
+                <router-link :to="{ name: 'ClientDashboardMyInformation' }">{{ $t('my_information') }}</router-link>
             </li>
             <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardHelpEndService' }">Help && service</router-link>
+                <router-link :to="{ name: 'ClientDashboardHelpEndService' }">{{ $t('help_and_service') }}</router-link>
             </li>
         </ul>
     </div>

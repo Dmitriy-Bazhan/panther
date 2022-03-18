@@ -107,19 +107,23 @@
         mounted() {
             this.getPrivateChats();
 
-            window.Echo.private('client-between-nurse.' + this.nurse.id + '.' + this.user.id)
-                .listen('PrivateChat.ClientNurseSentMessage', (response) => {
-                    let message = {
-                        'user_name': response.result.user_name,
-                        'message': response.result.message,
-                        'client_sent': response.result.client_sent,
-                        'nurse_sent': response.result.client_sent,
-                        'created_at': response.result.created_at,
-                    };
-                    this.comments.unshift(message);
-                }).error((error) => {
-                console.log('ERROR IN SOCKETS CONNTECT : ' + error);
-            });
+            try {
+                window.Echo.private('client-between-nurse.' + this.nurse.id + '.' + this.user.id)
+                    .listen('PrivateChat.ClientNurseSentMessage', (response) => {
+                        let message = {
+                            'user_name': response.result.user_name,
+                            'message': response.result.message,
+                            'client_sent': response.result.client_sent,
+                            'nurse_sent': response.result.client_sent,
+                            'created_at': response.result.created_at,
+                        };
+                        this.comments.unshift(message);
+                    }).error((error) => {
+                    console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+                });
+            } catch (e) {
+                console.log('Websockets not work');
+            }
         },
         methods: {
             getPrivateChats() {
@@ -150,8 +154,8 @@
                 }).then((response) => {
                     this.privateMessage = '';
                 }).catch((error) => {
-                        console.log(error);
-                    });
+                    console.log(error);
+                });
             },
             filterAdditionalInfo(id) {
                 let info = this.data.additional_info.filter(function (el) {

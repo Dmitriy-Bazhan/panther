@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
+use App\Http\Controllers\Clients\ClientMyInformationController;
 
 use App\Http\Controllers\Nurses\NurseDashboardController;
 use App\Http\Controllers\Nurses\NursesMyInformationController;
@@ -69,6 +70,12 @@ Route::prefix('dashboard')->group(function () {
 
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+
+    //client my information
+    Route::prefix('client-my-information')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+        Route::post('{id}', [ClientMyInformationController::class, 'update']);
+    });
+    Route::resource('client-my-information', ClientMyInformationController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client messages
     Route::prefix('client-private-chats')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {

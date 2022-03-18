@@ -1,5 +1,5 @@
 import * as VueRouter from "vue-router";
-import Overview from "../dashboards/nurse-dashboard/components/Overview";
+import Overview from "../dashboards/nurse-dashboard/components/overview/index";
 import Messages from "../dashboards/nurse-dashboard/components/messages/index";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
@@ -11,7 +11,8 @@ const routes = [
     {
         path: "/dashboard/nurse",
         name: 'NurseDashboard',
-        component: Overview
+        component: Overview,
+        props: true,
     },
     {
         path: "/dashboard/nurse/messages",

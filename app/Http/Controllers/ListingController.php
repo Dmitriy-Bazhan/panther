@@ -63,7 +63,7 @@ class ListingController extends Controller
             'provider_supports' => 'required', //filter
             'disease' => 'sometimes',
             'other_disease' => 'sometimes',
-            'degree_of_care_available' => 'required|in:1,2,3,4,5',  //filter
+            'degree_of_care_available' => 'required|in:0,1,2,3,4,5',  //filter
             'language' => 'required|in:english,deutsche,no_matter',         //filter
             'language_level' => 'required|in:A1,A2,B1,B2,C1,C2,no_matter',         //filter
             'do_you_need_help_moving' => 'required',
