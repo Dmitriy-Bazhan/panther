@@ -31,10 +31,10 @@ class ListingController extends Controller
     public function getClientSearchInfo()
     {
         if (!$clientSearchInfo = ClientSearchInfo::where('client_id', auth()->user()->entity->id)->first()) {
-            return abort(409);
+            return response()->json(['success' => false]);
         }
 
-        return response()->json(['clientSearchInfo' => $clientSearchInfo]);
+        return response()->json(['success' => true, 'clientSearchInfo' => $clientSearchInfo]);
     }
 
     public function getPrivateChats($nurse_id = null){

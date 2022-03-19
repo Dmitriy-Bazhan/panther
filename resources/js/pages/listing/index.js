@@ -7,8 +7,8 @@ export default {
     name: 'listing',
     template: template,
     components: {
-        'nurses-listing' : NursesListing,
-        'nurses-profile' : NurseProfile,
+        'nurses-listing': NursesListing,
+        'nurses-profile': NurseProfile,
     },
     props: ['data', 'user'],
     data() {
@@ -21,15 +21,15 @@ export default {
             showModalNursesListing: false,
             showModalNurseProfile: false,
             url: 'listing/get-nurses-to-listing',
-            clientSearchInfo : {
-                for_whom : 'for_a_relative',
+            clientSearchInfo: {
+                for_whom: 'for_a_relative',
                 name: '',
                 last_name: '',
                 age_range: '40-60',
                 provider_supports: [],
                 disease: [],
-                other_disease : '',
-                degree_of_care_available : 3,
+                other_disease: '',
+                degree_of_care_available: 3,
                 language: 'no_matter',
                 language_level: 'no_matter',
                 do_you_need_help_moving: 'unknown',
@@ -63,7 +63,7 @@ export default {
         });
 
         this.emitter.on('get-nurses-new-page', url => {
-            if(url !== null){
+            if (url !== null) {
                 this.url = url;
                 this.findNeedNurses();
             }
@@ -71,19 +71,21 @@ export default {
         });
 
         this.emitter.on('show-nurse-profile', nurse => {
-            if(nurse !== null){
+            if (nurse !== null) {
                 this.nurse = nurse;
                 this.showModalNurseProfile = true;
             }
         });
     },
     methods: {
-        getClientSearchInfo(){
+        getClientSearchInfo() {
             axios.get('listing/get-client-search-info')
                 .then((response) => {
-                    this.clientSearchInfo = response.data.clientSearchInfo;
-                    this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
-                    this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
+                    if (response.data.success) {
+                        this.clientSearchInfo = response.data.clientSearchInfo;
+                        this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
+                        this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -91,7 +93,7 @@ export default {
         },
 
         findNeedNurses() {
-            axios.post(this.url, {'clientSearchInfo' : this.clientSearchInfo})
+            axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
                         this.errors = null;

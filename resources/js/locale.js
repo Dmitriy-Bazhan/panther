@@ -75,6 +75,54 @@ export default {
         price: 'Price',
         distance: 'Distance',
         send_to_bookings: 'Send to bookings',
+        how_does_the_booking_process_work_description : 'When you book a nurse on our site, you specify exactly what you want to book them for.\n' +
+            '            That is, you specify your wishes in the areas in which Pflege Panther is active.\n' +
+            '            Here you also have the option of specifying whether you prefer a female or a male nurse.\n' +
+            '            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n' +
+            '            who offer exactly what you are looking for, allowing you to select an individual nurse.\n' +
+            '            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n' +
+            '            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n' +
+            '            booking request.',
+
+        for_whom: 'Who are you looking for help for?',
+        to_me: 'For me',
+        for_a_relative: 'For a relative',
+        information_about_person: 'Information about the person in need of care',
+        age_range: 'Age range',
+        what_support_looking: 'What kind of support are you looking for',
+        disease: 'Disease',
+        other_disease: 'Other disease',
+        is_degree_of_care: 'Is the degree of care available',
+        language_skills : 'Language skills',
+        do_you_need_help_moving : 'Do you need help moving/walking?',
+        unknown: 'Unknown',
+        additional_transportation: 'Additional means of transportation?',
+        need_help_with_walking: 'Need help with walking',
+        wheelchair: 'Wheelchair',
+        crutches: 'Crutches',
+        nothing: 'Nothing',
+        memory: 'Memory',
+        good: 'Good',
+        minor_difficulties: 'Minor difficulties',
+        significant_difficulties: 'Significant difficulties',
+        incontinence: 'Suffer from urinary incontinence?',
+        preference_for_the_nurse: 'Is there a gender preference for the nurse?',
+        hearing: 'Hearing',
+        weak: 'Weak',
+        difficulties: 'Difficulties',
+        essential: 'Essential',
+        vision: 'Vision',
+        areas_help: 'Areas where help is needed',
+        dressing: 'Dressing',
+        mobility: 'Mobility',
+        hygiene: 'Hygiene',
+        preparation_of_medicines: 'Preparation of medicines',
+        skin_care: 'Skin care',
+        other_areas: 'Other areas',
+        one_time_or_regular: 'One-time or regular',
+        where_should_help_be_provided: 'Where should help be provided?',
+        find: 'Find',
+
     },
     de : {
         lang: 'Deutsche',
@@ -152,5 +200,15 @@ export default {
         price: 'Preis',
         distance: 'Distanz',
         send_to_bookings: 'An Buchungen senden',
+        how_does_the_booking_process_work_description : 'Wenn Sie eine Krankenschwester auf unserer Website buchen, geben Sie genau an, wofür Sie sie buchen möchten.\n' +
+            '             Das heißt, Sie geben Ihre Wünsche in den Bereichen an, in denen Pflege Panther tätig ist.\n' +
+            '             Hier haben Sie auch die Möglichkeit anzugeben, ob Sie eine weibliche oder eine männliche Pflegekraft bevorzugen.\n' +
+            '             Mit einem weiteren Klick wird Ihre Buchungsanfrage abgeschickt. Unser Matching-System durchsucht dann die Datenbank nach Pflegekräften\n' +
+            '             die genau das bieten, wonach Sie suchen, sodass Sie eine individuelle Pflegekraft auswählen können.\n' +
+            '             Die passende Pflegekraft wird über Ihre Anfrage informiert und gebeten, diese anzunehmen. Die erste Krankenschwester, die Ihre trifft\n' +
+            '             Anforderungen erfüllt und Ihren Auftrag annimmt, wird sich telefonisch mit Ihnen in Verbindung setzen. Dies ist in der Regel innerhalb von 24 Stunden nach Ihrer\n' +
+            '             Buchungsanfrage.',
+
+
     }
 }

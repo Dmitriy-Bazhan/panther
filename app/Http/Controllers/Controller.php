@@ -13,6 +13,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-
+        if (auth()->check()) {
+            app()->setLocale(auth()->user()->prefs->pref_lang);
+        }
     }
 }

@@ -2,55 +2,50 @@
     <h4>LISTING</h4>
 
     <span class="listing-reminder-begin">
-        How does the booking process work?
+        {{ $t('how_does_the_booking_process_work') }}?
         <span class="listing-reminder-end" id="listing-reminder-end" v-on:click="showReminderBlock()">
-            Click to show more
+            {{ $t('click_to_show_more') }}
         </span>
     </span>
 
     <div v-if="showReminder" class="block-with-reminder">
-        <span>When you book a nurse on our site, you specify exactly what you want to book them for.
-            That is, you specify your wishes in the areas in which Pflege Panther is active.
-            Here you also have the option of specifying whether you prefer a female or a male nurse.
-            With another click, your booking request is sent off. Our matching system then searches the database for nurses
-            who offer exactly what you are looking for, allowing you to select an individual nurse.
-            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your
-            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your
-            booking request.
+        <span>
+            {{ $t('how_does_the_booking_process_work_description') }}
+
         </span>
     </div>
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <h4>Filters</h4>
+                <h4>{{ $t('search') }}</h4>
             </div>
         </div>
 
         <div class="row">
             <div class="col-3">
                 <!--                for whom-->
-                <label for="for_whom" class="form-label col-form-label-sm">Who are you looking for help for?</label>
+                <label for="for_whom" class="form-label col-form-label-sm">{{ $t('for_whom') }}</label>
                 <select id="for_whom" class="form-select form-select-sm" v-model="clientSearchInfo.for_whom">
-                    <option value="to_me">to_me</option>
-                    <option value="for_a_relative">for_a_relative</option>
+                    <option value="to_me">{{ $t('to_me') }}</option>
+                    <option value="for_a_relative">{{ $t('for_a_relative') }}</option>
                 </select>
                 <br>
 
                 <!--                Person information-->
-                <label class="form-label col-form-label-sm">Information about the person in need of care</label>
+                <label class="form-label col-form-label-sm">{{ $t('information_about_person') }}</label>
                 <br>
 
-                <label for="name" class="form-label col-form-label-sm">Name</label>
+                <label for="name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
                 <input id="name" class="form-control form-control-sm" type="text" v-model="clientSearchInfo.name">
                 <span class="register-form-error" v-if="errors !== null && errors['name'] !== undefined">{{ errors['name'][0] }}</span>
 
-                <label for="last_name" class="form-label col-form-label-sm">Last name</label>
+                <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
                 <input id="last_name" class="form-control form-control-sm" type="text"
                        v-model="clientSearchInfo.last_name">
                 <span class="register-form-error" v-if="errors !== null && errors['last_name'] !== undefined">{{ errors['last_name'][0] }}</span>
 
-                <label for="age_range" class="form-label col-form-label-sm">Age Range</label>
+                <label for="age_range" class="form-label col-form-label-sm">{{ $t('age_range') }}</label>
                 <select id="age_range" class="form-select form-select-sm" v-model="clientSearchInfo.age_range">
                     <option value="0-20">0-20</option>
                     <option value="20-40">20-40</option>
@@ -64,8 +59,7 @@
 
             <div class="col-3">
                 <!--provider supports-->
-                <label for="provider_support" class="form-label col-form-label-sm">What kind of support are you looking
-                    for</label>
+                <label for="provider_support" class="form-label col-form-label-sm">{{ $t('what_support_looking') }}</label>
                 <select id="provider_support" class="form-select form-select-sm" multiple
                         v-model="clientSearchInfo.provider_supports">
                     <option v-if="data.provider_supports.length > 0"
@@ -77,7 +71,7 @@
                 <span class="register-form-error" v-if="errors !== null && errors['provider_supports'] !== undefined">{{ errors['provider_supports'][0] }}</span>
 
                 <!--                additional info , disease -->
-                <label for="disease" class="form-label col-form-label-sm">Disease</label>
+                <label for="disease" class="form-label col-form-label-sm">{{ $t('disease') }}</label>
                 <select id="disease" class="form-select form-select-sm" multiple v-model="clientSearchInfo.disease">
                     <option v-if="data.additional_info.length > 0"
                             v-for="info in data.additional_info"
@@ -86,13 +80,12 @@
                     </option>
                 </select>
 
-                <label for="other_disease" class="form-label col-form-label-sm">Other disease</label>
+                <label for="other_disease" class="form-label col-form-label-sm">{{ $t('other_disease') }}</label>
                 <input id="other_disease" class="form-control form-control-sm" type="text"
                        v-model="clientSearchInfo.other_disease">
 
                 <!--degree of care available-->
-                <label for="degree_of_care_available" class="form-label col-form-label-sm">Is the degree of care
-                    available</label><br>
+                <label for="degree_of_care_available" class="form-label col-form-label-sm">{{ $t('is_degree_of_care') }}</label><br>
                 <select id="degree_of_care_available" class="form-select form-select-sm"
                         v-model="clientSearchInfo.degree_of_care_available">
                     <option value="1">1</option>
@@ -100,7 +93,7 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                    <option value="0">not_sure</option>
+                    <option value="0">{{ $t('not_sure') }}</option>
                 </select>
 
             </div>
@@ -108,13 +101,13 @@
 
             <div class="col-3">
                 <!--languages-->
-                <label class="form-label col-form-label-sm">Language skills</label><br>
+                <label class="form-label col-form-label-sm">{{ $t('language_skills') }}</label><br>
                 <div class="row">
                     <div class="col-8">
                         <select class="form-control form-control-sm" id="language" v-model="clientSearchInfo.language">
-                            <option value="english">english</option>
-                            <option value="deutsche">deutsche</option>
-                            <option value="no_matter">no_matter</option>
+                            <option value="english">{{ $t('english') }}</option>
+                            <option value="deutsche">{{ $t('german') }}</option>
+                            <option value="no_matter">{{ $t('no_matter') }}</option>
                         </select>
                     </div>
 
@@ -126,48 +119,46 @@
                             <option value="B2">B2</option>
                             <option value="C1">C1</option>
                             <option value="C2">C2</option>
-                            <option value="no_matter">no_matter</option>
+                            <option value="no_matter">{{ $t('no_matter') }}</option>
                         </select>
                     </div>
                 </div>
 
                 <!--                help to move-->
-                <label for="do_you_need_help_moving" class="form-label col-form-label-sm">Do you need help
-                    moving/walking?</label><br>
+                <label for="do_you_need_help_moving" class="form-label col-form-label-sm">{{ $t('do_you_need_help_moving') }}</label><br>
                 <select class="form-control form-control-sm" id="do_you_need_help_moving"
                         v-model="clientSearchInfo.do_you_need_help_moving">
-                    <option value="yes">yes</option>
-                    <option value="no">no</option>
-                    <option value="unknown">unknown</option>
+                    <option value="yes">{{ $t('yes') }}</option>
+                    <option value="no">{{ $t('no') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
                 <!--                additional means of transportation-->
-                <label for="additional_transportation" class="form-label col-form-label-sm">Additional means of
-                    transportation?</label><br>
+                <label for="additional_transportation" class="form-label col-form-label-sm">{{ $t('additional_transportation') }}</label><br>
                 <select class="form-control form-control-sm" id="additional_transportation"
                         v-model="clientSearchInfo.additional_transportation">
-                    <option value="need_help_with_walking">need_help_with_walking</option>
-                    <option value="wheelchair">wheelchair</option>
-                    <option value="crutches">crutches</option>
-                    <option value="nothing">nothing</option>
-                    <option value="unknown">unknown</option>
+                    <option value="need_help_with_walking">{{ $t('need_help_with_walking') }}</option>
+                    <option value="wheelchair">{{ $t('wheelchair') }}</option>
+                    <option value="crutches">{{ $t('crutches') }}</option>
+                    <option value="nothing">{{ $t('nothing') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
                 <!--                Memory-->
-                <label for="memory" class="form-label col-form-label-sm">Memory</label><br>
+                <label for="memory" class="form-label col-form-label-sm">{{ $t('memory') }}</label><br>
                 <select class="form-control form-control-sm" id="memory" v-model="clientSearchInfo.memory">
-                    <option value="good">good</option>
-                    <option value="minor_difficulties">minor_difficulties</option>
-                    <option value="significant_difficulties">significant_difficulties</option>
-                    <option value="unknown">unknown</option>
+                    <option value="good">{{ $t('good') }}</option>
+                    <option value="minor_difficulties">{{ $t('minor_difficulties') }}</option>
+                    <option value="significant_difficulties">{{ $t('significant_difficulties') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
                 <!--                suffer from urinary incontinence-->
-                <label for="incontinence" class="form-label col-form-label-sm">Suffer from urinary incontinence?</label><br>
+                <label for="incontinence" class="form-label col-form-label-sm">{{ $t('incontinence') }}</label><br>
                 <select class="form-control form-control-sm" id="incontinence" v-model="clientSearchInfo.incontinence">
-                    <option value="yes">yes</option>
-                    <option value="no">no</option>
-                    <option value="unknown">unknown</option>
+                    <option value="yes">{{ $t('yes') }}</option>
+                    <option value="no">{{ $t('no') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
             </div>
@@ -175,45 +166,44 @@
             <div class="col-3">
 
                 <!--                Is there a gender preference for the nurse-->
-                <label for="preference_for_the_nurse" class="form-label col-form-label-sm">Is there a gender preference
-                    for the nurse?</label><br>
+                <label for="preference_for_the_nurse" class="form-label col-form-label-sm">{{ $t('preference_for_the_nurse') }}</label><br>
                 <select class="form-control form-control-sm" id="preference_for_the_nurse"
                         v-model="clientSearchInfo.preference_for_the_nurse">
-                    <option value="male">male</option>
-                    <option value="female">female</option>
-                    <option value="no_matter">no_matter</option>
+                    <option value="male">{{ $t('male') }}</option>
+                    <option value="female">{{ $t('female') }}</option>
+                    <option value="no_matter">{{ $t('no_matter') }}</option>
                 </select>
 
                 <!--                hearing-->
-                <label for="hearing" class="form-label col-form-label-sm">Hearing</label><br>
+                <label for="hearing" class="form-label col-form-label-sm">{{ $t('hearing') }}</label><br>
                 <select class="form-control form-control-sm" id="hearing" v-model="clientSearchInfo.hearing">
-                    <option value="good">good</option>
-                    <option value="weak">weak</option>
-                    <option value="difficulties">difficulties</option>
-                    <option value="essential">essential</option>
-                    <option value="unknown">unknown</option>
+                    <option value="good">{{ $t('good') }}</option>
+                    <option value="weak">{{ $t('weak') }}</option>
+                    <option value="difficulties">{{ $t('difficulties') }}</option>
+                    <option value="essential">{{ $t('essential') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
                 <!--                Vision-->
-                <label for="vision" class="form-label col-form-label-sm">Vision</label><br>
+                <label for="vision" class="form-label col-form-label-sm">{{ $t('vision') }}</label><br>
                 <select class="form-control form-control-sm" id="vision" v-model="clientSearchInfo.vision">
-                    <option value="good">good</option>
-                    <option value="minor_difficulties">minor_difficulties</option>
-                    <option value="significant_difficulties">significant_difficulties</option>
-                    <option value="unknown">unknown</option>
+                    <option value="good">{{ $t('good') }}</option>
+                    <option value="minor_difficulties">{{ $t('minor_difficulties') }}</option>
+                    <option value="significant_difficulties">{{ $t('significant_difficulties') }}</option>
+                    <option value="unknown">{{ $t('unknown') }}</option>
                 </select>
 
                 <!--                Areas where help is needed-->
-                <label for="areas_help" class="form-label col-form-label-sm">Areas where help is needed</label><br>
+                <label for="areas_help" class="form-label col-form-label-sm">{{ $t('areas_help') }}</label><br>
                 <select class="form-control form-control-sm" id="areas_help" v-model="clientSearchInfo.areas_help">
-                    <option value="dressing">dressing</option>
-                    <option value="mobility">mobility</option>
-                    <option value="hygiene">hygiene</option>
-                    <option value="preparation_of_medicines">preparation_of_medicines</option>
-                    <option value="skin_care">skin_care</option>
+                    <option value="dressing">{{ $t('dressing') }}</option>
+                    <option value="mobility">{{ $t('mobility') }}</option>
+                    <option value="hygiene">{{ $t('hygiene') }}</option>
+                    <option value="preparation_of_medicines">{{ $t('preparation_of_medicines') }}</option>
+                    <option value="skin_care">{{ $t('skin_care') }}</option>
                 </select>
 
-                <label for="other_areas" class="form-label col-form-label-sm">Other areas</label>
+                <label for="other_areas" class="form-label col-form-label-sm">{{ $t('other_areas') }}</label>
                 <input id="other_areas" class="form-control form-control-sm" type="text"
                        v-model="clientSearchInfo.other_areas">
             </div>
@@ -221,15 +211,14 @@
         <br>
         <div class="row">
             <div class="col-3">
-                <label for="one_time_or_regular" class="form-label col-form-label-sm">One-time or regular</label><br>
+                <label for="one_time_or_regular" class="form-label col-form-label-sm">{{ $t('one_time_or_regular') }}</label><br>
                 <input id="one_time_or_regular" placeholder="Later">
 
-                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">Where should help be
-                    provided?</label><br>
+                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">{{ $t('where_should_help_be_provided') }}</label><br>
                 <input id="where_should_help_be_provided" placeholder="Later">
             </div>
             <div class="col-3 offset-6">
-                <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">Find</button>
+                <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">{{ $t('find') }}</button>
             </div>
         </div>
     </div>

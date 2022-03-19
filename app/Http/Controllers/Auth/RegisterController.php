@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
-
+use phpDocumentor\Reflection\Utils;
 
 
 class RegisterController extends Controller
@@ -61,6 +61,7 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'languages' => 'required|in:en,de'
         ];
 
         $validator = Validator::make($data, $rules);
@@ -70,7 +71,9 @@ class RegisterController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if ($this->createClient($data)) {
+        app()->setLocale($data['languages']);
+
+        if ($user = $this->createClient($data)) {
             $credentials = $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required'],
@@ -78,6 +81,8 @@ class RegisterController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
+                event(new Registered($user));
+
                 return response()->json(['success' => true]);
             }
         } else {
@@ -111,7 +116,7 @@ class RegisterController extends Controller
             $userId = $user->id;
             $userPrefs = new UserPref();
             $userPrefs->user_id = $userId;
-            $userPrefs->pref_lang = 'de';
+            $userPrefs->pref_lang = $data['languages'];
             $userPrefs->save();
 
             request()->merge([
@@ -119,8 +124,7 @@ class RegisterController extends Controller
                 'password' => $data['password'],
             ]);
 
-            event(new Registered($user));
-            return true;
+            return $user;
         } else {
             //todo: I will ask my comrades for best practices for logs and errors
             return false;
@@ -131,6 +135,7 @@ class RegisterController extends Controller
     {
         $data = $request->post('data');
         //todo:make need rules
+
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -138,6 +143,7 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'languages' => 'required|in:en,de'
         ];
 
         $validator = Validator::make($data, $rules);
@@ -147,7 +153,9 @@ class RegisterController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if ($this->createNurse($data)) {
+        app()->setLocale($data['languages']);
+
+        if ($user = $this->createNurse($data)) {
             $credentials = $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required'],
@@ -155,6 +163,7 @@ class RegisterController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
+                event(new Registered($user));
                 return response()->json(['success' => true]);
             }
         } else {
@@ -187,7 +196,7 @@ class RegisterController extends Controller
             $userId = $user->id;
             $userPrefs = new UserPref();
             $userPrefs->user_id = $userId;
-            $userPrefs->pref_lang = 'de';
+            $userPrefs->pref_lang = $data['languages'];
             $userPrefs->save();
 
             $nursePrice = new NursePrice();
@@ -199,8 +208,8 @@ class RegisterController extends Controller
                 'password' => $data['password'],
             ]);
 
-            event(new Registered($user));
-            return true;
+
+            return $user;
         } else {
             //todo: I will ask my comrades for best practices for logs and errors
             return false;

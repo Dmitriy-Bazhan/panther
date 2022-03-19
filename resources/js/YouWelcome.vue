@@ -25,11 +25,11 @@ export default {
     methods: {
         toDashboard() {
             if (window.guard === 'client') {
-                location.href = '/dashboard/client';
+                location.href = '/dashboard/client/my-information/';
             }
 
             if (window.guard === 'nurse') {
-                location.href = '/dashboard/nurse';
+                location.href = '/dashboard/nurse/my-information/';
             }
         },
     }

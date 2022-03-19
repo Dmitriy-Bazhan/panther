@@ -20,7 +20,7 @@
     <script>
         //first enter in site
         let checkLocale = window.localStorage.getItem('locale');
-        if(checkLocale === undefined){
+        if(checkLocale === null){
             window.localStorage.setItem('locale', 'de');
         }
         //first enter in site

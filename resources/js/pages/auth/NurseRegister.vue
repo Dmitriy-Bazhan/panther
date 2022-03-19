@@ -93,10 +93,10 @@ export default {
     methods: {
         sendForm(event){
             event.preventDefault();
+            this.data.languages = window.localStorage.getItem('locale');
             axios.post('/nurse-register', {'data' : this.data })
                 .then((response) => {
                     this.errors = null;
-                    console.log(response);
                     if(response.data.success){
                         location.href = '/email/verify';
                     }else{
