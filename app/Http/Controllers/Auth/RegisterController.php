@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\HearAboutUs;
 use App\Models\Nurse;
 use App\Models\NursePrice;
 use App\Models\User;
@@ -18,6 +19,16 @@ use phpDocumentor\Reflection\Utils;
 
 class RegisterController extends Controller
 {
+    public $data;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $data['hear_about_us'] = HearAboutUs::all();
+        $this->data = $data;
+    }
+
     public function register()
     {
         if(!auth()->check()){
@@ -34,8 +45,9 @@ class RegisterController extends Controller
 
     public function nurseRegister()
     {
+
         if(!auth()->check()){
-            return view('main');
+            return view('main', ['data' => $this->data]);
         }else{
             return redirect()->to('/');
         }
@@ -44,7 +56,7 @@ class RegisterController extends Controller
     public function clientRegister()
     {
         if(!auth()->check()){
-            return view('main');
+            return view('main',  ['data' => $this->data]);
         }else{
             return redirect()->to('/');
         }
@@ -61,17 +73,28 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'languages' => 'required|in:en,de'
+            'locale' => 'required|in:en,de'
         ];
 
-        $validator = Validator::make($data, $rules);
+        $messages = [
+            'first_name.required' => __('errors.first_name'),
+            'last_name.required' => __('errors.last_name'),
+            'phone.required' => __('errors.phone'),
+            'zip_code.required' => __('errors.zip_code'),
+            'email.required' => __('errors.email_required'),
+            'email.email' => __('errors.email_email'),
+            'email.unique' => __('errors.email_unique'),
+            'password.required' => __('errors.password_required'),
+            'password.min' => __('errors.password_min'),
+            'password.confirmed' => __('errors.password_confirmed'),
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json(['success' => false, 'errors' => $errors]);
         }
-
-        app()->setLocale($data['languages']);
 
         if ($user = $this->createClient($data)) {
             $credentials = $request->validate([
@@ -116,7 +139,7 @@ class RegisterController extends Controller
             $userId = $user->id;
             $userPrefs = new UserPref();
             $userPrefs->user_id = $userId;
-            $userPrefs->pref_lang = $data['languages'];
+            $userPrefs->pref_lang = $data['locale'];
             $userPrefs->save();
 
             request()->merge([
@@ -143,17 +166,30 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'languages' => 'required|in:en,de'
+            'hear_about_us' => 'sometimes|numeric',
+            'hear_about_us_other' => 'sometimes',
+            'locale' => 'required|in:en,de'
         ];
 
-        $validator = Validator::make($data, $rules);
+        $messages = [
+            'first_name.required' => __('errors.first_name'),
+            'last_name.required' => __('errors.last_name'),
+            'phone.required' => __('errors.phone'),
+            'zip_code.required' => __('errors.zip_code'),
+            'email.required' => __('errors.email_required'),
+            'email.email' => __('errors.email_email'),
+            'email.unique' => __('errors.email_unique'),
+            'password.required' => __('errors.password_required'),
+            'password.min' => __('errors.password_min'),
+            'password.confirmed' => __('errors.password_confirmed'),
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json(['success' => false, 'errors' => $errors]);
         }
-
-        app()->setLocale($data['languages']);
 
         if ($user = $this->createNurse($data)) {
             $credentials = $request->validate([
@@ -191,12 +227,14 @@ class RegisterController extends Controller
         $user->password = Hash::make($data['password']);
         $user->entity_id = $newNurseId;
         $user->entity_type = 'nurse';
+        $user->hear_about_us = $data['hear_about_us'];
+        $user->hear_about_us_other = $data['hear_about_us_other'];
 
         if ($user->save()) {
             $userId = $user->id;
             $userPrefs = new UserPref();
             $userPrefs->user_id = $userId;
-            $userPrefs->pref_lang = $data['languages'];
+            $userPrefs->pref_lang = $data['locale'];
             $userPrefs->save();
 
             $nursePrice = new NursePrice();

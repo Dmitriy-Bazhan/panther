@@ -93,7 +93,7 @@ export default {
     methods: {
         sendForm(event){
             event.preventDefault();
-            this.data.languages = window.localStorage.getItem('locale');
+            this.data.locale = window.localStorage.getItem('locale');
             axios.post('/client-register', {'data' : this.data })
                 .then((response) => {
                     this.errors = null;

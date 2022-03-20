@@ -24,11 +24,13 @@ const routes = [
     },
     {
         path: "/nurse-register",
-        component: NurseRegister
+        component: NurseRegister,
+        props: true,
     },
     {
         path: "/client-register",
-        component: ClientRegister
+        component: ClientRegister,
+        props: true,
     },
     {
         path: "/email/verify",

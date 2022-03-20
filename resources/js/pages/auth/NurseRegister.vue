@@ -2,118 +2,191 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-4 offset-4">
+            <div class="col-6 offset-3">
                 <h1>Nurse register</h1>
 
-                <form>
-                    <!-- first name -->
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="first_name" v-model="data.first_name">
+                <!-- first name -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="first_name" class="form-label col-form-label-sm">First name</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control form-control-sm" id="first_name"
+                               v-model="nurse.first_name">
                         <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- last name -->
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="last_name" v-model="data.last_name">
+                <!-- last name -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="last_name" class="form-label col-form-label-sm">Last name</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control form-control-sm" id="last_name"
+                               v-model="nurse.last_name">
                         <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- email -->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                               v-model="data.email">
+                <!-- email -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="email" class="form-label col-form-label-sm">Email address</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp"
+                               v-model="nurse.email">
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         <span class="register-form-error" v-if="errors !== null && errors.email !== undefined">{{ errors.email[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- phone -->
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" v-model="data.phone">
+                <!-- phone -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="phone" class="form-label col-form-label-sm">Phone</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control form-control-sm" id="phone" v-model="nurse.phone">
                         <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- zip code -->
-                    <div class="mb-3">
-                        <label for="zip_code" class="form-label">Zip code</label>
-                        <input type="text" class="form-control" id="zip_code" v-model="data.zip_code">
+                <!-- zip code -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="zip_code" class="form-label col-form-label-sm">Zip code</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control form-control-sm" id="zip_code" v-model="nurse.zip_code">
                         <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- password -->
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" v-model="data.password">
+                <!-- password -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="password" class="form-label col-form-label-sm">Password</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="password" class="form-control form-control-sm" id="password"
+                               v-model="nurse.password">
                         <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
                     </div>
+                </div>
 
-                    <!-- password confirm-->
-                    <div class="mb-3">
-                        <label for="password_confirm" class="form-label">Password confirm</label>
-                        <input type="password" class="form-control" id="password_confirm" v-model="data.password_confirmation">
+                <!-- password confirm-->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="password_confirm" class="form-label col-form-label-sm">Password confirm</label>
                     </div>
+                    <div class="col-9">
+                        <input type="password" class="form-control form-control-sm" id="password_confirm"
+                               v-model="nurse.password_confirmation">
+                    </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-2">
-                            <button class="btn btn-primary" v-on:click="sendForm">Send</button>
-                        </div>
-                        <div class="col-2 offset-8">
-                            <button class="btn btn-primary" v-on:click="backToHome">Back</button>
-                        </div>
+                <!-- hear about us -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="hear_about_us" class="form-label col-form-label-sm">hear_about_us</label>
                     </div>
-                </form>
+                    <div class="col-9">
+                        <select id="hear_about_us" class="form-select form-select-sm"
+                                v-model="nurse.hear_about_us">
+                            <option v-if="data.hear_about_us.length > 0"
+                                    v-for="hear_about_us in data.hear_about_us"
+                                    v-bind:value="hear_about_us.id">
+                                {{ filterHearAboutUs(hear_about_us) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- hear about us other -->
+                <div class="row">
+                    <div class="col-3">
+                        <label for="hear_about_us_other" class="form-label col-form-label-sm">hear_about_us_other</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="password" class="form-control form-control-sm" id="hear_about_us_other"
+                               v-model="nurse.hear_about_us_other">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <button class="btn btn-primary btn-sm" v-on:click="sendForm">Send</button>
+                    </div>
+                    <div class="col-2 offset-8">
+                        <button class="btn btn-primary btn-sm" v-on:click="backToHome">Back</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    name: "NurseRegister",
-    data() {
-        return {
-            data : {
-                first_name: null,
-                last_name: null,
-                email: null,
-                phone: null,
-                zip_code: null,
-                password: null,
-                password_confirmation: null,
-            },
-            errors : null
-        };
-    },
-    mounted() {
-        this.emitter.emit('not-show-left-panel');
-    },
-    methods: {
-        sendForm(event){
-            event.preventDefault();
-            this.data.languages = window.localStorage.getItem('locale');
-            axios.post('/nurse-register', {'data' : this.data })
-                .then((response) => {
-                    this.errors = null;
-                    if(response.data.success){
-                        location.href = '/email/verify';
-                    }else{
-                        this.errors = response.data.errors;
-                    }
-                })
-                .catch((error) => {
-                    // console.log(error.response.data.errors);
-
-                });
+    export default {
+        name: "NurseRegister",
+        props: ['data'],
+        data() {
+            return {
+                nurse: {
+                    first_name: null,
+                    last_name: null,
+                    email: null,
+                    phone: null,
+                    zip_code: null,
+                    password: null,
+                    password_confirmation: null,
+                    hear_about_us: null,
+                    hear_about_us_other: null,
+                },
+                errors: null,
+                locale: window.localStorage.getItem('locale'),
+            };
         },
-        backToHome(event){
-            event.preventDefault();
-            location.href = '/register';
+        mounted() {
+            console.log('FFFFFF');
+            console.log(this.data);
+            this.emitter.emit('not-show-left-panel');
+        },
+        methods: {
+            sendForm(event) {
+                event.preventDefault();
+                this.nurse.locale = this.locale;
+                axios.post('/nurse-register', {'data': this.nurse})
+                    .then((response) => {
+                        this.errors = null;
+                        if (response.data.success) {
+                            location.href = '/email/verify';
+                        } else {
+                            this.errors = response.data.errors;
+                        }
+                    })
+                    .catch((error) => {
+                        // console.log(error.response.data.errors);
+
+                    });
+            },
+            backToHome(event) {
+                event.preventDefault();
+                location.href = '/register';
+            },
+            filterHearAboutUs(hear_about_as){
+                let lang = this.locale;
+                let el = hear_about_as.data.filter(function (value) {
+                    if(value.lang == lang){
+                        return value;
+                    }
+                });
+                return el[0].data;
+            }
         }
     }
-}
 </script>
 
 <style scoped>

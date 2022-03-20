@@ -15,6 +15,8 @@ class Controller extends BaseController
     {
         if (auth()->check()) {
             app()->setLocale(auth()->user()->prefs->pref_lang);
+        } else if (isset(request()->post('data')['locale']) && in_array(request()->post('data')['locale'], ['en', 'de'])) {
+            app()->setLocale(request()->post('data')['locale']);
         }
     }
 }
