@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\NurseCollection;
 use App\Models\AdditionalInfo;
+use App\Models\HearAboutUs;
 use App\Models\Nurse;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
@@ -87,12 +88,36 @@ class AdminDashboardController extends Controller
         //
     }
 
-    public function settings(){
-        return view('dashboard');
-    }
-
     public function getNurses(){
         $nurses = $this->nursesRepo->search();
         return new NurseCollection($nurses);
+    }
+
+    public function hearAboutUs() {
+        $hearAboutUs = HearAboutUs::with('data')->get();
+        return response()->json(['hear_about_us' => $hearAboutUs]);
+    }
+
+    public function changeHearAboutUsShow($id)
+    {
+        if(!is_numeric($id)){
+            return response()->json(['success' => false]);
+        }
+
+        if(!$hearAboutUs = HearAboutUs::where('id', $id)->first()){
+            return response()->json(['success' => false]);
+        }
+
+        $is_show = 'yes';
+        if($hearAboutUs->is_show == 'yes'){
+            $is_show = 'no';
+        }
+
+        $hearAboutUs->is_show = $is_show;
+        if(!$hearAboutUs->save()){
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json(['success' => true, 'is_show' => $is_show]);
     }
 }

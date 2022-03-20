@@ -1,0 +1,14 @@
+<div>
+    <h1>{{ $t('settings') }}</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <menu_settings></menu_settings>
+            </div>
+            <div class="col-10">
+                <hear_about_us v-if="active_menu === 'hear_about_us'" :hear_about_us="hear_about_us" :user="user"></hear_about_us>
+            </div>
+        </div>
+    </div>
+</div>

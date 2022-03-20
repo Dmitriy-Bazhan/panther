@@ -84,6 +84,8 @@ export default {
             '            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n' +
             '            booking request.',
 
+
+
         for_whom: 'Who are you looking for help for?',
         to_me: 'For me',
         for_a_relative: 'For a relative',
@@ -121,7 +123,13 @@ export default {
         other_areas: 'Other areas',
         one_time_or_regular: 'One-time or regular',
         where_should_help_be_provided: 'Where should help be provided?',
+        hear_about_us_other: 'Hear about us other',
+        hear_about_us: 'Hear about us',
+        password_confirm: 'Password confirm',
         find: 'Find',
+        password: 'Password',
+        nurse_register: 'Nurse register',
+        client_register: 'Client register',
 
     },
     de : {

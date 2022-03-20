@@ -25,7 +25,7 @@ class RegisterController extends Controller
     {
         parent::__construct();
 
-        $data['hear_about_us'] = HearAboutUs::all();
+        $data['hear_about_us'] = HearAboutUs::with('data')->get();
         $this->data = $data;
     }
 
@@ -73,6 +73,8 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'hear_about_us' => 'sometimes|numeric',
+            'hear_about_us_other' => 'sometimes',
             'locale' => 'required|in:en,de'
         ];
 
@@ -133,6 +135,8 @@ class RegisterController extends Controller
         $user->password = Hash::make($data['password']);
         $user->entity_id = $newClientId;
         $user->entity_type = 'client';
+        $user->hear_about_us = $data['hear_about_us'];
+        $user->hear_about_us_other = $data['hear_about_us_other'];
 
         if ($user->save()) {
 

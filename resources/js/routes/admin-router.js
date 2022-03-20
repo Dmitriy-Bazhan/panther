@@ -1,5 +1,5 @@
 import * as VueRouter from "vue-router";
-import Settings from '../dashboards/admin-dashboard/components/Settings'
+import Settings from '../dashboards/admin-dashboard/components/settings/index'
 import Dashboard from "../dashboards/admin-dashboard/components/Dashboard";
 import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
 
@@ -12,7 +12,8 @@ const routes = [
     {
         path: "/dashboard/admin/settings",
         name: 'AdminDashboardSettings',
-        component: Settings
+        component: Settings,
+        props: true,
     },
     {
         path: "/dashboard/admin/nurses",

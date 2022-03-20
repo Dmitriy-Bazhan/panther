@@ -3,12 +3,12 @@
         <div class="row">
 
             <div class="col-6 offset-3">
-                <h1>Nurse register</h1>
+                <h1>{{ $t('nurse_register') }}</h1>
 
                 <!-- first name -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="first_name" class="form-label col-form-label-sm">First name</label>
+                        <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="first_name"
@@ -20,7 +20,7 @@
                 <!-- last name -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="last_name" class="form-label col-form-label-sm">Last name</label>
+                        <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="last_name"
@@ -32,7 +32,7 @@
                 <!-- email -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="email" class="form-label col-form-label-sm">Email address</label>
+                        <label for="email" class="form-label col-form-label-sm">{{ $t('email') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp"
@@ -45,7 +45,7 @@
                 <!-- phone -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="phone" class="form-label col-form-label-sm">Phone</label>
+                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="phone" v-model="nurse.phone">
@@ -56,7 +56,7 @@
                 <!-- zip code -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="zip_code" class="form-label col-form-label-sm">Zip code</label>
+                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="zip_code" v-model="nurse.zip_code">
@@ -67,7 +67,7 @@
                 <!-- password -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="password" class="form-label col-form-label-sm">Password</label>
+                        <label for="password" class="form-label col-form-label-sm">{{ $t('password') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="password" class="form-control form-control-sm" id="password"
@@ -79,7 +79,7 @@
                 <!-- password confirm-->
                 <div class="row">
                     <div class="col-3">
-                        <label for="password_confirm" class="form-label col-form-label-sm">Password confirm</label>
+                        <label for="password_confirm" class="form-label col-form-label-sm">{{ $t('password_confirm') }}</label>
                     </div>
                     <div class="col-9">
                         <input type="password" class="form-control form-control-sm" id="password_confirm"
@@ -90,7 +90,7 @@
                 <!-- hear about us -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="hear_about_us" class="form-label col-form-label-sm">hear_about_us</label>
+                        <label for="hear_about_us" class="form-label col-form-label-sm">{{ $t('hear_about_us') }}</label>
                     </div>
                     <div class="col-9">
                         <select id="hear_about_us" class="form-select form-select-sm"
@@ -107,10 +107,10 @@
                 <!-- hear about us other -->
                 <div class="row">
                     <div class="col-3">
-                        <label for="hear_about_us_other" class="form-label col-form-label-sm">hear_about_us_other</label>
+                        <label for="hear_about_us_other" class="form-label col-form-label-sm">{{ $t('hear_about_us_other') }}</label>
                     </div>
                     <div class="col-9">
-                        <input type="password" class="form-control form-control-sm" id="hear_about_us_other"
+                        <input type="text" class="form-control form-control-sm" id="hear_about_us_other"
                                v-model="nurse.hear_about_us_other">
                     </div>
                 </div>
@@ -150,8 +150,6 @@
             };
         },
         mounted() {
-            console.log('FFFFFF');
-            console.log(this.data);
             this.emitter.emit('not-show-left-panel');
         },
         methods: {

@@ -48,11 +48,14 @@ Route::prefix('dashboard')->group(function () {
      * admin
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-        Route::get('/settings', [AdminDashboardController::class, 'settings']);
+        Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
         Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
+        Route::get('/hear-about-us', [AdminDashboardController::class, 'hearAboutUs']);
+        Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
+
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
