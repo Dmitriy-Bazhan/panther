@@ -57,7 +57,7 @@ export default {
         provide_supports: 'Provide supports',
         description: 'Description',
         additional_info: 'Additional info',
-        indicate_the_hours_you_available_to_work: 'Indicate the hours you available to work',
+        time_calendar: 'Time calendar',
         weekdays: 'Weekdays',
         weekends: 'Weekends',
         mon_fri: 'Mon-Fri',
@@ -130,6 +130,9 @@ export default {
         password: 'Password',
         nurse_register: 'Nurse register',
         client_register: 'Client register',
+        one_or_regular: 'One or regular order',
+        regular: 'Regular',
+        one: 'One',
 
     },
     de : {
@@ -190,7 +193,7 @@ export default {
         provide_supports: 'Unterstützung bieten',
         description: 'Beschreibung',
         additional_info: 'Zusätzliche Informationen',
-        indicate_the_hours_you_available_to_work: 'Geben Sie die Stunden an, die Sie für die Arbeit zur Verfügung haben',
+        time_calendar: 'Zeitkalender',
         weekdays: 'Wochentage',
         weekends: 'Wochenenden',
         mon_fri: 'Mon-Fre',

@@ -1,11 +1,18 @@
 import template from './template.html';
+import NurseInfo from "./NurseInfo";
 
 export default {
     name: "MyInformation",
     template: template,
+    components : {
+      nurse_info : NurseInfo,
+    },
     props: ['user', 'data'],
     data() {
         return {
+            info_active: true,
+            file_active: false,
+            calendar_active: false,
             path: location.origin,
             errors: null,
             criminal_record: '',
@@ -15,28 +22,26 @@ export default {
             file: '',
         }
     },
-    watch: {
-        user: {
-            handler(newValue, oldValue) {
-                if (this.user.entity.languages.length === 0) {
-                    this.user.entity.languages = [];
-                    let lang = new Object({
-                        lang: '',
-                        level: ''
-                    });
-                    this.user.entity.languages.push(lang);
-                }
-                if (typeof this.user.entity.work_time_pref === "string") {
-                    this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
-                }
-            },
-            immediate: true
-        },
-    },
-    mounted() {
 
+    mounted() {
+        console.log(this.user);
     },
     methods: {
+        showInfo() {
+            this.info_active = true;
+            this.file_active = false;
+            this.calendar_active = false;
+        },
+        showFilesAndPhoto() {
+            this.info_active = false;
+            this.file_active = true;
+            this.calendar_active = false;
+        },
+        showCalendar() {
+            this.calendar_active = true;
+            this.info_active = false;
+            this.file_active = false;
+        },
         filterFiles(data, type) {
             return data.filter(function (el) {
                 if (el.file_type === type) {
@@ -44,6 +49,7 @@ export default {
                 }
             })
         },
+
 
         updateInformation() {
             this.criminal_record = this.$refs.criminal_record.files;
@@ -78,7 +84,6 @@ export default {
 
             let user = JSON.stringify(this.user);
             formData.append('user', user);
-            console.log(this.user.entity);
             axios.post('/dashboard/nurse-my-information/' + this.user.id,
                 formData,
                 {
@@ -87,8 +92,8 @@ export default {
                     }
                 })
                 .then((response) => {
-                    console.log(response.data);
                     if (response.data.success) {
+                        this.emitter.emit('response-success-true');
                         this.errors = null;
                         this.emitter.emit('user-finished-fill-info');
                     } else {

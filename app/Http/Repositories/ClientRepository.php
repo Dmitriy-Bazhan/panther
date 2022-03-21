@@ -125,6 +125,7 @@ class ClientRepository
                 'vision' => $clientSearchInfo['vision'],
                 'areas_help' => $clientSearchInfo['areas_help'],
                 'other_areas' => $clientSearchInfo['other_areas'],
+                'one_or_regular' => $clientSearchInfo['one_or_regular'],
             ]);
 
         return $success;

@@ -41,6 +41,7 @@ export default {
                 vision: 'unknown',
                 areas_help: 'hygiene',
                 other_areas: '',
+                one_or_regular: 'one',
             }
         }
     },
@@ -96,6 +97,7 @@ export default {
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
+                        this.emitter.emit('response-success-true');
                         this.errors = null;
                         this.nurses = response.data.nurses;
                         this.showModalNursesListing = true;

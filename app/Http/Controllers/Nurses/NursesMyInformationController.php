@@ -54,7 +54,7 @@ class NursesMyInformationController extends Controller
             'phone' => 'required',
             'zip_code' => 'required',
             'entity.age' => 'required|numeric|min:18|max:100',
-            'entity.available_care_range' => 'required|numeric|min:1|max:5',
+            'entity.available_care_range' => 'required|numeric|min:0|max:5',
             'entity.description' => 'required',
             'entity.gender' => 'required',
             'entity.experience' => 'required',
@@ -65,42 +65,44 @@ class NursesMyInformationController extends Controller
             'entity.languages.*.level' => 'required',
 
             'entity.provide_supports' => 'required',
+            'entity.one_or_regular' => 'required|in:one,regular,no_matter',
+            'entity.start_date_ready_to_work' => 'required|date_format:Y-m-d',
         ];
 
-        $validator = Validator::make(json_decode($request->all('user')['user'], true), $rules);
+        $validator = Validator::make($request->post('user'), $rules);
 
         $errors = [];
         if ($validator->fails()) {
             $errors = array_merge($errors, $validator->errors()->toArray());
         }
 
-        $rules = [
-            'criminal_record' => 'required',
-            'documentation_of_training' => 'required',
-            'file' => 'required|file|mimes:jpeg,bmp,png'
-        ];
-
+//        $rules = [
+//            'criminal_record' => 'required',
+//            'documentation_of_training' => 'required',
+//            'file' => 'required|file|mimes:jpeg,bmp,png'
+//        ];
+//
         $nurses = $this->nurseRepo->search($id);
         $nurse = $nurses->first();
-
-        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
-            && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
-            $validator = Validator::make($request->allFiles(), $rules);
-            if ($validator->fails()) {
-                $errors = array_merge($errors, $validator->errors()->toArray());
-            }
-        }
-
-        $rules = [
-            'file' => 'required|file|mimes:jpeg,bmp,png'
-        ];
-
-        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
-            $validator = Validator::make($request->allFiles(), $rules);
-            if ($validator->fails()) {
-                $errors = array_merge($errors, $validator->errors()->toArray());
-            }
-        }
+//
+//        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
+//            && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
+//            $validator = Validator::make($request->allFiles(), $rules);
+//            if ($validator->fails()) {
+//                $errors = array_merge($errors, $validator->errors()->toArray());
+//            }
+//        }
+//
+//        $rules = [
+//            'file' => 'required|file|mimes:jpeg,bmp,png'
+//        ];
+//
+//        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
+//            $validator = Validator::make($request->allFiles(), $rules);
+//            if ($validator->fails()) {
+//                $errors = array_merge($errors, $validator->errors()->toArray());
+//            }
+//        }
 
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
@@ -111,15 +113,15 @@ class NursesMyInformationController extends Controller
             return response()->json(['success' => false, 'errors' => []]);
         }
 
-        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => []]);
-        }
-
-        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => 'Cant upload']);
-        }
+//        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
+//            //todo:: hmm
+//            return response()->json(['success' => false, 'errors' => []]);
+//        }
+//
+//        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
+//            //todo:: hmm
+//            return response()->json(['success' => false, 'errors' => 'Cant upload']);
+//        }
 
         $this->makeEventSendProfileToAdmin($id);
         return response()->json(['success' => true]);

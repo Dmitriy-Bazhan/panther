@@ -59,7 +59,8 @@
 
             <div class="col-3">
                 <!--provider supports-->
-                <label for="provider_support" class="form-label col-form-label-sm">{{ $t('what_support_looking') }}</label>
+                <label for="provider_support" class="form-label col-form-label-sm">{{ $t('what_support_looking')
+                    }}</label>
                 <select id="provider_support" class="form-select form-select-sm" multiple
                         v-model="clientSearchInfo.provider_supports">
                     <option v-if="data.provider_supports.length > 0"
@@ -85,7 +86,8 @@
                        v-model="clientSearchInfo.other_disease">
 
                 <!--degree of care available-->
-                <label for="degree_of_care_available" class="form-label col-form-label-sm">{{ $t('is_degree_of_care') }}</label><br>
+                <label for="degree_of_care_available" class="form-label col-form-label-sm">{{ $t('is_degree_of_care')
+                    }}</label><br>
                 <select id="degree_of_care_available" class="form-select form-select-sm"
                         v-model="clientSearchInfo.degree_of_care_available">
                     <option value="1">1</option>
@@ -125,7 +127,8 @@
                 </div>
 
                 <!--                help to move-->
-                <label for="do_you_need_help_moving" class="form-label col-form-label-sm">{{ $t('do_you_need_help_moving') }}</label><br>
+                <label for="do_you_need_help_moving" class="form-label col-form-label-sm">{{
+                    $t('do_you_need_help_moving') }}</label><br>
                 <select class="form-control form-control-sm" id="do_you_need_help_moving"
                         v-model="clientSearchInfo.do_you_need_help_moving">
                     <option value="yes">{{ $t('yes') }}</option>
@@ -134,7 +137,8 @@
                 </select>
 
                 <!--                additional means of transportation-->
-                <label for="additional_transportation" class="form-label col-form-label-sm">{{ $t('additional_transportation') }}</label><br>
+                <label for="additional_transportation" class="form-label col-form-label-sm">{{
+                    $t('additional_transportation') }}</label><br>
                 <select class="form-control form-control-sm" id="additional_transportation"
                         v-model="clientSearchInfo.additional_transportation">
                     <option value="need_help_with_walking">{{ $t('need_help_with_walking') }}</option>
@@ -166,7 +170,8 @@
             <div class="col-3">
 
                 <!--                Is there a gender preference for the nurse-->
-                <label for="preference_for_the_nurse" class="form-label col-form-label-sm">{{ $t('preference_for_the_nurse') }}</label><br>
+                <label for="preference_for_the_nurse" class="form-label col-form-label-sm">{{
+                    $t('preference_for_the_nurse') }}</label><br>
                 <select class="form-control form-control-sm" id="preference_for_the_nurse"
                         v-model="clientSearchInfo.preference_for_the_nurse">
                     <option value="male">{{ $t('male') }}</option>
@@ -211,13 +216,30 @@
         <br>
         <div class="row">
             <div class="col-3">
-                <label for="one_time_or_regular" class="form-label col-form-label-sm">{{ $t('one_time_or_regular') }}</label><br>
-                <input id="one_time_or_regular" placeholder="Later">
+                <div class="row">
+                    <div class="col-7">
+                        <label for="one_or_regular" class="form-label col-form-label-sm">
+                            {{ $t('one_or_regular') }}
+                        </label>
+                    </div>
 
-                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">{{ $t('where_should_help_be_provided') }}</label><br>
+                    <div class="col-5">
+                        <select class="form-control form-control-sm" v-model="clientSearchInfo.one_or_regular"
+                                id="one_or_regular">
+                            <option value="one">{{ $t('one') }}</option>
+                            <option value="regular">{{ $t('regular') }}</option>
+                        </select>
+                    </div>
+                    <span class="register-form-error"
+                          v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
+                </div>
+            </div>
+            <div class="col-5">
+                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">
+                    {{ $t('where_should_help_be_provided') }}</label><br>
                 <input id="where_should_help_be_provided" placeholder="Later">
             </div>
-            <div class="col-3 offset-6">
+            <div class="col-2">
                 <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">{{ $t('find') }}</button>
             </div>
         </div>

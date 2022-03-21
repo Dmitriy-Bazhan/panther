@@ -35,7 +35,7 @@ class CreateClientSearchInfosTable extends Migration
             $table->string('vision');
             $table->string('areas_help');
             $table->string('other_areas')->nullable();
-            $table->string('one_time_or_regular')->nullable();
+            $table->string('one_or_regular')->default('one')->comment('one|regular');
             $table->string('where_should_help_be_provided')->nullable();
             $table->timestamps();
 

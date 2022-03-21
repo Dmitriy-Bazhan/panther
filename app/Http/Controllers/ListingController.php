@@ -75,6 +75,7 @@ class ListingController extends Controller
             'vision' => 'required',
             'areas_help' => 'required',
             'other_areas' => 'sometimes',
+            'one_or_regular' => 'required|in:one,regular',  //filter
         ];
 
         $validator = Validator::make($clientSearchInfo, $rules);
@@ -100,6 +101,7 @@ class ListingController extends Controller
             'language' => $clientSearchInfo['language'],
             'language_level' => $clientSearchInfo['language_level'],
             'preference_for_the_nurse' => $clientSearchInfo['preference_for_the_nurse'],
+            'one_or_regular' => $clientSearchInfo['one_or_regular'],
         ]);
 
         $nurses = $this->nursesRepo->search();

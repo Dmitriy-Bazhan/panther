@@ -7,7 +7,6 @@
                 <th>{{ $t('data') }}</th>
                 <th>{{ $t('other') }}</th>
                 <th>{{ $t('is_show') }}</th>
-                <th>{{ $t('action') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -18,9 +17,7 @@
                     <th>
                         <span class="is-show-cell-item" v-on:click="changeShow(item)">{{ $t(item.is_show) }}</span>
                     </th>
-                    <th>
-                        <span>{{ $t('is_show') }}</span>
-                    </th>
+
                 </tr>
             </tbody>
         </table>

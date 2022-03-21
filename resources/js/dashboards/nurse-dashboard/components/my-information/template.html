@@ -3,225 +3,169 @@
     <span style="font-size: 12px;color: red;">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>
 
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <button v-bind:class="[info_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']"
+                        v-on:click="showInfo()">
+                    Info
+                </button>
+            </div>
+            <div class="col-2">
+                <button v-bind:class="[calendar_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']"
+                        v-on:click="showCalendar()">
+                    Time calendar
+                </button>
+            </div>
+            <div class="col-2">
+                <button v-bind:class="[file_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']"
+                        v-on:click="showFilesAndPhoto()">
+                    File and photo
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
 
+    <nurse_info v-if="info_active" :user="user" :data="data"></nurse_info>
+
+    <div v-if="calendar_active" class="container-fluid">
+        <!-- one or regular order -->
         <div class="row">
             <div class="col-3">
-
-                <!-- first name -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
-                    </div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" v-model="user.first_name"
-                               id="first_name">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['first_name'] !== undefined">{{ errors['first_name'][0] }}</span>
-                </div>
-
-                <!-- last name -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
-                    </div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" v-model="user.last_name"
-                               id="last_name">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['last_name'] !== undefined">{{ errors['last_name'][0] }}</span>
-                </div>
-
-                <!-- email -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="email" class="form-label col-form-label-sm">{{ $t('email') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <input type="email" class="form-control form-control-sm" v-model="user.email" id="email">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['email'] !== undefined">{{ errors['email'][0] }}</span>
-                </div>
-
-                <!-- phone -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" v-model="user.phone" id="phone">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['phone'] !== undefined">{{ errors['phone'][0] }}</span>
-                </div>
-
-                <!-- zip code -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" v-model="user.zip_code"
-                               id="zip_code">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['zip_code'] !== undefined">{{ errors['zip_code'][0] }}</span>
-                </div>
-
-                <!-- gender -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="gender" class="form-label col-form-label-sm">{{ $t('gender') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.gender" id="gender">
-                            <option value="male">{{ $t('male') }}</option>
-                            <option value="female">{{ $t('female') }}</option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.gender'] !== undefined">{{ errors['entity.gender'][0] }}</span>
-                </div>
-
-                <!-- age -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="age" class="form-label col-form-label-sm">{{ $t('age') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <input type="number" class="form-control form-control-sm" v-model="user.entity.age" id="age"
-                               min="18" max="100">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.age'] !== undefined">{{ errors['entity.age'][0] }}</span>
-                </div>
-
-                <!-- experience -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="experience" class="form-label col-form-label-sm">{{ $t('experience') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <input type="number" class="form-control form-control-sm" v-model="user.entity.experience"
-                               id="experience" min="0" max="100">
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.experience'] !== undefined">{{ errors['entity.experience'][0] }}</span>
-                </div>
-
-                <!-- languages -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="languages" class="form-label col-form-label-sm">{{ $t('languages') }}</label>
-                    </div>
-
-                    <div class="col-6">
-                        <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm" v-model="user.entity.languages[0].lang" id="languages">
-                            <option value="English">{{ $t('english') }}</option>
-                            <option value="Deutsche">{{ $t('german') }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-2">
-                        <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm" v-model="user.entity.languages[0].level" id="">
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                            <option value="C1">C1</option>
-                            <option value="C2">C2</option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.languages.0.lang'] !== undefined">{{ errors['entity.languages.0.lang'][0] }}</span>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.languages.0.level'] !== undefined">{{ errors['entity.languages.0.level'][0] }}</span>
-                </div>
+                <label for="one_or_regular" class="form-label col-form-label-sm">
+                    {{ $t('one_or_regular') }}
+                </label>
             </div>
 
             <div class="col-3">
-                <!-- pref client gender -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="pref_client_gender" class="form-label col-form-label-sm">
-                            {{ $t('preference_client_gender') }}
-                        </label>
-                    </div>
+                <select class="form-control form-control-sm" v-model="user.entity.one_or_regular"
+                        id="one_or_regular">
+                    <option value="one">{{ $t('one') }}</option>
+                    <option value="regular">{{ $t('regular') }}</option>
+                    <option value="no_matter">{{ $t('no_matter') }}</option>
+                </select>
+            </div>
+        </div>
 
-                    <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.pref_client_gender"
-                                id="pref_client_gender">
-                            <option value="no_matter">{{ $t('no_matter') }}</option>
-                            <option value="male">{{ $t('male') }}</option>
-                            <option value="female">{{ $t('female') }}</option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.pref_client_gender'] !== undefined">{{ errors['entity.pref_client_gender'][0] }}</span>
-                </div>
-
-                <!-- available care range -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="available_care_range" class="form-label col-form-label-sm">
-                            {{ $t('available_care_range') }}
-                        </label>
-                    </div>
-
-                    <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.available_care_range"
-                                id="available_care_range">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="0">{{ $t('not_sure') }}</option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.available_care_range'] !== undefined">{{ errors['entity.available_care_range'][0] }}</span>
-                </div>
-
-                <!-- multiple bookings -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="multiple_bookings" class="form-label col-form-label-sm">
-                            {{ $t('multiple_bookings') }}
-                        </label>
-                    </div>
-
-                    <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.multiple_bookings"
-                                id="multiple_bookings">
-                            <option value="yes">{{ $t('yes') }}</option>
-                            <option value="no">{{ $t('no') }}</option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
-                </div>
-
-                <!-- provide supports -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="provide_supports" class="form-label col-form-label-sm">{{ $t('provide_supports') }}</label>
-                    </div>
-
-                    <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.provide_supports"
-                                id="provide_supports" multiple>
-                            <option v-for="support in data.provider_supports"
-                                    :value="support">
-                                {{ $t(support.name) }}
-                            </option>
-                        </select>
-                    </div>
-                    <span class="register-form-error" v-if="errors !== null && errors['entity.provide_supports'] !== undefined">{{ errors['entity.provide_supports'][0] }}</span>
-
-                </div>
-
+        <!--        ready to work-->
+        <div class="row">
+            <div class="col-3">
+                <label for="ready_to_work" class="form-label col-form-label-sm">
+                    {{ $t('ready_to_work') }}
+                </label>
             </div>
 
-            <div class="col-2 offset-3">
+            <div class="col-3">
+                <select class="form-control form-control-sm" v-model="user.entity.ready_to_work"
+                        id="ready_to_work">
+                    <option value="yes">{{ $t('yes') }}</option>
+                    <option value="no">{{ $t('no') }}</option>
+                </select>
+            </div>
+        </div>
+
+<!--        start date ready to work-->
+        <div class="row">
+            <div class="col-3">
+                <label for="start_date_ready_to_work" class="form-label col-form-label-sm">
+                    {{ $t('start_date_ready_to_work') }}
+                </label>
+            </div>
+
+            <div class="col-3">
+                <input type="date" class="form-control form-control-sm" v-model="user.entity.start_date_ready_to_work"
+                        id="start_date_ready_to_work">
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="row">
+                <div class="col-12 justify-content-center">
+                    <span class="form-label col-form-label-sm">{{ $t('time_calendar') }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8 offset-2">
+                <div class="row">
+                    <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
+                    <div class="col-4 justify-content-center">{{ $t('weekends') }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4 offset-4 justify-content-center">{{ $t('mon_fri') }}</div>
+                    <div class="col-4 justify-content-center">{{ $t('sat_sun') }}</div>
+                </div>
+
+                <!--                        7-11 Uhr  -->
+                <div class="row">
+                    <div class="col-4">7-11 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekdays_7_11">
+                        &nbsp;<label for="weekdays_morning"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekends_7_11">
+                        &nbsp;<label for="weekends_morning"></label>
+                    </div>
+                </div>
+                <!--                        11-14 Uhr  -->
+                <div class="row">
+                    <div class="col-4">11-14 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekdays_11_14">
+                        &nbsp;<label for="weekdays_afternoon"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekends_11_14">
+                        &nbsp;<label for="weekends_afternoon"></label>
+                    </div>
+                </div>
+                <!--                        14-17 Uhr -->
+                <div class="row">
+                    <div class="col-4">14-17 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekdays_14_17">
+                        &nbsp;<label for="weekdays_evening"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekends_14_17">
+                        &nbsp;<label for="weekends_evening"></label>
+                    </div>
+                </div>
+                <!--                        17-21 Uhr -->
+                <div class="row">
+                    <div class="col-4">17-21 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekdays_17_21">
+                        &nbsp;<label for="weekdays_overnight"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
+                               v-model="user.entity.work_time_pref.weekends_17_21">
+                        &nbsp;<label for="weekends_overnight"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="file_active" class="container-fluid">
+        <div class="row">
+            <!--        photo-->
+            <div class="col-3">
 
                 <div v-if="user.entity.original_photo !== null" class="my-information-photo-wrapper">
-                    <img v-bind:src="path + '/storage/' + user.entity.original_photo" alt="no-photo" class="my-information-photo">
+                    <img v-bind:src="path + '/storage/' + user.entity.original_photo" alt="no-photo"
+                         class="my-information-photo">
                 </div>
 
                 <div v-else class="my-information-photo-wrapper">
@@ -235,160 +179,55 @@
                        class="form-control-file form-control-sm">
                 <span class="register-form-error" v-if="errors !== null && errors['file'] !== undefined">{{ errors['file'][0] }}</span>
             </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-6">
-                <!-- description -->
-                <div class="row">
-                    <div class="col-2">
-                        <label for="description" class="form-label col-form-label-sm">{{ $t('description') }}</label>
-                    </div>
-
-                    <div class="col-10">
-                            <textarea class="form-control form-control-sm" v-model="user.entity.description"
-                                      id="description" rows="6">
-
-                            </textarea>
-                        <span class="register-form-error" v-if="errors !== null && errors['entity.description'] !== undefined">{{ errors['entity.description'][0] }}</span>
-                    </div>
-                </div>
-                <div class="row">
-
-
-                    <div class="col-2">
-                        <label for="additional_info" class="form-label col-form-label-sm">{{ $t('additional_info') }}</label>
-                    </div>
-
-                    <div class="col-6">
-
-                        <select class="form-control form-control-sm" v-model="user.entity.additional_info"
-                                id="additional_info" multiple>
-                            <option v-for="(info_item, index) in data.additional_info"
-                                    :value="info_item">
-                                {{ data.additional_info_data[index].data }}
-                            </option>
-                        </select>
-
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-12 justify-content-center">
-                        <span class="form-label col-form-label-sm">{{ $t('indicate_the_hours_you_available_to_work') }}</span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-8 offset-2">
-                        <div class="row">
-                            <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
-                            <div class="col-4 justify-content-center">{{ $t('weekends') }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 offset-4 justify-content-center">{{ $t('mon_fri') }}</div>
-                            <div class="col-4 justify-content-center">{{ $t('sat_sun') }}</div>
-                        </div>
-
-<!--                        Morning-->
-                        <div class="row">
-                            <div class="col-4">6a - 12p</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekdays_morning">
-                                &nbsp;<label for="weekdays_morning">{{ $t('morning') }}</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekends_morning">
-                                &nbsp;<label for="weekends_morning">{{ $t('morning') }}</label>
-                            </div>
-                        </div>
-<!--                        Afternoon-->
-                        <div class="row">
-                            <div class="col-4">12p - 4p</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekdays_afternoon">
-                                &nbsp;<label for="weekdays_afternoon">{{ $t('afternoon') }}</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekends_afternoon">
-                                &nbsp;<label for="weekends_afternoon">{{ $t('afternoon') }}</label>
-                            </div>
-                        </div>
-<!--                        Evening-->
-                        <div class="row">
-                            <div class="col-4">4p - 8p</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekdays_evening">
-                                &nbsp;<label for="weekdays_evening">{{ $t('evening') }}</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekends_evening">
-                                &nbsp;<label for="weekends_evening">{{ $t('evening') }}</label>
-                            </div>
-                        </div>
-<!--                        Overnight-->
-                        <div class="row">
-                            <div class="col-4">8p - 6a</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekdays_overnight">
-                                &nbsp;<label for="weekdays_overnight">{{ $t('overnight') }}</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref.weekends_overnight">
-                                &nbsp;<label for="weekends_overnight">{{ $t('overnight') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="col-3 offset-1" style="border: solid 1px lightgray">
                 <div>
                     {{ $t('criminal_record') }}
-                    <input type="file" id="criminal_record" ref="criminal_record" multiple class="form-control-file form-control-sm"/>
-                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'criminal_record')">{{ item.original_name }}</p><br>
+                    <input type="file" id="criminal_record" ref="criminal_record" multiple
+                           class="form-control-file form-control-sm"/>
+                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'criminal_record')">{{
+                        item.original_name }}</p><br>
                     <span class="register-form-error" v-if="errors !== null && errors['criminal_record'] !== undefined">{{ errors['criminal_record'][0] }}</span>
                 </div>
 
                 <div>
                     {{ $t('documentation_of_training') }}
-                    <input type="file" id="documentation_of_training" ref="documentation_of_training" multiple class="form-control-file form-control-sm"/>
-                    <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'documentation_of_training')">{{ item.original_name }}</p>
-                    <span class="register-form-error" v-if="errors !== null && errors['documentation_of_training'] !== undefined">{{ errors['documentation_of_training'][0] }}</span>
+                    <input type="file" id="documentation_of_training" ref="documentation_of_training" multiple
+                           class="form-control-file form-control-sm"/>
+                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'documentation_of_training')">{{
+                        item.original_name }}</p>
+                    <span class="register-form-error"
+                          v-if="errors !== null && errors['documentation_of_training'] !== undefined">{{ errors['documentation_of_training'][0] }}</span>
                 </div>
 
                 <div>
                     {{ $t('CPR_course') }}
-                    <input type="file" id="CPR_course" ref="CPR_course" multiple class="form-control-file form-control-sm"/>
-                    <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'CPR_course')">{{ item.original_name }}</p>
+                    <input type="file" id="CPR_course" ref="CPR_course" multiple
+                           class="form-control-file form-control-sm"/>
+                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'CPR_course')">{{
+                        item.original_name }}</p>
                 </div>
 
                 <div>
                     {{ $t('references') }}
-                    <input type="file" id="references" ref="references" multiple class="form-control-file form-control-sm"/>
-                    <p class="file_name"  v-for="item in filterFiles(user.entity.files, 'references')">{{ item.original_name }}</p>
+                    <input type="file" id="references" ref="references" multiple
+                           class="form-control-file form-control-sm"/>
+                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'references')">{{
+                        item.original_name }}</p>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-2 offset-10">
-
-                <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>
-
-            </div>
-        </div>
     </div>
+
+
+
+<!--    <div class="container-fluid">-->
+<!--        <div class="row">-->
+<!--            <div class="col-2 offset-10">-->
+<!--                <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </div>
 

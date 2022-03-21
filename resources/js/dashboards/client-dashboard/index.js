@@ -1,6 +1,7 @@
 import template from './wrapper.html';
 import ClientHeader from "../client-dashboard/Header";
 import LeftPanel from "../client-dashboard/LeftPanel";
+import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
 
 export default {
     name: 'dashboard',
@@ -9,12 +10,21 @@ export default {
     components: {
         'client-header' : ClientHeader,
         'left-panel' : LeftPanel,
+        'response-success-true': ResponseSuccessTrue,
     },data() {
         return {
             showAlarmNewMessage: false,
+            response_success_true: false,
         }
     },
     mounted() {
+        this.emitter.on('response-success-true', e => {
+            this.response_success_true = true;
+            setTimeout(() => {
+                this.response_success_true = false;
+            },2000);
+        });
+
         this.emitter.on('disable-show-alarm-new-message', e => {
             this.showAlarmNewMessage = false;
         });

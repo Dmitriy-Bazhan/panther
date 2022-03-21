@@ -103,7 +103,7 @@ Route::prefix('dashboard')->group(function () {
 
     //nurse my information
     Route::prefix('nurse-my-information')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
-        Route::post('{id}', [NursesMyInformationController::class, 'update']);
+//        Route::post('{id}', [NursesMyInformationController::class, 'update']);
     });
     Route::resource('nurse-my-information', NursesMyInformationController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 

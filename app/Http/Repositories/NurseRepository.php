@@ -58,9 +58,11 @@ class NurseRepository
 
         //filter degree_of_care_available
         if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {
-            $nurse->whereHas('nurse', function ($query) {
-                return $query->where('available_care_range', '=', request('degree_of_care_available'));
-            });
+            if (request('degree_of_care_available') != 0) {
+                $nurse->whereHas('nurse', function ($query) {
+                    return $query->where('available_care_range', '=', request('degree_of_care_available'));
+                });
+            }
         }
 
         //filter language
@@ -88,6 +90,14 @@ class NurseRepository
             });
         }
 
+        //filter one or regular
+        if (request()->filled('one_or_regular')) {
+            $nurse->whereHas('nurse', function ($query) {
+                return $query->where('one_or_regular', '=', request('one_or_regular'))
+                    ->orWhere('one_or_regular', '=', 'no_matter');
+            });
+        }
+
         //order (only for some nurses)
         if (is_null($id)) {
             if (request()->filled('order_by')) {
@@ -107,7 +117,7 @@ class NurseRepository
 
     public function update($nurse)
     {
-        $data = json_decode(request()->all('user')['user'], true);
+        $data = request()->post('user');
 
         User::where('id', $nurse->id)->update([
             'first_name' => $data['first_name'],
@@ -138,6 +148,7 @@ class NurseRepository
             'multiple_bookings' => $data['entity']['multiple_bookings'],
             'pref_client_gender' => $data['entity']['pref_client_gender'],
             'work_time_pref' => json_encode($data['entity']['work_time_pref']),
+            'one_or_regular' => $data['entity']['one_or_regular'],
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)
