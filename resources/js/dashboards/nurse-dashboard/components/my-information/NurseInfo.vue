@@ -268,14 +268,11 @@
 
         </div>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-2 offset-10">
-                    <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>
-                </div>
+        <div class="row">
+            <div class="col-2 offset-10">
+                <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>
             </div>
         </div>
-
 
     </div>
 </template>
@@ -283,14 +280,14 @@
 <script>
     export default {
         name: "NurseInfo",
-        props: ['user', 'data'],
+        props: ['user', 'data', 'errors'],
         data() {
-            return {
-                errors: null,
-            }
+            return {}
         },
         mounted() {
-            console.log(this.user);
+            this.emitter.on('update-information', e => {
+                this.updateInformation();
+            });
         },
         watch: {
             user: {
@@ -303,25 +300,20 @@
                         });
                         this.user.entity.languages.push(lang);
                     }
-                    if (typeof this.user.entity.work_time_pref === "string") {
-                        this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
-                    }
                 },
                 immediate: true
             },
         },
         methods: {
-
             updateInformation() {
-                axios.put('/dashboard/nurse-my-information/' + this.user.id, { 'user': this.user})
+                axios.put('/dashboard/nurse-my-information/' + this.user.id, {'user': this.user})
                     .then((response) => {
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
-                            this.errors = null;
+                            this.emitter.emit('no-errors', response.data.errors);
                             this.emitter.emit('user-finished-fill-info');
                         } else {
-                            this.errors = response.data.errors;
-                            console.log(response.data.errors);
+                            this.emitter.emit('errors', response.data.errors);
                         }
                     })
                     .catch((error) => {

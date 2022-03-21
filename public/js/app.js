@@ -26654,7 +26654,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       not_filled_info: true,
-      profile_not_approved: true
+      profile_not_approved: true,
+      photo_not_exists: true
     };
   },
   mounted: function mounted() {
@@ -26678,6 +26679,9 @@ __webpack_require__.r(__webpack_exports__);
 
     this.emitter.on('user-finished-fill-info', function (e) {
       _this.not_filled_info = false;
+    });
+    this.emitter.on('photo-exist', function (e) {
+      _this.photo_not_exists = false;
     });
   }
 });
@@ -26906,6 +26910,95 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "NurseFilesAndPhoto",
+  props: ['user', 'data'],
+  data: function data() {
+    return {
+      path: location.origin,
+      errors: null,
+      criminal_record: '',
+      documentation_of_training: '',
+      CPR_course: '',
+      references: '',
+      file: ''
+    };
+  },
+  methods: {
+    updateFilesAndPhoto: function updateFilesAndPhoto() {
+      var _this = this;
+
+      this.criminal_record = this.$refs.criminal_record.files;
+      this.documentation_of_training = this.$refs.documentation_of_training.files;
+      this.CPR_course = this.$refs.CPR_course.files;
+      this.references = this.$refs.references.files;
+      this.file = this.$refs.file.files[0];
+      var formData = new FormData();
+      formData.append('file', this.file);
+
+      for (var i = 0; i < this.criminal_record.length; i++) {
+        var file = this.criminal_record[i];
+        formData.append('criminal_record[' + i + ']', file);
+      }
+
+      for (var _i = 0; _i < this.documentation_of_training.length; _i++) {
+        var _file = this.documentation_of_training[_i];
+        formData.append('documentation_of_training[' + _i + ']', _file);
+      }
+
+      for (var _i2 = 0; _i2 < this.CPR_course.length; _i2++) {
+        var _file2 = this.CPR_course[_i2];
+        formData.append('CPR_course[' + _i2 + ']', _file2);
+      }
+
+      for (var _i3 = 0; _i3 < this.references.length; _i3++) {
+        var _file3 = this.references[_i3];
+        formData.append('references[' + _i3 + ']', _file3);
+      }
+
+      axios.post('/dashboard/nurse-my-information/update-files-and-photo/' + this.user.id, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.data.success) {
+          _this.emitter.emit('response-success-true');
+
+          _this.errors = null;
+
+          _this.emitter.emit('photo-exist');
+        } else {
+          _this.errors = response.data.errors;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    filterFiles: function filterFiles(data, type) {
+      return data.filter(function (el) {
+        if (el.file_type === type) {
+          return true;
+        }
+      });
+    },
+    photoUpload: function photoUpload() {//todo:: photo preview
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=script&lang=js ***!
@@ -26919,14 +27012,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NurseInfo",
-  props: ['user', 'data'],
+  props: ['user', 'data', 'errors'],
   data: function data() {
-    return {
-      errors: null
-    };
+    return {};
   },
   mounted: function mounted() {
-    console.log(this.user);
+    var _this = this;
+
+    this.emitter.on('update-information', function (e) {
+      _this.updateInformation();
+    });
   },
   watch: {
     user: {
@@ -26939,7 +27034,58 @@ __webpack_require__.r(__webpack_exports__);
           });
           this.user.entity.languages.push(lang);
         }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    updateInformation: function updateInformation() {
+      var _this2 = this;
 
+      axios.put('/dashboard/nurse-my-information/' + this.user.id, {
+        'user': this.user
+      }).then(function (response) {
+        if (response.data.success) {
+          _this2.emitter.emit('response-success-true');
+
+          _this2.emitter.emit('no-errors', response.data.errors);
+
+          _this2.emitter.emit('user-finished-fill-info');
+        } else {
+          _this2.emitter.emit('errors', response.data.errors);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "NurseTimeCalendar",
+  props: ['user', 'data', 'errors'],
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {
+    console.log(this.user);
+  },
+  watch: {
+    user: {
+      handler: function handler(newValue, oldValue) {
         if (typeof this.user.entity.work_time_pref === "string") {
           this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
         }
@@ -26949,24 +27095,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateInformation: function updateInformation() {
-      var _this = this;
-
-      axios.put('/dashboard/nurse-my-information/' + this.user.id, {
-        'user': this.user
-      }).then(function (response) {
-        if (response.data.success) {
-          _this.emitter.emit('response-success-true');
-
-          _this.errors = null;
-
-          _this.emitter.emit('user-finished-fill-info');
-        } else {
-          _this.errors = response.data.errors;
-          console.log(response.data.errors);
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      this.emitter.emit('update-information');
     }
   }
 });
@@ -28910,7 +29039,7 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_7 = [_hoisted_4, _hoisted_5, _hoisted_6];
 var _hoisted_8 = {
   key: 1,
-  "class": "col-3"
+  "class": "col-2"
 };
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -28923,13 +29052,33 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNo
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "alarm"
-}, "Your profile is not aprroved. Wait, please", -1
+}, "Photo not exists", -1
 /* HOISTED */
 );
 
 var _hoisted_12 = [_hoisted_9, _hoisted_10, _hoisted_11];
+var _hoisted_13 = {
+  key: 2,
+  "class": "col-3"
+};
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "alarm-signal blink"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ");
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "alarm"
+}, "Your profile is not aprroved. Wait, please", -1
+/* HOISTED */
+);
+
+var _hoisted_17 = [_hoisted_14, _hoisted_15, _hoisted_16];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$data.not_filled_info ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.profile_not_approved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$data.not_filled_info ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.photo_not_exists ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.profile_not_approved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _hoisted_17)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
@@ -29305,6 +29454,188 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container-fluid"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-3"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "my-information-photo-wrapper"
+};
+var _hoisted_5 = ["src"];
+var _hoisted_6 = {
+  key: 1,
+  "class": "my-information-photo-wrapper"
+};
+var _hoisted_7 = ["src"];
+var _hoisted_8 = {
+  key: 2,
+  "class": "register-form-error"
+};
+var _hoisted_9 = {
+  "class": "col-3 offset-1",
+  style: {
+    "border": "solid 1px lightgray"
+  }
+};
+var _hoisted_10 = {
+  type: "file",
+  id: "criminal_record",
+  ref: "criminal_record",
+  multiple: "",
+  "class": "form-control-file form-control-sm"
+};
+var _hoisted_11 = {
+  "class": "file_name"
+};
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_13 = {
+  key: 0,
+  "class": "register-form-error"
+};
+var _hoisted_14 = {
+  type: "file",
+  id: "documentation_of_training",
+  ref: "documentation_of_training",
+  multiple: "",
+  "class": "form-control-file form-control-sm"
+};
+var _hoisted_15 = {
+  "class": "file_name"
+};
+var _hoisted_16 = {
+  key: 0,
+  "class": "register-form-error"
+};
+var _hoisted_17 = {
+  type: "file",
+  id: "CPR_course",
+  ref: "CPR_course",
+  multiple: "",
+  "class": "form-control-file form-control-sm"
+};
+var _hoisted_18 = {
+  "class": "file_name"
+};
+var _hoisted_19 = {
+  type: "file",
+  id: "references",
+  ref: "references",
+  multiple: "",
+  "class": "form-control-file form-control-sm"
+};
+var _hoisted_20 = {
+  "class": "file_name"
+};
+var _hoisted_21 = {
+  "class": "row"
+};
+var _hoisted_22 = {
+  "class": "col-2 offset-10"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        photo"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$props.user.entity.original_photo !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: $data.path + '/storage/' + $props.user.entity.original_photo,
+    alt: "no-photo",
+    "class": "my-information-photo"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_5)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: $data.path + '/images/no-photo.jpg',
+    alt: "no-photo",
+    "class": "my-information-photo"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_7)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "file",
+    name: "nurse_new_photo",
+    ref: "file",
+    onChange: _cache[0] || (_cache[0] = function ($event) {
+      return $options.photoUpload();
+    }),
+    "class": "form-control-file form-control-sm"
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), $data.errors !== null && $data.errors['file'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['file'][0]), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('criminal_record')) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", _hoisted_10, null, 512
+  /* NEED_PATCH */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filterFiles($props.user.entity.files, 'criminal_record'), function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.original_name), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), _hoisted_12, $data.errors !== null && $data.errors['criminal_record'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['criminal_record'][0]), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('documentation_of_training')) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", _hoisted_14, null, 512
+  /* NEED_PATCH */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filterFiles($props.user.entity.files, 'documentation_of_training'), function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.original_name), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), $data.errors !== null && $data.errors['documentation_of_training'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['documentation_of_training'][0]), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('CPR_course')) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", _hoisted_17, null, 512
+  /* NEED_PATCH */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filterFiles($props.user.entity.files, 'CPR_course'), function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.original_name), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('references')) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", _hoisted_19, null, 512
+  /* NEED_PATCH */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filterFiles($props.user.entity.files, 'references'), function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.original_name), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success btn-sm",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.updateFilesAndPhoto && $options.updateFilesAndPhoto.apply($options, arguments);
+    })
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('update')), 1
+  /* TEXT */
+  )])])]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=template&id=33501cc3":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=template&id=33501cc3 ***!
@@ -29641,12 +29972,9 @@ var _hoisted_107 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElemen
 );
 
 var _hoisted_108 = {
-  "class": "container-fluid"
-};
-var _hoisted_109 = {
   "class": "row"
 };
-var _hoisted_110 = {
+var _hoisted_109 = {
   "class": "col-2 offset-10"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -29661,7 +29989,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "first_name"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.first_name]])]), $data.errors !== null && $data.errors['first_name'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['first_name'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.first_name]])]), $props.errors !== null && $props.errors['first_name'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['first_name'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" last name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('last_name')), 1
   /* TEXT */
@@ -29674,7 +30002,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "last_name"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.last_name]])]), $data.errors !== null && $data.errors['last_name'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['last_name'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.last_name]])]), $props.errors !== null && $props.errors['last_name'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['last_name'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" email "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('email')), 1
   /* TEXT */
@@ -29687,7 +30015,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "email"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.email]])]), $data.errors !== null && $data.errors['email'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['email'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.email]])]), $props.errors !== null && $props.errors['email'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['email'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" phone "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('phone')), 1
   /* TEXT */
@@ -29700,7 +30028,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "phone"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.phone]])]), $data.errors !== null && $data.errors['phone'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['phone'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.phone]])]), $props.errors !== null && $props.errors['phone'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['phone'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" zip code "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('zip_code')), 1
   /* TEXT */
@@ -29713,7 +30041,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "zip_code"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.zip_code]])]), $data.errors !== null && $data.errors['zip_code'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['zip_code'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.zip_code]])]), $props.errors !== null && $props.errors['zip_code'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['zip_code'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" gender "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('gender')), 1
   /* TEXT */
@@ -29729,7 +30057,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.gender]])]), $data.errors !== null && $data.errors['entity.gender'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.gender'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.gender]])]), $props.errors !== null && $props.errors['entity.gender'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.gender'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" age "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('age')), 1
   /* TEXT */
@@ -29744,7 +30072,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     max: "100"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.age]])]), $data.errors !== null && $data.errors['entity.age'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.age'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.age]])]), $props.errors !== null && $props.errors['entity.age'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.age'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" experience "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('experience')), 1
   /* TEXT */
@@ -29759,7 +30087,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     max: "100"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.experience]])]), $data.errors !== null && $data.errors['entity.experience'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.experience'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.experience]])]), $props.errors !== null && $props.errors['entity.experience'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.experience'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" languages "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('languages')), 1
   /* TEXT */
@@ -29785,9 +30113,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: ""
   }, _hoisted_59, 512
   /* NEED_PATCH */
-  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.languages[0].level]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.errors !== null && $data.errors['entity.languages.0.lang'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.languages.0.lang'][0]), 1
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.languages[0].level]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $props.errors !== null && $props.errors['entity.languages.0.lang'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.languages.0.lang'][0]), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.errors !== null && $data.errors['entity.languages.0.level'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.languages.0.level'][0]), 1
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.errors !== null && $props.errors['entity.languages.0.level'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.languages.0.level'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" pref client gender "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('preference_client_gender')), 1
   /* TEXT */
@@ -29805,7 +30133,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.pref_client_gender]])]), $data.errors !== null && $data.errors['entity.pref_client_gender'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.pref_client_gender'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.pref_client_gender]])]), $props.errors !== null && $props.errors['entity.pref_client_gender'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.pref_client_gender'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" available care range "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('available_care_range')), 1
   /* TEXT */
@@ -29819,7 +30147,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.available_care_range]])]), $data.errors !== null && $data.errors['entity.available_care_range'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.available_care_range'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.available_care_range]])]), $props.errors !== null && $props.errors['entity.available_care_range'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.available_care_range'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" multiple bookings "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_84, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('multiple_bookings')), 1
   /* TEXT */
@@ -29835,7 +30163,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.multiple_bookings]])]), $data.errors !== null && $data.errors['entity.multiple_bookings'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.multiple_bookings'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.multiple_bookings]])]), $props.errors !== null && $props.errors['entity.multiple_bookings'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.multiple_bookings'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" provide supports "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('provide_supports')), 1
   /* TEXT */
@@ -29856,7 +30184,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* UNKEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.provide_supports]])]), $data.errors !== null && $data.errors['entity.provide_supports'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.provide_supports'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.provide_supports]])]), $props.errors !== null && $props.errors['entity.provide_supports'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.provide_supports'][0]), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                additional info"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_98, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('additional_info')), 1
   /* TEXT */
@@ -29888,16 +30216,408 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "5"
   }, "\n\n                            ", 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.description]]), $data.errors !== null && $data.errors['entity.description'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['entity.description'][0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.description]]), $props.errors !== null && $props.errors['entity.description'] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors['entity.description'][0]), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_107])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_107])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success btn-sm",
     onClick: _cache[16] || (_cache[16] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     })
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('update')), 1
   /* TEXT */
-  )])])])]);
+  )])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container-fluid"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-3"
+};
+var _hoisted_4 = {
+  "for": "one_or_regular",
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_5 = {
+  "class": "col-3"
+};
+var _hoisted_6 = {
+  value: "one"
+};
+var _hoisted_7 = {
+  value: "regular"
+};
+var _hoisted_8 = {
+  value: "no_matter"
+};
+var _hoisted_9 = {
+  "class": "row"
+};
+var _hoisted_10 = {
+  "class": "col-3"
+};
+var _hoisted_11 = {
+  "for": "ready_to_work",
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_12 = {
+  "class": "col-3"
+};
+var _hoisted_13 = {
+  value: "yes"
+};
+var _hoisted_14 = {
+  value: "no"
+};
+var _hoisted_15 = {
+  "class": "row"
+};
+var _hoisted_16 = {
+  "class": "col-3"
+};
+var _hoisted_17 = {
+  "for": "start_date_ready_to_work",
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_18 = {
+  "class": "col-3"
+};
+var _hoisted_19 = {
+  "class": "row"
+};
+var _hoisted_20 = {
+  "class": "row"
+};
+var _hoisted_21 = {
+  "class": "col-12 justify-content-center"
+};
+var _hoisted_22 = {
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_23 = {
+  "class": "row"
+};
+var _hoisted_24 = {
+  "class": "col-8 offset-2"
+};
+var _hoisted_25 = {
+  "class": "row"
+};
+var _hoisted_26 = {
+  "class": "col-4 offset-4 justify-content-center"
+};
+var _hoisted_27 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_28 = {
+  "class": "row"
+};
+var _hoisted_29 = {
+  "class": "col-4 offset-4 justify-content-center"
+};
+var _hoisted_30 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_31 = {
+  "class": "row"
+};
+
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-4"
+}, "7-11 Uhr", -1
+/* HOISTED */
+);
+
+var _hoisted_33 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekdays_morning"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_36 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekends_morning"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_39 = {
+  "class": "row"
+};
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-4"
+}, "11-14 Uhr", -1
+/* HOISTED */
+);
+
+var _hoisted_41 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekdays_afternoon"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_44 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekends_afternoon"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_47 = {
+  "class": "row"
+};
+
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-4"
+}, "14-17 Uhr", -1
+/* HOISTED */
+);
+
+var _hoisted_49 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekdays_evening"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_52 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekends_evening"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_55 = {
+  "class": "row"
+};
+
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-4"
+}, "17-21 Uhr", -1
+/* HOISTED */
+);
+
+var _hoisted_57 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekdays_overnight"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_60 = {
+  "class": "col-4 justify-content-center"
+};
+
+var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "weekends_overnight"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_63 = {
+  "class": "row"
+};
+var _hoisted_64 = {
+  "class": "col-2 offset-10"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" one or regular order "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one_or_regular')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $props.user.entity.one_or_regular = $event;
+    }),
+    id: "one_or_regular"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('regular')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('no_matter')), 1
+  /* TEXT */
+  )], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.one_or_regular]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        ready to work"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('ready_to_work')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $props.user.entity.ready_to_work = $event;
+    }),
+    id: "ready_to_work"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('yes')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('no')), 1
+  /* TEXT */
+  )], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.user.entity.ready_to_work]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        start date ready to work"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('start_date_ready_to_work')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "date",
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $props.user.entity.start_date_ready_to_work = $event;
+    }),
+    id: "start_date_ready_to_work"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.user.entity.start_date_ready_to_work]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('time_calendar')), 1
+  /* TEXT */
+  )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('weekdays')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('weekends')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('mon_fri')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('sat_sun')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        7-11 Uhr  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_morning",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $props.user.entity.work_time_pref.weekdays_7_11 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekdays_7_11]]), _hoisted_34, _hoisted_35]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_morning",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $props.user.entity.work_time_pref.weekends_7_11 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekends_7_11]]), _hoisted_37, _hoisted_38])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        11-14 Uhr  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_afternoon",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $props.user.entity.work_time_pref.weekdays_11_14 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekdays_11_14]]), _hoisted_42, _hoisted_43]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_afternoon",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $props.user.entity.work_time_pref.weekends_11_14 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekends_11_14]]), _hoisted_45, _hoisted_46])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        14-17 Uhr "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_evening",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $props.user.entity.work_time_pref.weekdays_14_17 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekdays_14_17]]), _hoisted_50, _hoisted_51]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_evening",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $props.user.entity.work_time_pref.weekends_14_17 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekends_14_17]]), _hoisted_53, _hoisted_54])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        17-21 Uhr "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_overnight",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $props.user.entity.work_time_pref.weekdays_17_21 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekdays_17_21]]), _hoisted_58, _hoisted_59]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_overnight",
+    "true-value": "1",
+    "false-value": "0",
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $props.user.entity.work_time_pref.weekends_17_21 = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $props.user.entity.work_time_pref.weekends_17_21]]), _hoisted_61, _hoisted_62])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success btn-sm",
+    onClick: _cache[11] || (_cache[11] = function () {
+      return $options.updateInformation && $options.updateInformation.apply($options, arguments);
+    })
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('update')), 1
+  /* TEXT */
+  )])])]);
 }
 
 /***/ }),
@@ -32272,13 +32992,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/nurse-dashboard/components/my-information/template.html");
 /* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _NurseInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NurseInfo */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue");
+/* harmony import */ var _NurseFilesAndPhoto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NurseFilesAndPhoto */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue");
+/* harmony import */ var _NurseTimeCalendar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NurseTimeCalendar */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue");
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MyInformation",
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
   components: {
-    nurse_info: _NurseInfo__WEBPACK_IMPORTED_MODULE_1__["default"]
+    nurse_info: _NurseInfo__WEBPACK_IMPORTED_MODULE_1__["default"],
+    nurse_files_and_photo: _NurseFilesAndPhoto__WEBPACK_IMPORTED_MODULE_2__["default"],
+    nurse_time_calendar: _NurseTimeCalendar__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: ['user', 'data'],
   data: function data() {
@@ -32287,16 +33013,18 @@ __webpack_require__.r(__webpack_exports__);
       file_active: false,
       calendar_active: false,
       path: location.origin,
-      errors: null,
-      criminal_record: '',
-      documentation_of_training: '',
-      CPR_course: '',
-      references: '',
-      file: ''
+      errors: null
     };
   },
   mounted: function mounted() {
-    console.log(this.user);
+    var _this = this;
+
+    this.emitter.on('errors', function (e) {
+      _this.errors = e;
+    });
+    this.emitter.on('no-errors', function (e) {
+      _this.errors = null;
+    });
   },
   methods: {
     showInfo: function showInfo() {
@@ -32313,67 +33041,6 @@ __webpack_require__.r(__webpack_exports__);
       this.calendar_active = true;
       this.info_active = false;
       this.file_active = false;
-    },
-    filterFiles: function filterFiles(data, type) {
-      return data.filter(function (el) {
-        if (el.file_type === type) {
-          return true;
-        }
-      });
-    },
-    updateInformation: function updateInformation() {
-      var _this = this;
-
-      this.criminal_record = this.$refs.criminal_record.files;
-      this.documentation_of_training = this.$refs.documentation_of_training.files;
-      this.CPR_course = this.$refs.CPR_course.files;
-      this.references = this.$refs.references.files;
-      this.file = this.$refs.file.files[0];
-      var formData = new FormData();
-      formData.append('file', this.file);
-
-      for (var i = 0; i < this.criminal_record.length; i++) {
-        var file = this.criminal_record[i];
-        formData.append('criminal_record[' + i + ']', file);
-      }
-
-      for (var _i = 0; _i < this.documentation_of_training.length; _i++) {
-        var _file = this.documentation_of_training[_i];
-        formData.append('documentation_of_training[' + _i + ']', _file);
-      }
-
-      for (var _i2 = 0; _i2 < this.CPR_course.length; _i2++) {
-        var _file2 = this.CPR_course[_i2];
-        formData.append('CPR_course[' + _i2 + ']', _file2);
-      }
-
-      for (var _i3 = 0; _i3 < this.references.length; _i3++) {
-        var _file3 = this.references[_i3];
-        formData.append('references[' + _i3 + ']', _file3);
-      }
-
-      var user = JSON.stringify(this.user);
-      formData.append('user', user);
-      axios.post('/dashboard/nurse-my-information/' + this.user.id, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        if (response.data.success) {
-          _this.emitter.emit('response-success-true');
-
-          _this.errors = null;
-
-          _this.emitter.emit('user-finished-fill-info');
-        } else {
-          _this.errors = response.data.errors;
-          console.log(response.data.errors);
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    photoUpload: function photoUpload() {//todo:: photo preview
     }
   }
 });
@@ -34060,7 +34727,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h2>{{ $t('my_information') }}</h2>\n    <span style=\"font-size: 12px;color: red;\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-2\">\n                <button v-bind:class=\"[info_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showInfo()\">\n                    Info\n                </button>\n            </div>\n            <div class=\"col-2\">\n                <button v-bind:class=\"[calendar_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showCalendar()\">\n                    Time calendar\n                </button>\n            </div>\n            <div class=\"col-2\">\n                <button v-bind:class=\"[file_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showFilesAndPhoto()\">\n                    File and photo\n                </button>\n            </div>\n        </div>\n    </div>\n    <br>\n\n    <nurse_info v-if=\"info_active\" :user=\"user\" :data=\"data\"></nurse_info>\n\n    <div v-if=\"calendar_active\" class=\"container-fluid\">\n        <!-- one or regular order -->\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label for=\"one_or_regular\" class=\"form-label col-form-label-sm\">\n                    {{ $t('one_or_regular') }}\n                </label>\n            </div>\n\n            <div class=\"col-3\">\n                <select class=\"form-control form-control-sm\" v-model=\"user.entity.one_or_regular\"\n                        id=\"one_or_regular\">\n                    <option value=\"one\">{{ $t('one') }}</option>\n                    <option value=\"regular\">{{ $t('regular') }}</option>\n                    <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                </select>\n            </div>\n        </div>\n\n        <!--        ready to work-->\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label for=\"ready_to_work\" class=\"form-label col-form-label-sm\">\n                    {{ $t('ready_to_work') }}\n                </label>\n            </div>\n\n            <div class=\"col-3\">\n                <select class=\"form-control form-control-sm\" v-model=\"user.entity.ready_to_work\"\n                        id=\"ready_to_work\">\n                    <option value=\"yes\">{{ $t('yes') }}</option>\n                    <option value=\"no\">{{ $t('no') }}</option>\n                </select>\n            </div>\n        </div>\n\n<!--        start date ready to work-->\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <label for=\"start_date_ready_to_work\" class=\"form-label col-form-label-sm\">\n                    {{ $t('start_date_ready_to_work') }}\n                </label>\n            </div>\n\n            <div class=\"col-3\">\n                <input type=\"date\" class=\"form-control form-control-sm\" v-model=\"user.entity.start_date_ready_to_work\"\n                        id=\"start_date_ready_to_work\">\n            </div>\n        </div>\n\n        <div class=\"row\">\n\n            <div class=\"row\">\n                <div class=\"col-12 justify-content-center\">\n                    <span class=\"form-label col-form-label-sm\">{{ $t('time_calendar') }}</span>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-8 offset-2\">\n                <div class=\"row\">\n                    <div class=\"col-4 offset-4 justify-content-center\">{{ $t('weekdays') }}</div>\n                    <div class=\"col-4 justify-content-center\">{{ $t('weekends') }}</div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-4 offset-4 justify-content-center\">{{ $t('mon_fri') }}</div>\n                    <div class=\"col-4 justify-content-center\">{{ $t('sat_sun') }}</div>\n                </div>\n\n                <!--                        7-11 Uhr  -->\n                <div class=\"row\">\n                    <div class=\"col-4\">7-11 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_morning\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekdays_7_11\">\n                        &nbsp;<label for=\"weekdays_morning\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_morning\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekends_7_11\">\n                        &nbsp;<label for=\"weekends_morning\"></label>\n                    </div>\n                </div>\n                <!--                        11-14 Uhr  -->\n                <div class=\"row\">\n                    <div class=\"col-4\">11-14 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_afternoon\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekdays_11_14\">\n                        &nbsp;<label for=\"weekdays_afternoon\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_afternoon\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekends_11_14\">\n                        &nbsp;<label for=\"weekends_afternoon\"></label>\n                    </div>\n                </div>\n                <!--                        14-17 Uhr -->\n                <div class=\"row\">\n                    <div class=\"col-4\">14-17 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_evening\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekdays_14_17\">\n                        &nbsp;<label for=\"weekdays_evening\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_evening\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekends_14_17\">\n                        &nbsp;<label for=\"weekends_evening\"></label>\n                    </div>\n                </div>\n                <!--                        17-21 Uhr -->\n                <div class=\"row\">\n                    <div class=\"col-4\">17-21 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_overnight\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekdays_17_21\">\n                        &nbsp;<label for=\"weekdays_overnight\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_overnight\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"user.entity.work_time_pref.weekends_17_21\">\n                        &nbsp;<label for=\"weekends_overnight\"></label>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"file_active\" class=\"container-fluid\">\n        <div class=\"row\">\n            <!--        photo-->\n            <div class=\"col-3\">\n\n                <div v-if=\"user.entity.original_photo !== null\" class=\"my-information-photo-wrapper\">\n                    <img v-bind:src=\"path + '/storage/' + user.entity.original_photo\" alt=\"no-photo\"\n                         class=\"my-information-photo\">\n                </div>\n\n                <div v-else class=\"my-information-photo-wrapper\">\n                    <img :src=\"path + '/images/no-photo.jpg'\" alt=\"no-photo\" class=\"my-information-photo\">\n\n                </div>\n\n                <input type=\"file\" name=\"nurse_new_photo\"\n                       ref=\"file\"\n                       v-on:change=\"photoUpload()\"\n                       class=\"form-control-file form-control-sm\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['file'] !== undefined\">{{ errors['file'][0] }}</span>\n            </div>\n\n            <div class=\"col-3 offset-1\" style=\"border: solid 1px lightgray\">\n                <div>\n                    {{ $t('criminal_record') }}\n                    <input type=\"file\" id=\"criminal_record\" ref=\"criminal_record\" multiple\n                           class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'criminal_record')\">{{\n                        item.original_name }}</p><br>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['criminal_record'] !== undefined\">{{ errors['criminal_record'][0] }}</span>\n                </div>\n\n                <div>\n                    {{ $t('documentation_of_training') }}\n                    <input type=\"file\" id=\"documentation_of_training\" ref=\"documentation_of_training\" multiple\n                           class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'documentation_of_training')\">{{\n                        item.original_name }}</p>\n                    <span class=\"register-form-error\"\n                          v-if=\"errors !== null && errors['documentation_of_training'] !== undefined\">{{ errors['documentation_of_training'][0] }}</span>\n                </div>\n\n                <div>\n                    {{ $t('CPR_course') }}\n                    <input type=\"file\" id=\"CPR_course\" ref=\"CPR_course\" multiple\n                           class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'CPR_course')\">{{\n                        item.original_name }}</p>\n                </div>\n\n                <div>\n                    {{ $t('references') }}\n                    <input type=\"file\" id=\"references\" ref=\"references\" multiple\n                           class=\"form-control-file form-control-sm\"/>\n                    <p class=\"file_name\" v-for=\"item in filterFiles(user.entity.files, 'references')\">{{\n                        item.original_name }}</p>\n                </div>\n            </div>\n        </div>\n    </div>\n\n\n\n<!--    <div class=\"container-fluid\">-->\n<!--        <div class=\"row\">-->\n<!--            <div class=\"col-2 offset-10\">-->\n<!--                <button class=\"btn btn-success btn-sm\" v-on:click=\"updateInformation\">{{ $t('update') }}</button>-->\n<!--            </div>-->\n<!--        </div>-->\n<!--    </div>-->\n\n</div>\n\n\n";
+var code = "<div>\n    <h2>{{ $t('my_information') }}</h2>\n    <span style=\"font-size: 12px;color: red;\">* It is necessary to make an instruction, so that each user understands that a change in information automatically sends her for verification </span>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-2\">\n                <button v-bind:class=\"[info_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showInfo()\">\n                    Info\n                </button>\n            </div>\n            <div class=\"col-2\">\n                <button v-bind:class=\"[calendar_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showCalendar()\">\n                    Time calendar\n                </button>\n            </div>\n            <div class=\"col-2\">\n                <button v-bind:class=\"[file_active ? 'btn btn-success btn-sm' : 'btn btn-secondary btn-sm']\"\n                        v-on:click=\"showFilesAndPhoto()\">\n                    File and photo\n                </button>\n            </div>\n        </div>\n    </div>\n    <br>\n\n    <nurse_info v-if=\"info_active\" :user=\"user\" :data=\"data\" :errors=\"errors\"></nurse_info>\n\n    <nurse_files_and_photo v-if=\"file_active\" :user=\"user\" :data=\"data\"></nurse_files_and_photo>\n\n    <nurse_time_calendar v-if=\"calendar_active\" :user=\"user\" :data=\"data\" :errors=\"errors\"></nurse_time_calendar>\n\n</div>\n\n\n";
 // Exports
 module.exports = code;
 
@@ -61878,6 +62545,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _NurseFilesAndPhoto_vue_vue_type_template_id_fd0dd826__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826 */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826");
+/* harmony import */ var _NurseFilesAndPhoto_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NurseFilesAndPhoto.vue?vue&type=script&lang=js */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_NurseFilesAndPhoto_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NurseFilesAndPhoto_vue_vue_type_template_id_fd0dd826__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue":
 /*!*****************************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue ***!
@@ -61898,6 +62593,34 @@ __webpack_require__.r(__webpack_exports__);
 
 ;
 const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_NurseInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NurseInfo_vue_vue_type_template_id_33501cc3__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _NurseTimeCalendar_vue_vue_type_template_id_2f5e0c80__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80 */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80");
+/* harmony import */ var _NurseTimeCalendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NurseTimeCalendar.vue?vue&type=script&lang=js */ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_NurseTimeCalendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NurseTimeCalendar_vue_vue_type_template_id_2f5e0c80__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -62751,6 +63474,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseFilesAndPhoto_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseFilesAndPhoto_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseFilesAndPhoto.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=script&lang=js ***!
@@ -62763,6 +63502,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseInfo.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseTimeCalendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseTimeCalendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseTimeCalendar.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -63423,6 +64178,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826 ***!
+  \********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseFilesAndPhoto_vue_vue_type_template_id_fd0dd826__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseFilesAndPhoto_vue_vue_type_template_id_fd0dd826__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseFilesAndPhoto.vue?vue&type=template&id=fd0dd826");
+
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=template&id=33501cc3":
 /*!***********************************************************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=template&id=33501cc3 ***!
@@ -63435,6 +64206,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseInfo_vue_vue_type_template_id_33501cc3__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseInfo_vue_vue_type_template_id_33501cc3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseInfo.vue?vue&type=template&id=33501cc3 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseInfo.vue?vue&type=template&id=33501cc3");
+
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80":
+/*!*******************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80 ***!
+  \*******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseTimeCalendar_vue_vue_type_template_id_2f5e0c80__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NurseTimeCalendar_vue_vue_type_template_id_2f5e0c80__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/my-information/NurseTimeCalendar.vue?vue&type=template&id=2f5e0c80");
 
 
 /***/ }),

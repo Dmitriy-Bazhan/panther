@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Nurses;
 
 use App\Events\Admin\NurseAddNewProfile;
 use App\Http\Repositories\NurseRepository;
+use App\Models\Nurse;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -76,52 +78,63 @@ class NursesMyInformationController extends Controller
             $errors = array_merge($errors, $validator->errors()->toArray());
         }
 
-//        $rules = [
-//            'criminal_record' => 'required',
-//            'documentation_of_training' => 'required',
-//            'file' => 'required|file|mimes:jpeg,bmp,png'
-//        ];
-//
+        if (count($errors) > 0) {
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        if (!$this->nurseRepo->update($id)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
+
+        $this->makeEventSendProfileToAdmin($id);
+        return response()->json(['success' => true]);
+    }
+
+    public function updateFilesAndPhoto(Request $request, $id)
+    {
+        $rules = [
+            'criminal_record' => 'required',
+            'documentation_of_training' => 'required',
+            'file' => 'required|file|mimes:jpeg,bmp,png'
+        ];
+
         $nurses = $this->nurseRepo->search($id);
         $nurse = $nurses->first();
-//
-//        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
-//            && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
-//            $validator = Validator::make($request->allFiles(), $rules);
-//            if ($validator->fails()) {
-//                $errors = array_merge($errors, $validator->errors()->toArray());
-//            }
-//        }
-//
-//        $rules = [
-//            'file' => 'required|file|mimes:jpeg,bmp,png'
-//        ];
-//
-//        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
-//            $validator = Validator::make($request->allFiles(), $rules);
-//            if ($validator->fails()) {
-//                $errors = array_merge($errors, $validator->errors()->toArray());
-//            }
-//        }
+
+        $errors = [];
+        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
+            && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
+
+        $rules = [
+            'file' => 'required|file|mimes:jpeg,bmp,png'
+        ];
+
+        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
 
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if (!$this->nurseRepo->update($nurse)) {
+        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
             //todo:: hmm
             return response()->json(['success' => false, 'errors' => []]);
         }
 
-//        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
-//            //todo:: hmm
-//            return response()->json(['success' => false, 'errors' => []]);
-//        }
-//
-//        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
-//            //todo:: hmm
-//            return response()->json(['success' => false, 'errors' => 'Cant upload']);
-//        }
+        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => 'Cant upload']);
+        }
 
         $this->makeEventSendProfileToAdmin($id);
         return response()->json(['success' => true]);
@@ -137,11 +150,10 @@ class NursesMyInformationController extends Controller
         //todo:email later
 
         //todo:check, are pusher is work?
-        try{
+        try {
             broadcast(new NurseAddNewProfile())->toOthers();
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
         };
-
     }
 }

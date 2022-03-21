@@ -115,11 +115,11 @@ class NurseRepository
         return $nurse->paginate(12);
     }
 
-    public function update($nurse)
+    public function update($id)
     {
         $data = request()->post('user');
 
-        User::where('id', $nurse->id)->update([
+        User::where('id', $id)->update([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -129,17 +129,14 @@ class NurseRepository
 
         $change_info = 'no';
         $info_is_full = 'yes';
-        if ($nurse->entity->info_is_full == 'yes') {
+        if (Nurse::where('id', $data['entity_id'])->first()->info_is_full == 'yes') {
             $change_info = 'yes';
             $info_is_full = 'no';
         }
 
-        Nurse::where('id', $nurse->entity_id)->update([
+        Nurse::where('id', $data['entity_id'])->update([
             'info_is_full' => $info_is_full,
             'change_info' => $change_info,
-        ]);
-
-        Nurse::where('id', $data['entity_id'])->update([
             'age' => $data['entity']['age'],
             'available_care_range' => $data['entity']['available_care_range'],
             'description' => $data['entity']['description'],
@@ -149,6 +146,8 @@ class NurseRepository
             'pref_client_gender' => $data['entity']['pref_client_gender'],
             'work_time_pref' => json_encode($data['entity']['work_time_pref']),
             'one_or_regular' => $data['entity']['one_or_regular'],
+            'ready_to_work' => $data['entity']['ready_to_work'],
+            'start_date_ready_to_work' => $data['entity']['start_date_ready_to_work'],
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)
