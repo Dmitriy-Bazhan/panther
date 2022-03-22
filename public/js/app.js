@@ -26320,23 +26320,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Bookings"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/HelpAndService.vue?vue&type=script&lang=js":
 /*!************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/HelpAndService.vue?vue&type=script&lang=js ***!
@@ -27557,7 +27540,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendToBookings: function sendToBookings() {
-      window.open('dashboard/client/bookings');
+      window.open('dashboard/client-bookings/' + this.nurse.id);
     },
     getPrivateChats: function getPrivateChats() {
       var _this2 = this;
@@ -28319,31 +28302,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
 
   })])])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858 ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Booking", -1
-/* HOISTED */
-);
-
-var _hoisted_2 = [_hoisted_1];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
 }
 
 /***/ }),
@@ -32707,6 +32665,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/client-dashboard/components/bookings/index.js":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/dashboards/client-dashboard/components/bookings/index.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/client-dashboard/components/bookings/template.html");
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Bookings",
+  template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  props: ['id'],
+  mounted: function mounted() {
+    console.log(this.id);
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/components/messages/index.js":
 /*!*******************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/messages/index.js ***!
@@ -33542,6 +33525,8 @@ __webpack_require__.r(__webpack_exports__);
       showReminder: false,
       showModalNursesListing: false,
       showModalNurseProfile: false,
+      showOneTimeCalendar: false,
+      showRegularCalendar: false,
       url: 'listing/get-nurses-to-listing',
       clientSearchInfo: {
         for_whom: 'for_a_relative',
@@ -33563,7 +33548,20 @@ __webpack_require__.r(__webpack_exports__);
         vision: 'unknown',
         areas_help: 'hygiene',
         other_areas: '',
-        one_or_regular: 'one'
+        one_or_regular: '',
+        one_time_date: null,
+        regular_time_start_date: null,
+        regular_time_finish_date: null,
+        work_time_pref: {
+          weekdays_7_11: "0",
+          weekends_7_11: "0",
+          weekdays_11_14: "0",
+          weekends_11_14: "0",
+          weekdays_14_17: "0",
+          weekends_14_17: "0",
+          weekdays_17_21: "0",
+          weekends_17_21: "0"
+        }
       }
     };
   },
@@ -33607,6 +33605,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.success) {
           _this2.clientSearchInfo = response.data.clientSearchInfo;
           _this2.clientSearchInfo.provider_supports = JSON.parse(_this2.clientSearchInfo.provider_supports);
+          _this2.clientSearchInfo.work_time_pref = JSON.parse(_this2.clientSearchInfo.work_time_pref);
           _this2.clientSearchInfo.disease = JSON.parse(_this2.clientSearchInfo.disease);
         }
       })["catch"](function (error) {
@@ -33616,10 +33615,13 @@ __webpack_require__.r(__webpack_exports__);
     findNeedNurses: function findNeedNurses() {
       var _this3 = this;
 
+      this.closeCalendars();
       axios.post(this.url, {
         'clientSearchInfo': this.clientSearchInfo
       }).then(function (response) {
         if (response.data.success) {
+          console.log(response);
+
           _this3.emitter.emit('response-success-true');
 
           _this3.errors = null;
@@ -33640,6 +33642,32 @@ __webpack_require__.r(__webpack_exports__);
         this.showReminder = false;
         document.removeEventListener('click', this.closeReminderBlock);
       }
+    },
+    ForMeOrForRelative: function ForMeOrForRelative() {
+      if (this.clientSearchInfo.for_whom == 'to_me') {
+        this.clientSearchInfo.name = this.user.first_name;
+        this.clientSearchInfo.last_name = this.user.last_name;
+      }
+
+      if (this.clientSearchInfo.for_whom == 'for_a_relative') {
+        this.clientSearchInfo.name = '';
+        this.clientSearchInfo.last_name = '';
+      }
+    },
+    OneOrRegularCalendar: function OneOrRegularCalendar(item) {
+      if (item == 'one') {
+        this.showOneTimeCalendar = true;
+        this.showRegularCalendar = false;
+      }
+
+      if (item == 'regular') {
+        this.showOneTimeCalendar = false;
+        this.showRegularCalendar = true;
+      }
+    },
+    closeCalendars: function closeCalendars() {
+      this.showOneTimeCalendar = false;
+      this.showRegularCalendar = false;
     }
   }
 });
@@ -33702,7 +33730,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dashboards_client_dashboard_components_Overview__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Overview */ "./resources/js/dashboards/client-dashboard/components/Overview.vue");
 /* harmony import */ var _dashboards_client_dashboard_components_messages_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/messages/index */ "./resources/js/dashboards/client-dashboard/components/messages/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_Ratings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Ratings */ "./resources/js/dashboards/client-dashboard/components/Ratings.vue");
-/* harmony import */ var _dashboards_client_dashboard_components_Bookings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Bookings */ "./resources/js/dashboards/client-dashboard/components/Bookings.vue");
+/* harmony import */ var _dashboards_client_dashboard_components_bookings_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/bookings/index */ "./resources/js/dashboards/client-dashboard/components/bookings/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_Payments__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Payments */ "./resources/js/dashboards/client-dashboard/components/Payments.vue");
 /* harmony import */ var _dashboards_client_dashboard_components_my_information_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/my-information/index */ "./resources/js/dashboards/client-dashboard/components/my-information/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_HelpAndService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/HelpAndService */ "./resources/js/dashboards/client-dashboard/components/HelpAndService.vue");
@@ -33730,7 +33758,13 @@ var routes = [{
 }, {
   path: "/dashboard/client/bookings",
   name: 'ClientDashboardBookings',
-  component: _dashboards_client_dashboard_components_Bookings__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _dashboards_client_dashboard_components_bookings_index__WEBPACK_IMPORTED_MODULE_3__["default"],
+  props: true
+}, {
+  path: "/dashboard/client-bookings/:id",
+  name: 'ClientDashboardBookingsWithId',
+  component: _dashboards_client_dashboard_components_bookings_index__WEBPACK_IMPORTED_MODULE_3__["default"],
+  props: true
 }, {
   path: "/dashboard/client/payments",
   name: 'ClientDashboardPayments',
@@ -34029,7 +34063,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".listing-reminder-begin {\n    font-size: 14px;\n    color: green;\n}\n\n.listing-reminder-end {\n    font-size: 12px;\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\n\n.block-with-reminder {\n    position: absolute;\n    border: solid 1px red;\n    border-radius: 10px;\n    background: blue;\n    padding: 10px;\n    width: 50%;\n}\n\n.nurses-listing-wrapper {\n    position: fixed;\n    width: 70%;\n    top: 10%;\n    left: 20%;\n    background: #d9d9d9;\n    padding: 15px;\n    border: #888888;\n    border-radius: 10px;\n    height: 70%;\n    z-index: 100;\n    overflow: auto;\n}\n\n.nurse-profile-wrapper {\n    position: fixed;\n    width: 94%;\n    top: 3%;\n    left: 3%;\n    background: #98d9b2;\n    padding: 15px;\n    border: #388844;\n    border-radius: 10px;\n    height: 90%;\n    z-index: 200;\n    overflow: auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".listing-reminder-begin {\n    font-size: 14px;\n    color: green;\n}\n\n.listing-reminder-end {\n    font-size: 12px;\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\n\n.block-with-reminder {\n    position: absolute;\n    border: solid 1px red;\n    border-radius: 10px;\n    background: blue;\n    padding: 10px;\n    width: 50%;\n}\n\n.nurses-listing-wrapper {\n    position: fixed;\n    width: 70%;\n    top: 10%;\n    left: 20%;\n    background: #d9d9d9;\n    padding: 15px;\n    border: #888888;\n    border-radius: 10px;\n    height: 70%;\n    z-index: 100;\n    overflow: auto;\n}\n\n.nurse-profile-wrapper {\n    position: fixed;\n    width: 94%;\n    top: 3%;\n    left: 3%;\n    background: #98d9b2;\n    padding: 15px;\n    border: #388844;\n    border-radius: 10px;\n    height: 90%;\n    z-index: 200;\n    overflow: auto;\n}\n\n.listing-one-time-calendar-wrapper, .listing-regular-calendar-wrapper {\n    position: fixed;\n    width: 50%;\n    top: 20%;\n    left: 25%;\n    background: #98d9b2;\n    padding: 15px;\n    border: #388844;\n    border-radius: 10px;\n    height: 50%;\n    z-index: 200;\n    overflow: auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34668,6 +34702,19 @@ module.exports = code;
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/client-dashboard/components/bookings/template.html":
+/*!************************************************************************************!*\
+  !*** ./resources/js/dashboards/client-dashboard/components/bookings/template.html ***!
+  \************************************************************************************/
+/***/ ((module) => {
+
+// Module
+var code = "<div>\n    <h1>Booking</h1>\n</div>\n";
+// Exports
+module.exports = code;
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/components/messages/template.html":
 /*!************************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/messages/template.html ***!
@@ -34792,7 +34839,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h4>LISTING</h4>\n\n    <span class=\"listing-reminder-begin\">\n        {{ $t('how_does_the_booking_process_work') }}?\n        <span class=\"listing-reminder-end\" id=\"listing-reminder-end\" v-on:click=\"showReminderBlock()\">\n            {{ $t('click_to_show_more') }}\n        </span>\n    </span>\n\n    <div v-if=\"showReminder\" class=\"block-with-reminder\">\n        <span>\n            {{ $t('how_does_the_booking_process_work_description') }}\n\n        </span>\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-4\">\n                <h4>{{ $t('search') }}</h4>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <!--                for whom-->\n                <label for=\"for_whom\" class=\"form-label col-form-label-sm\">{{ $t('for_whom') }}</label>\n                <select id=\"for_whom\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.for_whom\">\n                    <option value=\"to_me\">{{ $t('to_me') }}</option>\n                    <option value=\"for_a_relative\">{{ $t('for_a_relative') }}</option>\n                </select>\n                <br>\n\n                <!--                Person information-->\n                <label class=\"form-label col-form-label-sm\">{{ $t('information_about_person') }}</label>\n                <br>\n\n                <label for=\"name\" class=\"form-label col-form-label-sm\">{{ $t('name') }}</label>\n                <input id=\"name\" class=\"form-control form-control-sm\" type=\"text\" v-model=\"clientSearchInfo.name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['name'] !== undefined\">{{ errors['name'][0] }}</span>\n\n                <label for=\"last_name\" class=\"form-label col-form-label-sm\">{{ $t('last_name') }}</label>\n                <input id=\"last_name\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.last_name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n\n                <label for=\"age_range\" class=\"form-label col-form-label-sm\">{{ $t('age_range') }}</label>\n                <select id=\"age_range\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.age_range\">\n                    <option value=\"0-20\">0-20</option>\n                    <option value=\"20-40\">20-40</option>\n                    <option value=\"40-60\">40-60</option>\n                    <option value=\"60-70\">60-70</option>\n                    <option value=\"70-80\">70-80</option>\n                    <option value=\"80-90\">80-90</option>\n                    <option value=\"90+\">90+</option>\n                </select>\n            </div>\n\n            <div class=\"col-3\">\n                <!--provider supports-->\n                <label for=\"provider_support\" class=\"form-label col-form-label-sm\">{{ $t('what_support_looking')\n                    }}</label>\n                <select id=\"provider_support\" class=\"form-select form-select-sm\" multiple\n                        v-model=\"clientSearchInfo.provider_supports\">\n                    <option v-if=\"data.provider_supports.length > 0\"\n                            v-for=\"provider_support in data.provider_supports\"\n                            v-bind:value=\"provider_support.id\">\n                        {{ $t(provider_support.name) }}\n                    </option>\n                </select>\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['provider_supports'] !== undefined\">{{ errors['provider_supports'][0] }}</span>\n\n                <!--                additional info , disease -->\n                <label for=\"disease\" class=\"form-label col-form-label-sm\">{{ $t('disease') }}</label>\n                <select id=\"disease\" class=\"form-select form-select-sm\" multiple v-model=\"clientSearchInfo.disease\">\n                    <option v-if=\"data.additional_info.length > 0\"\n                            v-for=\"info in data.additional_info\"\n                            v-bind:value=\"info.id\">\n                        {{ info.data.data }}\n                    </option>\n                </select>\n\n                <label for=\"other_disease\" class=\"form-label col-form-label-sm\">{{ $t('other_disease') }}</label>\n                <input id=\"other_disease\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_disease\">\n\n                <!--degree of care available-->\n                <label for=\"degree_of_care_available\" class=\"form-label col-form-label-sm\">{{ $t('is_degree_of_care')\n                    }}</label><br>\n                <select id=\"degree_of_care_available\" class=\"form-select form-select-sm\"\n                        v-model=\"clientSearchInfo.degree_of_care_available\">\n                    <option value=\"1\">1</option>\n                    <option value=\"2\">2</option>\n                    <option value=\"3\">3</option>\n                    <option value=\"4\">4</option>\n                    <option value=\"5\">5</option>\n                    <option value=\"0\">{{ $t('not_sure') }}</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-3\">\n                <!--languages-->\n                <label class=\"form-label col-form-label-sm\">{{ $t('language_skills') }}</label><br>\n                <div class=\"row\">\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" id=\"language\" v-model=\"clientSearchInfo.language\">\n                            <option value=\"english\">{{ $t('english') }}</option>\n                            <option value=\"deutsche\">{{ $t('german') }}</option>\n                            <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-4\">\n                        <select class=\"form-control form-control-sm\" v-model=\"clientSearchInfo.language_level\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                            <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                        </select>\n                    </div>\n                </div>\n\n                <!--                help to move-->\n                <label for=\"do_you_need_help_moving\" class=\"form-label col-form-label-sm\">{{\n                    $t('do_you_need_help_moving') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"do_you_need_help_moving\"\n                        v-model=\"clientSearchInfo.do_you_need_help_moving\">\n                    <option value=\"yes\">{{ $t('yes') }}</option>\n                    <option value=\"no\">{{ $t('no') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                additional means of transportation-->\n                <label for=\"additional_transportation\" class=\"form-label col-form-label-sm\">{{\n                    $t('additional_transportation') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"additional_transportation\"\n                        v-model=\"clientSearchInfo.additional_transportation\">\n                    <option value=\"need_help_with_walking\">{{ $t('need_help_with_walking') }}</option>\n                    <option value=\"wheelchair\">{{ $t('wheelchair') }}</option>\n                    <option value=\"crutches\">{{ $t('crutches') }}</option>\n                    <option value=\"nothing\">{{ $t('nothing') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Memory-->\n                <label for=\"memory\" class=\"form-label col-form-label-sm\">{{ $t('memory') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"memory\" v-model=\"clientSearchInfo.memory\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"minor_difficulties\">{{ $t('minor_difficulties') }}</option>\n                    <option value=\"significant_difficulties\">{{ $t('significant_difficulties') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                suffer from urinary incontinence-->\n                <label for=\"incontinence\" class=\"form-label col-form-label-sm\">{{ $t('incontinence') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"incontinence\" v-model=\"clientSearchInfo.incontinence\">\n                    <option value=\"yes\">{{ $t('yes') }}</option>\n                    <option value=\"no\">{{ $t('no') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                Is there a gender preference for the nurse-->\n                <label for=\"preference_for_the_nurse\" class=\"form-label col-form-label-sm\">{{\n                    $t('preference_for_the_nurse') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"preference_for_the_nurse\"\n                        v-model=\"clientSearchInfo.preference_for_the_nurse\">\n                    <option value=\"male\">{{ $t('male') }}</option>\n                    <option value=\"female\">{{ $t('female') }}</option>\n                    <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                </select>\n\n                <!--                hearing-->\n                <label for=\"hearing\" class=\"form-label col-form-label-sm\">{{ $t('hearing') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"hearing\" v-model=\"clientSearchInfo.hearing\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"weak\">{{ $t('weak') }}</option>\n                    <option value=\"difficulties\">{{ $t('difficulties') }}</option>\n                    <option value=\"essential\">{{ $t('essential') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Vision-->\n                <label for=\"vision\" class=\"form-label col-form-label-sm\">{{ $t('vision') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"vision\" v-model=\"clientSearchInfo.vision\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"minor_difficulties\">{{ $t('minor_difficulties') }}</option>\n                    <option value=\"significant_difficulties\">{{ $t('significant_difficulties') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Areas where help is needed-->\n                <label for=\"areas_help\" class=\"form-label col-form-label-sm\">{{ $t('areas_help') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"areas_help\" v-model=\"clientSearchInfo.areas_help\">\n                    <option value=\"dressing\">{{ $t('dressing') }}</option>\n                    <option value=\"mobility\">{{ $t('mobility') }}</option>\n                    <option value=\"hygiene\">{{ $t('hygiene') }}</option>\n                    <option value=\"preparation_of_medicines\">{{ $t('preparation_of_medicines') }}</option>\n                    <option value=\"skin_care\">{{ $t('skin_care') }}</option>\n                </select>\n\n                <label for=\"other_areas\" class=\"form-label col-form-label-sm\">{{ $t('other_areas') }}</label>\n                <input id=\"other_areas\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_areas\">\n            </div>\n        </div>\n        <br>\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <div class=\"row\">\n                    <div class=\"col-7\">\n                        <label for=\"one_or_regular\" class=\"form-label col-form-label-sm\">\n                            {{ $t('one_or_regular') }}\n                        </label>\n                    </div>\n\n                    <div class=\"col-5\">\n                        <select class=\"form-control form-control-sm\" v-model=\"clientSearchInfo.one_or_regular\"\n                                id=\"one_or_regular\">\n                            <option value=\"one\">{{ $t('one') }}</option>\n                            <option value=\"regular\">{{ $t('regular') }}</option>\n                        </select>\n                    </div>\n                    <span class=\"register-form-error\"\n                          v-if=\"errors !== null && errors['entity.multiple_bookings'] !== undefined\">{{ errors['entity.multiple_bookings'][0] }}</span>\n                </div>\n            </div>\n            <div class=\"col-5\">\n                <label for=\"where_should_help_be_provided\" class=\"form-label col-form-label-sm\">\n                    {{ $t('where_should_help_be_provided') }}</label><br>\n                <input id=\"where_should_help_be_provided\" placeholder=\"Later\">\n            </div>\n            <div class=\"col-2\">\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"findNeedNurses()\">{{ $t('find') }}</button>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"showModalNursesListing\" class=\"nurses-listing-wrapper\">\n        <nurses-listing :nurses=\"nurses\"></nurses-listing>\n    </div>\n\n    <div v-if=\"showModalNurseProfile\" class=\"nurse-profile-wrapper\">\n        <nurses-profile :nurse=\"nurse\" :data=\"data\" :user=\"user\"></nurses-profile>\n    </div>\n</div>\n";
+var code = "<div>\n    <h4>LISTING</h4>\n\n    <span class=\"listing-reminder-begin\">\n        {{ $t('how_does_the_booking_process_work') }}?\n        <span class=\"listing-reminder-end\" id=\"listing-reminder-end\" v-on:click=\"showReminderBlock()\">\n            {{ $t('click_to_show_more') }}\n        </span>\n    </span>\n\n    <div v-if=\"showReminder\" class=\"block-with-reminder\">\n        <span>\n            {{ $t('how_does_the_booking_process_work_description') }}\n        </span>\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-4\">\n                <h4>{{ $t('search') }}</h4>\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <!--                for whom-->\n                <label for=\"for_whom\" class=\"form-label col-form-label-sm\">{{ $t('for_whom') }}</label>\n                <select id=\"for_whom\" class=\"form-select form-select-sm\"\n                        v-model=\"clientSearchInfo.for_whom\"\n                        v-on:change=\"ForMeOrForRelative()\">\n                    <option value=\"to_me\">{{ $t('to_me') }}</option>\n                    <option value=\"for_a_relative\">{{ $t('for_a_relative') }}</option>\n                </select>\n                <br>\n\n                <!--                Person information-->\n                <label class=\"form-label col-form-label-sm\">{{ $t('information_about_person') }}</label>\n                <br>\n\n                <label for=\"name\" class=\"form-label col-form-label-sm\">{{ $t('name') }}</label>\n                <input id=\"name\" class=\"form-control form-control-sm\" type=\"text\" v-model=\"clientSearchInfo.name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['name'] !== undefined\">{{ errors['name'][0] }}</span>\n\n                <label for=\"last_name\" class=\"form-label col-form-label-sm\">{{ $t('last_name') }}</label>\n                <input id=\"last_name\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.last_name\">\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['last_name'] !== undefined\">{{ errors['last_name'][0] }}</span>\n\n                <label for=\"age_range\" class=\"form-label col-form-label-sm\">{{ $t('age_range') }}</label>\n                <select id=\"age_range\" class=\"form-select form-select-sm\" v-model=\"clientSearchInfo.age_range\">\n                    <option value=\"0-20\">0-20</option>\n                    <option value=\"20-40\">20-40</option>\n                    <option value=\"40-60\">40-60</option>\n                    <option value=\"60-70\">60-70</option>\n                    <option value=\"70-80\">70-80</option>\n                    <option value=\"80-90\">80-90</option>\n                    <option value=\"90+\">90+</option>\n                </select>\n            </div>\n\n            <div class=\"col-3\">\n                <!--provider supports-->\n                <label for=\"provider_support\" class=\"form-label col-form-label-sm\">{{ $t('what_support_looking')\n                    }}</label>\n                <select id=\"provider_support\" class=\"form-select form-select-sm\" multiple\n                        v-model=\"clientSearchInfo.provider_supports\">\n                    <option v-if=\"data.provider_supports.length > 0\"\n                            v-for=\"provider_support in data.provider_supports\"\n                            v-bind:value=\"provider_support.id\">\n                        {{ $t(provider_support.name) }}\n                    </option>\n                </select>\n                <span class=\"register-form-error\" v-if=\"errors !== null && errors['provider_supports'] !== undefined\">{{ errors['provider_supports'][0] }}</span>\n\n                <!--                additional info , disease -->\n                <label for=\"disease\" class=\"form-label col-form-label-sm\">{{ $t('disease') }}</label>\n                <select id=\"disease\" class=\"form-select form-select-sm\" multiple v-model=\"clientSearchInfo.disease\">\n                    <option v-if=\"data.additional_info.length > 0\"\n                            v-for=\"info in data.additional_info\"\n                            v-bind:value=\"info.id\">\n                        {{ info.data.data }}\n                    </option>\n                </select>\n\n                <label for=\"other_disease\" class=\"form-label col-form-label-sm\">{{ $t('other_disease') }}</label>\n                <input id=\"other_disease\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_disease\">\n\n                <!--degree of care available-->\n                <label for=\"degree_of_care_available\" class=\"form-label col-form-label-sm\">{{ $t('is_degree_of_care')\n                    }}</label><br>\n                <select id=\"degree_of_care_available\" class=\"form-select form-select-sm\"\n                        v-model=\"clientSearchInfo.degree_of_care_available\">\n                    <option value=\"1\">1</option>\n                    <option value=\"2\">2</option>\n                    <option value=\"3\">3</option>\n                    <option value=\"4\">4</option>\n                    <option value=\"5\">5</option>\n                    <option value=\"0\">{{ $t('not_sure') }}</option>\n                </select>\n\n            </div>\n\n\n            <div class=\"col-3\">\n                <!--languages-->\n                <label class=\"form-label col-form-label-sm\">{{ $t('language_skills') }}</label><br>\n                <div class=\"row\">\n                    <div class=\"col-8\">\n                        <select class=\"form-control form-control-sm\" id=\"language\" v-model=\"clientSearchInfo.language\">\n                            <option value=\"english\">{{ $t('english') }}</option>\n                            <option value=\"deutsche\">{{ $t('german') }}</option>\n                            <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-4\">\n                        <select class=\"form-control form-control-sm\" v-model=\"clientSearchInfo.language_level\">\n                            <option value=\"A1\">A1</option>\n                            <option value=\"A2\">A2</option>\n                            <option value=\"B1\">B1</option>\n                            <option value=\"B2\">B2</option>\n                            <option value=\"C1\">C1</option>\n                            <option value=\"C2\">C2</option>\n                            <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                        </select>\n                    </div>\n                </div>\n\n                <!--                help to move-->\n                <label for=\"do_you_need_help_moving\" class=\"form-label col-form-label-sm\">{{\n                    $t('do_you_need_help_moving') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"do_you_need_help_moving\"\n                        v-model=\"clientSearchInfo.do_you_need_help_moving\">\n                    <option value=\"yes\">{{ $t('yes') }}</option>\n                    <option value=\"no\">{{ $t('no') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                additional means of transportation-->\n                <label for=\"additional_transportation\" class=\"form-label col-form-label-sm\">{{\n                    $t('additional_transportation') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"additional_transportation\"\n                        v-model=\"clientSearchInfo.additional_transportation\">\n                    <option value=\"need_help_with_walking\">{{ $t('need_help_with_walking') }}</option>\n                    <option value=\"wheelchair\">{{ $t('wheelchair') }}</option>\n                    <option value=\"crutches\">{{ $t('crutches') }}</option>\n                    <option value=\"nothing\">{{ $t('nothing') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Memory-->\n                <label for=\"memory\" class=\"form-label col-form-label-sm\">{{ $t('memory') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"memory\" v-model=\"clientSearchInfo.memory\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"minor_difficulties\">{{ $t('minor_difficulties') }}</option>\n                    <option value=\"significant_difficulties\">{{ $t('significant_difficulties') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                suffer from urinary incontinence-->\n                <label for=\"incontinence\" class=\"form-label col-form-label-sm\">{{ $t('incontinence') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"incontinence\" v-model=\"clientSearchInfo.incontinence\">\n                    <option value=\"yes\">{{ $t('yes') }}</option>\n                    <option value=\"no\">{{ $t('no') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n            </div>\n\n            <div class=\"col-3\">\n\n                <!--                Is there a gender preference for the nurse-->\n                <label for=\"preference_for_the_nurse\" class=\"form-label col-form-label-sm\">{{\n                    $t('preference_for_the_nurse') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"preference_for_the_nurse\"\n                        v-model=\"clientSearchInfo.preference_for_the_nurse\">\n                    <option value=\"male\">{{ $t('male') }}</option>\n                    <option value=\"female\">{{ $t('female') }}</option>\n                    <option value=\"no_matter\">{{ $t('no_matter') }}</option>\n                </select>\n\n                <!--                hearing-->\n                <label for=\"hearing\" class=\"form-label col-form-label-sm\">{{ $t('hearing') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"hearing\" v-model=\"clientSearchInfo.hearing\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"weak\">{{ $t('weak') }}</option>\n                    <option value=\"difficulties\">{{ $t('difficulties') }}</option>\n                    <option value=\"essential\">{{ $t('essential') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Vision-->\n                <label for=\"vision\" class=\"form-label col-form-label-sm\">{{ $t('vision') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"vision\" v-model=\"clientSearchInfo.vision\">\n                    <option value=\"good\">{{ $t('good') }}</option>\n                    <option value=\"minor_difficulties\">{{ $t('minor_difficulties') }}</option>\n                    <option value=\"significant_difficulties\">{{ $t('significant_difficulties') }}</option>\n                    <option value=\"unknown\">{{ $t('unknown') }}</option>\n                </select>\n\n                <!--                Areas where help is needed-->\n                <label for=\"areas_help\" class=\"form-label col-form-label-sm\">{{ $t('areas_help') }}</label><br>\n                <select class=\"form-control form-control-sm\" id=\"areas_help\" v-model=\"clientSearchInfo.areas_help\">\n                    <option value=\"dressing\">{{ $t('dressing') }}</option>\n                    <option value=\"mobility\">{{ $t('mobility') }}</option>\n                    <option value=\"hygiene\">{{ $t('hygiene') }}</option>\n                    <option value=\"preparation_of_medicines\">{{ $t('preparation_of_medicines') }}</option>\n                    <option value=\"skin_care\">{{ $t('skin_care') }}</option>\n                </select>\n\n                <label for=\"other_areas\" class=\"form-label col-form-label-sm\">{{ $t('other_areas') }}</label>\n                <input id=\"other_areas\" class=\"form-control form-control-sm\" type=\"text\"\n                       v-model=\"clientSearchInfo.other_areas\">\n            </div>\n        </div>\n        <br>\n        <div class=\"row\">\n            <div class=\"col-3\">\n                <div class=\"row\">\n                    <div class=\"col-6\">\n                        <label class=\"form-label col-form-label-sm\">\n                            {{ $t('one_or_regular') }}\n                        </label>\n                    </div>\n\n                    <div class=\"col-6\">\n\n                        <input id=\"one\" type=\"radio\" value=\"one\" v-model=\"clientSearchInfo.one_or_regular\"\n                               v-on:click=\"OneOrRegularCalendar('one')\">&nbsp;\n                        <label for=\"one\" class=\"form-label col-form-label-sm\">{{ $t('one') }}</label>\n\n                        <br>\n\n                        <input id=\"regular\" type=\"radio\" value=\"regular\" v-model=\"clientSearchInfo.one_or_regular\"\n                               v-on:click=\"OneOrRegularCalendar('regular')\">&nbsp;\n                        <label for=\"regular\" class=\"form-label col-form-label-sm\">{{ $t('regular') }}</label>\n\n                    </div>\n                    <span class=\"register-form-error\" v-if=\"errors !== null && errors['one_or_regular'] !== undefined\">{{ errors['one_or_regular'][0] }}</span>\n\n                </div>\n            </div>\n\n            <div class=\"col-6\">\n                <div class=\"row\">\n                    <div class=\"col-4 offset-4 justify-content-center\">{{ $t('weekdays') }}</div>\n                    <div class=\"col-4 justify-content-center\">{{ $t('weekends') }}</div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-4 offset-4 justify-content-center\">{{ $t('mon_fri') }}</div>\n                    <div class=\"col-4 justify-content-center\">{{ $t('sat_sun') }}</div>\n                </div>\n\n                <!--                        7-11 Uhr  -->\n                <div class=\"row\">\n                    <div class=\"col-4\">7-11 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_morning\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekdays_7_11\">\n                        &nbsp;<label for=\"weekdays_morning\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_morning\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekends_7_11\">\n                        &nbsp;<label for=\"weekends_morning\"></label>\n                    </div>\n                </div>\n                <!--                        11-14 Uhr  -->\n                <div class=\"row\">\n                    <div class=\"col-4\">11-14 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_afternoon\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekdays_11_14\">\n                        &nbsp;<label for=\"weekdays_afternoon\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_afternoon\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekends_11_14\">\n                        &nbsp;<label for=\"weekends_afternoon\"></label>\n                    </div>\n                </div>\n                <!--                        14-17 Uhr -->\n                <div class=\"row\">\n                    <div class=\"col-4\">14-17 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_evening\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekdays_14_17\">\n                        &nbsp;<label for=\"weekdays_evening\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_evening\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekends_14_17\">\n                        &nbsp;<label for=\"weekends_evening\"></label>\n                    </div>\n                </div>\n                <!--                        17-21 Uhr -->\n                <div class=\"row\">\n                    <div class=\"col-4\">17-21 Uhr</div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekdays_overnight\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekdays_17_21\">\n                        &nbsp;<label for=\"weekdays_overnight\"></label>\n                    </div>\n                    <div class=\"col-4 justify-content-center\">\n                        <input type=\"checkbox\" id=\"weekends_overnight\" true-value=\"1\" false-value=\"0\"\n                               v-model=\"clientSearchInfo.work_time_pref.weekends_17_21\">\n                        &nbsp;<label for=\"weekends_overnight\"></label>\n                    </div>\n                </div>\n            </div>\n            <!--            <div class=\"col-5\">-->\n            <!--                <label for=\"where_should_help_be_provided\" class=\"form-label col-form-label-sm\">-->\n            <!--                    {{ $t('where_should_help_be_provided') }}</label><br>-->\n            <!--                <input id=\"where_should_help_be_provided\" placeholder=\"Later\">-->\n            <!--            </div>-->\n\n        </div>\n\n        <!--        one time calendar-->\n        <div v-if=\"showOneTimeCalendar\" class=\"listing-one-time-calendar-wrapper\">\n            <div class=\"row\">\n                <div class=\"col-1 offset-11\">\n                    <button class=\"btn btn-close btn-sm\" v-on:click=\"closeCalendars()\"></button>\n                </div>\n            </div>\n            One time\n\n            <div class=\"row\">\n                <div class=\"col-6\">\n                    <label for=\"one_time_date\" class=\"form-label col-form-label-sm\">{{ $t('date') }} </label>\n                    <input class=\"form-control form-control-sm\" id=\"one_time_date\"\n                           type=\"date\" v-model=\"clientSearchInfo.one_time_date\">\n                </div>\n\n            </div>\n        </div>\n\n        <!--        regular calendar-->\n        <div v-if=\"showRegularCalendar\" class=\"listing-regular-calendar-wrapper\">\n            <div class=\"col-1 offset-11\">\n                <button class=\"btn btn-close btn-sm\" v-on:click=\"closeCalendars()\"></button>\n            </div>\n            Regular\n\n            <div class=\"row\">\n                <div class=\"col-6\">\n                    <div class=\"row\">\n                        <label for=\"regular_time_start_date\" class=\"form-label col-form-label-sm\">{{ $t('start_date')\n                            }} </label>\n                        <input class=\"form-control form-control-sm\" id=\"regular_time_start_date\"\n                               type=\"date\" v-model=\"clientSearchInfo.regular_time_start_date\">\n                    </div>\n                    <div class=\"row\">\n                        <label for=\"regular_time_finish_date\" class=\"form-label col-form-label-sm\">{{ $t('finish_date')\n                            }} </label>\n                        <input class=\"form-control form-control-sm\" id=\"regular_time_finish_date\"\n                               type=\"date\" v-model=\"clientSearchInfo.regular_time_finish_date\">\n                    </div>\n                </div>\n\n            </div>\n        </div>\n\n    </div>\n\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"findNeedNurses()\">{{ $t('find') }}</button>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"showModalNursesListing\" class=\"nurses-listing-wrapper\">\n        <nurses-listing :nurses=\"nurses\"></nurses-listing>\n    </div>\n\n    <div v-if=\"showModalNurseProfile\" class=\"nurse-profile-wrapper\">\n        <nurses-profile :nurse=\"nurse\" :data=\"data\" :user=\"user\"></nurses-profile>\n    </div>\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -62076,34 +62123,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/client-dashboard/components/Bookings.vue":
-/*!**************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Bookings.vue ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Bookings_vue_vue_type_template_id_2a58d858__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bookings.vue?vue&type=template&id=2a58d858 */ "./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858");
-/* harmony import */ var _Bookings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bookings.vue?vue&type=script&lang=js */ "./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Bookings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Bookings_vue_vue_type_template_id_2a58d858__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/client-dashboard/components/Bookings.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/client-dashboard/components/HelpAndService.vue":
 /*!********************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/HelpAndService.vue ***!
@@ -63218,22 +63237,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Bookings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Bookings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Bookings.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/client-dashboard/components/HelpAndService.vue?vue&type=script&lang=js":
 /*!********************************************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/HelpAndService.vue?vue&type=script&lang=js ***!
@@ -63918,22 +63921,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_e15310fc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_template_id_e15310fc_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=template&id=e15310fc&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/LeftPanel.vue?vue&type=template&id=e15310fc&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858 ***!
-  \********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Bookings_vue_vue_type_template_id_2a58d858__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Bookings_vue_vue_type_template_id_2a58d858__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Bookings.vue?vue&type=template&id=2a58d858 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Bookings.vue?vue&type=template&id=2a58d858");
 
 
 /***/ }),

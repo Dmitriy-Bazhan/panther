@@ -35,14 +35,17 @@ class CreateClientSearchInfosTable extends Migration
             $table->string('vision');
             $table->string('areas_help');
             $table->string('other_areas')->nullable();
-            $table->string('one_or_regular')->default('one')->comment('one|regular');
             $table->string('where_should_help_be_provided')->nullable();
+            $table->string('one_or_regular')->default('one')->comment('one|regular');
+            $table->date('one_time_date')->nullable();
+            $table->date('regular_time_start_date')->nullable();
+            $table->date('regular_time_finish_date')->nullable();
+            $table->json('work_time_pref');
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
         });
     }
-
     /**
      * Reverse the migrations.
      *

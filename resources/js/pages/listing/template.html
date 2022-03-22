@@ -11,7 +11,6 @@
     <div v-if="showReminder" class="block-with-reminder">
         <span>
             {{ $t('how_does_the_booking_process_work_description') }}
-
         </span>
     </div>
 
@@ -26,7 +25,9 @@
             <div class="col-3">
                 <!--                for whom-->
                 <label for="for_whom" class="form-label col-form-label-sm">{{ $t('for_whom') }}</label>
-                <select id="for_whom" class="form-select form-select-sm" v-model="clientSearchInfo.for_whom">
+                <select id="for_whom" class="form-select form-select-sm"
+                        v-model="clientSearchInfo.for_whom"
+                        v-on:change="ForMeOrForRelative()">
                     <option value="to_me">{{ $t('to_me') }}</option>
                     <option value="for_a_relative">{{ $t('for_a_relative') }}</option>
                 </select>
@@ -217,29 +218,155 @@
         <div class="row">
             <div class="col-3">
                 <div class="row">
-                    <div class="col-7">
-                        <label for="one_or_regular" class="form-label col-form-label-sm">
+                    <div class="col-6">
+                        <label class="form-label col-form-label-sm">
                             {{ $t('one_or_regular') }}
                         </label>
                     </div>
 
-                    <div class="col-5">
-                        <select class="form-control form-control-sm" v-model="clientSearchInfo.one_or_regular"
-                                id="one_or_regular">
-                            <option value="one">{{ $t('one') }}</option>
-                            <option value="regular">{{ $t('regular') }}</option>
-                        </select>
+                    <div class="col-6">
+
+                        <input id="one" type="radio" value="one" v-model="clientSearchInfo.one_or_regular"
+                               v-on:click="OneOrRegularCalendar('one')">&nbsp;
+                        <label for="one" class="form-label col-form-label-sm">{{ $t('one') }}</label>
+
+                        <br>
+
+                        <input id="regular" type="radio" value="regular" v-model="clientSearchInfo.one_or_regular"
+                               v-on:click="OneOrRegularCalendar('regular')">&nbsp;
+                        <label for="regular" class="form-label col-form-label-sm">{{ $t('regular') }}</label>
+
                     </div>
-                    <span class="register-form-error"
-                          v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
+                    <span class="register-form-error" v-if="errors !== null && errors['one_or_regular'] !== undefined">{{ errors['one_or_regular'][0] }}</span>
+
                 </div>
             </div>
-            <div class="col-5">
-                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">
-                    {{ $t('where_should_help_be_provided') }}</label><br>
-                <input id="where_should_help_be_provided" placeholder="Later">
+
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
+                    <div class="col-4 justify-content-center">{{ $t('weekends') }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4 offset-4 justify-content-center">{{ $t('mon_fri') }}</div>
+                    <div class="col-4 justify-content-center">{{ $t('sat_sun') }}</div>
+                </div>
+
+                <!--                        7-11 Uhr  -->
+                <div class="row">
+                    <div class="col-4">7-11 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekdays_7_11">
+                        &nbsp;<label for="weekdays_morning"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekends_7_11">
+                        &nbsp;<label for="weekends_morning"></label>
+                    </div>
+                </div>
+                <!--                        11-14 Uhr  -->
+                <div class="row">
+                    <div class="col-4">11-14 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekdays_11_14">
+                        &nbsp;<label for="weekdays_afternoon"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekends_11_14">
+                        &nbsp;<label for="weekends_afternoon"></label>
+                    </div>
+                </div>
+                <!--                        14-17 Uhr -->
+                <div class="row">
+                    <div class="col-4">14-17 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekdays_14_17">
+                        &nbsp;<label for="weekdays_evening"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekends_14_17">
+                        &nbsp;<label for="weekends_evening"></label>
+                    </div>
+                </div>
+                <!--                        17-21 Uhr -->
+                <div class="row">
+                    <div class="col-4">17-21 Uhr</div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekdays_17_21">
+                        &nbsp;<label for="weekdays_overnight"></label>
+                    </div>
+                    <div class="col-4 justify-content-center">
+                        <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
+                               v-model="clientSearchInfo.work_time_pref.weekends_17_21">
+                        &nbsp;<label for="weekends_overnight"></label>
+                    </div>
+                </div>
             </div>
-            <div class="col-2">
+            <!--            <div class="col-5">-->
+            <!--                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">-->
+            <!--                    {{ $t('where_should_help_be_provided') }}</label><br>-->
+            <!--                <input id="where_should_help_be_provided" placeholder="Later">-->
+            <!--            </div>-->
+
+        </div>
+
+        <!--        one time calendar-->
+        <div v-if="showOneTimeCalendar" class="listing-one-time-calendar-wrapper">
+            <div class="row">
+                <div class="col-1 offset-11">
+                    <button class="btn btn-close btn-sm" v-on:click="closeCalendars()"></button>
+                </div>
+            </div>
+            One time
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="one_time_date" class="form-label col-form-label-sm">{{ $t('date') }} </label>
+                    <input class="form-control form-control-sm" id="one_time_date"
+                           type="date" v-model="clientSearchInfo.one_time_date">
+                </div>
+
+            </div>
+        </div>
+
+        <!--        regular calendar-->
+        <div v-if="showRegularCalendar" class="listing-regular-calendar-wrapper">
+            <div class="col-1 offset-11">
+                <button class="btn btn-close btn-sm" v-on:click="closeCalendars()"></button>
+            </div>
+            Regular
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <label for="regular_time_start_date" class="form-label col-form-label-sm">{{ $t('start_date')
+                            }} </label>
+                        <input class="form-control form-control-sm" id="regular_time_start_date"
+                               type="date" v-model="clientSearchInfo.regular_time_start_date">
+                    </div>
+                    <div class="row">
+                        <label for="regular_time_finish_date" class="form-label col-form-label-sm">{{ $t('finish_date')
+                            }} </label>
+                        <input class="form-control form-control-sm" id="regular_time_finish_date"
+                               type="date" v-model="clientSearchInfo.regular_time_finish_date">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 offset-10">
                 <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">{{ $t('find') }}</button>
             </div>
         </div>

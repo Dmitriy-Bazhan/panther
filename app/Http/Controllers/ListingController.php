@@ -102,6 +102,10 @@ class ListingController extends Controller
             'language_level' => $clientSearchInfo['language_level'],
             'preference_for_the_nurse' => $clientSearchInfo['preference_for_the_nurse'],
             'one_or_regular' => $clientSearchInfo['one_or_regular'],
+            'one_time_date' => $clientSearchInfo['one_time_date'],
+            'regular_time_start_date' => $clientSearchInfo['regular_time_start_date'],
+            'regular_time_finish_date' => $clientSearchInfo['regular_time_finish_date'],
+            'work_time_pref' => $clientSearchInfo['work_time_pref'],
         ]);
 
         $nurses = $this->nursesRepo->search();

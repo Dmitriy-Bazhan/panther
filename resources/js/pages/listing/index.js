@@ -20,6 +20,8 @@ export default {
             showReminder: false,
             showModalNursesListing: false,
             showModalNurseProfile: false,
+            showOneTimeCalendar: false,
+            showRegularCalendar: false,
             url: 'listing/get-nurses-to-listing',
             clientSearchInfo: {
                 for_whom: 'for_a_relative',
@@ -41,7 +43,20 @@ export default {
                 vision: 'unknown',
                 areas_help: 'hygiene',
                 other_areas: '',
-                one_or_regular: 'one',
+                one_or_regular: '',
+                one_time_date: null,
+                regular_time_start_date: null,
+                regular_time_finish_date: null,
+                work_time_pref: {
+                    weekdays_7_11: "0",
+                    weekends_7_11: "0",
+                    weekdays_11_14: "0",
+                    weekends_11_14: "0",
+                    weekdays_14_17: "0",
+                    weekends_14_17: "0",
+                    weekdays_17_21: "0",
+                    weekends_17_21: "0",
+                },
             }
         }
     },
@@ -85,6 +100,7 @@ export default {
                     if (response.data.success) {
                         this.clientSearchInfo = response.data.clientSearchInfo;
                         this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
+                        this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
                         this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
                     }
                 })
@@ -94,9 +110,11 @@ export default {
         },
 
         findNeedNurses() {
+            this.closeCalendars();
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
+                        console.log(response);
                         this.emitter.emit('response-success-true');
                         this.errors = null;
                         this.nurses = response.data.nurses;
@@ -117,6 +135,32 @@ export default {
                 this.showReminder = false;
                 document.removeEventListener('click', this.closeReminderBlock);
             }
+        },
+        ForMeOrForRelative() {
+            if (this.clientSearchInfo.for_whom == 'to_me') {
+                this.clientSearchInfo.name = this.user.first_name;
+                this.clientSearchInfo.last_name = this.user.last_name;
+            }
+
+            if (this.clientSearchInfo.for_whom == 'for_a_relative') {
+                this.clientSearchInfo.name = '';
+                this.clientSearchInfo.last_name = '';
+            }
+        },
+        OneOrRegularCalendar(item) {
+            if (item == 'one') {
+                this.showOneTimeCalendar = true;
+                this.showRegularCalendar = false;
+            }
+
+            if (item == 'regular') {
+                this.showOneTimeCalendar = false;
+                this.showRegularCalendar = true;
+            }
+        },
+        closeCalendars() {
+            this.showOneTimeCalendar = false;
+            this.showRegularCalendar = false;
         }
     }
 }

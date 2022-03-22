@@ -126,6 +126,10 @@ class ClientRepository
                 'areas_help' => $clientSearchInfo['areas_help'],
                 'other_areas' => $clientSearchInfo['other_areas'],
                 'one_or_regular' => $clientSearchInfo['one_or_regular'],
+                'one_time_date' => $clientSearchInfo['one_time_date'],
+                'regular_time_start_date' => $clientSearchInfo['regular_time_start_date'],
+                'regular_time_finish_date' => $clientSearchInfo['regular_time_finish_date'],
+                'work_time_pref' => json_encode($clientSearchInfo['work_time_pref']),
             ]);
 
         return $success;

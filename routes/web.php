@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
+use App\Http\Controllers\Clients\ClientBookingsController;
 use App\Http\Controllers\Clients\ClientMyInformationController;
 
 use App\Http\Controllers\Nurses\NurseDashboardController;
@@ -74,6 +75,10 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
+    //client bookings
+    Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+
+
     //client my information
     Route::prefix('client-my-information')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
         Route::post('{id}', [ClientMyInformationController::class, 'update']);
@@ -84,7 +89,6 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('client-private-chats')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
         Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
     });
-
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     /*

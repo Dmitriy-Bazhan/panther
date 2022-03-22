@@ -92,10 +92,47 @@ class NurseRepository
 
         //filter one or regular
         if (request()->filled('one_or_regular')) {
-            $nurse->whereHas('nurse', function ($query) {
-                return $query->where('one_or_regular', '=', request('one_or_regular'))
-                    ->orWhere('one_or_regular', '=', 'no_matter');
-            });
+
+            if (request('one_or_regular') == 'one') {
+                $nurse->whereHas('nurse', function ($query) {
+                    return $query->where('one_or_regular', '=', 'one')
+                        ->orWhere('one_or_regular', '=', 'no_matter');
+                });
+
+                //filter start date
+                if (request()->filled('one_time_date')) {
+                    $nurse->whereHas('nurse', function ($query) {
+                        return $query->whereDate('start_date_ready_to_work', '<=', request('one_time_date'));
+                    });
+                }
+            }
+
+            if (request('one_or_regular') == 'regular') {
+                $nurse->whereHas('nurse', function ($query) {
+                    return $query->where('one_or_regular', '=', 'regular')
+                        ->orWhere('one_or_regular', '=', 'no_matter');
+                });
+
+                //filter start date
+                if (request()->filled('regular_time_start_date')) {
+                    $nurse->whereHas('nurse', function ($query) {
+                        return $query->whereDate('start_date_ready_to_work', '<=', request('regular_time_start_date'));
+                    });
+                }
+            }
+        }
+
+        //filter work time pref
+        if (request()->filled('work_time_pref') && is_array(request('work_time_pref'))) {
+
+
+            foreach (request('work_time_pref') as $key => $value) {
+                if ($value === "1") {
+                    $nurse->whereHas('nurse', function ($query) use ($key) {
+                        return $query->whereJsonContains('work_time_pref->' . $key, request('work_time_pref')[$key]);
+                    });
+                }
+            }
         }
 
         //order (only for some nurses)

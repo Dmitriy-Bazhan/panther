@@ -46,3 +46,17 @@
     z-index: 200;
     overflow: auto;
 }
+
+.listing-one-time-calendar-wrapper, .listing-regular-calendar-wrapper {
+    position: fixed;
+    width: 50%;
+    top: 20%;
+    left: 25%;
+    background: #98d9b2;
+    padding: 15px;
+    border: #388844;
+    border-radius: 10px;
+    height: 50%;
+    z-index: 200;
+    overflow: auto;
+}

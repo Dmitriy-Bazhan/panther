@@ -30,5 +30,10 @@ class ClientSearchInfo extends Model
         'vision',
         'areas_help',
         'other_areas',
+        'one_or_regular',
+        'one_time_date',
+        'regular_time_start_date',
+        'regular_time_finish_date',
+        'work_time_pref',
     ];
 }
