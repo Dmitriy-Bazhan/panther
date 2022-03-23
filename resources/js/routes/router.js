@@ -8,6 +8,7 @@ import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
 import Listing from '../pages/listing/index';
+import Booking from '../pages/booking/index';
 
 const routes = [
     {
@@ -17,6 +18,16 @@ const routes = [
     {
         path: "/login",
         component: Login
+    },
+    {
+        path: "/booking",
+        component: Booking,
+        props: true,
+    },
+    {
+        path: "/booking/:id",
+        component: Booking,
+        props: true,
     },
     {
         path: "/register",

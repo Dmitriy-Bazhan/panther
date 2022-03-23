@@ -1,5 +1,5 @@
 export default {
-    en : {
+    en: {
         lang: 'English',
         email_wait_verify_text: 'Thank you for registering, Shortly you will receive an email with the next steps. See you soon on PflegePanther!',
         you_welcome: 'Your tegistration has been completed. You can now log in and scarch for your nursc. Welcome on PflegePanther!',
@@ -75,7 +75,7 @@ export default {
         price: 'Price',
         distance: 'Distance',
         send_to_bookings: 'Send to bookings',
-        how_does_the_booking_process_work_description : 'When you book a nurse on our site, you specify exactly what you want to book them for.\n' +
+        how_does_the_booking_process_work_description: 'When you book a nurse on our site, you specify exactly what you want to book them for.\n' +
             '            That is, you specify your wishes in the areas in which Pflege Panther is active.\n' +
             '            Here you also have the option of specifying whether you prefer a female or a male nurse.\n' +
             '            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n' +
@@ -83,7 +83,6 @@ export default {
             '            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n' +
             '            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n' +
             '            booking request.',
-
 
 
         for_whom: 'Who are you looking for help for?',
@@ -95,8 +94,8 @@ export default {
         disease: 'Disease',
         other_disease: 'Other disease',
         is_degree_of_care: 'Is the degree of care available',
-        language_skills : 'Language skills',
-        do_you_need_help_moving : 'Do you need help moving/walking?',
+        language_skills: 'Language skills',
+        do_you_need_help_moving: 'Do you need help moving/walking?',
         unknown: 'Unknown',
         additional_transportation: 'Additional means of transportation?',
         need_help_with_walking: 'Need help with walking',
@@ -133,9 +132,18 @@ export default {
         one_or_regular: 'One or regular order',
         regular: 'Regular',
         one: 'One',
-
+        weekdays_7_11: 'Weekdays 7-11',
+        weekdays_11_14: 'Weekdays 11-14',
+        weekdays_14_17: 'Weekdays 14-17',
+        weekdays_17_21: 'Weekdays 17-21',
+        weekends_7_11: 'Weekends 7-11',
+        weekends_11_14: 'Weekends 11-14',
+        weekends_14_17: 'Weekends 14-17',
+        weekends_17_21: 'Weekends 17-21',
+        contact_detail: 'Contact details',
+        needed_time: 'Needed time',
     },
-    de : {
+    de: {
         lang: 'Deutsche',
         email_wait_verify_text: 'Vielen Dank für Ihre Registrierung, Sie erhalten in Kürze eine E-Mail mit den nächsten Schritten. Bis bald auf PflegePanther!',
         you_welcome: 'Ihre Registrierung wurde abgeschlossen. Sie können sich nun einloggen und eine passende Pflegekraft suchen. Herzlichen Willkommen bei PflegePanther!',
@@ -211,7 +219,7 @@ export default {
         price: 'Preis',
         distance: 'Distanz',
         send_to_bookings: 'An Buchungen senden',
-        how_does_the_booking_process_work_description : 'Wenn Sie eine Krankenschwester auf unserer Website buchen, geben Sie genau an, wofür Sie sie buchen möchten.\n' +
+        how_does_the_booking_process_work_description: 'Wenn Sie eine Krankenschwester auf unserer Website buchen, geben Sie genau an, wofür Sie sie buchen möchten.\n' +
             '             Das heißt, Sie geben Ihre Wünsche in den Bereichen an, in denen Pflege Panther tätig ist.\n' +
             '             Hier haben Sie auch die Möglichkeit anzugeben, ob Sie eine weibliche oder eine männliche Pflegekraft bevorzugen.\n' +
             '             Mit einem weiteren Klick wird Ihre Buchungsanfrage abgeschickt. Unser Matching-System durchsucht dann die Datenbank nach Pflegekräften\n' +

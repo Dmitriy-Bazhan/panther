@@ -44,7 +44,7 @@ class ClientBookingsController extends Controller
 
     public function show($id)
     {
-        return $this->index();
+
     }
 
     /**

@@ -4,6 +4,9 @@
         <span class="nurse-name">{{ nurse[0].first_name + ' ' + nurse[0].last_name}}</span>
         &nbsp;<span v-if="haveUnreadMessages" class="alarm-signal blink"></span>
     </div>
+    <div>
+        <button class="btn btn-dark btn-sm" v-on:click="sendToBookings()">{{ $t('send_to_bookings') }}</button>
+    </div>
 </template>
 
 <script>
@@ -44,6 +47,9 @@
             showChat() {
                 this.emitter.emit('show-chat', this.index);
                 this.emitter.emit('active-nurse', this.index);
+            },
+            sendToBookings() {
+                window.open('/booking/' + this.index);
             },
         }
     }

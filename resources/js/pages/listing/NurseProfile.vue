@@ -132,7 +132,7 @@
         },
         methods: {
             sendToBookings(){
-                window.open('dashboard/client-bookings/' + this.nurse.id);
+                window.open('booking/' + this.nurse.id);
             },
             getPrivateChats() {
                 axios.get('listing/get-private-chats/' + this.nurse.id)

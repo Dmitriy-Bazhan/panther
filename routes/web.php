@@ -5,7 +5,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\BookingController;
+
 use App\Http\Controllers\TestController;
+
+
 use App\Http\Controllers\Admin\AdminDashboardController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
@@ -42,6 +46,12 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
+
+Route::prefix('booking')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+//    Route::get('/', [MainPageController::class, 'index']);
+});
+
+Route::resource('booking', BookingController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
 Route::prefix('dashboard')->group(function () {
 
