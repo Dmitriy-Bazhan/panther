@@ -1,0 +1,16 @@
+.notification-you-have-booking {
+    font-size: 14px;
+    color: red;
+    font-weight: 700;
+}
+
+.link-to-bookings {
+    font-size: 13px;
+    color: #0e2bff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.link-to-bookings:hover {
+    color: #6975ff;
+}

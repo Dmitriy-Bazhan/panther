@@ -143,6 +143,8 @@ export default {
         contact_detail: 'Contact details',
         needed_time: 'Needed time',
         suggested_price_per_hour: 'Suggested price per hour',
+        you_have_booking_to_this_nurse: 'You have booking to this nurse. Want make new?',
+        go_to_my_bookings: 'Go to my bookings',
     },
     de: {
         lang: 'Deutsche',

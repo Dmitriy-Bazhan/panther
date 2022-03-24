@@ -47,9 +47,9 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
 
-Route::prefix('booking')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+//Route::prefix('booking')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
 //    Route::get('/', [MainPageController::class, 'index']);
-});
+//});
 
 Route::resource('booking', BookingController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 

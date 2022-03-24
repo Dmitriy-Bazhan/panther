@@ -1,19 +1,17 @@
 <template>
     <div>
-        <h1>ONE TIME</h1>
-
-
         <nurse_info :data="data"></nurse_info>
         <br>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-3">
-                    <label for="suggested_price_per_hour" class="form-label col-form-label-sm label-name">{{ $t('suggested_price_per_hour') }}</label>
+                    <label for="suggested_price_per_hour" class="form-label col-form-label-sm label-name">{{
+                        $t('suggested_price_per_hour') }}</label>
                 </div>
                 <div class="col-1">
                     <input type="number" class="form-control form-control-sm"
                            id="suggested_price_per_hour" min="10"
-                    v-model="booking.suggested_price_per_hour">
+                           v-model="booking.suggested_price_per_hour">
                 </div>
             </div>
         </div>
@@ -34,7 +32,9 @@
                             </div>
                         </div>
                         <div class='week' v-for='week in weeks'>
-                            <div class='day' :class='{ today: day.isToday, checkday: checkDate === year + "-" + month + "-" + day.number }' v-for='day in week'>
+                            <div class='day'
+                                 :class='{ today: day.isToday, checkday: checkDate === year + "-" + month + "-" + day.number }'
+                                 v-for='day in week'>
                                 <span class="day-content" v-on:click="selectDate(day)">{{ day.label }}</span>
                             </div>
                         </div>
@@ -235,10 +235,12 @@
                 checkDate: null,
                 showTimeIntervalWindow: false,
                 booking: {
-                    suggested_price_per_hour : 0,
+                    suggested_price_per_hour: 0,
                     date: null,
-                    time_interval: [],
-                    time: [],
+                    time_interval: {
+                    },
+                    time: {
+                    },
                 }
             }
         },
@@ -351,27 +353,33 @@
         },
         methods: {
             checkMultySelect(index) {
-                if(this.data.nurse.entity.multiple_bookings === 'no'){
-                    this.booking.time_interval = [];
+                if (this.data.nurse.entity.multiple_bookings === 'no') {
+                    this.booking.time_interval = {};
                     this.booking.time_interval[index] = "1";
                 }
 
-                if(this.booking.time[index] === undefined){
+                if (this.booking.time[index] === undefined) {
                     this.booking.time[index] = "1";
                 }
 
             },
             sendBooking() {
-                console.log(this.booking);
+                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one_time'})
+                    .then((response) => {
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             },
             selectDate(current_day) {
                 let day = String(current_day.number).length === 1 ? day = '0' + current_day.number : current_day.number;
                 let month = String(this.month).length === 1 ? month = '0' + this.month : this.month;
                 this.booking.date = this.year + '-' + month + '-' + day;
-                this.checkDate = this.year + '-' + this.month + '-' +current_day.number;
+                this.checkDate = this.year + '-' + this.month + '-' + current_day.number;
                 console.log(this.booking.date);
                 this.showTimeIntervalWindow = true;
-                },
+            },
             moveThisMonth() {
                 this.month = _todayComps.month;
                 this.year = _todayComps.year;
