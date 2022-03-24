@@ -53,6 +53,10 @@
                         <span class="info-item" v-if="item !== '0'">{{ $t(index) }}</span>
                     </div>
 
+                    <span class="name-of-info-item">{{ $t('multiple_bookings') }}</span>
+                    <div>
+                        <span class="info-item">{{ $t(data.nurse.entity.multiple_bookings) }}</span>
+                    </div>
                 </div>
 
                 <div class="col-4 nurse-profile-image-wrapper">
