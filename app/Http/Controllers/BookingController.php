@@ -59,11 +59,13 @@ class BookingController extends Controller
                 'date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
                 'time' => 'required',
-                'time_interval' => 'required'
+                'total' => 'required|numeric|min:10',
+                'time_interval' => 'required',
+                'additional_email' => 'sometimes|nullable|email',
+                'comment' => 'sometimes',
             ];
 
             $validator = Validator::make(request('booking'), $rules);
-
             if ($validator->fails()) {
                 return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
             }
@@ -72,8 +74,53 @@ class BookingController extends Controller
             $booking->nurse_user_id = request('nurse_user_id');
             $booking->client_user_id = auth()->id();
             $booking->suggested_price_per_hour = request('booking')['suggested_price_per_hour'];
+            $booking->total = request('booking')['total'];
             $booking->one_time_or_regular = 'one_time';
-            $booking->start_date = request('date');
+            $booking->start_date = request('booking')['date'];
+            $booking->additional_email = request('booking')['additional_email'];
+            $booking->comment = request('booking')['comment'];
+            $booking->save();
+            $bookingId = $booking->id;
+
+            foreach (request('booking')['time_interval'] as $key => $value) {
+                $bookingTime = new BookingTime();
+                $bookingTime->booking_id = $bookingId;
+                $bookingTime->time_interval = $key;
+                $bookingTime->time = request('booking')['time'][$key];
+                $bookingTime->save();
+
+            }
+        }
+
+        if(request('one_time_or_regular') == 'regular') {
+            $rules = [
+                'date' => 'required',
+                'suggested_price_per_hour' => 'required|numeric|min:10',
+                'days.*' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+                'weeks' => 'required|min:1',
+                'total' => 'required|numeric|min:10',
+                'time' => 'required',
+                'time_interval' => 'required',
+                'additional_email' => 'sometimes|nullable|email',
+                'comment' => 'sometimes',
+            ];
+
+            $validator = Validator::make(request('booking'), $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+            }
+
+            $booking = new Booking();
+            $booking->nurse_user_id = request('nurse_user_id');
+            $booking->client_user_id = auth()->id();
+            $booking->suggested_price_per_hour = request('booking')['suggested_price_per_hour'];
+            $booking->total = request('booking')['total'];
+            $booking->one_time_or_regular = 'regular';
+            $booking->days = json_encode(request('booking')['days']);
+            $booking->weeks = request('booking')['weeks'];
+            $booking->start_date = request('booking')['date'];
+            $booking->additional_email = request('booking')['additional_email'];
+            $booking->comment = request('booking')['comment'];
             $booking->save();
             $bookingId = $booking->id;
 

@@ -5,6 +5,34 @@
 
         <nurse_info :data="data"></nurse_info>
 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-3">
+                    <label for="suggested_price_per_hour" class="form-label col-form-label-sm label-name">{{
+                        $t('suggested_price_per_hour') }}</label>
+                </div>
+                <div class="col-1">
+                    <input type="number" class="form-control form-control-sm"
+                           id="suggested_price_per_hour" min="10"
+                           v-model="booking.suggested_price_per_hour">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="additional_email" class="form-label col-form-label-sm label-name">{{
+                        $t('additional_email') }}</label>
+                </div>
+                <div class="col-4">
+                    <input type="email" class="form-control form-control-sm"
+                           id="additional_email" min="10"
+                           v-model="booking.additional_email">
+                </div>
+                <div class="col-3 offset-2">
+                    <span>Total: {{ booking.total }} EUR</span>
+                </div>
+            </div>
+        </div>
+
         <div class='weekdays'>
             <div class='weekday' v-for='weekday in weekdayLabels'>
                 <span v-if="checkWorkWeekDays()" class="work-day" v-on:click="addDays(weekday)">
@@ -176,14 +204,26 @@
                 </div>
 
                 <div class="col-2">
-                    <label for="week" class="form-label col-form-label-sm">{{ $t('weeks') }}</label>
-                    <input type="number" id="week" class="form-control form-control-sm" v-model="booking.week" min="0">
+                    <label for="weeks" class="form-label col-form-label-sm">{{ $t('weeks') }}</label>
+                    <input type="number" id="weeks" class="form-control form-control-sm" v-model="booking.weeks"
+                           min="0">
                 </div>
 
             </div>
 
         </div>
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-3">
+                    <label for="comment" class="form-label col-form-label-sm label-name">{{
+                        $t('comment') }}</label>
+                </div>
+                <div class="col-4">
+                    <textarea class="form-control form-control-sm"
+                              id="comment" v-model="booking.comment"></textarea>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-2 offset-10">
                     <button class="btn btn-success btn-sm" v-on:click="sendBooking()">{{ $t('send') }}</button>
@@ -208,13 +248,15 @@
                 weekdayLabels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 weekendLabels: ['Saturday', 'Sunday'],
                 booking: {
+                    total: 0,
+                    suggested_price_per_hour: 0,
+                    additional_email: null,
                     days: [],
                     date: null,
-                    week: 0,
-                    time_interval: {
-                    },
-                    time: {
-                    },
+                    weeks: 1,
+                    time_interval: {},
+                    time: {},
+                    comment: null,
                 }
             }
         },
@@ -224,9 +266,20 @@
                     if (typeof this.data.nurse.entity.work_time_pref === "string") {
                         this.data.nurse.entity.work_time_pref = JSON.parse(this.data.nurse.entity.work_time_pref);
                     }
+                    this.booking.suggested_price_per_hour = this.data.nurse.entity.price.hourly_payment;
                 },
                 immediate: true
             },
+            booking: {
+                handler(newValue, oldValue) {
+                    let hours = 0;
+                    for (let index in newValue.time){
+                        hours = hours + Number(newValue.time[index]);
+                    }
+                    this.booking.total = hours * this.booking.suggested_price_per_hour;
+                },
+                deep: true,
+            }
         },
         mounted() {
 
@@ -234,6 +287,19 @@
         methods: {
             sendBooking() {
                 console.log(this.booking);
+                axios.post('/booking', {
+                    'booking': this.booking,
+                    'nurse_user_id': this.data.nurse.id,
+                    'one_time_or_regular': 'regular'
+                })
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.emitter.emit('response-success-true');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             },
             addDays(day) {
                 if (this.in_array(day, this.booking.days)) {
@@ -241,7 +307,7 @@
                         function (n) {
                             return n === day;
                         });
-                    this.booking.day = evens;
+                    this.booking.days = evens;
                 } else {
                     this.booking.days.push(day);
                 }
@@ -275,13 +341,21 @@
             checkMultySelect(index) {
                 if (this.data.nurse.entity.multiple_bookings === 'no') {
                     this.booking.time_interval = {};
+                    this.booking.time = {};
                     this.booking.time_interval[index] = "1";
+                }
+
+                if (this.booking.time[index] !== undefined) {
+                    this.booking.time[index] = "0";
+                }
+
+                if (this.booking.time[index] !== undefined && this.booking.time_interval[index] === "1") {
+                    this.booking.time[index] = "1";
                 }
 
                 if (this.booking.time[index] === undefined) {
                     this.booking.time[index] = "1";
                 }
-
             },
         }
     }

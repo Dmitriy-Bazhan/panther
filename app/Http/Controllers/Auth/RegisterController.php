@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'hear_about_us' => 'sometimes|numeric',
+            'hear_about_us' => 'sometimes',
             'hear_about_us_other' => 'sometimes',
             'locale' => 'required|in:en,de'
         ];
@@ -170,7 +170,7 @@ class RegisterController extends Controller
             'zip_code' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'hear_about_us' => 'sometimes|numeric',
+            'hear_about_us' => 'sometimes',
             'hear_about_us_other' => 'sometimes',
             'locale' => 'required|in:en,de'
         ];
@@ -231,7 +231,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($data['password']);
         $user->entity_id = $newNurseId;
         $user->entity_type = 'nurse';
-        $user->hear_about_us = $data['hear_about_us'];
+        $user->hear_about_us = isset($data['hear_about_us']) ? $data['hear_about_us'] : null;
         $user->hear_about_us_other = $data['hear_about_us_other'];
 
         if ($user->save()) {
