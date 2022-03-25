@@ -1,7 +1,6 @@
 import template from './wrapper.html';
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import LeftPanel from "../layouts/LeftPanel";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
 
 export default {
@@ -9,17 +8,15 @@ export default {
     props: ['user', 'data'],
     data() {
         return {
-            showHeader : true,
-            showFooter : true,
-            showLeftPanel : true,
+            showHeader: true,
+            showFooter: true,
             response_success_true: false,
         }
     },
     template: template,
-    components : {
-        'panther-header' : Header,
-        'panther-footer' : Footer,
-        'left-panel' : LeftPanel,
+    components: {
+        'panther-header': Header,
+        'panther-footer': Footer,
         'response-success-true': ResponseSuccessTrue,
     },
     mounted() {
@@ -27,7 +24,7 @@ export default {
             this.response_success_true = true;
             setTimeout(() => {
                 this.response_success_true = false;
-            },2000);
+            }, 2000);
         });
 
         this.emitter.on('not-show-layouts', e => {
@@ -35,12 +32,5 @@ export default {
             this.showFooter = false;
         });
 
-        this.emitter.on('not-show-left-panel', e => {
-            this.showLeftPanel = false;
-        });
-
-        if(this.user === false) {
-            this.showLeftPanel = false;
-        }
     }
 }

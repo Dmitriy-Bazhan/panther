@@ -31,7 +31,9 @@
 
                 <p v-if="errors !== null" v-for="error in errors">{{ error }}</p>
             </div>
-
+            <a href="register">
+                <button class="btn btn-sm btn-success">Register</button>
+            </a>
         </div>
 
     </div>
@@ -49,7 +51,6 @@ export default {
         };
     },
     mounted() {
-        this.emitter.emit('not-show-left-panel');
     },
     methods: {
         SendLogin(event){

@@ -178,7 +178,7 @@ Route::post('test/message', [TestController::class, 'testSetMessage'])->middlewa
 /*
  * Change languages
  */
-Route::get('change-lang', [MainPageController::class, 'changeLang']);
+Route::get('change-lang/{lang}', [MainPageController::class, 'changeLang']);
 
 /*
  * Email verify

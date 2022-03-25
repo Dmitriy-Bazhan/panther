@@ -149,7 +149,6 @@
             };
         },
         mounted() {
-            this.emitter.emit('not-show-left-panel');
         },
         methods: {
             sendForm(event) {

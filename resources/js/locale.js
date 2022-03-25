@@ -85,6 +85,7 @@ export default {
             '            booking request.',
         send_booking_message: 'Congratulations! We forwarded your request to [name of selected nurse] and will get back ' +
                         'to you within 24h',
+        caregiver_finder: 'Caregiver finder',
 
 
 
@@ -236,6 +237,7 @@ export default {
             '             Buchungsanfrage.',
         send_booking_message: 'Herzlichen Glückwunsch! Wir haben Ihre Anfrage zu (Vorname der Pflegekraft) gesendet und ' +
                           'melden uns innerhalb 24 Stunden',
+        caregiver_finder: 'Pflegekraft finder',
 
     }
 }

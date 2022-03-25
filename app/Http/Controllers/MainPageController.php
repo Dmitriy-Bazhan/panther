@@ -89,17 +89,16 @@ class MainPageController extends Controller
         //
     }
 
-    public function changeLang()
+    public function changeLang($lang)
     {
-        if (auth()->user()->prefs->pref_lang == 'en') {
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'de'
-            ]);
-        } else {
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'en'
-            ]);
+        if(!in_array($lang, ['en', 'de'])){
+            return redirect()->to('404');
         }
+
+        \App\Models\UserPref::where('user_id', auth()->id())->update([
+            'pref_lang' => $lang
+        ]);
+
         return response()->json(['success' => true]);
     }
 }
