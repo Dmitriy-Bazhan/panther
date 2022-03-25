@@ -13,6 +13,7 @@ import clientRouter from './routes/client-router';
 import nurseRouter from './routes/nurse-router';
 import messages from './locale';
 
+
 const i18n = VueI18n.createI18n({
     locale: window.locale,
     messages

@@ -4,10 +4,24 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ListingController;
+use App\Http\Controllers\BookingController;
+
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\Clients\ClientDashboardController;
+
+
 use App\Http\Controllers\Admin\AdminDashboardController;
+
+use App\Http\Controllers\Clients\ClientDashboardController;
+use App\Http\Controllers\Clients\ClientMessageController;
+use App\Http\Controllers\Clients\ClientBookingsController;
+use App\Http\Controllers\Clients\ClientMyInformationController;
+
 use App\Http\Controllers\Nurses\NurseDashboardController;
+use App\Http\Controllers\Nurses\NursesMyInformationController;
+use App\Http\Controllers\Nurses\NursesPaymentsController;
+use App\Http\Controllers\Nurses\NursesMessageController;
+
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -24,15 +38,35 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [MainPageController::class, 'index']);
 
+
+Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+    Route::get('/', [MainPageController::class, 'index']);
+    Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
+    Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+    Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
+    Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
+});
+
+//Route::prefix('booking')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+//    Route::get('/', [MainPageController::class, 'index']);
+//});
+
+Route::resource('booking', BookingController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+
 Route::prefix('dashboard')->group(function () {
 
     /*
      * admin
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-        Route::get('/settings', [AdminDashboardController::class, 'settings']);
+        Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
+        Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
+        Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
+        Route::get('/hear-about-us', [AdminDashboardController::class, 'hearAboutUs']);
+        Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
+
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
@@ -47,9 +81,25 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [ClientDashboardController::class, 'index']);
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
+
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
+    //client bookings
+    Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+
+
+    //client my information
+    Route::prefix('client-my-information')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+        Route::post('{id}', [ClientMyInformationController::class, 'update']);
+    });
+    Route::resource('client-my-information', ClientMyInformationController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
+
+    //client messages
+    Route::prefix('client-private-chats')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+        Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
+    });
+    Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     /*
      * nurse
@@ -62,9 +112,27 @@ Route::prefix('dashboard')->group(function () {
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
 
-        Route::post('{id}', [NurseDashboardController::class, 'update']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
+    //nurse my information
+    Route::prefix('nurse-my-information')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+        Route::post('update-files-and-photo/{id}', [NursesMyInformationController::class, 'updateFilesAndPhoto']);
+    });
+    Route::resource('nurse-my-information', NursesMyInformationController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
+    //nurse payments
+    Route::prefix('nurse-payments')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+
+    });
+    Route::resource('nurse-payments', NursesPaymentsController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
+    //nurse message
+    Route::prefix('nurse-private-chats')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+        Route::post('mark-as-read', [NursesMessageController::class, 'markAsRead']);
+    });
+
+    Route::resource('nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
 
@@ -103,7 +171,7 @@ Route::get('/404', function () {
  * test
  */
 Route::get('/test', [TestController::class, 'index']);
-Route::post('test/message',[TestController::class, 'testSetMessage'])->middleware('auth:sanctum');
+Route::post('test/message', [TestController::class, 'testSetMessage'])->middleware('auth:sanctum');
 
 /*
  * Change languages
@@ -122,6 +190,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/you-welcome');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('/you-welcome', function (){
+Route::get('/you-welcome', function () {
     return view('main');
 });

@@ -1,9 +1,9 @@
 import * as VueRouter from "vue-router";
-import Overview from "../dashboards/nurse-dashboard/components/Overview";
-import Messages from "../dashboards/nurse-dashboard/components/Messages";
+import Overview from "../dashboards/nurse-dashboard/components/overview/index";
+import Messages from "../dashboards/nurse-dashboard/components/messages/index";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
-import Payments from "../dashboards/nurse-dashboard/components/Payments";
+import Payments from "../dashboards/nurse-dashboard/components/payments/index";
 import MyInformation from "../dashboards/nurse-dashboard/components/my-information/index";
 import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";
 
@@ -11,12 +11,14 @@ const routes = [
     {
         path: "/dashboard/nurse",
         name: 'NurseDashboard',
-        component: Overview
+        component: Overview,
+        props: true,
     },
     {
         path: "/dashboard/nurse/messages",
         name: 'NurseDashboardMessages',
-        component: Messages
+        component: Messages,
+        props: true,
     },
     {
         path: "/dashboard/nurse/ratings",
@@ -31,7 +33,8 @@ const routes = [
     {
         path: "/dashboard/nurse/payments",
         name: 'NurseDashboardPayments',
-        component: Payments
+        component: Payments,
+        props: true,
     },
     {
         path: "/dashboard/nurse/my-information/",

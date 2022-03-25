@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\NurseRepository;
+use App\Http\Resources\NurseCollection;
 use App\Models\AdditionalInfo;
+use App\Models\HearAboutUs;
 use App\Models\Nurse;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
@@ -28,8 +30,32 @@ class AdminDashboardController extends Controller
 
         $data['data']['provider_supports'] = ProvideSupport::all();
         $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-
         return view('dashboard', $data);
+    }
+
+    public function approveNurse(){
+        if(request()->filled('id') && is_numeric(request('id'))){
+            Nurse::where('id', request('id'))->update([
+                'is_approved' => 'yes',
+                'change_info' => 'no',
+            ]);
+        }else{
+            abort(409);
+        }
+
+        return response()->json(['id' => request('id')]);
+    }
+
+    public function dismissNurse(){
+        if(request()->filled('id') && is_numeric(request('id'))){
+            Nurse::where('id', request('id'))->update([
+                'is_approved' => 'no',
+            ]);
+        }else{
+            abort(409);
+        }
+
+        return response()->json(['id' => request('id')]);
     }
 
     public function create()
@@ -62,18 +88,36 @@ class AdminDashboardController extends Controller
         //
     }
 
-    public function settings(){
-        return view('dashboard');
+    public function getNurses(){
+        $nurses = $this->nursesRepo->search();
+        return new NurseCollection($nurses);
     }
 
-    public function getNurses(){
-        request()->merge([
-            'only_full_info' => true
-        ]);
+    public function hearAboutUs() {
+        $hearAboutUs = HearAboutUs::with('data')->get();
+        return response()->json(['hear_about_us' => $hearAboutUs]);
+    }
 
-        $nurses = $this->nursesRepo->search();
+    public function changeHearAboutUsShow($id)
+    {
+        if(!is_numeric($id)){
+            return response()->json(['success' => false]);
+        }
 
-        $data['nurses'] = $nurses;
-        return response()->json($data);
+        if(!$hearAboutUs = HearAboutUs::where('id', $id)->first()){
+            return response()->json(['success' => false]);
+        }
+
+        $is_show = 'yes';
+        if($hearAboutUs->is_show == 'yes'){
+            $is_show = 'no';
+        }
+
+        $hearAboutUs->is_show = $is_show;
+        if(!$hearAboutUs->save()){
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json(['success' => true, 'is_show' => $is_show]);
     }
 }

@@ -1,0 +1,135 @@
+<div>
+    <h2>{{ $t('my_information') }}</h2>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-3">
+
+                <!-- first name -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" v-model="user.first_name"
+                               id="first_name">
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['first_name'] !== undefined">{{ errors['first_name'][0] }}</span>
+                </div>
+
+                <!-- last name -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" v-model="user.last_name"
+                               id="last_name">
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['last_name'] !== undefined">{{ errors['last_name'][0] }}</span>
+                </div>
+
+                <!-- email -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="email" class="form-label col-form-label-sm">{{ $t('email') }}</label>
+                    </div>
+
+                    <div class="col-8">
+                        <input type="email" class="form-control form-control-sm" v-model="user.email" id="email">
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['email'] !== undefined">{{ errors['email'][0] }}</span>
+                </div>
+
+                <!-- phone -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
+                    </div>
+
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" v-model="user.phone" id="phone">
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['phone'] !== undefined">{{ errors['phone'][0] }}</span>
+                </div>
+
+                <!-- zip code -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
+                    </div>
+
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" v-model="user.zip_code"
+                               id="zip_code">
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['zip_code'] !== undefined">{{ errors['zip_code'][0] }}</span>
+                </div>
+
+                <!-- gender -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="gender" class="form-label col-form-label-sm">{{ $t('gender') }}</label>
+                    </div>
+
+                    <div class="col-8">
+                        <select class="form-control form-control-sm" v-model="user.entity.gender" id="gender">
+                            <option value="male">{{ $t('male') }}</option>
+                            <option value="female">{{ $t('female') }}</option>
+                        </select>
+                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors['entity.gender'] !== undefined">{{ errors['entity.gender'][0] }}</span>
+                </div>
+
+            </div>
+
+            <div class="col-2 offset-3">
+
+                <div v-if="user.entity.original_photo !== null" class="my-information-photo-wrapper">
+                    <img v-bind:src="path + '/storage/' + user.entity.original_photo" alt="no-photo"
+                         class="my-information-photo">
+                </div>
+
+                <div v-else class="my-information-photo-wrapper">
+                    <img :src="path + '/images/no-photo.jpg'" alt="no-photo" class="my-information-photo">
+
+                </div>
+
+                <input type="file" name="nurse_new_photo"
+                       ref="file"
+                       v-on:change="photoUpload()"
+                       class="form-control-file form-control-sm">
+                <span class="register-form-error" v-if="errors !== null && errors['file'] !== undefined">{{ errors['file'][0] }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <!-- description -->
+                <div class="row">
+                    <div class="col-2">
+                        <label for="description" class="form-label col-form-label-sm">{{ $t('description') }}</label>
+                    </div>
+
+                    <div class="col-10">
+                            <textarea class="form-control form-control-sm" v-model="user.entity.description"
+                                      id="description" rows="6">
+
+                            </textarea>
+                        <span class="register-form-error"
+                              v-if="errors !== null && errors['entity.description'] !== undefined">{{ errors['entity.description'][0] }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2 offset-10">
+
+                <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>
+
+            </div>
+        </div>
+    </div>
+</div>

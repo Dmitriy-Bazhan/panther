@@ -1,106 +1,50 @@
 import template from './template.html';
+import NurseInfo from "./NurseInfo";
+import NurseFilesAndPhoto from "./NurseFilesAndPhoto";
+import NurseTimeCalendar from "./NurseTimeCalendar";
 
 export default {
     name: "MyInformation",
     template: template,
+    components : {
+      nurse_info : NurseInfo,
+      nurse_files_and_photo : NurseFilesAndPhoto,
+      nurse_time_calendar : NurseTimeCalendar,
+    },
     props: ['user', 'data'],
     data() {
         return {
+            info_active: true,
+            file_active: false,
+            calendar_active: false,
             path: location.origin,
             errors: null,
-            criminal_record: '',
-            documentation_of_training: '',
-            CPR_course: '',
-            references: '',
-            file: '',
         }
     },
-    watch: {
-        user: {
-            handler(newValue, oldValue) {
-                if (this.user.entity.languages.length === 0) {
-                    this.user.entity.languages = [];
-                    let lang = new Object({
-                        lang: '',
-                        level: ''
-                    });
-                    this.user.entity.languages.push(lang);
-                    console.log(this.user);
-                }
-            },
-            immediate: true
-        },
-    },
     mounted() {
-        console.log(this.data);
+        this.emitter.on('errors', e => {
+            this.errors = e;
+        });
+
+        this.emitter.on('no-errors', e => {
+            this.errors = null;
+        });
     },
     methods: {
-        filterFiles(data, type) {
-            return data.filter(function (el) {
-                if (el.file_type === type) {
-                    return true;
-                }
-            })
+        showInfo() {
+            this.info_active = true;
+            this.file_active = false;
+            this.calendar_active = false;
         },
-
-        updateInformation() {
-            this.criminal_record = this.$refs.criminal_record.files;
-            this.documentation_of_training = this.$refs.documentation_of_training.files;
-            this.CPR_course = this.$refs.CPR_course.files;
-            this.references = this.$refs.references.files;
-            this.file = this.$refs.file.files[0];
-            let formData = new FormData();
-
-            formData.append('file', this.file);
-
-            for (let i = 0; i < this.criminal_record.length; i++) {
-                let file = this.criminal_record[i];
-                formData.append('criminal_record[' + i + ']', file);
-            }
-
-
-
-            for (let i = 0; i < this.documentation_of_training.length; i++) {
-                let file = this.documentation_of_training[i];
-                formData.append('documentation_of_training[' + i + ']', file);
-            }
-
-            for (let i = 0; i < this.CPR_course.length; i++) {
-                let file = this.CPR_course[i];
-                formData.append('CPR_course[' + i + ']', file);
-            }
-
-            for (let i = 0; i < this.references.length; i++) {
-                let file = this.references[i];
-                formData.append('references[' + i + ']', file);
-            }
-
-            let user = JSON.stringify(this.user);
-            formData.append('user', user);
-            console.log(this.user);
-            axios.post('/dashboard/nurse/' + this.user.id,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
-                .then((response) => {
-                    console.log(response.data);
-                    if (response.data.success) {
-                        this.errors = null;
-                        this.emitter.emit('user-finished-fill-info');
-                    } else {
-                        this.errors = response.data.errors;
-                        console.log(response.data.errors);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+        showFilesAndPhoto() {
+            this.info_active = false;
+            this.file_active = true;
+            this.calendar_active = false;
         },
-        photoUpload() {
-            //todo:: photo preview
+        showCalendar() {
+            this.calendar_active = true;
+            this.info_active = false;
+            this.file_active = false;
         },
     }
 }

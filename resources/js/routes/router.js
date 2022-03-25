@@ -7,6 +7,8 @@ import NurseRegister from '../pages/auth/NurseRegister';
 import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
+import Listing from '../pages/listing/index';
+import Booking from '../pages/booking/index';
 
 const routes = [
     {
@@ -18,16 +20,28 @@ const routes = [
         component: Login
     },
     {
+        path: "/booking",
+        component: Booking,
+        props: true,
+    },
+    {
+        path: "/booking/:id",
+        component: Booking,
+        props: true,
+    },
+    {
         path: "/register",
         component: StartRegister
     },
     {
         path: "/nurse-register",
-        component: NurseRegister
+        component: NurseRegister,
+        props: true,
     },
     {
         path: "/client-register",
-        component: ClientRegister
+        component: ClientRegister,
+        props: true,
     },
     {
         path: "/email/verify",
@@ -40,6 +54,12 @@ const routes = [
     {
         path: "/test",
         component: Test
+    },
+    {
+        path: "/listing",
+        name: 'Listing',
+        component: Listing,
+        props: true,
     }
 ];
 

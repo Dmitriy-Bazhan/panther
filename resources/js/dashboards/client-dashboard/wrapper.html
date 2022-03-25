@@ -7,17 +7,20 @@
 
             <div class="col-2" style="padding: unset;">
 
-                <left-panel></left-panel>
+                <left-panel :showAlarmNewMessage="showAlarmNewMessage"></left-panel>
 
             </div>
 
             <div class="col-10">
 
-                <router-view></router-view>
+                <router-view :user="user" :data="data"></router-view>
 
             </div>
 
         </div>
 
     </div>
+
+    <response-success-true v-if="response_success_true"></response-success-true>
+
 </div>

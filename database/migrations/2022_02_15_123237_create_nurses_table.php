@@ -27,7 +27,11 @@ class CreateNursesTable extends Migration
             $table->string('gender')->default('male')->comment('male|female');
             $table->string('pref_client_gender')->default('no_matter')->comment('no_matter|male|female');
             $table->string('multiple_bookings')->default('no')->comment('yes|no');
-            $table->string('additional_info')->nullable()->default(null)->comment('json string of additional info');
+            $table->string('one_or_regular')->default('no_matter')->comment('one|regular|no_matter');
+            $table->string('ready_to_work')->default('yes')->comment('yes|no');
+            $table->date('start_date_ready_to_work')->nullable()->default(\Carbon\Carbon::now()->format('Y-m-d'));
+            $table->date('finish_date_to_work')->nullable();
+            $table->json('work_time_pref');
             $table->timestamps();
         });
     }

@@ -24,6 +24,12 @@ class TestController extends Controller
 
     public function index()
     {
+//        $nurse = Nurse::whereJsonContains('work_time_pref->weekdays_afternoon', '1')
+//            ->first();
+//        dd($nurse);
+//
+//        dd('FFFFF');
+
         $id = null;
         request()->merge([
             'only_full_info' => true

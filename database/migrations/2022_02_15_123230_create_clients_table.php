@@ -17,6 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('original_photo')->nullable()->default(null);
             $table->string('thumbnail_photo')->nullable()->default(null);
+            $table->text('description')->nullable();
             $table->string('gender')->default('male')->comment('male|female');
             $table->timestamps();
         });

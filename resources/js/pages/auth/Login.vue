@@ -48,6 +48,9 @@ export default {
             checkbox: false,
         };
     },
+    mounted() {
+        this.emitter.emit('not-show-left-panel');
+    },
     methods: {
         SendLogin(event){
             event.preventDefault();

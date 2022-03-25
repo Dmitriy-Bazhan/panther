@@ -1,0 +1,42 @@
+<div>
+    <h1>Overview</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {{ $t('welcome') }} : {{ user.first_name + ' ' + user.last_name}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{ $t('calendar') }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                {{ $t('unread_messages') }}
+            </div>
+            <div v-if="data['last_unread_messages']" class="col-9 offset-1 chat-wrapper">
+                <div class="row" v-for="messages in data['last_unread_messages']">
+
+                    <div v-for="message in messages" class="chat-client-message-wrapper">
+                        <span class="chat-client-name">
+                            {{ message.user_name }}
+                        </span>
+                        <br>
+                        <span class="chat-client-message">
+                            {{ message.message }}
+                        </span>
+                        <br>
+                        <span class="chat-client-date">
+                            {{ formatDate(message.created_at)  + ' ' + message.status }}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

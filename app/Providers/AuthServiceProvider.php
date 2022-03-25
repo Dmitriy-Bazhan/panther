@@ -28,10 +28,20 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            return (new MailMessage)
-                ->subject('Verify Email Address')
-                ->line('Click the button below to verify your email address.')
-                ->action('Verify Email Address', $url);
+
+            if (auth()->user()->is_nurse) {
+                return (new MailMessage)
+                    ->subject('Verify Email Address')
+                    ->line(__('mail-message.email_verification_for_nurses'))
+                    ->action('Verify Email Address', $url);
+            }
+
+            if (auth()->user()->is_client) {
+                return (new MailMessage)
+                    ->subject('Verify Email Address')
+                    ->line(__('mail-message.email_verification_for_clents'))
+                    ->action('Verify Email Address', $url);
+            }
         });
     }
 }

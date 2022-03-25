@@ -1,10 +1,10 @@
 import * as VueRouter from "vue-router";
 import Overview from "../dashboards/client-dashboard/components/Overview";
-import Messages from "../dashboards/client-dashboard/components/Messages";
+import Messages from "../dashboards/client-dashboard/components/messages/index";
 import Ratings from "../dashboards/client-dashboard/components/Ratings";
-import Bookings from "../dashboards/client-dashboard/components/Bookings";
+import Bookings from "../dashboards/client-dashboard/components/bookings/index";
 import Payments from "../dashboards/client-dashboard/components/Payments";
-import MyInformation from "../dashboards/client-dashboard/components/MyInformation";
+import MyInformation from "../dashboards/client-dashboard/components/my-information/index";
 import HelpAndService from "../dashboards/client-dashboard/components/HelpAndService";
 
 const routes = [
@@ -16,7 +16,8 @@ const routes = [
     {
         path: "/dashboard/client/messages",
         name: 'ClientDashboardMessages',
-        component: Messages
+        component: Messages,
+        props: true,
     },
     {
         path: "/dashboard/client/ratings",
@@ -26,7 +27,14 @@ const routes = [
     {
         path: "/dashboard/client/bookings",
         name: 'ClientDashboardBookings',
-        component: Bookings
+        component: Bookings,
+        props: true,
+    },
+    {
+        path: "/dashboard/client-bookings/:id",
+        name: 'ClientDashboardBookingsWithId',
+        component: Bookings,
+        props: true,
     },
     {
         path: "/dashboard/client/payments",
@@ -36,7 +44,8 @@ const routes = [
     {
         path: "/dashboard/client/my-information",
         name: 'ClientDashboardMyInformation',
-        component: MyInformation
+        component: MyInformation,
+        props: true,
     },
     {
         path: "/dashboard/client/help-end-service",

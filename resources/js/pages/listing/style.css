@@ -1,0 +1,62 @@
+.listing-reminder-begin {
+    font-size: 14px;
+    color: green;
+}
+
+.listing-reminder-end {
+    font-size: 12px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.block-with-reminder {
+    position: absolute;
+    border: solid 1px red;
+    border-radius: 10px;
+    background: blue;
+    padding: 10px;
+    width: 50%;
+}
+
+.nurses-listing-wrapper {
+    position: fixed;
+    width: 70%;
+    top: 10%;
+    left: 20%;
+    background: #d9d9d9;
+    padding: 15px;
+    border: #888888;
+    border-radius: 10px;
+    height: 70%;
+    z-index: 100;
+    overflow: auto;
+}
+
+.nurse-profile-wrapper {
+    position: fixed;
+    width: 94%;
+    top: 3%;
+    left: 3%;
+    background: #98d9b2;
+    padding: 15px;
+    border: #388844;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 200;
+    overflow: auto;
+}
+
+.listing-one-time-calendar-wrapper, .listing-regular-calendar-wrapper {
+    position: fixed;
+    width: 50%;
+    top: 20%;
+    left: 25%;
+    background: #98d9b2;
+    padding: 15px;
+    border: #388844;
+    border-radius: 10px;
+    height: 50%;
+    z-index: 200;
+    overflow: auto;
+}
