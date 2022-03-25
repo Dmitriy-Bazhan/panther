@@ -20,19 +20,43 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 1,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     forceTLS: false,
-//     disableStats: true,
-//     auth: {
-//         headers: {
-//             Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         }
-//     },
-//     enabledTransports: ['ws', 'wss']
+window.Echo =  new Echo({
+    broadcaster: 'pusher',
+    key: 1,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    forceTLS: false,
+    disableStats: true,
+    auth: {
+        headers: {
+            Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    },
+    enabledTransports: ['ws', 'wss']
+});
+
+// window.Echo.connector.pusher.connection.bind('connecting', (payload) => {
+//     console.log('connecting...');
+// });
+//
+// window.Echo.connector.pusher.connection.bind('connected', (payload) => {
+//     console.log('connected!', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('unavailable', (payload) => {
+//     console.log('unavailable', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('failed', (payload) => {
+//     console.log('Failed', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('disconnected', (payload) => {
+//     console.log('disconnected', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('message', (payload) => {
+//     console.log('message', payload);
 // });
 
 // window.Echo = new Echo({

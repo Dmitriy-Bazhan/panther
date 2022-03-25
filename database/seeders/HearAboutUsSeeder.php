@@ -39,17 +39,19 @@ class HearAboutUsSeeder extends Seeder
             ]
         ];
 
-        foreach ($arr['en'] as $key => $string) {
-            $hearAboutUs = new HearAboutUs();
-            $hearAboutUs->save();
-            $id = $hearAboutUs->id;
-            foreach (['en', 'de'] as $lang) {
-                $heraAboutAsData = new HearAboutUsData();
-                $heraAboutAsData->near_about_us_id = $id;
-                $heraAboutAsData->lang = $lang;
-                $heraAboutAsData->data = $arr[$lang][$key];
-                $heraAboutAsData->save();
+        if (HearAboutUs::all()->count() === 0) {
+            foreach ($arr['en'] as $key => $string) {
+                $hearAboutUs = new HearAboutUs();
+                $hearAboutUs->save();
+                $id = $hearAboutUs->id;
+                foreach (['en', 'de'] as $lang) {
+                    $heraAboutAsData = new HearAboutUsData();
+                    $heraAboutAsData->near_about_us_id = $id;
+                    $heraAboutAsData->lang = $lang;
+                    $heraAboutAsData->data = $arr[$lang][$key];
+                    $heraAboutAsData->save();
 
+                }
             }
         }
     }
