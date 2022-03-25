@@ -37,6 +37,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', [MainPageController::class, 'index']);
+Route::get('/send-booking-message', [MainPageController::class, 'index']);
 
 
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
@@ -81,6 +82,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [ClientDashboardController::class, 'index']);
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
+        Route::get('send-booking-message', [ClientDashboardController::class, 'index']);
 
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);

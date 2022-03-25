@@ -9,6 +9,7 @@ import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
 import Listing from '../pages/listing/index';
 import Booking from '../pages/booking/index';
+import SendBooking from "../SendBooking";
 
 const routes = [
     {
@@ -60,7 +61,11 @@ const routes = [
         name: 'Listing',
         component: Listing,
         props: true,
-    }
+    },
+    {
+        path: "/send-booking-message",
+        component: SendBooking
+    },
 ];
 
 const router = VueRouter.createRouter({

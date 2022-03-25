@@ -83,6 +83,10 @@ export default {
             '            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n' +
             '            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n' +
             '            booking request.',
+        send_booking_message: 'Congratulations! We forwarded your request to [name of selected nurse] and will get back ' +
+                        'to you within 24h',
+
+
 
 
         for_whom: 'Who are you looking for help for?',
@@ -230,7 +234,8 @@ export default {
             '             Die passende Pflegekraft wird über Ihre Anfrage informiert und gebeten, diese anzunehmen. Die erste Krankenschwester, die Ihre trifft\n' +
             '             Anforderungen erfüllt und Ihren Auftrag annimmt, wird sich telefonisch mit Ihnen in Verbindung setzen. Dies ist in der Regel innerhalb von 24 Stunden nach Ihrer\n' +
             '             Buchungsanfrage.',
-
+        send_booking_message: 'Herzlichen Glückwunsch! Wir haben Ihre Anfrage zu (Vorname der Pflegekraft) gesendet und ' +
+                          'melden uns innerhalb 24 Stunden',
 
     }
 }

@@ -294,7 +294,7 @@
                 })
                     .then((response) => {
                         if (response.data.success) {
-                            this.emitter.emit('response-success-true');
+                            window.location.href = '/send-booking-message';
                         }
                     })
                     .catch((error) => {

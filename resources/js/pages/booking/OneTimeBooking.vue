@@ -412,7 +412,7 @@
                 axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one_time'})
                     .then((response) => {
                         if(response.data.success){
-                            this.emitter.emit('response-success-true');
+                            window.location.href = '/send-booking-message';
                         }
                     })
                     .catch((error) => {

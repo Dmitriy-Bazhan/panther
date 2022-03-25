@@ -26027,6 +26027,27 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "SendBooking",
+  mounted: function mounted() {
+    this.emitter.emit('not-show-layouts');
+    this.emitter.emit('not-show-left-panel');
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/WaitVerify.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/WaitVerify.vue?vue&type=script&lang=js ***!
@@ -27556,15 +27577,13 @@ var _todayComps = {
       }
     },
     sendBooking: function sendBooking() {
-      var _this = this;
-
       axios.post('/booking', {
         'booking': this.booking,
         'nurse_user_id': this.data.nurse.id,
         'one_time_or_regular': 'one_time'
       }).then(function (response) {
         if (response.data.success) {
-          _this.emitter.emit('response-success-true');
+          window.location.href = '/send-booking-message';
         }
       })["catch"](function (error) {
         console.log(error);
@@ -27672,8 +27691,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {
     sendBooking: function sendBooking() {
-      var _this = this;
-
       console.log(this.booking);
       axios.post('/booking', {
         'booking': this.booking,
@@ -27681,7 +27698,7 @@ __webpack_require__.r(__webpack_exports__);
         'one_time_or_regular': 'regular'
       }).then(function (response) {
         if (response.data.success) {
-          _this.emitter.emit('response-success-true');
+          window.location.href = '/send-booking-message';
         }
       })["catch"](function (error) {
         console.log(error);
@@ -28079,6 +28096,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "test"
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=template&id=856dcffa":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=template&id=856dcffa ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container-fluid"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-6 offset-3"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "row"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-2 offset-4"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "/"
+}, "HOME")])], -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('send_booking_message')), 1
+  /* TEXT */
+  )]), _hoisted_4]);
+}
 
 /***/ }),
 
@@ -34561,19 +34619,42 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 1,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     forceTLS: false,
-//     disableStats: true,
-//     auth: {
-//         headers: {
-//             Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         }
-//     },
-//     enabledTransports: ['ws', 'wss']
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  broadcaster: 'pusher',
+  key: 1,
+  wsHost: window.location.hostname,
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true,
+  auth: {
+    headers: {
+      Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  },
+  enabledTransports: ['ws', 'wss']
+}); // window.Echo.connector.pusher.connection.bind('connecting', (payload) => {
+//     console.log('connecting...');
+// });
+//
+// window.Echo.connector.pusher.connection.bind('connected', (payload) => {
+//     console.log('connected!', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('unavailable', (payload) => {
+//     console.log('unavailable', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('failed', (payload) => {
+//     console.log('Failed', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('disconnected', (payload) => {
+//     console.log('disconnected', payload);
+// });
+//
+// window.Echo.connector.pusher.connection.bind('message', (payload) => {
+//     console.log('message', payload);
 // });
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
@@ -35565,6 +35646,7 @@ __webpack_require__.r(__webpack_exports__);
     distance: 'Distance',
     send_to_bookings: 'Send to bookings',
     how_does_the_booking_process_work_description: 'When you book a nurse on our site, you specify exactly what you want to book them for.\n' + '            That is, you specify your wishes in the areas in which Pflege Panther is active.\n' + '            Here you also have the option of specifying whether you prefer a female or a male nurse.\n' + '            With another click, your booking request is sent off. Our matching system then searches the database for nurses\n' + '            who offer exactly what you are looking for, allowing you to select an individual nurse.\n' + '            The matched nurse is informed about your request and asked to accept it. The first nurse who meets your\n' + '            requirements and accepts your assignment will contact you by phone. This is usually within 24 hours of your\n' + '            booking request.',
+    send_booking_message: 'Congratulations! We forwarded your request to [name of selected nurse] and will get back ' + 'to you within 24h',
     for_whom: 'Who are you looking for help for?',
     to_me: 'For me',
     for_a_relative: 'For a relative',
@@ -35702,7 +35784,8 @@ __webpack_require__.r(__webpack_exports__);
     price: 'Preis',
     distance: 'Distanz',
     send_to_bookings: 'An Buchungen senden',
-    how_does_the_booking_process_work_description: 'Wenn Sie eine Krankenschwester auf unserer Website buchen, geben Sie genau an, wofür Sie sie buchen möchten.\n' + '             Das heißt, Sie geben Ihre Wünsche in den Bereichen an, in denen Pflege Panther tätig ist.\n' + '             Hier haben Sie auch die Möglichkeit anzugeben, ob Sie eine weibliche oder eine männliche Pflegekraft bevorzugen.\n' + '             Mit einem weiteren Klick wird Ihre Buchungsanfrage abgeschickt. Unser Matching-System durchsucht dann die Datenbank nach Pflegekräften\n' + '             die genau das bieten, wonach Sie suchen, sodass Sie eine individuelle Pflegekraft auswählen können.\n' + '             Die passende Pflegekraft wird über Ihre Anfrage informiert und gebeten, diese anzunehmen. Die erste Krankenschwester, die Ihre trifft\n' + '             Anforderungen erfüllt und Ihren Auftrag annimmt, wird sich telefonisch mit Ihnen in Verbindung setzen. Dies ist in der Regel innerhalb von 24 Stunden nach Ihrer\n' + '             Buchungsanfrage.'
+    how_does_the_booking_process_work_description: 'Wenn Sie eine Krankenschwester auf unserer Website buchen, geben Sie genau an, wofür Sie sie buchen möchten.\n' + '             Das heißt, Sie geben Ihre Wünsche in den Bereichen an, in denen Pflege Panther tätig ist.\n' + '             Hier haben Sie auch die Möglichkeit anzugeben, ob Sie eine weibliche oder eine männliche Pflegekraft bevorzugen.\n' + '             Mit einem weiteren Klick wird Ihre Buchungsanfrage abgeschickt. Unser Matching-System durchsucht dann die Datenbank nach Pflegekräften\n' + '             die genau das bieten, wonach Sie suchen, sodass Sie eine individuelle Pflegekraft auswählen können.\n' + '             Die passende Pflegekraft wird über Ihre Anfrage informiert und gebeten, diese anzunehmen. Die erste Krankenschwester, die Ihre trifft\n' + '             Anforderungen erfüllt und Ihren Auftrag annimmt, wird sich telefonisch mit Ihnen in Verbindung setzen. Dies ist in der Regel innerhalb von 24 Stunden nach Ihrer\n' + '             Buchungsanfrage.',
+    send_booking_message: 'Herzlichen Glückwunsch! Wir haben Ihre Anfrage zu (Vorname der Pflegekraft) gesendet und ' + 'melden uns innerhalb 24 Stunden'
   }
 });
 
@@ -36208,7 +36291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _pages_test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../pages/test */ "./resources/js/pages/test.vue");
 /* harmony import */ var _pages_home_Home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pages/home/Home */ "./resources/js/pages/home/Home.vue");
 /* harmony import */ var _pages_auth_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/auth/Login */ "./resources/js/pages/auth/Login.vue");
@@ -36219,6 +36302,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _YouWelcome__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../YouWelcome */ "./resources/js/YouWelcome.vue");
 /* harmony import */ var _pages_listing_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../pages/listing/index */ "./resources/js/pages/listing/index.js");
 /* harmony import */ var _pages_booking_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../pages/booking/index */ "./resources/js/pages/booking/index.js");
+/* harmony import */ var _SendBooking__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../SendBooking */ "./resources/js/SendBooking.vue");
+
 
 
 
@@ -36269,10 +36354,13 @@ var routes = [{
   name: 'Listing',
   component: _pages_listing_index__WEBPACK_IMPORTED_MODULE_8__["default"],
   props: true
+}, {
+  path: "/send-booking-message",
+  component: _SendBooking__WEBPACK_IMPORTED_MODULE_10__["default"]
 }];
-var router = vue_router__WEBPACK_IMPORTED_MODULE_10__.createRouter({
+var router = vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter({
   routes: routes,
-  history: vue_router__WEBPACK_IMPORTED_MODULE_10__.createWebHistory()
+  history: vue_router__WEBPACK_IMPORTED_MODULE_11__.createWebHistory()
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -64375,6 +64463,34 @@ exports["default"] = (sfc, props) => {
 
 /***/ }),
 
+/***/ "./resources/js/SendBooking.vue":
+/*!**************************************!*\
+  !*** ./resources/js/SendBooking.vue ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SendBooking_vue_vue_type_template_id_856dcffa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SendBooking.vue?vue&type=template&id=856dcffa */ "./resources/js/SendBooking.vue?vue&type=template&id=856dcffa");
+/* harmony import */ var _SendBooking_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SendBooking.vue?vue&type=script&lang=js */ "./resources/js/SendBooking.vue?vue&type=script&lang=js");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_SendBooking_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SendBooking_vue_vue_type_template_id_856dcffa__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/SendBooking.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/WaitVerify.vue":
 /*!*************************************!*\
   !*** ./resources/js/WaitVerify.vue ***!
@@ -65735,6 +65851,22 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/SendBooking.vue?vue&type=script&lang=js":
+/*!**************************************************************!*\
+  !*** ./resources/js/SendBooking.vue?vue&type=script&lang=js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SendBooking_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SendBooking_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SendBooking.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/WaitVerify.vue?vue&type=script&lang=js":
 /*!*************************************************************!*\
   !*** ./resources/js/WaitVerify.vue?vue&type=script&lang=js ***!
@@ -66468,6 +66600,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_test_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./test.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/test.vue?vue&type=script&lang=js");
  
+
+/***/ }),
+
+/***/ "./resources/js/SendBooking.vue?vue&type=template&id=856dcffa":
+/*!********************************************************************!*\
+  !*** ./resources/js/SendBooking.vue?vue&type=template&id=856dcffa ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SendBooking_vue_vue_type_template_id_856dcffa__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SendBooking_vue_vue_type_template_id_856dcffa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SendBooking.vue?vue&type=template&id=856dcffa */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/SendBooking.vue?vue&type=template&id=856dcffa");
+
 
 /***/ }),
 
