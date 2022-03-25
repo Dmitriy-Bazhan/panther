@@ -288,6 +288,8 @@
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });
+            console.log(this.data);
+            console.log(this.user);
         },
         watch: {
             user: {

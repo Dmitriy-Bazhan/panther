@@ -8,7 +8,6 @@
             <th>Name</th>
             <th>Age</th>
             <th>Photo</th>
-            <th>Is New Info</th>
             <th>Is Change</th>
             <th>Action</th>
         </tr>
@@ -22,7 +21,6 @@
             <td>
                 <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
             </td>
-            <td><span v-if="nurse.entity.info_is_full === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.info_is_full }}</td>
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
                 <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>&nbsp;

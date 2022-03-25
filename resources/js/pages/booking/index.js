@@ -19,7 +19,8 @@ export default {
         }
     },
     mounted() {
-        this.showRegularBooking();
+        // this.showRegularBooking();
+        // this.showOneTimeBooking();
     },
     methods: {
         goToMyBookings() {

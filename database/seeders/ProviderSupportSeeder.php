@@ -32,16 +32,16 @@ class ProviderSupportSeeder extends Seeder
             $provide->save();
         }
 
-        for ($i = 1; $i <= 5; $i++) {
-            $provideAssigned = new ProvideSupportAssigned();
-            $provideAssigned->nurse_id = $i;
-            $provideAssigned->support_id = rand(1, 8);
-            $provideAssigned->save();
-
-            $provideAssigned = new ProvideSupportAssigned();
-            $provideAssigned->nurse_id = $i;
-            $provideAssigned->support_id = rand(1, 8);
-            $provideAssigned->save();
-        }
+//        for ($i = 1; $i <= 5; $i++) {
+//            $provideAssigned = new ProvideSupportAssigned();
+//            $provideAssigned->nurse_id = $i;
+//            $provideAssigned->support_id = rand(1, 8);
+//            $provideAssigned->save();
+//
+//            $provideAssigned = new ProvideSupportAssigned();
+//            $provideAssigned->nurse_id = $i;
+//            $provideAssigned->support_id = rand(1, 8);
+//            $provideAssigned->save();
+//        }
     }
 }

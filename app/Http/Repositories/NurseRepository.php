@@ -168,7 +168,6 @@ class NurseRepository
         $info_is_full = 'yes';
         if (Nurse::where('id', $data['entity_id'])->first()->info_is_full == 'yes') {
             $change_info = 'yes';
-            $info_is_full = 'no';
         }
 
         Nurse::where('id', $data['entity_id'])->update([
