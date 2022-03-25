@@ -47,7 +47,7 @@ class AdditionalInfoSeeder extends Seeder
                 'Hospiz', 'Hospice'
             ],                            //Хоспис - Hospiz (hospice;)
             'multiple_sclerosis' => [
-                'Multiple Sklerose',  'Multiple sclerosis'
+                'Multiple Sklerose', 'Multiple sclerosis'
             ],                          //Рассеянный склероз - Multiple Sklerose (multiple sclerosis;)
             'parkinsons_disease' => [
                 'Parkinson', 'Parkinson`s disease'
@@ -60,24 +60,26 @@ class AdditionalInfoSeeder extends Seeder
             ],                          //Аллергии - Allergien (Allergies;)
         ];
 
-        foreach ($arr as $key => $value) {
-            $additionalInfo = new AdditionalInfo();
-            $additionalInfo->alias = $key;
-            $additionalInfo->save();
-            $id = $additionalInfo->id;
+        if (AdditionalInfo::all()->count() === 0) {
+            foreach ($arr as $key => $value) {
+                $additionalInfo = new AdditionalInfo();
+                $additionalInfo->alias = $key;
+                $additionalInfo->save();
+                $id = $additionalInfo->id;
 
-            $additionalInfoData = new AdditionalInfoData();
-            $additionalInfoData->additional_info_id = $id;
-            $additionalInfoData->lang = 'de';
-            $additionalInfoData->data = $value[0];
-            $additionalInfoData->save();
+                $additionalInfoData = new AdditionalInfoData();
+                $additionalInfoData->additional_info_id = $id;
+                $additionalInfoData->lang = 'de';
+                $additionalInfoData->data = $value[0];
+                $additionalInfoData->save();
 
-            $additionalInfoData = new AdditionalInfoData();
-            $additionalInfoData->additional_info_id = $id;
-            $additionalInfoData->lang = 'en';
-            $additionalInfoData->data = $value[1];
-            $additionalInfoData->save();
+                $additionalInfoData = new AdditionalInfoData();
+                $additionalInfoData->additional_info_id = $id;
+                $additionalInfoData->lang = 'en';
+                $additionalInfoData->data = $value[1];
+                $additionalInfoData->save();
 
+            }
         }
     }
 }
