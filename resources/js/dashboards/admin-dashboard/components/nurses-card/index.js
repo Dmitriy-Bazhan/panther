@@ -44,7 +44,7 @@ export default {
         nurse: {
             handler(newValue, oldValue) {
                 if (typeof this.nurse.entity.work_time_pref === "string") {
-                    this.nurse.entity.work_time_pref = JSON.parse(this.nurse.entity.work_time_pref);
+                    // this.nurse.entity.work_time_pref = JSON.parse(this.nurse.entity.work_time_pref);
                 }
             },
             immediate: true
@@ -54,6 +54,7 @@ export default {
         this.emitter.on('close-file-modal', (e) => {
             this.showFileModal = false;
         });
+        console.log(this.nurse);
     },
     methods: {
         closeNurseCard() {

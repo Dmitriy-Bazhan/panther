@@ -37,7 +37,7 @@ export default {
         getNurses() {
             axios.get('get-nurses' + this.filterString)
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data.data[0]);
                     this.nurses = response.data.data;
                 })
                 .catch((error) => {
