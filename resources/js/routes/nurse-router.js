@@ -2,7 +2,7 @@ import * as VueRouter from "vue-router";
 import Overview from "../dashboards/nurse-dashboard/components/overview/index";
 import Messages from "../dashboards/nurse-dashboard/components/messages/index";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
-import Bookings from "../dashboards/nurse-dashboard/components/Bookings";
+import Bookings from "../dashboards/nurse-dashboard/components/bookings/index";
 import Payments from "../dashboards/nurse-dashboard/components/payments/index";
 import MyInformation from "../dashboards/nurse-dashboard/components/my-information/index";
 import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";

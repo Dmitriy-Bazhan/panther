@@ -1,5 +1,5 @@
 <template>
-        <button v-on:click="logOut" class="btn btn-sm btn-success">Log out</button>
+    <span v-on:click="logOut" class="menu-item-name">&nbsp;{{ $t('log_out') }}</span>
 </template>
 
 <script>
@@ -22,5 +22,9 @@ export default {
 </script>
 
 <style scoped>
-
+    .menu-item-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: black;
+    }
 </style>

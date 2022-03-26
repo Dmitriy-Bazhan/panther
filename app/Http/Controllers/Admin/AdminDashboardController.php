@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\NurseRepository;
-use App\Http\Resources\NurseCollection;
+use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\HearAboutUs;
 use App\Models\Nurse;
@@ -90,7 +90,7 @@ class AdminDashboardController extends Controller
 
     public function getNurses(){
         $nurses = $this->nursesRepo->search();
-        return new NurseCollection($nurses);
+        return NurseResource::collection($nurses);
     }
 
     public function hearAboutUs() {

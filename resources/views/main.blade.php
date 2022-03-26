@@ -8,6 +8,7 @@
     <title>Panther</title>
 
     <!--BOOTSTRAP-->
+    <link href="{{asset('css/themify-icons/themify-icons.css')}}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
@@ -20,13 +21,14 @@
     <script>
         //first enter in site
         let checkLocale = window.localStorage.getItem('locale');
-        if(checkLocale === null){
+        if (checkLocale === null) {
             window.localStorage.setItem('locale', 'de');
         }
         //first enter in site
 
         window.guard = '{{ auth()->user()->entity_type ?? 'guest'}}';
-        window.locale = @auth()'{{ auth()->user()->prefs->pref_lang }}' @else window.localStorage.getItem('locale') @endauth;
+        window.locale = @auth()'{{ auth()->user()->prefs->pref_lang }}'
+        @else window.localStorage.getItem('locale') @endauth;
         window.dashboard = '{{ request()->segment(1) ?? 'no'}}';
     </script>
 

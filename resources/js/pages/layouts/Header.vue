@@ -16,16 +16,23 @@
                             <div class="row second-row">
                                 <div class="menu-item">Pflegerkraft</div>
                                 <div class="menu-item">About us</div>
-                                <div class="menu-item">FAQ</div>
-                                <div class="menu-item" v-if="!auth">My Account</div>
-                                <div class="menu-item" v-else-if="auth.email_verified_at === null"
-                                     v-on:click="waitVerification()">My Account
+                                <div class="menu-item"><i class="ti-help"></i><span
+                                    class="menu-item-name">FAQ</span></div>
+                                <div class="menu-item" v-if="!auth">
+                                    <i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
                                 </div>
-                                <div class="menu-item" v-else v-on:click="toDashboard">My Account</div>
-                                <div class="menu-item">
-                                    <a v-if="!auth" href="login">
-                                        <button class="btn btn-sm btn-success">Login</button>
-                                    </a>&nbsp;
+                                <div class="menu-item" v-else-if="auth.email_verified_at === null"
+                                     v-on:click="waitVerification()"><i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
+                                </div>
+                                <div class="menu-item" v-else v-on:click="toDashboard">
+                                    <i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
+                                </div>
+                                <div class="menu-item"><i class="ti-shift-right"></i>
+                                    <span v-if="!auth" v-on:click="toLogin()"
+                                          class="menu-item-name">&nbsp;{{ $t('sign_in') }}</span>
                                     <logout-component v-else></logout-component>
                                 </div>
                             </div>
@@ -37,8 +44,7 @@
                             <router-link v-else-if="auth.entity_type ==='client'" :to="{ name : 'Listing' }"
                                          class="finder-link">{{ $t('caregiver_finder') }}
                             </router-link>
-                            <span class="finder-link" v-else
-                                  >{{ $t('caregiver_finder') }}</span>
+                            <span class="finder-link" v-else>{{ $t('caregiver_finder') }}</span>
                         </div>
                     </div>
                 </div>
@@ -66,6 +72,9 @@
         mounted() {
         },
         methods: {
+            toLogin() {
+                window.location.href = '/login';
+            },
             waitVerification() {
                 alert('Wait email verification');
             },
@@ -92,6 +101,14 @@
     .menu-item {
         display: flex;
         width: 20%;
+        padding-top: 10px;
+    }
+
+    .menu-item-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: black;
+        cursor: pointer;
     }
 
     .logo {
