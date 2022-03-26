@@ -21,6 +21,7 @@ use App\Http\Controllers\Nurses\NurseDashboardController;
 use App\Http\Controllers\Nurses\NursesMyInformationController;
 use App\Http\Controllers\Nurses\NursesPaymentsController;
 use App\Http\Controllers\Nurses\NursesMessageController;
+use App\Http\Controllers\Nurses\NurseBookingController;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -47,10 +48,6 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
-
-//Route::prefix('booking')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
-//    Route::get('/', [MainPageController::class, 'index']);
-//});
 
 Route::resource('booking', BookingController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
@@ -117,6 +114,9 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
+    //nurse bookings
+    Route::resource('nurse-bookings', NurseBookingController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
     //nurse my information
     Route::prefix('nurse-my-information')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
         Route::post('update-files-and-photo/{id}', [NursesMyInformationController::class, 'updateFilesAndPhoto']);
@@ -178,7 +178,7 @@ Route::post('test/message', [TestController::class, 'testSetMessage'])->middlewa
 /*
  * Change languages
  */
-Route::get('change-lang', [MainPageController::class, 'changeLang']);
+Route::get('change-lang/{lang}', [MainPageController::class, 'changeLang']);
 
 /*
  * Email verify

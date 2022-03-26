@@ -1,7 +1,6 @@
 .header-wrapper {
-    padding: 10px;
     background: transparent;
-    margin-bottom: 10px;
+    border-bottom: solid 2px #b4b4b4;
 }
 
 .register-form-error {

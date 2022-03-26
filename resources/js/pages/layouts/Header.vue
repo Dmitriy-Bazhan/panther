@@ -1,74 +1,144 @@
 <template>
-    <div class="container-fluid main-header">
+    <div class="container-fluid">
 
-        <div class="row header-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-10 offset-1 header-wrapper">
+                    <div class="row">
+                        <div class="col-2 logo">
+                            <img :src="path + '/images/logo.png'" alt="logo" class="logo-image">
+                        </div>
+                        <div class="col-7 offset-1">
+                            <div class="row first-row">
+                                <localization-component></localization-component>
+                            </div>
 
-            <div class="col-2 offset-8">
-                <localization-component></localization-component>
+                            <div class="row second-row">
+                                <div class="menu-item">Pflegerkraft</div>
+                                <div class="menu-item">About us</div>
+                                <div class="menu-item"><i class="ti-help"></i><span
+                                    class="menu-item-name">FAQ</span></div>
+                                <div class="menu-item" v-if="!auth">
+                                    <i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
+                                </div>
+                                <div class="menu-item" v-else-if="auth.email_verified_at === null"
+                                     v-on:click="waitVerification()"><i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
+                                </div>
+                                <div class="menu-item" v-else v-on:click="toDashboard">
+                                    <i class="ti-user"></i>&nbsp;
+                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
+                                </div>
+                                <div class="menu-item"><i class="ti-shift-right"></i>
+                                    <span v-if="!auth" v-on:click="toLogin()"
+                                          class="menu-item-name">&nbsp;{{ $t('sign_in') }}</span>
+                                    <logout-component v-else></logout-component>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-2 finder">
+                            <span class="finder-link" v-if="auth.email_verified_at === null"
+                                  v-on:click="waitVerification()">{{ $t('caregiver_finder') }}</span>
+                            <router-link v-else-if="auth.entity_type ==='client'" :to="{ name : 'Listing' }"
+                                         class="finder-link">{{ $t('caregiver_finder') }}
+                            </router-link>
+                            <span class="finder-link" v-else>{{ $t('caregiver_finder') }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div v-if="!auth" class="col-2">
-                <a href="login">
-                    <button class="btn btn-sm btn-success">Login</button>
-                </a>&nbsp;
-                <a href="register">
-                    <button class="btn btn-sm btn-success">Register</button>
-                </a>
-            </div>
-
-            <div v-else-if="auth.email_verified_at === null" class="col-2">
-                <span>Waiting your email verification</span>
-            </div>
-
-            <div v-else class="col-2">
-                <span>{{ auth.first_name }}</span>
-                <button v-on:click="toDashboard" class="btn btn-sm btn-success">Dashboard</button>&nbsp;
-
-                <logout-component></logout-component>
-
-            </div>
-
-
         </div>
     </div>
 </template>
 
 <script>
-import Localization from "../components/Localization";
-import Logout from "../components/Logout";
+    import Localization from "../components/Localization";
+    import Logout from "../components/Logout";
 
-export default {
-    name: "Header",
-    props: ['auth'],
-    components : {
-         'localization-component' : Localization,
-         'logout-component' : Logout,
-    },
-    mounted() {
-    },
-    methods: {
-        toDashboard() {
-            if (window.guard === 'admin') {
-                location.href = '/dashboard/admin';
+    export default {
+        name: "Header",
+        props: ['auth'],
+        components: {
+            'localization-component': Localization,
+            'logout-component': Logout,
+        },
+        data() {
+            return {
+                path: location.origin,
             }
+        },
+        mounted() {
+        },
+        methods: {
+            toLogin() {
+                window.location.href = '/login';
+            },
+            waitVerification() {
+                alert('Wait email verification');
+            },
+            toDashboard() {
+                if (window.guard === 'admin') {
+                    location.href = '/dashboard/admin';
+                }
 
-            if (window.guard === 'client') {
-                location.href = '/dashboard/client';
+                if (window.guard === 'client') {
+                    location.href = '/dashboard/client';
+                }
+
+                if (window.guard === 'nurse') {
+                    location.href = '/dashboard/nurse';
+                }
+
+
             }
-
-            if (window.guard === 'nurse') {
-                location.href = '/dashboard/nurse';
-            }
-
-
         }
     }
-}
 </script>
 
 <style scoped>
-    .main-header {
-        padding: 5px;
-        background: #9dc3fc;
+    .menu-item {
+        display: flex;
+        width: 20%;
+        padding-top: 10px;
+    }
+
+    .menu-item-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: black;
+        cursor: pointer;
+    }
+
+    .logo {
+        height: 100px;
+    }
+
+    .logo-image {
+        width: 90%;
+        height: auto;
+    }
+
+    .finder {
+        height: 100px;
+        background: #0a58ca;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .finder-link {
+        color: white;
+        text-decoration: none;
+    }
+
+    .first-row {
+        border-bottom: solid 2px #b4b4b4;
+        padding: 10px;
+    }
+
+    .second-row {
+        padding-top: 10px;
     }
 </style>

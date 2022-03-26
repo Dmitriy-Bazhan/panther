@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\PrivateChat\ClientNurseSentMessage;
-use App\Events\PrivateChat\ClientSentMessage;
 use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
-use App\Http\Resources\NurseCollection;
 use App\Http\Resources\NurseResource;
 use App\Models\ClientSearchInfo;
 use Illuminate\Http\Request;

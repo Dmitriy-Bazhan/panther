@@ -8,6 +8,7 @@
     <title>Panther</title>
 
     <!--BOOTSTRAP-->
+    <link href="{{asset('css/themify-icons/themify-icons.css')}}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
