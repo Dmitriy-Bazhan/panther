@@ -114,7 +114,7 @@ export default {
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
-                        console.log(response);
+                        console.log(response.data.nurses);
                         this.emitter.emit('response-success-true');
                         this.errors = null;
                         this.nurses = response.data.nurses;
