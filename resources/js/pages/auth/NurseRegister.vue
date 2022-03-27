@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-6 offset-3">
+            <div class="col-12">
                 <h1>{{ $t('nurse_register') }}</h1>
 
                 <!-- first name -->

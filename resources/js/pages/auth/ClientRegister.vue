@@ -2,26 +2,20 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-4 offset-4">
+            <div class="col-12">
                 <h1>{{ $t('client_register') }}</h1>
 
                 <!-- first name -->
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="text" class="form-control form-select-sm" id="first_name" v-model="client.first_name">
                         <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
                     </div>
-                </div>
 
                 <!-- last name -->
-                <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="text" class="form-control form-select-sm" id="last_name" v-model="client.last_name">
                         <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
                     </div>

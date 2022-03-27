@@ -1,43 +1,60 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4 offset-4 btn-group-vertical">
+            <div class="col-3 offset-3 center">
 
-                <button v-on:click="toClientRegister" class="btn btn-lg btn-primary">Client</button>
-
-                <br>
-
-                <button v-on:click="toNurseRegister" class="btn btn-lg btn-primary">Nurse</button>
-
-                <br>
-
-                <button v-on:click="backToHome" class="btn btn-lg btn-primary">Back</button>
+                <button v-on:click="toClientRegister" class="btn btn-primary">Client</button>
+            </div>
+            <div class="col-3 center">
+                <button v-on:click="toNurseRegister" class="btn  btn-primary">Nurse</button>
 
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-6 offset-3 center">
+                <client_register v-if="showClientRegister" :data="data"></client_register>
+                <nurse_register v-if="showNurseRegister" :data="data"></nurse_register>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-export default {
-    name: "StartRegister",
-    mounted() {
-    },
-    methods: {
-        toClientRegister() {
-            location.href = '/client-register';
+    import NurseRegister from "./NurseRegister";
+    import ClientRegister from "./ClientRegister";
+
+    export default {
+        name: "StartRegister",
+        props: ['data'],
+        components: {
+            nurse_register: NurseRegister,
+            client_register: ClientRegister,
         },
-        toNurseRegister() {
-            location.href = '/nurse-register';
+        data() {
+            return {
+                showNurseRegister: false,
+                showClientRegister: true,
+            }
         },
-        backToHome(){
-            location.href = '/';
+        mounted() {
+
+        },
+        methods: {
+            toClientRegister() {
+                this.showNurseRegister = false;
+                this.showClientRegister = true;
+            },
+            toNurseRegister() {
+                this.showNurseRegister = true;
+                this.showClientRegister = false;
+            },
         }
     }
-}
 </script>
 
 <style scoped>
-
+    .center {
+        text-align: center;
+    }
 </style>

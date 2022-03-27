@@ -152,11 +152,11 @@ Route::get('/register', [RegisterController::class, 'register'])->name('register
 Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);
 
 //NurseRegister
-Route::get('/nurse-register', [RegisterController::class, 'nurseRegister']);
+//Route::get('/nurse-register', [RegisterController::class, 'nurseRegister']);
 Route::post('/nurse-register', [RegisterController::class, 'nurseRegistration']);
 
 //ClientRegister
-Route::get('/client-register', [RegisterController::class, 'clientRegister']);
+//Route::get('/client-register', [RegisterController::class, 'clientRegister']);
 Route::post('/client-register', [RegisterController::class, 'clientRegistration']);
 
 //Log out
