@@ -157,7 +157,7 @@
             },
             backToHome(event) {
                 event.preventDefault();
-                location.href = '/register';
+                location.href = '/';
             },
             filterHearAboutUs(hear_about_as) {
                 let lang = this.locale;
