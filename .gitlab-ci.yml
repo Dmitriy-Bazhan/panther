@@ -1,20 +1,20 @@
-#stages:
-#  - install
-#  - deploy
+stages:
+  - install
+  - deploy
 
 install:
   stage: install
-  script:
-    - cp .env.example .env
-    - composer install
-    - composer require laravel/envoy --dev
+#  script:
+#    - cp .env.example .env
+#    - composer install
+#    - composer require laravel/envoy --dev
 
 deploy_production:
   stage: deploy
-  script:
-    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
-  environment:
-    name: production
-    url: https://pflegepanther.webiprog.de
-  only:
-    - dev
+#  script:
+#    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
+#  environment:
+#    name: production
+#    url: https://pflegepanther.webiprog.de
+#  only:
+#    - dev
