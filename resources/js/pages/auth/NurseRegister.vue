@@ -7,27 +7,39 @@
 
                 <!-- first name -->
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="first_name"
                                v-model="nurse.first_name">
                         <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
                     </div>
-                </div>
 
                 <!-- last name -->
-                <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="text" class="form-control form-control-sm" id="last_name"
                                v-model="nurse.last_name">
                         <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
                     </div>
                 </div>
+
+                <!-- phone -->
+                <div class="row">
+                    <div class="col-6">
+                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
+                        <input type="text" class="form-control form-control-sm" id="phone" v-model="nurse.phone">
+                        <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
+                    </div>
+
+                <!-- zip code -->
+                    <div class="col-6">
+                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
+                        <input type="text" class="form-control form-control-sm" id="zip_code" v-model="nurse.zip_code">
+                        <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
+                    </div>
+                </div>
+
+                <br>
 
                 <!-- email -->
                 <div class="row">
@@ -42,50 +54,24 @@
                     </div>
                 </div>
 
-                <!-- phone -->
-                <div class="row">
-                    <div class="col-3">
-                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
-                    </div>
-                    <div class="col-9">
-                        <input type="text" class="form-control form-control-sm" id="phone" v-model="nurse.phone">
-                        <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
-                    </div>
-                </div>
-
-                <!-- zip code -->
-                <div class="row">
-                    <div class="col-3">
-                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
-                    </div>
-                    <div class="col-9">
-                        <input type="text" class="form-control form-control-sm" id="zip_code" v-model="nurse.zip_code">
-                        <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
-                    </div>
-                </div>
-
                 <!-- password -->
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="password" class="form-label col-form-label-sm">{{ $t('password') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="password" class="form-control form-control-sm" id="password"
                                v-model="nurse.password">
                         <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
                     </div>
-                </div>
 
                 <!-- password confirm-->
-                <div class="row">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="password_confirm" class="form-label col-form-label-sm">{{ $t('password_confirm') }}</label>
-                    </div>
-                    <div class="col-9">
                         <input type="password" class="form-control form-control-sm" id="password_confirm"
                                v-model="nurse.password_confirmation">
                     </div>
                 </div>
+
+                <br>
 
                 <!-- hear about us -->
                 <div class="row">
