@@ -27148,7 +27148,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     backToHome: function backToHome(event) {
       event.preventDefault();
-      location.href = '/register';
+      location.href = '/';
     },
     filterHearAboutUs: function filterHearAboutUs(hear_about_as) {
       var lang = this.locale;
@@ -27269,7 +27269,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     backToHome: function backToHome(event) {
       event.preventDefault();
-      location.href = '/register';
+      location.href = '/';
     },
     filterHearAboutUs: function filterHearAboutUs(hear_about_as) {
       var lang = this.locale;
