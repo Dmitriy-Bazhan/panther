@@ -32,7 +32,7 @@ class RegisterController extends Controller
     public function register()
     {
         if(!auth()->check()){
-            return view('main');
+            return view('main', ['data' => $this->data]);
         }else{
             return redirect()->to('/');
         }

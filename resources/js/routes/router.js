@@ -32,18 +32,19 @@ const routes = [
     },
     {
         path: "/register",
-        component: StartRegister
-    },
-    {
-        path: "/nurse-register",
-        component: NurseRegister,
+        component: StartRegister,
         props: true,
     },
-    {
-        path: "/client-register",
-        component: ClientRegister,
-        props: true,
-    },
+    // {
+    //     path: "/nurse-register",
+    //     component: NurseRegister,
+    //     props: true,
+    // },
+    // {
+    //     path: "/client-register",
+    //     component: ClientRegister,
+    //     props: true,
+    // },
     {
         path: "/email/verify",
         component: EmailVerify
