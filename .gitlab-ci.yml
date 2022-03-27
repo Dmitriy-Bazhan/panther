@@ -4,14 +4,16 @@ stages:
 
 install:
   stage: install
-#  script:
+  script:
+    - echo "Stage install empty"
 #    - cp .env.example .env
 #    - composer install
 #    - composer require laravel/envoy --dev
 
 deploy_production:
   stage: deploy
-#  script:
+  script:
+    - echo "Stage deploy empty"
 #    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA"
 #  environment:
 #    name: production
