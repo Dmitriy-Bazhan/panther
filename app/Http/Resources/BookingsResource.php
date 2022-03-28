@@ -17,6 +17,7 @@ class BookingsResource extends JsonResource
         return [
             'additional_email' => $this->additional_email,
             'client_user_id' => $this->client_user_id ,
+            'client' => $this->client,
             'comment' => $this->comment ,
             'created_at' => $this->created_at ,
             'days' => !is_null($this->days) ? json_decode($this->days, true): $this->days,

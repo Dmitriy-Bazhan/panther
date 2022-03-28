@@ -12,4 +12,8 @@ class Booking extends Model
     public function time() {
         return $this->hasMany('App\Models\BookingTime', 'booking_id', 'id');
     }
+
+    public function client() {
+        return $this->hasOne('App\Models\User', 'id', 'client_user_id');
+    }
 }

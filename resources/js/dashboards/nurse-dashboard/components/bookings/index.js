@@ -4,6 +4,9 @@ export default {
     name: "Bookings",
     template: template,
     props: ['data', 'user'],
+    components: {
+
+    },
     data() {
         return {
             bookings: [],
@@ -18,7 +21,7 @@ export default {
                 .then((response) => {
                     if(response.data.success){
                         this.bookings = response.data.bookings;
-                        console.log(this.bookings[1]);
+                        console.log(this.bookings[0]);
                     }
 
                 })

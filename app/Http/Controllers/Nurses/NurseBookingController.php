@@ -23,8 +23,7 @@ class NurseBookingController extends Controller
             abort(409);
         }
 
-        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)->with('time')->get());
-
+        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)->with('time', 'client')->get());
         return response()->json(['success' => true, 'bookings' => $bookings]);
     }
 

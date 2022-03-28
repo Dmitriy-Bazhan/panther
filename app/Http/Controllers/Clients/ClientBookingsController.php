@@ -18,18 +18,7 @@ class ClientBookingsController extends Controller
 
     public function index()
     {
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::all();
-        $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
-        $data['data']['have_new_message'] = PrivateChat::where('client_user_id', auth()->id())
-            ->where('status', 'unread')
-            ->whereNotNull('nurse_sent')
-            ->first() !== null ? true : false;
-        $data['data']['last_unread_messages'] = PrivateChat::where('client_user_id', auth()->id())
-            ->where('status', 'unread')
-            ->where('nurse_sent', 'yes')
-            ->orderByDesc('created_at')->get()->groupBy('nurse_user_id');
-        return view('dashboard', $data);
+
     }
 
     public function create()

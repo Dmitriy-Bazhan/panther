@@ -1,3 +1,30 @@
 <div>
     <h1>Booking</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr v-if="bookings.length > 0" v-for="booking in bookings">
+                <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
+                <th>{{ booking.one_time_or_regular}}</th>
+                <th>{{ booking.start_date }}</th>
+                <th>{{ booking.created_at.split('T')[0] }}</th>
+                <th>
+                    <button class="btn btn-sm btn-success">Show</button>&nbsp;
+                    <button class="btn btn-sm btn-success">Alternative</button>&nbsp;
+                    <button class="btn btn-sm btn-success">Send Message</button>&nbsp;
+                    <button class="btn btn-sm btn-success">Approve</button>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

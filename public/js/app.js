@@ -35283,6 +35283,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "Bookings",
   template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
   props: ['data', 'user'],
+  components: {},
   data: function data() {
     return {
       bookings: []
@@ -35298,7 +35299,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id).then(function (response) {
         if (response.data.success) {
           _this.bookings = response.data.bookings;
-          console.log(_this.bookings[1]);
+          console.log(_this.bookings[0]);
         }
       })["catch"](function (error) {
         console.log(error);
@@ -37379,7 +37380,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n</div>\n";
+var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n            <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n                <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n                <th>{{ booking.one_time_or_regular}}</th>\n                <th>{{ booking.start_date }}</th>\n                <th>{{ booking.created_at.split('T')[0] }}</th>\n                <th>\n                    <button class=\"btn btn-sm btn-success\">Show</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\">Alternative</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\">Send Message</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\">Approve</button>\n                </th>\n            </tr>\n        </tbody>\n    </table>\n\n</div>\n";
 // Exports
 module.exports = code;
 
