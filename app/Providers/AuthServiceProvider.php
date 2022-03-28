@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
 
             if (auth()->user()->is_nurse) {
                 return (new MailMessage)
+                    ->mailer('smtp')
                     ->subject('Verify Email Address')
                     ->line(__('mail-message.email_verification_for_nurses'))
                     ->action('Verify Email Address', $url);
@@ -38,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
 
             if (auth()->user()->is_client) {
                 return (new MailMessage)
+                    ->mailer('smtp')
                     ->subject('Verify Email Address')
                     ->line(__('mail-message.email_verification_for_clents'))
                     ->action('Verify Email Address', $url);
