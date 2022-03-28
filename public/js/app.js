@@ -27934,7 +27934,10 @@ __webpack_require__.r(__webpack_exports__);
       path: location.origin
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    // console.log(window.guard);
+    console.log(this.auth);
+  },
   methods: {
     toLogin: function toLogin() {
       window.location.href = '/login';
@@ -33999,8 +34002,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 2,
     "class": "menu-item",
-    onClick: _cache[1] || (_cache[1] = function () {
-      return $options.toDashboard && $options.toDashboard.apply($options, arguments);
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.toDashboard();
     })
   }, [_hoisted_21, _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('my_account')), 1
   /* TEXT */
