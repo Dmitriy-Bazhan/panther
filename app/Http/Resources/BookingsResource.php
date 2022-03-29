@@ -16,6 +16,7 @@ class BookingsResource extends JsonResource
     {
         return [
             'additional_email' => $this->additional_email,
+            'alternative' => $this->alternative,
             'client_user_id' => $this->client_user_id ,
             'client' => $this->client,
             'comment' => $this->comment ,
@@ -25,6 +26,7 @@ class BookingsResource extends JsonResource
             'hourly_price' => $this->hourly_price ,
             'id' => $this->id ,
             'is_approved' => $this->is_approved ,
+            'have_alternative' => $this->have_alternative ,
             'nurse_user_id' => $this->nurse_user_id ,
             'one_time_or_regular' => $this->one_time_or_regular ,
             'start_date' => $this->start_date ,

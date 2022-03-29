@@ -16,4 +16,8 @@ class Booking extends Model
     public function client() {
         return $this->hasOne('App\Models\User', 'id', 'client_user_id');
     }
+
+    public function alternative(){
+        return $this->hasOne('App\Models\AlternativeBooking', 'booking_id', 'id');
+    }
 }

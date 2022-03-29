@@ -8,23 +8,92 @@
             <th>One time or regular</th>
             <th>Start Data</th>
             <th>Create Date</th>
+            <th>Is set alternative</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-            <tr v-if="bookings.length > 0" v-for="booking in bookings">
-                <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
-                <th>{{ booking.one_time_or_regular}}</th>
-                <th>{{ booking.start_date }}</th>
-                <th>{{ booking.created_at.split('T')[0] }}</th>
-                <th>
-                    <button class="btn btn-sm btn-success">Show</button>&nbsp;
-                    <button class="btn btn-sm btn-success">Alternative</button>&nbsp;
-                    <button class="btn btn-sm btn-success">Send Message</button>&nbsp;
-                    <button class="btn btn-sm btn-success">Approve</button>
-                </th>
-            </tr>
+        <tr v-if="bookings.length > 0" v-for="booking in bookings">
+            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
+                    {{ $t('show') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">
+                    {{ $t('alternative') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success">{{ $t('approve') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success">{{ $t('refuse') }}</button>
+            </th>
+        </tr>
         </tbody>
     </table>
+
+    <div v-if="show_chat" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <single_chat :nurse="user" :data="data" :client="client"></single_chat>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_booking" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <booking :booking="booking"></booking>
+            </div>
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <button class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">{{ $t('alternative') }}</button>&nbsp;
+                    <button class="btn btn-sm btn-success" >{{ $t('approve') }}</button>&nbsp;
+                    <button class="btn btn-sm btn-success">{{ $t('refuse') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_alternative" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <alternative :booking="booking" :nurse="user"></alternative>
+            </div>
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <button class="btn btn-sm btn-success" v-on:click="sendAlternativeBooking()">{{ $t('send') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

@@ -107,6 +107,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('messages', [NurseDashboardController::class, 'index']);
         Route::get('ratings', [NurseDashboardController::class, 'index']);
         Route::get('bookings', [NurseDashboardController::class, 'index']);
+        Route::get('bookings/get-private-chats/{client_id}', [NurseBookingController::class, 'getPrivateChat']);
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);

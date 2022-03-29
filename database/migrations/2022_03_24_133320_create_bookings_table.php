@@ -21,7 +21,8 @@ class CreateBookingsTable extends Migration
             $table->integer('suggested_price_per_hour')->nullable();
             $table->integer('total')->nullable();
             $table->string('is_approved')->default('no')->comment('yes|no');
-            $table->string('one_time_or_regular')->default('one_time')->comment('one_time|regular');
+            $table->string('have_alternative')->default('no')->comment('yes|no');
+            $table->string('one_time_or_regular')->default('one')->comment('one|regular');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->integer('weeks')->nullable();

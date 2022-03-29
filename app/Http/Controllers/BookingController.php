@@ -54,7 +54,7 @@ class BookingController extends Controller
             abort(409);
         }
 
-        if(request('one_time_or_regular') == 'one_time') {
+        if(request('one_time_or_regular') == 'one') {
             $rules = [
                 'date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
@@ -75,7 +75,7 @@ class BookingController extends Controller
             $booking->client_user_id = auth()->id();
             $booking->suggested_price_per_hour = request('booking')['suggested_price_per_hour'];
             $booking->total = request('booking')['total'];
-            $booking->one_time_or_regular = 'one_time';
+            $booking->one_time_or_regular = 'one';
             $booking->start_date = request('booking')['date'];
             $booking->additional_email = request('booking')['additional_email'];
             $booking->comment = request('booking')['comment'];

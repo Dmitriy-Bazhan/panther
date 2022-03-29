@@ -409,7 +409,7 @@
                 }
             },
             sendBooking() {
-                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one_time'})
+                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one'})
                     .then((response) => {
                         if(response.data.success){
                             window.location.href = '/send-booking-message';

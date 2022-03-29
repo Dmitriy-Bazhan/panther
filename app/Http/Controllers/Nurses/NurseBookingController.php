@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
 use App\Models\Booking;
 use App\Models\User;
@@ -10,6 +11,14 @@ use Illuminate\Http\Request;
 
 class NurseBookingController extends Controller
 {
+    public $chatRepo;
+
+    public function __construct(ChatRepository $chatRepo)
+    {
+        parent::__construct();
+
+        $this->chatRepo = $chatRepo;
+    }
 
     public function index()
     {
@@ -23,73 +32,50 @@ class NurseBookingController extends Controller
             abort(409);
         }
 
-        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)->with('time', 'client')->get());
+        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
+            ->with('time', 'client', 'alternative')
+            ->get());
         return response()->json(['success' => true, 'bookings' => $bookings]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+    }
+
+    public function getPrivateChat($client_id = null){
+
+        if(is_null($client_id) || !is_numeric($client_id)){
+            //todo: hmm
+            abort(409);
+        }
+
+        $chat = $this->chatRepo->getNursePrivateChatsWithClients($client_id);
+        return response()->json(['success'=> true, 'chat' => $chat]);
     }
 }

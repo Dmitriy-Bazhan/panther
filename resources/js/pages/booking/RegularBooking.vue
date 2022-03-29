@@ -276,7 +276,7 @@
                     for (let index in newValue.time){
                         hours = hours + Number(newValue.time[index]);
                     }
-                    this.booking.total = hours * this.booking.suggested_price_per_hour;
+                    this.booking.total = hours * this.booking.suggested_price_per_hour * this.booking.weeks;
                 },
                 deep: true,
             }
