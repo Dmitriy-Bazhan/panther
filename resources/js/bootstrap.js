@@ -24,7 +24,7 @@ window.Echo =  new Echo({
     broadcaster: 'pusher',
     key: 1,
     wsHost: window.location.hostname,
-    wsPort: 6001,
+    wsPort: 6002,
     forceTLS: false,
     disableStats: true,
     auth: {
