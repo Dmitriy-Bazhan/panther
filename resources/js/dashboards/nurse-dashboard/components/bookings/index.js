@@ -52,10 +52,7 @@ export default {
             this.show_booking = false;
             this.show_alternative = false;
         },
-        sendAlternativeBooking(){
-            console.log(this.booking);
 
-        },
 
         getNursesBookings() {
             axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id)

@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div v-if="show_alternative" class="single-chat-wrapper">
+    <div v-if="show_alternative" class="alternative-booking-wrapper">
         <div class="container-fluid">
             <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>
             <div class="row">
@@ -88,11 +88,7 @@
             <div class="row">
                 <alternative :booking="booking" :nurse="user"></alternative>
             </div>
-            <div class="row">
-                <div class="col-6 offset-3">
-                    <button class="btn btn-sm btn-success" v-on:click="sendAlternativeBooking()">{{ $t('send') }}</button>
-                </div>
-            </div>
+
         </div>
     </div>
 

@@ -26745,45 +26745,156 @@ __webpack_require__.r(__webpack_exports__);
   props: ['booking', 'nurse'],
   data: function data() {
     return {
+      weekdayLabels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      weekendLabels: ['Saturday', 'Sunday'],
       alternative: {
+        booking_id: 0,
         alternative_suggested_price_per_hour: 0,
-        total: 0,
+        alternative_total: 0,
         alternative_one_time_or_regular: null,
         alternative_start_date: null,
         alternative_finish_date: null,
         alternative_weeks: 0,
         alternative_days: null,
-        alternative_time: {}
+        comment: null,
+        alternative_time: {
+          time_interval: {},
+          time: {}
+        }
       },
       show_for_regular: false
     };
   },
   watch: {
+    nurse: {
+      handler: function handler(newValue, oldValue) {
+        if (typeof this.nurse.entity.work_time_pref === 'string') {
+          this.nurse.entity.work_time_pref = JSON.parse(this.nurse.entity.work_time_pref);
+        }
+      },
+      immediate: true
+    },
+    booking: {
+      handler: function handler(newValue, oldValue) {
+        this.alternative.booking_id = this.booking.id;
+        this.alternative.alternative_suggested_price_per_hour = this.booking.suggested_price_per_hour;
+        this.alternative.alternative_one_time_or_regular = this.booking.one_time_or_regular;
+        this.alternative.alternative_start_date = this.booking.start_date;
+        this.alternative.alternative_finish_date = this.booking.finish_date;
+        this.alternative.alternative_weeks = this.booking.weeks;
+        this.alternative.alternative_days = this.booking.days;
+        this.alternative.alternative_total = this.booking.total;
+
+        for (var i in this.booking.time) {
+          this.alternative.alternative_time.time_interval[this.booking.time[i].time_interval] = '1';
+          this.alternative.alternative_time.time[this.booking.time[i].time_interval] = this.booking.time[i].time;
+        }
+
+        if (this.alternative.alternative_one_time_or_regular == 'regular') {
+          this.show_for_regular = true;
+        }
+      },
+      immediate: true
+    },
     alternative: {
       handler: function handler(newValue, oldValue) {
-        console.log(newValue.alternative_one_time_or_regular);
+        if (newValue.alternative_one_time_or_regular === 'regular') {
+          this.show_for_regular = true;
+        } else {
+          this.show_for_regular = false;
+        }
+
+        var hours = 0;
+
+        for (var index in newValue.alternative_time.time) {
+          hours = hours + Number(newValue.alternative_time.time[index]);
+        }
+
+        this.alternative.alternative_total = hours * this.alternative.alternative_suggested_price_per_hour * this.alternative.alternative_days.length;
+
+        if (newValue.alternative_one_time_or_regular === 'regular') {
+          this.alternative.alternative_total = this.alternative.alternative_total * this.alternative.alternative_weeks;
+        }
       },
       deep: true
     }
   },
-  mounted: function mounted() {
-    console.log(this.nurse);
+  mounted: function mounted() {},
+  methods: {
+    sendAlternativeBooking: function sendAlternativeBooking() {
+      console.log(this.alternative);
+      axios.post('/dashboard/nurse-bookings', {
+        'alternative': this.alternative
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    setIndex: function setIndex(index) {
+      var modelIndex = this.alternative.alternative_time.filter(function (value) {
+        if (value.time_interval === index) {
+          return true;
+        }
+      });
+      var i = this.alternative.alternative_time.indexOf(modelIndex[0]);
+      return i;
+    },
+    addDays: function addDays(day) {
+      if (this.in_array(day, this.alternative.alternative_days)) {
+        var evens = _.remove(this.alternative.alternative_days, function (n) {
+          return n === day;
+        });
 
-    if (this.booking.have_alternative === 'yes') {
-      this.alternative = this.booking.alternative;
-    } else {
-      this.alternative.alternative_suggested_price_per_hour = this.booking.suggested_price_per_hour;
-      this.alternative.alternative_one_time_or_regular = this.booking.one_time_or_regular;
-      this.alternative.alternative_start_date = this.booking.start_date;
-      this.alternative.alternative_finish_date = this.booking.finish_date;
-      this.alternative.alternative_weeks = this.booking.weeks;
-      this.alternative.alternative_days = this.booking.days;
-      this.alternative.alternative_time = this.booking.time;
+        this.alternative.alternative_days = evens;
+      } else {
+        this.alternative.alternative_days.push(day);
+      }
+    },
+    checkWorkWeekDays: function checkWorkWeekDays() {
+      if (this.nurse.entity.work_time_pref.weekdays_7_11 === "1" || this.nurse.entity.work_time_pref.weekdays_11_14 === "1" || this.nurse.entity.work_time_pref.weekdays_14_17 === "1" || this.nurse.entity.work_time_pref.weekdays_17_21 === "1") {
+        return true;
+      }
+    },
+    checkWorkweekEnds: function checkWorkweekEnds() {
+      if (this.nurse.entity.work_time_pref.weekends_7_11 === "1" || this.nurse.entity.work_time_pref.weekends_11_14 === "1" || this.nurse.entity.work_time_pref.weekends_14_17 === "1" || this.nurse.entity.work_time_pref.weekends_17_21 === "1") {
+        return true;
+      }
+    },
+    in_array: function in_array(needle, haystack, strict) {
+      var found = false,
+          key,
+          strict = !!strict;
+
+      for (key in haystack) {
+        if (strict && haystack[key] === needle || !strict && haystack[key] == needle) {
+          found = true;
+          break;
+        }
+      }
+
+      return found;
+    },
+    checkMultySelect: function checkMultySelect(index) {
+      if (this.nurse.entity.multiple_bookings === 'no') {
+        this.alternative.alternative_time.time_interval = {};
+        this.alternative.alternative_time.time = {};
+        this.alternative.alternative_time.time_interval[index] = "1";
+      }
+
+      if (this.alternative.alternative_time.time[index] !== undefined) {
+        this.alternative.alternative_time.time[index] = "0";
+      }
+
+      if (this.alternative.alternative_time.time[index] !== undefined && this.alternative.alternative_time.time_interval[index] === "1") {
+        this.alternative.alternative_time.time[index] = "1";
+      }
+
+      if (this.alternative.alternative_time.time[index] === undefined) {
+        this.alternative.alternative_time.time[index] = "1";
+      }
     }
-
-    console.log(this.alternative);
-  },
-  methods: {}
+  }
 });
 
 /***/ }),
@@ -27843,7 +27954,7 @@ __webpack_require__.r(__webpack_exports__);
           hours = hours + Number(newValue.time[index]);
         }
 
-        this.booking.total = hours * this.booking.suggested_price_per_hour * this.booking.weeks;
+        this.booking.total = hours * this.booking.suggested_price_per_hour * this.booking.weeks * this.booking.days.length;
       },
       deep: true
     }
@@ -29784,10 +29895,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4 ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -29797,6 +29908,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-58074bb4"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
 var _hoisted_1 = {
   "class": "container-fluid"
 };
@@ -29804,55 +29920,546 @@ var _hoisted_2 = {
   "class": "row"
 };
 var _hoisted_3 = {
-  "class": "col-3"
+  "class": "col-9"
 };
 var _hoisted_4 = {
-  "class": "form-label col-form-label-sm"
+  "class": "row"
 };
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "form-label col-form-label-sm"
-}, "Your price", -1
-/* HOISTED */
-);
-
+var _hoisted_5 = {
+  "class": "col-4"
+};
 var _hoisted_6 = {
-  "class": "col-3"
-};
-var _hoisted_7 = {
   "class": "form-label col-form-label-sm"
 };
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label col-form-label-sm"
+  }, "Your price", -1
+  /* HOISTED */
+  );
+});
+
 var _hoisted_8 = {
-  "class": "form-label col-form-label-sm"
+  "class": "col-4"
 };
 var _hoisted_9 = {
-  value: "one"
+  "class": "form-label col-form-label-sm"
 };
 var _hoisted_10 = {
-  value: "regular"
+  "class": "form-label col-form-label-sm"
 };
 var _hoisted_11 = {
-  "class": "col-3"
+  value: "one"
 };
 var _hoisted_12 = {
-  "class": "form-label col-form-label-sm"
+  value: "regular"
 };
 var _hoisted_13 = {
-  "class": "form-label col-form-label-sm"
+  "class": "col-4"
 };
 var _hoisted_14 = {
-  "class": "col-3"
+  "class": "form-label col-form-label-sm"
 };
 var _hoisted_15 = {
   "class": "form-label col-form-label-sm"
 };
 var _hoisted_16 = {
+  key: 0,
+  "class": "row"
+};
+var _hoisted_17 = {
+  "class": "col-4"
+};
+var _hoisted_18 = {
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_19 = {
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_20 = {
+  "class": "col-8"
+};
+var _hoisted_21 = {
+  "class": "form-label col-form-label-sm"
+};
+var _hoisted_22 = {
+  "class": "weekdays"
+};
+var _hoisted_23 = {
+  "class": "weekday"
+};
+var _hoisted_24 = ["onClick"];
+var _hoisted_25 = {
   key: 0
 };
+var _hoisted_26 = {
+  key: 1
+};
+var _hoisted_27 = {
+  "class": "weekday"
+};
+var _hoisted_28 = ["onClick"];
+var _hoisted_29 = {
+  key: 0
+};
+var _hoisted_30 = {
+  key: 1
+};
+var _hoisted_31 = {
+  "class": "row"
+};
+var _hoisted_32 = {
+  "class": "col-4"
+};
+var _hoisted_33 = {
+  "class": "col-3"
+};
+var _hoisted_34 = {
+  "class": "row"
+};
+var _hoisted_35 = {
+  "class": "col-12"
+};
+var _hoisted_36 = {
+  "class": "row"
+};
+var _hoisted_37 = {
+  "class": "row"
+};
+var _hoisted_38 = {
+  "class": "col-4 offset-4 justify-content-center"
+};
+var _hoisted_39 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_40 = {
+  "class": "row"
+};
+var _hoisted_41 = {
+  "class": "col-4 offset-4 justify-content-center"
+};
+var _hoisted_42 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_43 = {
+  "class": "row"
+};
+
+var _hoisted_44 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4"
+  }, "7-11 Uhr", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_45 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_46 = ["disabled"];
+
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_48 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekdays_morning"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_49 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_50 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_51 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_52 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "4"
+  }, "4 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_53 = [_hoisted_49, _hoisted_50, _hoisted_51, _hoisted_52];
+var _hoisted_54 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_55 = ["disabled"];
+
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_57 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekends_morning"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_58 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_59 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_60 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_61 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "4"
+  }, "4 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_62 = [_hoisted_58, _hoisted_59, _hoisted_60, _hoisted_61];
+var _hoisted_63 = {
+  "class": "row"
+};
+
+var _hoisted_64 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4"
+  }, "11-14 Uhr", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_65 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_66 = ["disabled"];
+
+var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_68 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekdays_afternoon"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_69 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_70 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_71 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_72 = [_hoisted_69, _hoisted_70, _hoisted_71];
+var _hoisted_73 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_74 = ["disabled"];
+
+var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_76 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekends_afternoon"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_77 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_78 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_79 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_80 = [_hoisted_77, _hoisted_78, _hoisted_79];
+var _hoisted_81 = {
+  "class": "row"
+};
+
+var _hoisted_82 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4"
+  }, "14-17 Uhr", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_83 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_84 = ["disabled"];
+
+var _hoisted_85 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_86 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekdays_evening"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_87 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_88 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_89 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_90 = [_hoisted_87, _hoisted_88, _hoisted_89];
+var _hoisted_91 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_92 = ["disabled"];
+
+var _hoisted_93 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_94 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekends_evening"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_95 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_96 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_97 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_98 = [_hoisted_95, _hoisted_96, _hoisted_97];
+var _hoisted_99 = {
+  "class": "row"
+};
+
+var _hoisted_100 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4"
+  }, "17-21 Uhr", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_101 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_102 = ["disabled"];
+
+var _hoisted_103 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_104 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekdays_overnight"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_105 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_106 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_107 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_108 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "4"
+  }, "4 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_109 = [_hoisted_105, _hoisted_106, _hoisted_107, _hoisted_108];
+var _hoisted_110 = {
+  "class": "col-4 justify-content-center"
+};
+var _hoisted_111 = ["disabled"];
+
+var _hoisted_112 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_113 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "weekends_overnight"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_114 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1",
+    selected: ""
+  }, "1 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_115 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "2"
+  }, "2 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_116 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "3"
+  }, "3 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_117 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "4"
+  }, "4 h", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_118 = [_hoisted_114, _hoisted_115, _hoisted_116, _hoisted_117];
+var _hoisted_119 = {
+  "class": "row"
+};
+var _hoisted_120 = {
+  "class": "col-6 offset-3"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_4, "Client propose price: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.suggested_price_per_hour), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_6, "Client propose price: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.suggested_price_per_hour), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control form-control-sm",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -29861,24 +30468,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     min: "15"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.alternative.alternative_suggested_price_per_hour]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one_time_or_regular')) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.one_time_or_regular), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.alternative.alternative_suggested_price_per_hour]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one_time_or_regular')) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.one_time_or_regular), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_one_time_or_regular')), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_one_time_or_regular')), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control form-control-sm",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.alternative.alternative_one_time_or_regular = $event;
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one')), 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('one')), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('regular')), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('regular')), 1
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_one_time_or_regular]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('start_date')) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.start_date), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_one_time_or_regular]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('start_date')) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.start_date), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_start_date')), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_start_date')), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "date",
@@ -29888,22 +30495,263 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.alternative.alternative_start_date]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('time')) + ":", 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.alternative.alternative_start_date]])])])]), $data.show_for_regular ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('weeks')) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.booking.weeks), 1
   /* TEXT */
-  )]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(JSON.parse($props.nurse.entity.work_time_pref), function (item, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [item === '1' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "checkbox",
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-        return $data.alternative.alternative_time = $event;
-      })
-    }, null, 512
-    /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_weeks')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    min: "1",
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.alternative.alternative_weeks = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.alternative.alternative_weeks]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('propose_days')) + ": ", 1
+  /* TEXT */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.booking.days, function (day) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t(day) + ' '), 1
     /* TEXT */
-    )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    );
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])])]);
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekdayLabels, function (weekday) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [$options.checkWorkWeekDays() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: 0,
+      "class": "work-day",
+      onClick: function onClick($event) {
+        return $options.addDays(weekday);
+      }
+    }, [$options.in_array(weekday, $data.alternative.alternative_days) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25, "+")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(weekday), 1
+    /* TEXT */
+    )], 8
+    /* PROPS */
+    , _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(weekday), 1
+    /* TEXT */
+    ))]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekendLabels, function (weekend) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [$options.checkWorkweekEnds() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: 0,
+      "class": "work-day",
+      onClick: function onClick($event) {
+        return $options.addDays(weekend);
+      }
+    }, [$options.in_array(weekend, $data.alternative.alternative_days) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "+")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(weekend), 1
+    /* TEXT */
+    )], 8
+    /* PROPS */
+    , _hoisted_28)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(weekend), 1
+    /* TEXT */
+    ))]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('total') + ': ' + $data.alternative.alternative_total), 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('time_client_propose')), 1
+  /* TEXT */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.booking.time, function (time) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time.time_interval + ': ' + time.time + ' ' + _ctx.$t('hours')), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('your_alternative_time_propose')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('weekdays')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('weekends')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('mon_fri')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('sat_sun')), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        7-11 Uhr  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_morning",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[4] || (_cache[4] = function ($event) {
+      return $options.checkMultySelect('weekdays_7_11');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekdays_7_11 === '0',
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekdays_7_11'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_46), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekdays_7_11']]]), _hoisted_47, _hoisted_48, $props.nurse.entity.work_time_pref.weekdays_7_11 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.alternative.alternative_time.time['weekdays_7_11'] = $event;
+    })
+  }, _hoisted_53, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekdays_7_11']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_morning",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[7] || (_cache[7] = function ($event) {
+      return $options.checkMultySelect('weekends_7_11');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekends_7_11 === '0',
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekends_7_11'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_55), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekends_7_11']]]), _hoisted_56, _hoisted_57, $props.nurse.entity.work_time_pref.weekends_7_11 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $data.alternative.alternative_time.time['weekends_7_11'] = $event;
+    })
+  }, _hoisted_62, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekends_7_11']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        11-14 Uhr  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_afternoon",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[10] || (_cache[10] = function ($event) {
+      return $options.checkMultySelect('weekdays_11_14');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekdays_11_14 === '0',
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekdays_11_14'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_66), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekdays_11_14']]]), _hoisted_67, _hoisted_68, $props.nurse.entity.work_time_pref.weekdays_11_14 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+      return $data.alternative.alternative_time.time['weekdays_11_14'] = $event;
+    })
+  }, _hoisted_72, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekdays_11_14']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_afternoon",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[13] || (_cache[13] = function ($event) {
+      return $options.checkMultySelect('weekends_11_14');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekends_11_14 === '0',
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekends_11_14'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_74), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekends_11_14']]]), _hoisted_75, _hoisted_76, $props.nurse.entity.work_time_pref.weekends_11_14 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+      return $data.alternative.alternative_time.time['weekends_11_14'] = $event;
+    })
+  }, _hoisted_80, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekends_11_14']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        14-17 Uhr "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_evening",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[16] || (_cache[16] = function ($event) {
+      return $options.checkMultySelect('weekdays_14_17');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekdays_14_17 === '0',
+    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekdays_14_17'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_84), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekdays_14_17']]]), _hoisted_85, _hoisted_86, $props.nurse.entity.work_time_pref.weekdays_14_17 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+      return $data.alternative.alternative_time.time['weekdays_14_17'] = $event;
+    })
+  }, _hoisted_90, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekdays_14_17']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_evening",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[19] || (_cache[19] = function ($event) {
+      return $options.checkMultySelect('weekends_14_17');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekends_14_17 === '0',
+    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekends_14_17'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_92), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekends_14_17']]]), _hoisted_93, _hoisted_94, $props.nurse.entity.work_time_pref.weekends_14_17 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+      return $data.alternative.alternative_time.time['weekends_14_17'] = $event;
+    })
+  }, _hoisted_98, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekends_14_17']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        17-21 Uhr "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [_hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekdays_overnight",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[22] || (_cache[22] = function ($event) {
+      return $options.checkMultySelect('weekdays_17_21');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekdays_17_21 === '0',
+    "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekdays_17_21'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_102), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekdays_17_21']]]), _hoisted_103, _hoisted_104, $props.nurse.entity.work_time_pref.weekdays_17_21 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+      return $data.alternative.alternative_time.time['weekdays_17_21'] = $event;
+    })
+  }, _hoisted_109, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekdays_17_21']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    id: "weekends_overnight",
+    "true-value": "1",
+    "false-value": "0",
+    onChange: _cache[25] || (_cache[25] = function ($event) {
+      return $options.checkMultySelect('weekends_17_21');
+    }),
+    disabled: $props.nurse.entity.work_time_pref.weekends_17_21 === '0',
+    "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
+      return $data.alternative.alternative_time.time_interval['weekends_17_21'] = $event;
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_111), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.alternative.alternative_time.time_interval['weekends_17_21']]]), _hoisted_112, _hoisted_113, $props.nurse.entity.work_time_pref.weekends_17_21 === '1' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 0,
+    "class": "form-control form-control-sm",
+    "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
+      return $data.alternative.alternative_time.time['weekends_17_21'] = $event;
+    })
+  }, _hoisted_118, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.alternative.alternative_time.time['weekends_17_21']]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-success",
+    onClick: _cache[28] || (_cache[28] = function ($event) {
+      return $options.sendAlternativeBooking();
+    })
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('send')), 1
+  /* TEXT */
+  )])])])]);
 }
 
 /***/ }),
@@ -35135,21 +35983,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'pusher',
-  key: 1,
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  forceTLS: false,
-  disableStats: true,
-  auth: {
-    headers: {
-      Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    }
-  },
-  enabledTransports: ['ws', 'wss']
-}); // window.Echo.connector.pusher.connection.bind('connecting', (payload) => {
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // window.Echo =  new Echo({
+//     broadcaster: 'pusher',
+//     key: 1,
+//     wsHost: window.location.hostname,
+//     wsPort: 6001,
+//     forceTLS: false,
+//     disableStats: true,
+//     auth: {
+//         headers: {
+//             Authorization: 'Bearer ' + document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         }
+//     },
+//     enabledTransports: ['ws', 'wss']
+// });
+// window.Echo.connector.pusher.connection.bind('connecting', (payload) => {
 //     console.log('connecting...');
 // });
 //
@@ -35826,9 +36674,6 @@ __webpack_require__.r(__webpack_exports__);
       this.show_chat = true;
       this.show_booking = false;
       this.show_alternative = false;
-    },
-    sendAlternativeBooking: function sendAlternativeBooking() {
-      console.log(this.booking);
     },
     getNursesBookings: function getNursesBookings() {
       var _this = this;
@@ -37051,7 +37896,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.alternative-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37436,6 +38281,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.nurse-dashboard-left-panel[data-v-da52b700] {\n    height: 100%;\n    background: #d9d9d9;\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-da52b700] {\n    background: #d9d9d9;\n}\n.list-group-item[data-v-da52b700]:hover {\n    background: #f8f7f7;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.weekdays[data-v-58074bb4] {\n        display: flex;\n        flex: auto;\n}\n.weekday[data-v-58074bb4] {\n        width: 14.2857%;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        padding: 0.4rem 0;\n        color: #aaaaaa;\n        border: 1px solid #aaaaaa;\n        background-color: #eaeaea;\n}\n.work-day[data-v-58074bb4] {\n        cursor: pointer;\n        color: #0a58ca;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37965,7 +38834,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\">{{ $t('approve') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\">{{ $t('refuse') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">{{ $t('alternative') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" >{{ $t('approve') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\">{{ $t('refuse') }}</button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"sendAlternativeBooking()\">{{ $t('send') }}</button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n";
+var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\">{{ $t('approve') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\">{{ $t('refuse') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">{{ $t('alternative') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" >{{ $t('approve') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\">{{ $t('refuse') }}</button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"alternative-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n\n        </div>\n    </div>\n\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -62250,6 +63119,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_style_index_0_id_58074bb4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_style_index_0_id_58074bb4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_style_index_0_id_58074bb4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/SingleChat.vue?vue&type=style&index=0&id=3dcfb089&scoped=true&lang=css":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/SingleChat.vue?vue&type=style&index=0&id=3dcfb089&scoped=true&lang=css ***!
@@ -65953,15 +66852,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Alternative_vue_vue_type_template_id_58074bb4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alternative.vue?vue&type=template&id=58074bb4 */ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4");
+/* harmony import */ var _Alternative_vue_vue_type_template_id_58074bb4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Alternative.vue?vue&type=template&id=58074bb4&scoped=true */ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true");
 /* harmony import */ var _Alternative_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Alternative.vue?vue&type=script&lang=js */ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _Alternative_vue_vue_type_style_index_0_id_58074bb4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css */ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css");
+/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Alternative_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Alternative_vue_vue_type_template_id_58074bb4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Alternative_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Alternative_vue_vue_type_template_id_58074bb4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-58074bb4"],['__file',"resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -67808,18 +68710,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4 ***!
-  \*******************************************************************************************************************/
+/***/ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true":
+/*!*******************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true ***!
+  \*******************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_template_id_58074bb4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_template_id_58074bb4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_template_id_58074bb4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Alternative.vue?vue&type=template&id=58074bb4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_template_id_58074bb4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Alternative.vue?vue&type=template&id=58074bb4&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=template&id=58074bb4&scoped=true");
 
 
 /***/ }),
@@ -68344,6 +69246,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LeftPanel_vue_vue_type_style_index_0_id_da52b700_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LeftPanel.vue?vue&type=style&index=0&id=da52b700&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/LeftPanel.vue?vue&type=style&index=0&id=da52b700&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************!*\
+  !*** ./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Alternative_vue_vue_type_style_index_0_id_58074bb4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/nurse-dashboard/components/bookings/Alternative.vue?vue&type=style&index=0&id=58074bb4&scoped=true&lang=css");
 
 
 /***/ }),
