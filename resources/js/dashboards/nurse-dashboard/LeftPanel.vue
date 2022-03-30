@@ -16,6 +16,7 @@
             </li>
             <li class="list-group-item">
                 <router-link :to="{ name: 'NurseDashboardBookings' }">{{ $t('bookings') }}</router-link>
+                <span v-if="showAlarmHaveNotApproved" class="alarm-signal blink"></span>
             </li>
             <li class="list-group-item">
                 <router-link :to="{ name: 'NurseDashboardPayments' }">{{ $t('payments') }}</router-link>
@@ -33,7 +34,7 @@
 <script>
 export default {
     name: "LeftPanel",
-    props: ['showAlarmNewMessage']
+    props: ['showAlarmNewMessage', 'showAlarmHaveNotApproved']
 }
 </script>
 

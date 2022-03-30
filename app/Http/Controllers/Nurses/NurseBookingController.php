@@ -112,12 +112,12 @@ class NurseBookingController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        return response()->json(['success' => true ]);
     }
 
     public function destroy($id)
     {
-        //
+        return response()->json(['success' => true ]);
     }
 
     public function getPrivateChat($client_id = null){

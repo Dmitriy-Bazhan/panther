@@ -1,3 +1,38 @@
 <div>
     <h1>Booking</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="bookings.length > 0" v-for="booking in bookings">
+            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
+                    {{ $t('show_and_edit') }}
+                </button>&nbsp;
+                <button v-if="booking.have_altenative === 'no'" class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">
+                    {{ $t('show_alternative') }}
+                </button>&nbsp;
+                <button v-else class="btn btn-sm btn-secondary">{{ $t('show_alternative') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="deleteBooking(booking.id)">{{ $t('remove') }}</button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
 </div>

@@ -333,10 +333,12 @@
         },
         methods: {
             sendAlternativeBooking() {
-                console.log(this.alternative);
                 axios.post('/dashboard/nurse-bookings', { 'alternative' : this.alternative})
                 .then((response) => {
-                    console.log(response);
+                    if(response.data.success){
+                        this.emitter.emit('close-alternative-booking-modal');
+                        this.emitter.emit('response-success-true');
+                    }
                 })
                 .catch((error) => {
                     console.log(error);

@@ -14,7 +14,13 @@ class Booking extends Model
     }
 
     public function client() {
-        return $this->hasOne('App\Models\User', 'id', 'client_user_id');
+        return $this->hasOne('App\Models\User', 'id', 'client_user_id')
+            ->without('prefs');;
+    }
+
+    public function nurse() {
+        return $this->hasOne('App\Models\User', 'id', 'nurse_user_id')
+            ->without('prefs');
     }
 
     public function alternative(){

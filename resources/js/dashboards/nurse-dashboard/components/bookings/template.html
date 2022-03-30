@@ -29,8 +29,8 @@
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success">{{ $t('approve') }}</button>&nbsp;
-                <button class="btn btn-sm btn-success">{{ $t('refuse') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="approveBooking(booking.id)">{{ $t('approve') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="refuseBooking(booking.id)">{{ $t('refuse') }}</button>
             </th>
         </tr>
         </tbody>
@@ -68,8 +68,8 @@
             <div class="row">
                 <div class="col-6 offset-3">
                     <button class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">{{ $t('alternative') }}</button>&nbsp;
-                    <button class="btn btn-sm btn-success" >{{ $t('approve') }}</button>&nbsp;
-                    <button class="btn btn-sm btn-success">{{ $t('refuse') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="approveBooking(booking.id)">{{ $t('approve') }}</button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-on:click="refuseBooking(booking.id)">{{ $t('refuse') }}</button>
                 </div>
             </div>
         </div>

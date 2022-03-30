@@ -17,6 +17,7 @@ export default {
     }, data() {
         return {
             showAlarmNewMessage: false,
+            showAlarmHaveNotApproved: false,
             response_success_true: false,
         }
     },
@@ -36,6 +37,10 @@ export default {
 
         if(this.data.have_new_message){
             this.showAlarmNewMessage = true;
+        }
+
+        if(this.data.have_not_approved_bookings){
+            this.showAlarmHaveNotApproved = true;
         }
 
         try {
