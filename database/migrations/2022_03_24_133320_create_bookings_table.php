@@ -22,6 +22,7 @@ class CreateBookingsTable extends Migration
             $table->integer('total')->nullable();
             $table->string('is_approved')->default('no')->comment('yes|no');
             $table->string('have_alternative')->default('no')->comment('yes|no');
+            $table->string('agree_for_alternative')->default('no')->comment('yes|no');
             $table->string('one_time_or_regular')->default('one')->comment('one|regular');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();

@@ -318,13 +318,12 @@
                     for (let index in newValue.alternative_time.time){
                         hours = hours + Number(newValue.alternative_time.time[index]);
                     }
-                    this.alternative.alternative_total = hours * this.alternative.alternative_suggested_price_per_hour
-                        * this.alternative.alternative_days.length;
+                    this.alternative.alternative_total = hours * this.alternative.alternative_suggested_price_per_hour;
 
-                    if(newValue.alternative_one_time_or_regular === 'regular'){
+                    if (newValue.alternative_one_time_or_regular === 'regular') {
+                        this.alternative.alternative_total = this.alternative.alternative_total * this.alternative.alternative_days.length;
                         this.alternative.alternative_total = this.alternative.alternative_total * this.alternative.alternative_weeks;
                     }
-
                 },
                 deep: true
             }

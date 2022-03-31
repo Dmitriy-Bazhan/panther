@@ -76,6 +76,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('messages', [ClientDashboardController::class, 'index']);
         Route::get('ratings', [ClientDashboardController::class, 'index']);
         Route::get('bookings', [ClientDashboardController::class, 'index']);
+        Route::get('bookings/get-private-chats/{nurse_id}', [ClientBookingsController::class, 'getPrivateChat']);
         Route::get('payments', [ClientDashboardController::class, 'index']);
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
@@ -85,6 +86,11 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client bookings
+
+    Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function(){
+        Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
+    });
+
     Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
 

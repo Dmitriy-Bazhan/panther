@@ -1,0 +1,23 @@
+.single-chat-wrapper {
+    position: fixed;
+    z-index: 100;
+    background: #0a53be;
+    border: solid 1px black;
+    border-radius: 10px;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 450px;
+}
+
+.show-booking-wrapper {
+    position: fixed;
+    z-index: 100;
+    background: #0a53be;
+    border: solid 1px black;
+    border-radius: 10px;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 450px;
+}

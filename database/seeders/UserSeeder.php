@@ -2,13 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\AdditionalInfoAssigned;
 use App\Models\Admin;
-use App\Models\Client;
-use App\Models\Nurse;
-use App\Models\NurseFile;
-use App\Models\NurseLang;
-use App\Models\NursePrice;
 use App\Models\User;
 use App\Models\UserPref;
 use Illuminate\Database\Seeder;

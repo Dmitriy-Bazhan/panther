@@ -25,7 +25,9 @@ export default {
             window.Echo.private('nurse-have-new-message.' + this.user.id)
                 .listen('PrivateChat.NurseHaveNewMessage', (response) => {
                     this.emitter.emit('chat-have-unread-message', response.result.client_user_id);
-                    this.getPrivateChats();
+                    if(this.chats.length === 0) {
+                        this.getPrivateChats();
+                    }
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNTECT : ' + error);
             });

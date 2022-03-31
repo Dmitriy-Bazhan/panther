@@ -18,6 +18,7 @@
             <th>{{ $t(booking.one_time_or_regular) }}</th>
             <th>{{ booking.start_date }}</th>
             <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th v-if="booking.agree_for_alternative === 'yes'">{{ $t('client_agree_on_your_alternative_booking') }}</th>
             <th>{{ $t(booking.have_alternative) }}</th>
             <th>
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">

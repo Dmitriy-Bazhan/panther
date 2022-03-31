@@ -23,7 +23,7 @@
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
                     {{ $t('show_and_edit') }}
                 </button>&nbsp;
-                <button v-if="booking.have_altenative === 'no'" class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">
+                <button v-if="booking.have_alternative === 'yes'" class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">
                     {{ $t('show_alternative') }}
                 </button>&nbsp;
                 <button v-else class="btn btn-sm btn-secondary">{{ $t('show_alternative') }}</button>&nbsp;
@@ -35,4 +35,62 @@
         </tr>
         </tbody>
     </table>
+
+    <div v-if="show_booking" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <booking :booking="booking"></booking>
+            </div>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="updateBooking()">{{ $t('update') }}</button>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_chat" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <single_chat :nurse="nurse" :data="data" :client="user"></single_chat>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_alternative" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <alternative :booking="booking"></alternative>
+            </div>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="agreeWithAlternativeBooking()">{{ $t('agree') }}</button>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

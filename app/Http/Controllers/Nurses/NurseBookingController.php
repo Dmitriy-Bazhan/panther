@@ -70,7 +70,8 @@ class NurseBookingController extends Controller
         }
 
         Booking::where('id', $data['booking_id'])->update([
-            'have_alternative' => 'yes'
+            'have_alternative' => 'yes',
+            'agree_for_alternative' => 'no',
         ]);
 
         AlternativeBooking::where('booking_id', $data['booking_id'])->delete();

@@ -14,6 +14,10 @@ class BookingsResource extends JsonResource
      */
     public function toArray($request)
     {
+        if(!is_null($this->alternative ) && !is_null($this->alternative->alternative_days)){
+            $this->alternative->alternative_days = json_decode($this->alternative->alternative_days, true);
+        }
+
         return [
             'additional_email' => $this->additional_email,
             'alternative' => $this->alternative,
@@ -28,6 +32,7 @@ class BookingsResource extends JsonResource
             'id' => $this->id ,
             'is_approved' => $this->is_approved ,
             'have_alternative' => $this->have_alternative ,
+            'agree_for_alternative' => $this->agree_for_alternative ,
             'nurse_user_id' => $this->nurse_user_id ,
             'one_time_or_regular' => $this->one_time_or_regular ,
             'start_date' => $this->start_date ,
