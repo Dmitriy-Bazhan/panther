@@ -18,20 +18,12 @@ export default {
             filterString: '?only_full_info=yes'
         }
     },
-    watch : {
-
-    },
     mounted() {
         this.getNurses();
         this.emitter.on('close-nurse-card', (e) => {
             this.nurse = null;
             this.nurseCardIsVisible = false;
         });
-
-
-    },
-    created() {
-
     },
     methods: {
         getNurses() {

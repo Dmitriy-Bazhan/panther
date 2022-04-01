@@ -57,7 +57,7 @@ export default {
             this.show_alternative = false;
         },
         approveBooking(id) {
-            axios.put('/dashboard/nurse-bookings/' + id) //update method
+            axios.put('/dashboard/nurse-bookings/' + id) //update method in NurseBookingController
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
@@ -68,7 +68,7 @@ export default {
             });
         },
         refuseBooking(id) {
-            axios.delete('/dashboard/nurse-bookings/' + id) //destroy method
+            axios.delete('/dashboard/nurse-bookings/' + id) //destroy method in NurseBookingController
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');

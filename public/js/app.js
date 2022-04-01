@@ -28869,25 +28869,23 @@ var _hoisted_4 = {
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dashboard");
 
-var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "list-group-item"
-  }, "Clients", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_7 = {
+var _hoisted_6 = {
   "class": "list-group-item"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Nurses");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Clients");
 
-var _hoisted_9 = {
+var _hoisted_8 = {
   "class": "list-group-item"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Settings");
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Nurses");
+
+var _hoisted_10 = {
+  "class": "list-group-item"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Settings");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
@@ -28903,24 +28901,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: {
+      name: 'AdminDashboardClients'
+    }
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_7];
+    }),
+    _: 1
+    /* STABLE */
+
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'AdminDashboardNurses'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_8];
+      return [_hoisted_9];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'AdminDashboardSettings'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_10];
+      return [_hoisted_11];
     }),
     _: 1
     /* STABLE */
@@ -29734,13 +29743,9 @@ var _hoisted_17 = {
 var _hoisted_18 = {
   "class": "col-8"
 };
-
-var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-  /* HOISTED */
-  );
-});
-
+var _hoisted_19 = {
+  "class": "form-label col-form-label-sm"
+};
 var _hoisted_20 = {
   "class": "weekdays"
 };
@@ -30267,7 +30272,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.booking.weeks]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekdayLabels, function (weekday) {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.booking.weeks]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t('days')), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekdayLabels, function (weekday) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [$options.checkWorkWeekDays() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: 0,
       "class": "work-day",
@@ -37463,6 +37470,59 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/admin-dashboard/components/clients/index.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/clients/index.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/admin-dashboard/components/clients/template.html");
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/dashboards/admin-dashboard/components/clients/style.css");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Clients',
+  template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  props: ['user', 'data'],
+  data: function data() {
+    return {
+      path: location.origin,
+      clients: [],
+      links: [],
+      url: 'get-clients'
+    };
+  },
+  mounted: function mounted() {
+    this.getClients();
+  },
+  methods: {
+    getClients: function getClients() {
+      var _this = this;
+
+      axios.get(this.url).then(function (response) {
+        _this.clients = response.data.clients.data;
+        _this.links = response.data.clients.links;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    newPage: function newPage(url) {
+      if (url !== null) {
+        this.url = url;
+        this.getClients();
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/index.js":
 /*!*********************************************************************************!*\
   !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/index.js ***!
@@ -37660,7 +37720,6 @@ __webpack_require__.r(__webpack_exports__);
       filterString: '?only_full_info=yes'
     };
   },
-  watch: {},
   mounted: function mounted() {
     var _this = this;
 
@@ -37670,7 +37729,6 @@ __webpack_require__.r(__webpack_exports__);
       _this.nurseCardIsVisible = false;
     });
   },
-  created: function created() {},
   methods: {
     getNurses: function getNurses() {
       var _this2 = this;
@@ -37849,6 +37907,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      show_remove_confirm: false,
       show_booking: false,
       show_alternative: false,
       show_chat: false,
@@ -37905,6 +37964,7 @@ __webpack_require__.r(__webpack_exports__);
       this.show_chat = false;
       this.show_booking = false;
       this.show_alternative = false;
+      this.show_remove_confirm = false;
       this.booking = null;
       this.nurse = null;
     },
@@ -37926,7 +37986,26 @@ __webpack_require__.r(__webpack_exports__);
       this.show_booking = false;
       this.show_alternative = false;
     },
-    deleteBooking: function deleteBooking(id) {}
+    deleteBooking: function deleteBooking(booking) {
+      this.booking = booking;
+      this.show_remove_confirm = true;
+    },
+    deleteBookingConfirm: function deleteBookingConfirm() {
+      var _this4 = this;
+
+      axios["delete"]('/dashboard/client-bookings/' + this.booking.id) //destroy method in ClientBookingController
+      .then(function (response) {
+        if (response.data.success) {
+          _this4.closeModal();
+
+          _this4.booking = null;
+
+          _this4.getBookings();
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -38210,7 +38289,7 @@ __webpack_require__.r(__webpack_exports__);
     approveBooking: function approveBooking(id) {
       var _this2 = this;
 
-      axios.put('/dashboard/nurse-bookings/' + id) //update method
+      axios.put('/dashboard/nurse-bookings/' + id) //update method in NurseBookingController
       .then(function (response) {
         if (response.data.success) {
           _this2.emitter.emit('response-success-true');
@@ -38224,7 +38303,7 @@ __webpack_require__.r(__webpack_exports__);
     refuseBooking: function refuseBooking(id) {
       var _this3 = this;
 
-      axios["delete"]('/dashboard/nurse-bookings/' + id) //destroy method
+      axios["delete"]('/dashboard/nurse-bookings/' + id) //destroy method in NurseBookingController
       .then(function (response) {
         if (response.data.success) {
           _this3.emitter.emit('response-success-true');
@@ -39116,10 +39195,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _dashboards_admin_dashboard_components_settings_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dashboards/admin-dashboard/components/settings/index */ "./resources/js/dashboards/admin-dashboard/components/settings/index.js");
 /* harmony import */ var _dashboards_admin_dashboard_components_Dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dashboards/admin-dashboard/components/Dashboard */ "./resources/js/dashboards/admin-dashboard/components/Dashboard.vue");
 /* harmony import */ var _dashboards_admin_dashboard_components_nurses_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dashboards/admin-dashboard/components/nurses/index */ "./resources/js/dashboards/admin-dashboard/components/nurses/index.js");
+/* harmony import */ var _dashboards_admin_dashboard_components_clients_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dashboards/admin-dashboard/components/clients/index */ "./resources/js/dashboards/admin-dashboard/components/clients/index.js");
+
 
 
 
@@ -39129,6 +39210,11 @@ var routes = [{
   name: 'AdminDashboard',
   component: _dashboards_admin_dashboard_components_Dashboard__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
+  path: "/dashboard/admin/clients",
+  name: 'AdminDashboardClients',
+  component: _dashboards_admin_dashboard_components_clients_index__WEBPACK_IMPORTED_MODULE_3__["default"],
+  props: true
+}, {
   path: "/dashboard/admin/settings",
   name: 'AdminDashboardSettings',
   component: _dashboards_admin_dashboard_components_settings_index__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -39136,11 +39222,12 @@ var routes = [{
 }, {
   path: "/dashboard/admin/nurses",
   name: 'AdminDashboardNurses',
-  component: _dashboards_admin_dashboard_components_nurses_index__WEBPACK_IMPORTED_MODULE_2__["default"]
+  component: _dashboards_admin_dashboard_components_nurses_index__WEBPACK_IMPORTED_MODULE_2__["default"],
+  props: true
 }];
-var router = vue_router__WEBPACK_IMPORTED_MODULE_3__.createRouter({
+var router = vue_router__WEBPACK_IMPORTED_MODULE_4__.createRouter({
   routes: routes,
-  history: vue_router__WEBPACK_IMPORTED_MODULE_3__.createWebHistory()
+  history: vue_router__WEBPACK_IMPORTED_MODULE_4__.createWebHistory()
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -39375,6 +39462,30 @@ var router = vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter({
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/clients/style.css":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/clients/style.css ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".nurse-link-wrapper {\n    background: #0a58ca;\n    padding: 10px;\n    margin: 1px;\n}\n\n.nurse-link {\n    cursor: pointer;\n}\n\n.active-link {\n    color:white;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/nurses-card/style.css":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/nurses-card/style.css ***!
@@ -39440,7 +39551,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.show-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.show-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.remove-confirm-wrapper {\n    padding-top: 75px;\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -39632,7 +39743,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-dashboard-left-panel[data-v-1ef2a29c] {\r\n    height: 100%;\r\n    background: #d9d9d9;\r\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-1ef2a29c] {\r\n    background: #d9d9d9;\n}\n.list-group-item[data-v-1ef2a29c]:hover {\r\n    background: #f8f7f7;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-dashboard-left-panel[data-v-1ef2a29c] {\n    height: 100%;\n    background: #d9d9d9;\n    min-height: calc(100vh - 50px);\n}\n.list-group-item[data-v-1ef2a29c] {\n    background: #d9d9d9;\n}\n.list-group-item[data-v-1ef2a29c]:hover {\n    background: #f8f7f7;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40363,6 +40474,19 @@ module.exports = function (cssWithMappingToString) {
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/admin-dashboard/components/clients/template.html":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/clients/template.html ***!
+  \**********************************************************************************/
+/***/ ((module) => {
+
+// Module
+var code = "<div>\n    <h1>Clients</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Id</th>\n            <th>Name</th>\n            <th>Photo</th>\n            <th>Email</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n            <tr v-if=\"clients.length > 0\" v-for=\"client in clients\">\n                <th>{{ client.id }}</th>\n                <th>{{ client.first_name + ' ' + client.last_name }}</th>\n                <th>{{ client.entity.thumbnail_photo }}</th>\n                <th>{{ client.email }}</th>\n                <th>\n\n                </th>\n            </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"links.length > 0\" class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-12 d-flex justify-content-center\">\n            <span v-if=\"links.length > 3\" v-for=\"link in links\" class=\"nurse-link-wrapper\">\n                <span v-if=\"link.label.split(';')[1] === ' Previous'\" v-on:click=\"newPage(link.url)\" class=\"nurse-link\">\n                     preview\n                </span>\n                <span v-else-if=\"link.label.split('&')[0] === 'Next '\" v-on:click=\"newPage(link.url)\" class=\"nurse-link\">\n                    next\n                </span>\n                <span v-else v-on:click=\"newPage(link.url)\"\n                      v-bind:class=\"link.active ? 'active-link': ''\" class=\"nurse-link\">\n                    {{ link.label }}\n                </span>\n            </span>\n            </div>\n        </div>\n    </div>\n</div>\n";
+// Exports
+module.exports = code;
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/admin-dashboard/components/nurses-card/template.html":
 /*!**************************************************************************************!*\
   !*** ./resources/js/dashboards/admin-dashboard/components/nurses-card/template.html ***!
@@ -40422,7 +40546,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show_and_edit') }}\n                </button>&nbsp;\n                <button v-if=\"booking.have_alternative === 'yes'\" class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('show_alternative') }}\n                </button>&nbsp;\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('show_alternative') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithNurse(booking.nurse)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"deleteBooking(booking.id)\">{{ $t('remove') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_booking\" class=\"show-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"updateBooking()\">{{ $t('update') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"nurse\" :data=\"data\" :client=\"user\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\"></alternative>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"agreeWithAlternativeBooking()\">{{ $t('agree') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n";
+var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show_and_edit') }}\n                </button>&nbsp;\n                <button v-if=\"booking.have_alternative === 'yes'\" class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('show_alternative') }}\n                </button>&nbsp;\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('show_alternative') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithNurse(booking.nurse)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"deleteBooking(booking)\">{{ $t('remove') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_booking\" class=\"show-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"updateBooking()\">{{ $t('update') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"nurse\" :data=\"data\" :client=\"user\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\"></alternative>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"agreeWithAlternativeBooking()\">{{ $t('agree') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_remove_confirm\" class=\"remove-confirm-wrapper\">\n            <div class=\"row\">\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-danger btn-sm\" v-on:click=\"deleteBookingConfirm()\">{{ $t('remove') }}</button>\n                </div>\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-success btn-sm\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n    </div>\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -64156,6 +64280,36 @@ runtime.setup(pusher_Pusher);
 /******/ ]);
 });
 //# sourceMappingURL=pusher.js.map
+
+/***/ }),
+
+/***/ "./resources/js/dashboards/admin-dashboard/components/clients/style.css":
+/*!******************************************************************************!*\
+  !*** ./resources/js/dashboards/admin-dashboard/components/clients/style.css ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/admin-dashboard/components/clients/style.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

@@ -59,7 +59,9 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
+        Route::get('/get-clients', [AdminDashboardController::class, 'getClients']);
         Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
         Route::get('/hear-about-us', [AdminDashboardController::class, 'hearAboutUs']);

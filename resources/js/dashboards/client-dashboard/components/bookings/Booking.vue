@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="col-8">
-                    <br>
+                    <label class="form-label col-form-label-sm">{{ $t('days') }}</label>
                     <div class='weekdays'>
                         <div class='weekday' v-for='weekday in weekdayLabels'>
                                     <span v-if="checkWorkWeekDays()" class="work-day" v-on:click="addDays(weekday)">

@@ -30,7 +30,7 @@
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="deleteBooking(booking.id)">{{ $t('remove') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
             </th>
         </tr>
         </tbody>
@@ -92,5 +92,17 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div v-if="show_remove_confirm" class="remove-confirm-wrapper">
+            <div class="row">
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-danger btn-sm" v-on:click="deleteBookingConfirm()">{{ $t('remove') }}</button>
+                </div>
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-success btn-sm" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
     </div>
 </div>

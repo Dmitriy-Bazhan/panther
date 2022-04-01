@@ -15,6 +15,7 @@ export default {
     },
     data() {
         return {
+            show_remove_confirm: false,
             show_booking: false,
             show_alternative: false,
             show_chat: false,
@@ -65,6 +66,7 @@ export default {
             this.show_chat = false;
             this.show_booking = false;
             this.show_alternative = false;
+            this.show_remove_confirm = false;
             this.booking = null;
             this.nurse = null;
         },
@@ -87,8 +89,21 @@ export default {
             this.show_booking = false;
             this.show_alternative = false;
         },
-        deleteBooking(id) {
-
+        deleteBooking(booking) {
+            this.booking = booking;
+            this.show_remove_confirm = true;
         },
+        deleteBookingConfirm(){
+            axios.delete('/dashboard/client-bookings/' + this.booking.id ) //destroy method in ClientBookingController
+                .then((response) => {
+                    if(response.data.success){
+                        this.closeModal();
+                        this.booking = null;
+                        this.getBookings();
+                    }
+                }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 }

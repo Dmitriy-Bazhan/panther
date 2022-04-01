@@ -36,8 +36,8 @@ class ClientRepository
             if (request()->filled('order_by')) {
 
             } else {
-//                default order
-                $client->orderByDesc('createdAt');
+                //default order
+//                $client->orderByDesc('created_at');
             }
         }
 

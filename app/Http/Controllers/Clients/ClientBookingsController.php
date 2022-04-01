@@ -162,7 +162,17 @@ class ClientBookingsController extends Controller
 
     public function destroy($id)
     {
-        //
+        if(is_null($id) || !is_numeric($id)){
+            //todo:hmm
+            abort(409);
+        }
+
+        if(!Booking::where('id', $id)->delete()){
+            //todo:hmm
+            abort(409);
+        }
+
+        return response()->json(['success' => true ]);
     }
 
     public function agreeWithAlternative($id){
