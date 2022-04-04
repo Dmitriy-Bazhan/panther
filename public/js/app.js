@@ -27562,7 +27562,6 @@ __webpack_require__.r(__webpack_exports__);
     this.emitter.on('update-information', function (e) {
       _this.updateInformation();
     });
-    console.log(this.data);
     console.log(this.user);
   },
   watch: {
@@ -27575,6 +27574,10 @@ __webpack_require__.r(__webpack_exports__);
             level: ''
           });
           this.user.entity.languages.push(lang);
+        }
+
+        if (typeof this.user.entity.work_time_pref === "string") {
+          this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
         }
       },
       immediate: true
@@ -37506,8 +37509,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get(this.url).then(function (response) {
-        _this.clients = response.data.clients.data;
-        _this.links = response.data.clients.links;
+        _this.clients = response.data.data;
+        _this.links = response.data.meta.links;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -37608,7 +37611,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.nurse.entity.is_approved = 'yes';
         _this2.nurse.entity.change_info = 'no';
-        _this2.nurse.entity.info_is_full = 'no';
 
         _this2.emitter.emit('close-nurse-card');
       })["catch"](function (error) {
@@ -37717,7 +37719,9 @@ __webpack_require__.r(__webpack_exports__);
       nurses: [],
       nurse: null,
       nurseCardIsVisible: false,
-      filterString: '?only_full_info=yes'
+      filterString: '',
+      url: 'get-nurses',
+      links: []
     };
   },
   mounted: function mounted() {
@@ -37733,12 +37737,21 @@ __webpack_require__.r(__webpack_exports__);
     getNurses: function getNurses() {
       var _this2 = this;
 
-      axios.get('get-nurses' + this.filterString).then(function (response) {
-        console.log(response.data.data[0]);
+      axios.get(this.url + this.filterString).then(function (response) {
+        console.log(response.data);
         _this2.nurses = response.data.data;
+        _this2.links = response.data.meta.links;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    newPage: function newPage(url) {
+      console.log(url);
+
+      if (url !== null) {
+        this.url = url;
+        this.getNurses();
+      }
     },
     checkUser: function checkUser(nurse) {
       this.nurse = nurse;
@@ -37754,7 +37767,6 @@ __webpack_require__.r(__webpack_exports__);
           if (el.entity.id === response.data.id) {
             el.entity.is_approved = 'yes';
             el.entity.change_info = 'no';
-            el.entity.info_is_full = 'no';
           }
         });
       })["catch"](function (error) {
@@ -40507,7 +40519,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Nurses</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Is Change</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.entity.id }}</td>\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\n            <td>\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>&nbsp;\n                <button v-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\" v-on:click=\"approveNurse(nurse.entity.id)\">Approve</button>\n                <button v-else class=\"btn btn-secondary btn-sm\" v-on:click=\"dismissNurse(nurse.entity.id)\">Dismiss</button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\" :data=\"data\"></nurses-card>\n</div>\n\n\n";
+var code = "<div>\n    <h1>Nurses</h1>\n\n    <table rules=\"all\">\n        <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Age</th>\n            <th>Photo</th>\n            <th>Info is full</th>\n            <th>Is Change</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"nurses.length > 0\" v-for=\"nurse in nurses\">\n\n            <td>{{ nurse.entity.id }}</td>\n            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>\n            <td>{{ nurse.entity.age }}</td>\n            <td>\n                <img v-bind:src=\"path + '/storage/' + nurse.entity.thumbnail_photo\" alt=\"no-photo\" class=\"\">\n            </td>\n            <td>{{ nurse.entity.info_is_full }}</td>\n            <td><span v-if=\"nurse.entity.change_info === 'yes'\" class=\"alarm-signal blink\"></span>{{ nurse.entity.change_info }}</td>\n            <td>\n                <button class=\"btn btn-success btn-sm\" v-on:click=\"checkUser(nurse)\">Check</button>\n                <button v-if=\"nurse.entity.info_is_full === 'no'\" class=\"btn btn-secondary btn-sm\">Approve</button>&nbsp;\n                <button v-else-if=\"nurse.entity.is_approved === 'no'\" class=\"btn btn-success btn-sm\" v-on:click=\"approveNurse(nurse.entity.id)\">Approve</button>\n                <button v-else class=\"btn btn-danger btn-sm\" v-on:click=\"dismissNurse(nurse.entity.id)\">Dismiss</button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"links.length > 0\" class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-12 d-flex justify-content-center\">\n            <span v-if=\"links.length > 3\" v-for=\"link in links\" class=\"nurse-link-wrapper\">\n                <span v-if=\"link.label.split(';')[1] === ' Previous'\" v-on:click=\"newPage(link.url)\" class=\"nurse-link\">\n                     preview\n                </span>\n                <span v-else-if=\"link.label.split('&')[0] === 'Next '\" v-on:click=\"newPage(link.url)\" class=\"nurse-link\">\n                    next\n                </span>\n                <span v-else v-on:click=\"newPage(link.url)\"\n                      v-bind:class=\"link.active ? 'active-link': ''\" class=\"nurse-link\">\n                    {{ link.label }}\n                </span>\n            </span>\n            </div>\n        </div>\n    </div>\n\n    <nurses-card v-if=\"nurseCardIsVisible\" :nurse=\"nurse\" :data=\"data\"></nurses-card>\n</div>\n\n\n";
 // Exports
 module.exports = code;
 

@@ -20,8 +20,8 @@ export default {
         getClients() {
             axios.get(this.url)
                 .then((response) => {
-                    this.clients = response.data.clients.data;
-                    this.links = response.data.clients.links;
+                    this.clients = response.data.data;
+                    this.links = response.data.meta.links;
                 })
                 .catch((error) => {
                     console.log(error);

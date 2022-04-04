@@ -103,7 +103,7 @@ class AdminDashboardController extends Controller
     public function getClients()
     {
         $clients = $this->clientRepo->search();
-        return response()->json(['clients' => $clients]);
+        return ClientResource::collection($clients);
     }
 
     public function hearAboutUs()

@@ -288,7 +288,6 @@
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });
-            console.log(this.data);
             console.log(this.user);
         },
         watch: {
@@ -300,7 +299,12 @@
                             lang: '',
                             level: ''
                         });
+
                         this.user.entity.languages.push(lang);
+                    }
+
+                    if (typeof this.user.entity.work_time_pref === "string") {
+                        this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
                     }
                 },
                 immediate: true
