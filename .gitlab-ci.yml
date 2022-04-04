@@ -5,7 +5,7 @@ stages:
 install:
   stage: install
   script:
-    - echo "Stage install empty"
+    - echo "Stage install empty test"
 #    - cp .env.example .env
 #    - composer install
 #    - composer require laravel/envoy --dev
