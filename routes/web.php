@@ -204,3 +204,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::get('/you-welcome', function () {
     return view('main');
 });
+
+//Route::get('show-mail', function (){
+//    return view('mail.client-verification-mail')->with([
+//        'url' => 'url',
+//        'text' => 'text',
+//        'user' => auth()->user(),
+//    ]);
+//});
