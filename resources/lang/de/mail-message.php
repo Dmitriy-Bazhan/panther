@@ -8,4 +8,7 @@ return [
     'email_verification_for_clents' => 'Vielen Dank für Ihre Registrierung bei PflegePanther. Bitte bestätigen Sie Ihre
     E-Mail durch einen Klick auf untenstehenden Link (Registrierung abschließen). Danach können Sie Ihre passende
     Pflegekraft suchen. Wir freuen uns sehr, Sie bald auf PflegePanther begrüßen zu dürfen?',
+
+    'hello_dear' => 'Hallo schatz',
+    'verification' => 'Überprüfung',
 ];
