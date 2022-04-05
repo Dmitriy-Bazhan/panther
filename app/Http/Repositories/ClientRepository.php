@@ -41,7 +41,6 @@ class ClientRepository
             }
         }
 
-        $client->without('prefs');
         return $client->paginate(12);
     }
 
