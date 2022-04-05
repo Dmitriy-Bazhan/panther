@@ -147,8 +147,6 @@ class NurseRepository
             }
         }
 
-        $nurse->without('prefs');
-
         return $nurse->paginate(12);
     }
 

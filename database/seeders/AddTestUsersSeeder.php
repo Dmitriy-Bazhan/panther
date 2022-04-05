@@ -83,6 +83,7 @@ class AddTestUsersSeeder extends Seeder
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
+            'work_time_pref' => '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "0", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}',
         ]);
 
         Nurse::where('id', 2)->update([
@@ -91,6 +92,7 @@ class AddTestUsersSeeder extends Seeder
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
+            'work_time_pref' => '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "0", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}',
         ]);
 
         Nurse::where('id', 3)->update([
@@ -99,6 +101,7 @@ class AddTestUsersSeeder extends Seeder
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
+            'work_time_pref' => '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "0", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}',
         ]);
 
         Nurse::where('id', 4)->update([
@@ -107,6 +110,7 @@ class AddTestUsersSeeder extends Seeder
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
+            'work_time_pref' => '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "0", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}',
         ]);
 
         Nurse::where('id', 5)->update([
@@ -115,6 +119,7 @@ class AddTestUsersSeeder extends Seeder
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
+            'work_time_pref' => '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "0", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}',
         ]);
 
         for ($i = 1; $i <= 5; $i++) {
