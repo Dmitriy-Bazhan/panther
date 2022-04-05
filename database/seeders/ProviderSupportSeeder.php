@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ProvideSupport;
-use App\Models\ProvideSupportAssigned;
 use Illuminate\Database\Seeder;
 
 class ProviderSupportSeeder extends Seeder
@@ -34,16 +33,6 @@ class ProviderSupportSeeder extends Seeder
             }
         }
 
-//        for ($i = 1; $i <= 5; $i++) {
-//            $provideAssigned = new ProvideSupportAssigned();
-//            $provideAssigned->nurse_id = $i;
-//            $provideAssigned->support_id = rand(1, 8);
-//            $provideAssigned->save();
-//
-//            $provideAssigned = new ProvideSupportAssigned();
-//            $provideAssigned->nurse_id = $i;
-//            $provideAssigned->support_id = rand(1, 8);
-//            $provideAssigned->save();
-//        }
+
     }
 }

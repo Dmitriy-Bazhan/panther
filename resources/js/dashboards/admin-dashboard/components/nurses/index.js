@@ -15,11 +15,10 @@ export default {
             nurses: [],
             nurse: null,
             nurseCardIsVisible: false,
-            filterString: '?only_full_info=yes'
+            filterString: '',
+            url: 'get-nurses',
+            links: [],
         }
-    },
-    watch : {
-
     },
     mounted() {
         this.getNurses();
@@ -27,22 +26,25 @@ export default {
             this.nurse = null;
             this.nurseCardIsVisible = false;
         });
-
-
-    },
-    created() {
-
     },
     methods: {
         getNurses() {
-            axios.get('get-nurses' + this.filterString)
+            axios.get(this.url + this.filterString)
                 .then((response) => {
-                    console.log(response.data.data[0]);
+                    console.log(response.data);
                     this.nurses = response.data.data;
+                    this.links = response.data.meta.links;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        newPage(url){
+            console.log(url);
+            if (url !== null) {
+                this.url = url;
+                this.getNurses();
+            }
         },
         checkUser(nurse) {
             this.nurse = nurse;
@@ -55,7 +57,6 @@ export default {
                         if(el.entity.id === response.data.id){
                             el.entity.is_approved = 'yes';
                             el.entity.change_info = 'no';
-                            el.entity.info_is_full = 'no';
                         }
                     });
                 })

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Nurses;
 use App\Http\Controllers\Controller;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
+use App\Models\Booking;
 use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
@@ -26,6 +27,9 @@ class NurseDashboardController extends Controller
         $data['data']['provider_supports'] = ProvideSupport::all();
         $data['data']['additional_info'] = AdditionalInfo::all();
         $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
+        $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
+            ->where('is_approved', 'no')
+            ->first() !== null ? true : false;
         $data['data']['have_new_message'] = PrivateChat::where('nurse_user_id', auth()->id())
             ->where('status', 'unread')
             ->whereNotNull('client_sent')

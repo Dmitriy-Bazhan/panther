@@ -1,0 +1,13 @@
+.nurse-link-wrapper {
+    background: #0a58ca;
+    padding: 10px;
+    margin: 1px;
+}
+
+.nurse-link {
+    cursor: pointer;
+}
+
+.active-link {
+    color:white;
+}

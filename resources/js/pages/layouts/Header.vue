@@ -26,7 +26,7 @@
                                      v-on:click="waitVerification()"><i class="ti-user"></i>&nbsp;
                                     <span class="menu-item-name">{{ $t('my_account') }}</span>
                                 </div>
-                                <div class="menu-item" v-else v-on:click="toDashboard">
+                                <div class="menu-item" v-else v-on:click="toDashboard()">
                                     <i class="ti-user"></i>&nbsp;
                                     <span class="menu-item-name">{{ $t('my_account') }}</span>
                                 </div>
@@ -70,6 +70,8 @@
             }
         },
         mounted() {
+            // console.log(window.guard);
+            console.log(this.auth);
         },
         methods: {
             toLogin() {

@@ -59,7 +59,9 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
+        Route::get('/get-clients', [AdminDashboardController::class, 'getClients']);
         Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
         Route::get('/hear-about-us', [AdminDashboardController::class, 'hearAboutUs']);
@@ -76,6 +78,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('messages', [ClientDashboardController::class, 'index']);
         Route::get('ratings', [ClientDashboardController::class, 'index']);
         Route::get('bookings', [ClientDashboardController::class, 'index']);
+        Route::get('bookings/get-private-chats/{nurse_id}', [ClientBookingsController::class, 'getPrivateChat']);
         Route::get('payments', [ClientDashboardController::class, 'index']);
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
@@ -85,6 +88,11 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client bookings
+
+    Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function(){
+        Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
+    });
+
     Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
 
@@ -107,6 +115,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('messages', [NurseDashboardController::class, 'index']);
         Route::get('ratings', [NurseDashboardController::class, 'index']);
         Route::get('bookings', [NurseDashboardController::class, 'index']);
+        Route::get('bookings/get-private-chats/{client_id}', [NurseBookingController::class, 'getPrivateChat']);
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);

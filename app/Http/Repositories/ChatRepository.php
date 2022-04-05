@@ -85,6 +85,12 @@ class ChatRepository
         return $chat;
     }
 
+    public function getNursePrivateChatsWithClients($client_id)
+    {
+        $chat = PrivateChat::where('nurse_user_id', auth()->id())->where('client_user_id', $client_id)->get();
+        return $chat;
+    }
+
     public function markNursesMessageAsRead($nurse_id, $client_id)
     {
         if (is_null($nurse_id) || is_null($client_id)) {

@@ -65,7 +65,6 @@ export default {
                 .then((response) => {
                     this.nurse.entity.is_approved = 'yes';
                     this.nurse.entity.change_info = 'no';
-                    this.nurse.entity.info_is_full = 'no';
                     this.emitter.emit('close-nurse-card');
                 })
                 .catch((error) => {

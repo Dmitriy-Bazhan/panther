@@ -8,6 +8,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Photo</th>
+            <th>Info is full</th>
             <th>Is Change</th>
             <th>Action</th>
         </tr>
@@ -21,15 +22,36 @@
             <td>
                 <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
             </td>
+            <td>{{ nurse.entity.info_is_full }}</td>
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
-                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>&nbsp;
-                <button v-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
-                <button v-else class="btn btn-secondary btn-sm" v-on:click="dismissNurse(nurse.entity.id)">Dismiss</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>
+                <button v-if="nurse.entity.info_is_full === 'no'" class="btn btn-secondary btn-sm">Approve</button>&nbsp;
+                <button v-else-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
+                <button v-else class="btn btn-danger btn-sm" v-on:click="dismissNurse(nurse.entity.id)">Dismiss</button>
             </td>
         </tr>
         </tbody>
     </table>
+
+    <div v-if="links.length > 0" class="container-fluid">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+            <span v-if="links.length > 3" v-for="link in links" class="nurse-link-wrapper">
+                <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
+                     preview
+                </span>
+                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)" class="nurse-link">
+                    next
+                </span>
+                <span v-else v-on:click="newPage(link.url)"
+                      v-bind:class="link.active ? 'active-link': ''" class="nurse-link">
+                    {{ link.label }}
+                </span>
+            </span>
+            </div>
+        </div>
+    </div>
 
     <nurses-card v-if="nurseCardIsVisible" :nurse="nurse" :data="data"></nurses-card>
 </div>

@@ -38,70 +38,78 @@
                      class="nurse-profile-image">
             </div>
 
-            <div class="row">
-                <div class="col-2">
-                    {{ $t('chat') }}:
-                </div>
-                <div class="col-10 chat-wrapper" v-if="comments.length > 0">
-                    <div v-for="comment in comments">
-                        <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
+                <div class="row">
+                    <div class="col-2">
+                        {{ $t('chat') }}:
+                    </div>
+                    <div class="col-10 chat-wrapper" v-if="comments.length > 0">
+                        <div v-for="comment in comments">
+                            <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
                         <span class="chat-client-name">
                             {{ comment.user_name }}
                         </span>
-                            <br>
-                            <span class="chat-client-message">
+                                <br>
+                                <span class="chat-client-message">
                             {{ comment.message }}
                         </span>
-                            <br>
-                            <span class="chat-client-date">
+                                <br>
+                                <span class="chat-client-date">
                             {{ formatDate(comment.created_at) }}
                         </span>
-                        </div>
+                            </div>
 
-                        <div v-else class="nurse-client-message-wrapper">
+                            <div v-else class="nurse-client-message-wrapper">
                         <span class="nurse-client-name">
                             {{ comment.user_name }}
                         </span>
-                            <br>
-                            <span class="nurse-client-message">
+                                <br>
+                                <span class="nurse-client-message">
                             {{ comment.message }}
                         </span>
-                            <br>
-                            <span class="nurse-client-date">
+                                <br>
+                                <span class="nurse-client-date">
                             {{ formatDate(comment.created_at) }}
                         </span>
 
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-2">
+                        {{ $t('message') }}:
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" v-model="privateMessage">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-dark btn-sm" v-on:click="sendToBookings">{{ $t('send_to_bookings') }}
+                        </button>
                     </div>
                 </div>
 
             </div>
-            <br>
-            <div class="row">
-                <div class="col-2">
-                    {{ $t('message') }}:
-                </div>
-                <div class="col-8">
-                    <input type="text" class="form-control form-control-sm" v-model="privateMessage">
-                </div>
-                <div class="col-2">
-                    <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <button class="btn btn-dark btn-sm" v-on:click="sendToBookings">{{ $t('send_to_bookings') }}</button>
-                </div>
-            </div>
-
         </div>
-    </div>
 </template>
 
 <script>
+    import SingleChat from "../../dashboards/nurse-dashboard/components/bookings/SingleChat";
+
     export default {
         name: "NurseProfile",
         props: ['nurse', 'data', 'user'],
+        components: {
+            single_chat: SingleChat,
+        },
         data() {
             return {
                 path: location.origin,
@@ -131,13 +139,11 @@
             }
         },
         methods: {
-            sendToBookings(){
+            sendToBookings() {
                 window.open('booking/' + this.nurse.id);
-            },
-            getPrivateChats() {
-                axios.get('listing/get-private-chats/' + this.nurse.id)
+            }, getPrivateChats() {
+                axios.get('/listing/get-private-chats/' + this.nurse.id)
                     .then((response) => {
-                        console.log(response.data.chat.length);
                         if (response.data.chat.length > 0) {
                             for (let value in response.data.chat) {
                                 let message = {

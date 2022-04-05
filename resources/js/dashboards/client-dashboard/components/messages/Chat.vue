@@ -141,8 +141,6 @@
             } catch (e) {
                 console.log('Websockets not work');
             }
-
-
         },
         methods: {
             markAsReadThisChat(){

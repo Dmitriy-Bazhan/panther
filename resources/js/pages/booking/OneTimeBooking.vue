@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-4">
                     <input type="email" class="form-control form-control-sm"
-                           id="additional_email" min="10"
+                           id="additional_email"
                            v-model="booking.additional_email">
                 </div>
                 <div class="col-3 offset-2">
@@ -409,7 +409,7 @@
                 }
             },
             sendBooking() {
-                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one_time'})
+                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one'})
                     .then((response) => {
                         if(response.data.success){
                             window.location.href = '/send-booking-message';

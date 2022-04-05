@@ -34,11 +34,11 @@ class NurseRepository
         }
 
         //get nurses to admin/nurses list
-        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
-            $nurse->whereHas('nurse', function ($query) {
-                return $query->where('info_is_full', 'yes')->orWhere('change_info', 'yes')->orWhere('is_approved', 'yes');
-            });
-        }
+//        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
+//            $nurse->whereHas('nurse', function ($query) {
+//                return $query->where('info_is_full', 'yes')->orWhere('change_info', 'yes')->orWhere('is_approved', 'yes');
+//            });
+//        }
 
         //filters is approved
         if (request()->filled('is_approved') && request('is_approved') == 'yes') {
@@ -164,11 +164,8 @@ class NurseRepository
             'zip_code' => $data['zip_code'],
         ]);
 
-        $change_info = 'no';
+        $change_info = 'yes';
         $info_is_full = 'yes';
-        if (Nurse::where('id', $data['entity_id'])->first()->info_is_full == 'yes') {
-            $change_info = 'yes';
-        }
 
         Nurse::where('id', $data['entity_id'])->update([
             'info_is_full' => $info_is_full,
@@ -251,6 +248,10 @@ class NurseRepository
                     'file_type' => $key
                 ]);
             }
+
+            Nurse::where('id', auth()->user()->entity_id)->update([
+                'change_info' => 'yes',
+            ]);
         }
 
         return true;
@@ -283,6 +284,7 @@ class NurseRepository
             Nurse::where('id', auth()->user()->entity_id)->update([
                 'original_photo' => $original_path,
                 'thumbnail_photo' => $thumbnail_path,
+                'change_info' => 'yes',
             ]);
 
         }
