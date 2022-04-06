@@ -33,7 +33,7 @@ class VerificationMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.client-verification-mail')->with([
+        return $this->view('mail.verification-mail')->with([
             'url' => $this->url,
             'text' => $this->text,
             'user' => $this->user,
