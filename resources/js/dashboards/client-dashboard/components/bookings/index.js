@@ -17,6 +17,7 @@ export default {
         return {
             show_remove_confirm: false,
             show_booking: false,
+            show_refused_booking: false,
             show_alternative: false,
             show_chat: false,
             booking: null,
@@ -51,10 +52,10 @@ export default {
                     console.log(error);
                 });
         },
-        updateBooking(){
-            axios.put('/dashboard/client-bookings/' + this.booking.id, { 'booking' : this.booking}) //update method in ClientBookingController
+        updateBooking() {
+            axios.put('/dashboard/client-bookings/' + this.booking.id, {'booking': this.booking}) //update method in ClientBookingController
                 .then((response) => {
-                    if(response.data.success){
+                    if (response.data.success) {
                         this.closeModal();
                         this.booking = null;
                     }
@@ -66,6 +67,7 @@ export default {
             this.show_chat = false;
             this.show_booking = false;
             this.show_alternative = false;
+            this.show_refused_booking = false;
             this.show_remove_confirm = false;
             this.booking = null;
             this.nurse = null;
@@ -73,6 +75,7 @@ export default {
         showCurrentBooking(booking) {
             this.show_booking = true;
             this.show_alternative = false;
+            this.show_refused_booking = false;
             this.show_chat = false;
             this.booking = booking;
         },
@@ -80,6 +83,7 @@ export default {
         showCurrentAlternativeBooking(booking) {
             this.show_alternative = true;
             this.show_booking = false;
+            this.show_refused_booking = false;
             this.show_chat = false;
             this.booking = booking;
         },
@@ -87,16 +91,33 @@ export default {
             this.nurse = nurse;
             this.show_chat = true;
             this.show_booking = false;
+            this.show_refused_booking = false;
             this.show_alternative = false;
+        },
+        showRefusedBooking(booking) {
+            this.show_refused_booking = true;
+            this.show_chat = false;
+            this.show_booking = false;
+            this.show_alternative = false;
+            this.booking = booking;
         },
         deleteBooking(booking) {
             this.booking = booking;
             this.show_remove_confirm = true;
         },
-        deleteBookingConfirm(){
-            axios.delete('/dashboard/client-bookings/' + this.booking.id ) //destroy method in ClientBookingController
+        sendAgain(id) {
+            axios.get('/dashboard/client-bookings/send-booking-again/' + id)
                 .then((response) => {
-                    if(response.data.success){
+                    this.closeModal();
+                    this.getBookings();
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        deleteBookingConfirm() {
+            axios.delete('/dashboard/client-bookings/' + this.booking.id) //destroy method in ClientBookingController
+                .then((response) => {
+                    if (response.data.success) {
                         this.closeModal();
                         this.booking = null;
                         this.getBookings();

@@ -23,6 +23,8 @@ class CreateBookingsTable extends Migration
             $table->string('is_approved')->default('no')->comment('yes|no');
             $table->string('have_alternative')->default('no')->comment('yes|no');
             $table->string('agree_for_alternative')->default('no')->comment('yes|no');
+            $table->string('nurse_is_refuse_booking')->default('no')->comment('yes|no');
+            $table->string('reason_of_refuse_booking')->nullable();
             $table->string('one_time_or_regular')->default('one')->comment('one|regular');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();

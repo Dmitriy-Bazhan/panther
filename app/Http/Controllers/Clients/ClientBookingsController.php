@@ -175,6 +175,22 @@ class ClientBookingsController extends Controller
         return response()->json(['success' => true ]);
     }
 
+    public function sendBookingAgain($id) {
+        if(!is_numeric($id) && !Booking::where('id', $id)->first()){
+            abort(409);
+        }
+
+
+        Booking::where('id', $id)->update([
+            'nurse_is_refuse_booking' => 'no',
+            'reason_of_refuse_booking' => null,
+            'agree_for_alternative' => 'no',
+            'have_alternative' => 'no',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function agreeWithAlternative($id){
 
         if(!is_numeric($id) || !Booking::find($id)){

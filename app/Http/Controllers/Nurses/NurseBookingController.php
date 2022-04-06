@@ -26,16 +26,17 @@ class NurseBookingController extends Controller
     public function index()
     {
         $nurseId = 0;
-        if(request()->filled('nurse_id') && is_numeric(request('nurse_id'))){
+        if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
             $nurseId = request('nurse_id');
         }
 
-        if(!User::find($nurseId)){
+        if (!User::find($nurseId)) {
             //todo: hmmm
             abort(409);
         }
 
         $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
+            ->where('nurse_is_refuse_booking', 'no')
             ->with('time', 'client', 'alternative')
             ->get());
         return response()->json(['success' => true, 'bookings' => $bookings]);
@@ -62,7 +63,7 @@ class NurseBookingController extends Controller
 
         $data = request('alternative');
 
-        $validator = Validator::make($data , $rules);
+        $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -113,22 +114,39 @@ class NurseBookingController extends Controller
 
     public function update(Request $request, $id)
     {
-        return response()->json(['success' => true ]);
+        return response()->json(['success' => true]);
     }
 
     public function destroy($id)
     {
-        return response()->json(['success' => true ]);
+        //
     }
 
-    public function getPrivateChat($client_id = null){
+    public function nurseRefuseBooking()
+    {
+        $id = request('booking')['id'];
 
-        if(is_null($client_id) || !is_numeric($client_id)){
+        Booking::where('id', $id)->update(
+            [
+                'nurse_is_refuse_booking' => 'yes',
+                'have_alternative' => 'no',
+                'reason_of_refuse_booking' => request('booking')['reason_of_refuse_booking'],
+        ]);
+
+        AlternativeBooking::where('booking_id', $id)->delete();
+
+    return response()->json(['success' => true]);
+}
+
+    public function getPrivateChat($client_id = null)
+    {
+
+        if (is_null($client_id) || !is_numeric($client_id)) {
             //todo: hmm
             abort(409);
         }
 
         $chat = $this->chatRepo->getNursePrivateChatsWithClients($client_id);
-        return response()->json(['success'=> true, 'chat' => $chat]);
+        return response()->json(['success' => true, 'chat' => $chat]);
     }
 }

@@ -91,6 +91,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function(){
         Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
+        Route::get('send-booking-again/{id}', [ClientBookingsController::class, 'sendBookingAgain']);
     });
 
     Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
@@ -108,6 +109,11 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
+
+
+
+
+
     /*
      * nurse
      */
@@ -124,6 +130,10 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
     //nurse bookings
+    Route::prefix('nurse-bookings')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function(){
+        Route::post('nurse-refuse-booking', [NurseBookingController::class, 'nurseRefuseBooking']);
+    });
+
     Route::resource('nurse-bookings', NurseBookingController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
     //nurse my information
