@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\NurseRepository;
+use App\Mail\SendNurseNewBookingMail;
 use App\Models\AdditionalInfo;
 use App\Models\Booking;
 use App\Models\BookingTime;
 use App\Models\ProvideSupport;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
@@ -24,12 +26,6 @@ class BookingController extends Controller
 
     public function index()
     {
-//        $data = [];
-//        if (auth()->check()) {
-//            $data['data']['provider_supports'] = ProvideSupport::all();
-//            $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-//        }
-//        return view('main', $data);
     }
 
     public function create()
@@ -136,6 +132,9 @@ class BookingController extends Controller
             }
         }
 
+        $nurse = User::find(request('nurse_user_id'));
+        $client = auth()->user();
+        Mail::mailer('smtp')->to($nurse->email)->send(new SendNurseNewBookingMail($nurse, $client));
         return response()->json(['success' => true]);
     }
 
