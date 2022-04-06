@@ -17,6 +17,7 @@ export default {
         return {
             bookings: [],
             show_chat: false,
+            show_refuse: false,
             client: null,
             show_booking: false,
             show_alternative: false,
@@ -28,6 +29,7 @@ export default {
 
         this.emitter.on('close-alternative-booking-modal', (e) => {
             this.show_alternative = false;
+            this.getNursesBookings();
         });
     },
     methods: {
@@ -35,6 +37,7 @@ export default {
             this.show_alternative = false;
             this.show_chat = false;
             this.show_booking = false;
+            this.show_refuse = false;
             this.booking = null;
             this.client = null;
         },
@@ -42,12 +45,14 @@ export default {
             this.show_booking = true;
             this.show_alternative = false;
             this.show_chat = false;
+            this.show_refuse = false;
             this.booking = booking;
         },
         showCurrentAlternativeBooking(booking) {
             this.show_alternative = true;
             this.show_booking = false;
             this.show_chat = false;
+            this.show_refuse = false;
             this.booking = booking;
         },
         showChatWithClient(client) {
@@ -55,25 +60,35 @@ export default {
             this.show_chat = true;
             this.show_booking = false;
             this.show_alternative = false;
+            this.show_refuse = false;
         },
+        showRefuseBooking(booking){
+            this.show_refuse = true;
+            this.show_alternative = false;
+            this.show_booking = false;
+            this.show_chat = false;
+            this.booking = booking;
+        },
+
         approveBooking(id) {
             axios.put('/dashboard/nurse-bookings/' + id) //update method in NurseBookingController
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
                         this.show_booking = false;
+                        this.getNursesBookings();
                     }
                 }).catch((error) => {
                 console.log(error)
             });
         },
-        refuseBooking(id) {
-            axios.delete('/dashboard/nurse-bookings/' + id) //destroy method in NurseBookingController
+        refuseBooking(booking) {
+            axios.post('/dashboard/nurse-bookings/nurse-refuse-booking', { 'booking' : this.booking})
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
-                        this.show_booking = false;
-                        alert('refuse');
+                        this.show_refuse = false;
+                        this.getNursesBookings();
                     }
                 }).catch((error) => {
                 console.log(error)

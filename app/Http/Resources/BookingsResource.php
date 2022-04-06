@@ -41,6 +41,8 @@ class BookingsResource extends JsonResource
             'total' => $this->total ,
             'updated_at' => $this->updated_at ,
             'weeks' => $this->weeks ,
+            'reason_of_refuse_booking' => $this->reason_of_refuse_booking ,
+            'nurse_is_refuse_booking' => $this->nurse_is_refuse_booking ,
         ];
     }
 }

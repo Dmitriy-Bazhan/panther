@@ -30,7 +30,11 @@
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+                <button v-if="booking.nurse_is_refuse_booking === 'yes'"
+                        class="btn btn-sm btn-danger" v-on:click="showRefusedBooking(booking)">
+                    {{ $t('nurse_refuse_booking') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
             </th>
         </tr>
         </tbody>
@@ -104,5 +108,27 @@
                 </div>
 
             </div>
+    </div>
+
+    <div v-if="show_refused_booking" class="client-refuse-booking-wrapper">
+
+        <div class="row">
+            <div class="col-2 offset-10">
+                <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+            </div>
+
+        </div>
+        <h5>{{ $t('nurse') + ' ' + booking.nurse.first_name + ' ' + booking.nurse.last_name + ' ' + $t('refuse_this_booking_your_action')}}</h5>
+
+
+        <div class="row">
+            <div class="col-2 offset-3">
+                <button class="btn btn-sm btn-success" v-on:click="sendAgain(booking.id)">{{ $t('send_again') }}</button>
+
+            </div>
+            <div class="col-2 offset-2">
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+            </div>
+        </div>
     </div>
 </div>

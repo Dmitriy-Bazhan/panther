@@ -37921,6 +37921,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       show_remove_confirm: false,
       show_booking: false,
+      show_refused_booking: false,
       show_alternative: false,
       show_chat: false,
       booking: null,
@@ -37976,6 +37977,7 @@ __webpack_require__.r(__webpack_exports__);
       this.show_chat = false;
       this.show_booking = false;
       this.show_alternative = false;
+      this.show_refused_booking = false;
       this.show_remove_confirm = false;
       this.booking = null;
       this.nurse = null;
@@ -37983,12 +37985,14 @@ __webpack_require__.r(__webpack_exports__);
     showCurrentBooking: function showCurrentBooking(booking) {
       this.show_booking = true;
       this.show_alternative = false;
+      this.show_refused_booking = false;
       this.show_chat = false;
       this.booking = booking;
     },
     showCurrentAlternativeBooking: function showCurrentAlternativeBooking(booking) {
       this.show_alternative = true;
       this.show_booking = false;
+      this.show_refused_booking = false;
       this.show_chat = false;
       this.booking = booking;
     },
@@ -37996,23 +38000,42 @@ __webpack_require__.r(__webpack_exports__);
       this.nurse = nurse;
       this.show_chat = true;
       this.show_booking = false;
+      this.show_refused_booking = false;
       this.show_alternative = false;
+    },
+    showRefusedBooking: function showRefusedBooking(booking) {
+      this.show_refused_booking = true;
+      this.show_chat = false;
+      this.show_booking = false;
+      this.show_alternative = false;
+      this.booking = booking;
     },
     deleteBooking: function deleteBooking(booking) {
       this.booking = booking;
       this.show_remove_confirm = true;
     },
-    deleteBookingConfirm: function deleteBookingConfirm() {
+    sendAgain: function sendAgain(id) {
       var _this4 = this;
+
+      axios.get('/dashboard/client-bookings/send-booking-again/' + id).then(function (response) {
+        _this4.closeModal();
+
+        _this4.getBookings();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    deleteBookingConfirm: function deleteBookingConfirm() {
+      var _this5 = this;
 
       axios["delete"]('/dashboard/client-bookings/' + this.booking.id) //destroy method in ClientBookingController
       .then(function (response) {
         if (response.data.success) {
-          _this4.closeModal();
+          _this5.closeModal();
 
-          _this4.booking = null;
+          _this5.booking = null;
 
-          _this4.getBookings();
+          _this5.getBookings();
         }
       })["catch"](function (error) {
         console.log(error);
@@ -38258,6 +38281,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       bookings: [],
       show_chat: false,
+      show_refuse: false,
       client: null,
       show_booking: false,
       show_alternative: false,
@@ -38270,6 +38294,8 @@ __webpack_require__.r(__webpack_exports__);
     this.getNursesBookings();
     this.emitter.on('close-alternative-booking-modal', function (e) {
       _this.show_alternative = false;
+
+      _this.getNursesBookings();
     });
   },
   methods: {
@@ -38277,6 +38303,7 @@ __webpack_require__.r(__webpack_exports__);
       this.show_alternative = false;
       this.show_chat = false;
       this.show_booking = false;
+      this.show_refuse = false;
       this.booking = null;
       this.client = null;
     },
@@ -38284,12 +38311,14 @@ __webpack_require__.r(__webpack_exports__);
       this.show_booking = true;
       this.show_alternative = false;
       this.show_chat = false;
+      this.show_refuse = false;
       this.booking = booking;
     },
     showCurrentAlternativeBooking: function showCurrentAlternativeBooking(booking) {
       this.show_alternative = true;
       this.show_booking = false;
       this.show_chat = false;
+      this.show_refuse = false;
       this.booking = booking;
     },
     showChatWithClient: function showChatWithClient(client) {
@@ -38297,6 +38326,14 @@ __webpack_require__.r(__webpack_exports__);
       this.show_chat = true;
       this.show_booking = false;
       this.show_alternative = false;
+      this.show_refuse = false;
+    },
+    showRefuseBooking: function showRefuseBooking(booking) {
+      this.show_refuse = true;
+      this.show_alternative = false;
+      this.show_booking = false;
+      this.show_chat = false;
+      this.booking = booking;
     },
     approveBooking: function approveBooking(id) {
       var _this2 = this;
@@ -38307,21 +38344,25 @@ __webpack_require__.r(__webpack_exports__);
           _this2.emitter.emit('response-success-true');
 
           _this2.show_booking = false;
+
+          _this2.getNursesBookings();
         }
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    refuseBooking: function refuseBooking(id) {
+    refuseBooking: function refuseBooking(booking) {
       var _this3 = this;
 
-      axios["delete"]('/dashboard/nurse-bookings/' + id) //destroy method in NurseBookingController
-      .then(function (response) {
+      axios.post('/dashboard/nurse-bookings/nurse-refuse-booking', {
+        'booking': this.booking
+      }).then(function (response) {
         if (response.data.success) {
           _this3.emitter.emit('response-success-true');
 
-          _this3.show_booking = false;
-          alert('refuse');
+          _this3.show_refuse = false;
+
+          _this3.getNursesBookings();
         }
       })["catch"](function (error) {
         console.log(error);
@@ -39563,7 +39604,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.show-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.remove-confirm-wrapper {\n    padding-top: 75px;\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.show-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.remove-confirm-wrapper {\n    padding-top: 75px;\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n\n.client-refuse-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -39611,7 +39652,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.alternative-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.alternative-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.refuse-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 450px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40558,7 +40599,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show_and_edit') }}\n                </button>&nbsp;\n                <button v-if=\"booking.have_alternative === 'yes'\" class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('show_alternative') }}\n                </button>&nbsp;\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('show_alternative') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithNurse(booking.nurse)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"deleteBooking(booking)\">{{ $t('remove') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_booking\" class=\"show-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"updateBooking()\">{{ $t('update') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"nurse\" :data=\"data\" :client=\"user\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\"></alternative>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"agreeWithAlternativeBooking()\">{{ $t('agree') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_remove_confirm\" class=\"remove-confirm-wrapper\">\n            <div class=\"row\">\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-danger btn-sm\" v-on:click=\"deleteBookingConfirm()\">{{ $t('remove') }}</button>\n                </div>\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-success btn-sm\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n    </div>\n</div>\n";
+var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show_and_edit') }}\n                </button>&nbsp;\n                <button v-if=\"booking.have_alternative === 'yes'\" class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('show_alternative') }}\n                </button>&nbsp;\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('show_alternative') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithNurse(booking.nurse)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button v-if=\"booking.nurse_is_refuse_booking === 'yes'\"\n                        class=\"btn btn-sm btn-danger\" v-on:click=\"showRefusedBooking(booking)\">\n                    {{ $t('nurse_refuse_booking') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-danger\" v-on:click=\"deleteBooking(booking)\">{{ $t('remove') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_booking\" class=\"show-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"updateBooking()\">{{ $t('update') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"nurse\" :data=\"data\" :client=\"user\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\"></alternative>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"agreeWithAlternativeBooking()\">{{ $t('agree') }}</button>&nbsp;\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_remove_confirm\" class=\"remove-confirm-wrapper\">\n            <div class=\"row\">\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-danger btn-sm\" v-on:click=\"deleteBookingConfirm()\">{{ $t('remove') }}</button>\n                </div>\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-success btn-sm\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n    </div>\n\n    <div v-if=\"show_refused_booking\" class=\"client-refuse-booking-wrapper\">\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-10\">\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n            </div>\n\n        </div>\n        <h5>{{ $t('nurse') + ' ' + booking.nurse.first_name + ' ' + booking.nurse.last_name + ' ' + $t('refuse_this_booking_your_action')}}</h5>\n\n\n        <div class=\"row\">\n            <div class=\"col-2 offset-3\">\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"sendAgain(booking.id)\">{{ $t('send_again') }}</button>\n\n            </div>\n            <div class=\"col-2 offset-2\">\n                <button class=\"btn btn-sm btn-danger\" v-on:click=\"deleteBooking(booking)\">{{ $t('remove') }}</button>\n            </div>\n        </div>\n    </div>\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -40610,7 +40651,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"approveBooking(booking.id)\">{{ $t('approve') }}</button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"refuseBooking(booking.id)\">{{ $t('refuse') }}</button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">{{ $t('alternative') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"approveBooking(booking.id)\">{{ $t('approve') }}</button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"refuseBooking(booking.id)\">{{ $t('refuse') }}</button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"alternative-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n\n        </div>\n    </div>\n\n</div>\n";
+var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"bookings.length > 0\" v-for=\"booking in bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button v-if=\"booking.agree_for_alternative === 'yes'\" class=\"btn btn-sm btn-secondary\">\n                    {{ $t('client-accept-alternative') }}\n                </button>&nbsp;\n                <button v-else-if=\"booking.have_alternative === 'no'\" class=\"btn btn-sm btn-success\"\n                        v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('you-sent-alternative') }}</button>\n                &nbsp\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"approveBooking(booking.id)\">{{ $t('approve') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">{{\n                        $t('alternative') }}\n                    </button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"approveBooking(booking.id)\">{{ $t('approve') }}\n                    </button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                    </button>\n\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"alternative-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n\n        </div>\n    </div>\n\n    <div v-if=\"show_refuse\" class=\"refuse-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2> {{ $t('refuse_booking_from') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-8 offset-2\">\n                    <label class=\"form-label col-form-label-sm\">{{ $t('your_reason_to_refuse') }}</label>\n                    <select class=\"form-control form-control-sm\"\n                            v-model=\"booking.reason_of_refuse_booking\">\n                        <option value=\"distance\">{{ $t('distance') }}</option>\n                        <option value=\"time\">{{ $t('time') }}</option>\n                        <option value=\"a\">{{ $t('a') }}</option>\n                        <option value=\"b\">{{ $t('b') }}</option>\n                        <option value=\"c\">{{ $t('c') }}</option>\n                        <option value=\"other\">{{ $t('other') }}</option>\n                    </select>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-12\">\n                    <span>{{ $t('if_you_refuse_booking_he_remove_from_listing') }}</span>\n                </div>\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"refuseBooking(booking.id)\">{{ $t('refuse') }}\n                    </button>\n                </div>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n";
 // Exports
 module.exports = code;
 
