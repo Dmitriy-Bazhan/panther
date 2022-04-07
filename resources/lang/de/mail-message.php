@@ -11,4 +11,8 @@ return [
 
     'hello_dear' => 'Hallo schatz',
     'verification' => 'Überprüfung',
+
+    'sent_new_booking_to_nurse_title' => 'Sie haben eine neue Buchung',
+    'you_take_new_booking_from' => 'Sie haben eine neue Buchung von',
+    'go_to_my_bookings' => 'Gehen Sie zu meinen Buchungen',
 ];

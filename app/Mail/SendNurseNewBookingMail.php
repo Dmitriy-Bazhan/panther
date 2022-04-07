@@ -24,7 +24,9 @@ class SendNurseNewBookingMail extends Mailable
 
     public function build()
     {
-        return $this->view('mail.send-nurse-new-booking-mail')->with([
+
+        return $this->subject(__('mail-message.sent_new_booking_to_nurse_title'))
+            ->view('mail.send-nurse-new-booking-mail')->with([
             'client' => $this->client,
             'nurse' => $this->nurse,
             'url' => $this->url,

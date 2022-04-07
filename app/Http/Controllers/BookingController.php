@@ -134,6 +134,8 @@ class BookingController extends Controller
 
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
+
+        app()->setLocale($nurse->prefs->pref_lang);
         Mail::mailer('smtp')->to($nurse->email)->send(new SendNurseNewBookingMail($nurse, $client));
         return response()->json(['success' => true]);
     }

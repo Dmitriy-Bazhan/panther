@@ -41,7 +41,7 @@
         @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name }}
     </div>
     <div class="text-wrapper">
-        @lang('mail-message.you_take_new_booking from')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
+        @lang('mail-message.you_take_new_booking_from')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
     </div>
     <div class="link-button-row">
         <a href="{{ $url }}">

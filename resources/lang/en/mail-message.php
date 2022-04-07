@@ -9,4 +9,8 @@ return [
 
     'hello_dear' => 'Hello dear',
     'verification' => 'Verification',
+
+    'sent_new_booking_to_nurse_title' => 'You have a new booking',
+    'you_take_new_booking_from' => 'You have new booking from',
+    'go_to_my_bookings' => 'Go to my bookings',
 ];
