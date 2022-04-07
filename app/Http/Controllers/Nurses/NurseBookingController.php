@@ -37,6 +37,7 @@ class NurseBookingController extends Controller
 
         $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
             ->where('nurse_is_refuse_booking', 'no')
+            ->where('is_verification', 'yes')
             ->with('time', 'client', 'alternative')
             ->get());
         return response()->json(['success' => true, 'bookings' => $bookings]);

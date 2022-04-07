@@ -1,6 +1,7 @@
 <head>
     <style>
         .link-button-row {
+            margin: 25px 0 0 40%;
             position: relative;
             left: 45%;
         }
@@ -33,19 +34,35 @@
             font-weight: 700;
             color: red;
         }
+        .logo {
+            height: 100px;
+        }
+
+        .logo-image {
+            position: relative;
+            width: 200px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-<div class="container-fluid">
+<div>
+    <div class="logo">
+        <img class="logo-image" src="{{ $message->embed(asset('/images/logo.png')) }}" alt="logo">
+    </div>
     <div class="mail-title">
-        @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name }}
+        @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
     </div>
     <div class="text-wrapper">
-        @lang('mail-message.you_take_new_booking_from')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
+        @lang('mail-message.booking_verification_text_part_one')&nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name . ' ' }}
+        @lang('mail-message.booking_verification_text_part_two')
+    </div>
+    <div class="logo">
+        <img class="logo-image" src="{{ $message->embed(url('storage/' . $nurse->entity->original_photo)) }}" alt="logo">
     </div>
     <div class="link-button-row">
         <a href="{{ $url }}">
-            <button class="link-button">@lang('mail-message.go_to_my_bookings')</button>
+            <button class="link-button">@lang('mail-message.client_verify_booking')</button>
         </a>
     </div>
 </div>

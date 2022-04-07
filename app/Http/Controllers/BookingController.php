@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\NurseRepository;
+use App\Mail\ClientVerificationBookingMail;
 use App\Mail\SendNurseNewBookingMail;
 use App\Models\AdditionalInfo;
 use App\Models\Booking;
@@ -35,22 +36,22 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        if(!request()->filled('nurse_user_id') || !is_numeric(request('nurse_user_id'))){
+        if (!request()->filled('nurse_user_id') || !is_numeric(request('nurse_user_id'))) {
             //todo:hmm
             abort(409);
         }
 
-        if(!User::find(request('nurse_user_id'))){
+        if (!User::find(request('nurse_user_id'))) {
             //todo:hmm
             abort(409);
         }
 
-        if(!request()->filled('one_time_or_regular') || !in_array(request('one_time_or_regular'),['one', 'regular'])){
+        if (!request()->filled('one_time_or_regular') || !in_array(request('one_time_or_regular'), ['one', 'regular'])) {
             //todo:hmm
             abort(409);
         }
 
-        if(request('one_time_or_regular') == 'one') {
+        if (request('one_time_or_regular') == 'one') {
             $rules = [
                 'date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
@@ -90,7 +91,7 @@ class BookingController extends Controller
             }
         }
 
-        if(request('one_time_or_regular') == 'regular') {
+        if (request('one_time_or_regular') == 'regular') {
             $rules = [
                 'date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
@@ -134,7 +135,9 @@ class BookingController extends Controller
 
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
-        Mail::mailer('smtp')->to($nurse->email)->send(new SendNurseNewBookingMail($nurse, $client));
+
+        Mail::mailer('smtp')->to($client->email)->send(new ClientVerificationBookingMail($booking, $nurse, $client));
+
         return response()->json(['success' => true]);
     }
 
@@ -150,7 +153,7 @@ class BookingController extends Controller
         $data['data']['nurse'] = $nurses->first();
         $data['data']['have_booking'] = false;
 
-        if(Booking::where('client_user_id', auth()->id())->where('nurse_user_id', $id)->first()){
+        if (Booking::where('client_user_id', auth()->id())->where('nurse_user_id', $id)->first()) {
             $data['data']['have_booking'] = true;
         }
 
@@ -170,5 +173,31 @@ class BookingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function clientVerificationBooking($bookingId, $clientId)
+    {
+
+        if (!is_numeric($bookingId) || !is_numeric($clientId)) {
+            //todo::hmm
+            abort(409);
+        }
+
+        if (!$booking = Booking::where('id', $bookingId)->where('client_user_id', $clientId)
+            ->with('time', 'client', 'nurse', 'alternative')->first()) {
+            //todo::hmm
+            abort(409);
+        }
+
+        $nurse = $booking->nurse;
+        $client = $booking->client;
+
+        $booking->is_verification = 'yes';
+        $booking->save();
+
+        app()->setLocale($nurse->prefs->pref_lang);
+        Mail::mailer('smtp')->to($nurse->email)->send(new SendNurseNewBookingMail($nurse, $client));
+
+        return redirect('/booking-verify');
     }
 }
