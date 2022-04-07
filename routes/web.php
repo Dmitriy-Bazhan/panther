@@ -39,7 +39,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
-
+Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
@@ -48,6 +48,11 @@ Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified']
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
+
+
+/*
+ *booking
+ */
 
 Route::resource('booking', BookingController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
@@ -215,10 +220,7 @@ Route::get('/you-welcome', function () {
     return view('main');
 });
 
-//Route::get('show-mail', function (){
-//    return view('mail.client-verification-mail')->with([
-//        'url' => 'url',
-//        'text' => 'text',
-//        'user' => auth()->user(),
-//    ]);
-//});
+Route::get('/booking-verify', function () {
+    return view('main');
+});
+

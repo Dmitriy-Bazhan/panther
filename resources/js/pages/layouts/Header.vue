@@ -114,8 +114,8 @@
     }
 
     .logo {
-        height: 100px;
-    }
+         height: 100px;
+     }
 
     .logo-image {
         width: 90%;

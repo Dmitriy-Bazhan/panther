@@ -10,6 +10,7 @@ import YouWelcome from "../YouWelcome";
 import Listing from '../pages/listing/index';
 import Booking from '../pages/booking/index';
 import SendBooking from "../SendBooking";
+import BookingVerify from "../BookingVerify";
 
 const routes = [
     {
@@ -35,16 +36,6 @@ const routes = [
         component: StartRegister,
         props: true,
     },
-    // {
-    //     path: "/nurse-register",
-    //     component: NurseRegister,
-    //     props: true,
-    // },
-    // {
-    //     path: "/client-register",
-    //     component: ClientRegister,
-    //     props: true,
-    // },
     {
         path: "/email/verify",
         component: EmailVerify
@@ -52,6 +43,10 @@ const routes = [
     {
         path: "/you-welcome",
         component: YouWelcome
+    },
+    {
+        path: "/booking-verify",
+        component: BookingVerify
     },
     {
         path: "/test",

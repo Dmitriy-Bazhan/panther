@@ -30,6 +30,10 @@ class TestController extends Controller
 //
 //        dd('FFFFF');
 
+        echo '<img src="'. url('storage/user_3/photo/original_photo_user_3_IMG_20151128_134250.jpg') .'">';
+
+        dd(storage_path('user_3/photo/original_photo_user_3_IMG_20180720_201158.jpg'));
+
         $id = null;
         request()->merge([
             'only_full_info' => true
