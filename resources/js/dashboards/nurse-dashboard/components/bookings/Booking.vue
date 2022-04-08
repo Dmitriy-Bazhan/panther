@@ -4,7 +4,7 @@
 
         <div>{{ $t('one_time_or_regular') }}: {{ $t(booking.one_time_or_regular) }}</div>
         <div>{{ $t('start_date')}}: {{ booking.start_date}}</div>
-        <div v-if="booking.is_approved === 'no'">{{ $t('suggested_price_per_hour')}}: {{ booking.suggested_price_per_hour }}</div>
+        <div v-if="booking.status === 'not_approved'">{{ $t('suggested_price_per_hour')}}: {{ booking.suggested_price_per_hour }}</div>
         <div v-else>{{ $t('hourly_payment')}}: {{ booking.hourly_price }}</div>
 
         <span v-if="booking.one_time_or_regular === 'regular'">

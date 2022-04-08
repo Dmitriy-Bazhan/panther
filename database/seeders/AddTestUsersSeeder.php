@@ -78,8 +78,8 @@ class AddTestUsersSeeder extends Seeder
         }
 
         Nurse::where('id', 1)->update([
-            'original_photo' => 'user_3/photo/original_photo_user_3_IMG_20180720_201158.jpg',
-            'thumbnail_photo' => 'user_3/photo/thumbnail_photo_user_3_IMG_20180720_201158.jpg',
+            'original_photo' => 'user_3/photo/original_photo_user_3.jpg',
+            'thumbnail_photo' => 'user_3/photo/thumbnail_photo_user_3.jpg',
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
@@ -87,8 +87,8 @@ class AddTestUsersSeeder extends Seeder
         ]);
 
         Nurse::where('id', 2)->update([
-            'original_photo' => 'user_5/photo/original_photo_user_5_2017718160457.jpg',
-            'thumbnail_photo' => 'user_5/photo/thumbnail_photo_user_5_2017718160457.jpg',
+            'original_photo' => 'user_5/photo/original_photo_user_5.jpg',
+            'thumbnail_photo' => 'user_5/photo/thumbnail_photo_user_5.jpg',
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
@@ -96,8 +96,8 @@ class AddTestUsersSeeder extends Seeder
         ]);
 
         Nurse::where('id', 3)->update([
-            'original_photo' => 'user_7/photo/original_photo_user_7_2017520162233.jpg',
-            'thumbnail_photo' => 'user_7/photo/thumbnail_photo_user_7_2017520162233.jpg',
+            'original_photo' => 'user_7/photo/original_photo_user_7.jpg',
+            'thumbnail_photo' => 'user_7/photo/thumbnail_photo_user_7.jpg',
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
@@ -105,8 +105,8 @@ class AddTestUsersSeeder extends Seeder
         ]);
 
         Nurse::where('id', 4)->update([
-            'original_photo' => 'user_9/photo/original_photo_user_9_IMG-02e5517709c41500875e5623f8796f62-V.jpg',
-            'thumbnail_photo' => 'user_9/photo/thumbnail_photo_user_9_IMG-02e5517709c41500875e5623f8796f62-V.jpg',
+            'original_photo' => 'user_9/photo/original_photo_user_9.jpg',
+            'thumbnail_photo' => 'user_9/photo/thumbnail_photo_user_9.jpg',
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
@@ -114,8 +114,8 @@ class AddTestUsersSeeder extends Seeder
         ]);
 
         Nurse::where('id', 5)->update([
-            'original_photo' => 'user_11/photo/original_photo_user_11_IMG_20180819_163512.jpg',
-            'thumbnail_photo' => 'user_11/photo/thumbnail_photo_user_11_IMG_20180819_163512.jpg',
+            'original_photo' => 'user_11/photo/original_photo_user_11.jpg',
+            'thumbnail_photo' => 'user_11/photo/thumbnail_photo_user_11.jpg',
             'info_is_full' => 'yes',
             'is_approved' => 'yes',
             'change_info' => 'no',
@@ -132,70 +132,70 @@ class AddTestUsersSeeder extends Seeder
         $file = new NurseFile();
         $file->nurse_id = 1;
         $file->original_name = 'IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
-        $file->file_path = 'user_3/criminal_record/criminal_record_photo_user_3_IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
+        $file->file_path = 'user_3/criminal_record/criminal_record_photo_user_3_number_0.jpg';
         $file->file_type = 'criminal_record';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 1;
         $file->original_name = 'IMG-57fae761aac790e3af4e7dcf239ab56f-V.jpg';
-        $file->file_path = 'user_3/documentation_of_training/documentation_of_training_photo_user_3_IMG-57fae761aac790e3af4e7dcf239ab56f-V.jpg';
+        $file->file_path = 'user_3/documentation_of_training/documentation_of_training_photo_user_3_number_0.jpg';
         $file->file_type = 'documentation_of_training';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 2;
         $file->original_name = 'IMG_20180720_201158.jpg';
-        $file->file_path = 'user_5/criminal_record/criminal_record_photo_user_5_IMG_20180720_201158.jpg';
+        $file->file_path = 'user_5/criminal_record/criminal_record_photo_user_5_number_0.jpg';
         $file->file_type = 'criminal_record';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 2;
         $file->original_name = 'IMG_20180720_201158.jpg';
-        $file->file_path = 'user_5/documentation_of_training/documentation_of_training_photo_user_5_IMG_20180720_201158.jpg';
+        $file->file_path = 'user_5/documentation_of_training/documentation_of_training_photo_user_5_number_0.jpg';
         $file->file_type = 'documentation_of_training';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 3;
         $file->original_name = 'IMG_20180709_214713.jpg';
-        $file->file_path = 'user_7/criminal_record/criminal_record_photo_user_7_IMG_20180709_214713.jpg';
+        $file->file_path = 'user_7/criminal_record/criminal_record_photo_user_7_number_0.jpg';
         $file->file_type = 'criminal_record';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 3;
         $file->original_name = 'IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
-        $file->file_path = 'user_7/documentation_of_training/documentation_of_training_photo_user_7_IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
+        $file->file_path = 'user_7/documentation_of_training/documentation_of_training_photo_user_7_number_0.jpg';
         $file->file_type = 'documentation_of_training';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 4;
         $file->original_name = 'IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
-        $file->file_path = 'user_9/criminal_record/criminal_record_photo_user_9_IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
+        $file->file_path = 'user_9/criminal_record/criminal_record_photo_user_9_number_0.jpg';
         $file->file_type = 'criminal_record';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 4;
         $file->original_name = 'IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
-        $file->file_path = 'user_9/documentation_of_training/documentation_of_training_photo_user_9_IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
+        $file->file_path = 'user_9/documentation_of_training/documentation_of_training_photo_user_9_number_0.jpg';
         $file->file_type = 'documentation_of_training';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 5;
         $file->original_name = 'IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
-        $file->file_path = 'user_11/criminal_record/criminal_record_photo_user_11_IMG-50b97907cbdec4ff88331adef5680fa9-V.jpg';
+        $file->file_path = 'user_11/criminal_record/criminal_record_photo_user_11_number_0.jpg';
         $file->file_type = 'criminal_record';
         $file->save();
 
         $file = new NurseFile();
         $file->nurse_id = 5;
         $file->original_name = 'IMG-57fae761aac790e3af4e7dcf239ab56f-V.jpg';
-        $file->file_path = 'user_11/documentation_of_training/documentation_of_training_photo_user_11_IMG-57fae761aac790e3af4e7dcf239ab56f-V.jpg';
+        $file->file_path = 'user_11/documentation_of_training/documentation_of_training_photo_user_11_number_0.jpg';
         $file->file_type = 'documentation_of_training';
         $file->save();
 

@@ -28,7 +28,7 @@ class NurseDashboardController extends Controller
         $data['data']['additional_info'] = AdditionalInfo::all();
         $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
         $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
-            ->where('is_approved', 'no')
+            ->where('status', 'not_approved')
             ->where('is_verification', 'yes')
             ->first() !== null ? true : false;
         $data['data']['have_new_message'] = PrivateChat::where('nurse_user_id', auth()->id())
