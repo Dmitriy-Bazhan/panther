@@ -30,7 +30,7 @@ class BookingsResource extends JsonResource
             'finish_date' => $this->finish_date ,
             'hourly_price' => $this->hourly_price ,
             'id' => $this->id ,
-            'is_approved' => $this->is_approved ,
+            'status' => $this->status ,
             'have_alternative' => $this->have_alternative ,
             'agree_for_alternative' => $this->agree_for_alternative ,
             'nurse_user_id' => $this->nurse_user_id ,
@@ -43,6 +43,7 @@ class BookingsResource extends JsonResource
             'weeks' => $this->weeks ,
             'reason_of_refuse_booking' => $this->reason_of_refuse_booking ,
             'nurse_is_refuse_booking' => $this->nurse_is_refuse_booking ,
+            'is_verification' => $this->is_verification ,
         ];
     }
 }

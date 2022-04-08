@@ -234,9 +234,10 @@ class NurseRepository
                 NurseFile::where('nurse_id', $nurse->entity_id)->where('file_type', $key)->delete();
             }
 
-            foreach ($files as $document) {
+            foreach ($files as $number => $document) {
                 $original_name = $document->getClientOriginalName();
-                $file_name = $key . '_photo_user_' . $nurse->id . '_' . $document->getClientOriginalName();
+                $extension = $document->getClientOriginalExtension();
+                $file_name = $key . '_user_' . $nurse->id . '_number_' . $number . '.' . $extension;
                 $file_path = Storage::disk('public')->putFileAs($directory_name, $document, $file_name);
 
                 NurseFile::create([
@@ -259,8 +260,9 @@ class NurseRepository
     {
 
         if ($request->file('file')) {
-            $file_name = 'original_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
-            $thumbnail_name = 'thumbnail_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $file_name = 'original_photo_user_' . $id . '.' . $extension;
+            $thumbnail_name = 'thumbnail_photo_user_' . $id . '.' . $extension;
             $directory_name = 'user_' . $id . '/photo';
             $existedPhotos = Storage::disk('public')->files($directory_name);
             if (count($existedPhotos) > 0) {

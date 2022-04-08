@@ -20,7 +20,8 @@ class CreateBookingsTable extends Migration
             $table->integer('hourly_price')->nullable();
             $table->integer('suggested_price_per_hour')->nullable();
             $table->integer('total')->nullable();
-            $table->string('is_approved')->default('no')->comment('yes|no');
+            $table->string('status')->default('not_approved')
+                ->comment('not_approved|approved|in_process|ended|');
             $table->string('is_verification')->default('no')->comment('yes|no');
             $table->string('have_alternative')->default('no')->comment('yes|no');
             $table->string('agree_for_alternative')->default('no')->comment('yes|no');
