@@ -1,5 +1,5 @@
 <div>
-    <h1>Booking</h1>
+    <h4>{{ $t('bookings_wait_your_approve') }}</h4>
 
     <table>
         <thead>
@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-if="bookings.length > 0" v-for="booking in bookings">
+        <tr v-if="not_approved_bookings.length > 0" v-for="booking in not_approved_bookings">
             <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
             <th>{{ $t(booking.one_time_or_regular) }}</th>
             <th>{{ booking.start_date }}</th>
@@ -37,7 +37,139 @@
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="approveBooking(booking.id)">{{ $t('approve') }}
+                <button class="btn btn-sm btn-success" v-on:click="showApproveBookingConfirm(booking)">{{ $t('approve')
+                    }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                </button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>{{ $t('bookings_approved_wait_payments') }}</h4>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="approved_bookings.length > 0" v-for="booking in approved_bookings">
+            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th v-if="booking.agree_for_alternative === 'yes'">{{ $t('client_agree_on_your_alternative_booking') }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
+                    {{ $t('show') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                </button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>{{ $t('booking_in_process') }}</h4>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="in_process_bookings.length > 0" v-for="booking in in_process_bookings">
+            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th v-if="booking.agree_for_alternative === 'yes'">{{ $t('client_agree_on_your_alternative_booking') }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
+                    {{ $t('show') }}
+                </button>&nbsp;
+                <button v-if="booking.agree_for_alternative === 'yes'" class="btn btn-sm btn-secondary">
+                    {{ $t('client-accept-alternative') }}
+                </button>&nbsp;
+                <button v-else-if="booking.have_alternative === 'no'" class="btn btn-sm btn-success"
+                        v-on:click="showCurrentAlternativeBooking(booking)">
+                    {{ $t('alternative') }}
+                </button>&nbsp;
+
+                <button v-else class="btn btn-sm btn-secondary">{{ $t('you-sent-alternative') }}</button>
+                &nbsp
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showApproveBookingConfirm(booking)">{{ $t('approve')
+                    }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                </button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>{{ $t('booking_is_ended') }}</h4>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="ended_bookings.length > 0" v-for="booking in ended_bookings">
+            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th v-if="booking.agree_for_alternative === 'yes'">{{ $t('client_agree_on_your_alternative_booking') }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
+                    {{ $t('show') }}
+                </button>&nbsp;
+                <button v-if="booking.agree_for_alternative === 'yes'" class="btn btn-sm btn-secondary">
+                    {{ $t('client-accept-alternative') }}
+                </button>&nbsp;
+                <button v-else-if="booking.have_alternative === 'no'" class="btn btn-sm btn-success"
+                        v-on:click="showCurrentAlternativeBooking(booking)">
+                    {{ $t('alternative') }}
+                </button>&nbsp;
+
+                <button v-else class="btn btn-sm btn-secondary">{{ $t('you-sent-alternative') }}</button>
+                &nbsp
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showApproveBookingConfirm(booking)">{{ $t('approve')
+                    }}
                 </button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
                 </button>
@@ -77,10 +209,15 @@
             </div>
             <div class="row">
                 <div class="col-6 offset-3">
-                    <button class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">{{
+                    <button v-if="booking.status === 'not_approved'"
+                            class="btn btn-sm btn-success"
+                            v-on:click="showCurrentAlternativeBooking(booking)">{{
                         $t('alternative') }}
                     </button>&nbsp;
-                    <button class="btn btn-sm btn-success" v-on:click="approveBooking(booking.id)">{{ $t('approve') }}
+                    <button v-if="booking.status === 'not_approved'"
+                            class="btn btn-sm btn-success"
+                            v-on:click="showApproveBookingConfirm(booking)">{{
+                        $t('approve') }}
                     </button>&nbsp;
                     <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
                     </button>
@@ -142,6 +279,22 @@
                 <div class="col-2 offset-10">
                     <button class="btn btn-sm btn-success" v-on:click="refuseBooking(booking.id)">{{ $t('refuse') }}
                     </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_confirm_approve" class="approve-confirm-wrapper">
+        <div class="container-fluid">
+            <h2> {{ $t('approve_booking_with') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>
+            <div class="row">
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-danger btn-sm" v-on:click="confirmApproveBooking()">{{ $t('approve') }}
+                    </button>
+                </div>
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-success btn-sm" v-on:click="closeModal()">{{ $t('close') }}</button>
                 </div>
 
             </div>

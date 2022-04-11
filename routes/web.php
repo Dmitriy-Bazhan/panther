@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
 use App\Http\Controllers\Clients\ClientBookingsController;
+use App\Http\Controllers\Clients\ClientPaymentsController;
 use App\Http\Controllers\Clients\ClientMyInformationController;
 
 use App\Http\Controllers\Nurses\NurseDashboardController;
@@ -76,6 +77,9 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
 
+
+
+
     /*
      * client
      */
@@ -92,15 +96,15 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
-    //client bookings
+    //client payments
+    Route::resource('client-payments', ClientPaymentsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
+    //client bookings
     Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function(){
         Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
         Route::get('send-booking-again/{id}', [ClientBookingsController::class, 'sendBookingAgain']);
     });
-
     Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
-
 
     //client my information
     Route::prefix('client-my-information')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {

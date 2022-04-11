@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\BookingRepository;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
 use App\Models\AlternativeBooking;
 use App\Models\AlternativeBookingTime;
 use App\Models\Booking;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,12 +17,14 @@ use Illuminate\Support\Facades\Validator;
 class NurseBookingController extends Controller
 {
     public $chatRepo;
+    public $bookingRepo;
 
-    public function __construct(ChatRepository $chatRepo)
+    public function __construct(ChatRepository $chatRepo, BookingRepository $bookingRepo)
     {
         parent::__construct();
 
         $this->chatRepo = $chatRepo;
+        $this->bookingRepo = $bookingRepo;
     }
 
     public function index()
@@ -35,12 +39,23 @@ class NurseBookingController extends Controller
             abort(409);
         }
 
-        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
-            ->where('nurse_is_refuse_booking', 'no')
-            ->where('is_verification', 'yes')
-            ->with('time', 'client', 'alternative')
-            ->get());
-        return response()->json(['success' => true, 'bookings' => $bookings]);
+        request()->merge([
+            'nurse_is_refuse_booking' => 'no',
+            'is_verification' => 'yes'
+        ]);
+
+        $notApprovedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'not_approved'))->response()->getData();
+        $approvedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'approved'))->response()->getData();
+        $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
+        $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
+
+        return response()->json([
+            'success' => true,
+            'notApprovedBookings' => $notApprovedBookings,
+            'approvedBookings' => $approvedBookings,
+            'inProcessBookings' => $inProcessBookings,
+            'endedBookings' => $endedBookings,
+        ]);
     }
 
     public function create()
@@ -115,6 +130,29 @@ class NurseBookingController extends Controller
 
     public function update(Request $request, $id)
     {
+        if(!is_numeric($id)){
+            //todo: hmm
+            return abort(409);
+        }
+
+        if(!$booking = Booking::where('id', $id)->with('time', 'client')->first()){
+            //todo: hmm
+            return abort(409);
+        }
+        $booking->status = 'approved';
+        $booking->save();
+
+        //todo: make tax and agency percent, gateway and currency
+        $payment = new Payment();
+        $payment->booking_id = $id;
+        $payment->client_user_id = $booking->client->id;
+        $payment->nurse_user_id = $booking->nurse->id;
+        $payment->date = $booking->start_date;
+        $payment->sum = $booking->total;
+        $payment->status = 'wait';
+        $payment->save();
+
+
         return response()->json(['success' => true]);
     }
 
@@ -133,6 +171,11 @@ class NurseBookingController extends Controller
                 'have_alternative' => 'no',
                 'reason_of_refuse_booking' => request('booking')['reason_of_refuse_booking'],
         ]);
+
+        if($payment = Payment::where('booking_id', $id)->first()){
+            $payment->status = 'break';
+            $payment->save();
+        }
 
         AlternativeBooking::where('booking_id', $id)->delete();
 

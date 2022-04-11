@@ -15,12 +15,16 @@ export default {
     },
     data() {
         return {
-            bookings: [],
+            not_approved_bookings: [],
+            approved_bookings: [],
+            in_process_bookings: [],
+            ended_bookings: [],
             show_chat: false,
             show_refuse: false,
             client: null,
             show_booking: false,
             show_alternative: false,
+            show_confirm_approve: false,
             booking: null,
         }
     },
@@ -38,12 +42,14 @@ export default {
             this.show_chat = false;
             this.show_booking = false;
             this.show_refuse = false;
+            this.show_confirm_approve = false;
             this.booking = null;
             this.client = null;
         },
         showCurrentBooking(booking) {
             this.show_booking = true;
             this.show_alternative = false;
+            this.show_confirm_approve = false;
             this.show_chat = false;
             this.show_refuse = false;
             this.booking = booking;
@@ -51,6 +57,7 @@ export default {
         showCurrentAlternativeBooking(booking) {
             this.show_alternative = true;
             this.show_booking = false;
+            this.show_confirm_approve = false;
             this.show_chat = false;
             this.show_refuse = false;
             this.booking = booking;
@@ -61,21 +68,34 @@ export default {
             this.show_booking = false;
             this.show_alternative = false;
             this.show_refuse = false;
+            this.show_confirm_approve = false;
         },
-        showRefuseBooking(booking){
+        showRefuseBooking(booking) {
             this.show_refuse = true;
+            this.show_alternative = false;
+            this.show_booking = false;
+            this.show_chat = false;
+            this.show_confirm_approve = false;
+            this.booking = booking;
+        },
+        showApproveBookingConfirm(booking) {
+            this.show_confirm_approve = true;
+            this.show_refuse = false;
             this.show_alternative = false;
             this.show_booking = false;
             this.show_chat = false;
             this.booking = booking;
         },
+        confirmApproveBooking(){
+            this.approveBooking();
+        },
 
-        approveBooking(id) {
-            axios.put('/dashboard/nurse-bookings/' + id) //update method in NurseBookingController
+        approveBooking() {
+            axios.put('/dashboard/nurse-bookings/' + this.booking.id) //update method in NurseBookingController
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
-                        this.show_booking = false;
+                        this.closeModal();
                         this.getNursesBookings();
                     }
                 }).catch((error) => {
@@ -83,7 +103,7 @@ export default {
             });
         },
         refuseBooking(booking) {
-            axios.post('/dashboard/nurse-bookings/nurse-refuse-booking', { 'booking' : this.booking})
+            axios.post('/dashboard/nurse-bookings/nurse-refuse-booking', {'booking': this.booking})
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
@@ -99,10 +119,11 @@ export default {
             axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id)
                 .then((response) => {
                     if (response.data.success) {
-                        this.bookings = response.data.bookings;
-                        console.log(this.bookings[0]);
+                        this.not_approved_bookings = response.data.notApprovedBookings.data;
+                        this.approved_bookings = response.data.approvedBookings.data;
+                        this.in_process_bookings = response.data.inProcessBookings.data;
+                        this.ended_bookings = response.data.endedBookings.data;
                     }
-
                 })
                 .catch((error) => {
                     console.log(error);
