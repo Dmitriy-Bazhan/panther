@@ -9,7 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'payment_date' => 'datetime:Y-m-d H:i:s',
-    ];
+    public function booking() {
+        return $this->hasOne('App\Models\Booking', 'id', 'booking_id');
+    }
 }

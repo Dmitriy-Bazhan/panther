@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\BookingRepository;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
 use App\Models\AlternativeBooking;
@@ -16,12 +17,14 @@ use Illuminate\Support\Facades\Validator;
 class NurseBookingController extends Controller
 {
     public $chatRepo;
+    public $bookingRepo;
 
-    public function __construct(ChatRepository $chatRepo)
+    public function __construct(ChatRepository $chatRepo, BookingRepository $bookingRepo)
     {
         parent::__construct();
 
         $this->chatRepo = $chatRepo;
+        $this->bookingRepo = $bookingRepo;
     }
 
     public function index()
@@ -36,15 +39,23 @@ class NurseBookingController extends Controller
             abort(409);
         }
 
-        $notApprovedBookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
-            ->where('nurse_is_refuse_booking', 'no')
-            ->where('status', 'not_approved')
-            ->where('is_verification', 'yes')
-            ->with('time', 'client', 'alternative')
-            ->get());
+        request()->merge([
+            'nurse_is_refuse_booking' => 'no',
+            'is_verification' => 'yes'
+        ]);
 
+        $notApprovedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'not_approved'))->response()->getData();
+        $approvedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'approved'))->response()->getData();
+        $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
+        $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
 
-        return response()->json(['success' => true, 'notApprovedBookings' => $notApprovedBookings]);
+        return response()->json([
+            'success' => true,
+            'notApprovedBookings' => $notApprovedBookings,
+            'approvedBookings' => $approvedBookings,
+            'inProcessBookings' => $inProcessBookings,
+            'endedBookings' => $endedBookings,
+        ]);
     }
 
     public function create()
@@ -160,6 +171,11 @@ class NurseBookingController extends Controller
                 'have_alternative' => 'no',
                 'reason_of_refuse_booking' => request('booking')['reason_of_refuse_booking'],
         ]);
+
+        if($payment = Payment::where('booking_id', $id)->first()){
+            $payment->status = 'break';
+            $payment->save();
+        }
 
         AlternativeBooking::where('booking_id', $id)->delete();
 

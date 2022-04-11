@@ -23,7 +23,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('sum')->default(0);
             $table->integer('tax')->default(0);
             $table->integer('agency_percent')->default(0);
-            $table->string('status')->default('wait')->comment('wait|payed|refuse');
+            $table->string('status')->default('wait')->comment('wait|payed|refuse|break');
             $table->string('currency')->default('EUR');
             $table->string('gateway')->default('bank')->comment('paypal|stripe|cash|bank');
 

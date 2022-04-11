@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\BookingRepository;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
 use App\Models\AdditionalInfo;
@@ -19,29 +20,27 @@ use Illuminate\Support\Facades\Validator;
 class ClientBookingsController extends Controller
 {
     public $chatRepo;
+    public $bookingRepo;
 
-    public function __construct(ChatRepository $chatRepo)
+    public function __construct(ChatRepository $chatRepo, BookingRepository $bookingRepo)
     {
         parent::__construct();
 
         $this->chatRepo = $chatRepo;
+        $this->bookingRepo = $bookingRepo;
     }
 
     public function index()
     {
-        $clientId = 0;
         if(request()->filled('client_id') && is_numeric(request('client_id'))){
-            $clientId = request('client_id');
+            if(!User::find(request('client_id'))){
+                //todo: hmmm
+                abort(409);
+            }
         }
 
-        if(!User::find($clientId)){
-            //todo: hmmm
-            abort(409);
-        }
+        $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
 
-        $bookings = BookingsResource::collection(Booking::where('client_user_id', $clientId)
-            ->with('time', 'nurse', 'alternative.time')
-            ->get());
         return response()->json(['success' => true, 'bookings' => $bookings]);
     }
 

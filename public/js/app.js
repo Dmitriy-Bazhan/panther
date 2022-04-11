@@ -26401,23 +26401,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Payments"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Ratings.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Ratings.vue?vue&type=script&lang=js ***!
@@ -29482,31 +29465,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Overview", -1
-/* HOISTED */
-);
-
-var _hoisted_2 = [_hoisted_1];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Payments", -1
 /* HOISTED */
 );
 
@@ -37999,7 +37957,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/dashboard/client-bookings?client_id=' + this.user.id).then(function (response) {
         if (response.data.success) {
-          _this.bookings = response.data.bookings;
+          _this.bookings = response.data.bookings.data;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -38010,8 +37968,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/dashboard/client-bookings/agree-with-alternative/' + this.booking.id).then(function (response) {
         if (response.data.success) {
-          alert('Agree');
-
           _this2.closeModal();
         }
       })["catch"](function (error) {
@@ -38027,8 +37983,6 @@ __webpack_require__.r(__webpack_exports__);
       .then(function (response) {
         if (response.data.success) {
           _this3.closeModal();
-
-          _this3.booking = null;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -38093,8 +38047,6 @@ __webpack_require__.r(__webpack_exports__);
       .then(function (response) {
         if (response.data.success) {
           _this5.closeModal();
-
-          _this5.booking = null;
 
           _this5.getBookings();
         }
@@ -38241,6 +38193,57 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/client-dashboard/components/payments/index.js":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/dashboards/client-dashboard/components/payments/index.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.html */ "./resources/js/dashboards/client-dashboard/components/payments/template.html");
+/* harmony import */ var _template_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./resources/js/dashboards/client-dashboard/components/payments/style.css");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Payments",
+  template: (_template_html__WEBPACK_IMPORTED_MODULE_0___default()),
+  props: ['user', 'data'],
+  data: function data() {
+    return {
+      waiting_payments: [],
+      break_payments: [],
+      payed_payments: [],
+      refuse_payments: []
+    };
+  },
+  mounted: function mounted() {
+    this.getClientPayments();
+  },
+  methods: {
+    getClientPayments: function getClientPayments() {
+      var _this = this;
+
+      axios.get('/dashboard/client-payments?client_id=' + this.user.id).then(function (response) {
+        console.log(response);
+
+        if (response.data.success) {
+          _this.waiting_payments = response.data.waitingPayments.data;
+          console.log(_this.waiting_payments);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/index.js":
 /*!***********************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/index.js ***!
@@ -38341,6 +38344,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       not_approved_bookings: [],
+      approved_bookings: [],
+      in_process_bookings: [],
+      ended_bookings: [],
       show_chat: false,
       show_refuse: false,
       client: null,
@@ -38451,8 +38457,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id).then(function (response) {
         if (response.data.success) {
-          console.log(response.data);
-          _this4.not_approved_bookings = response.data.notApprovedBookings;
+          _this4.not_approved_bookings = response.data.notApprovedBookings.data;
+          _this4.approved_bookings = response.data.approvedBookings.data;
+          _this4.in_process_bookings = response.data.inProcessBookings.data;
+          _this4.ended_bookings = response.data.endedBookings.data;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -39380,7 +39388,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dashboards_client_dashboard_components_messages_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/messages/index */ "./resources/js/dashboards/client-dashboard/components/messages/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_Ratings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Ratings */ "./resources/js/dashboards/client-dashboard/components/Ratings.vue");
 /* harmony import */ var _dashboards_client_dashboard_components_bookings_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/bookings/index */ "./resources/js/dashboards/client-dashboard/components/bookings/index.js");
-/* harmony import */ var _dashboards_client_dashboard_components_Payments__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/Payments */ "./resources/js/dashboards/client-dashboard/components/Payments.vue");
+/* harmony import */ var _dashboards_client_dashboard_components_payments_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/payments/index */ "./resources/js/dashboards/client-dashboard/components/payments/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_my_information_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/my-information/index */ "./resources/js/dashboards/client-dashboard/components/my-information/index.js");
 /* harmony import */ var _dashboards_client_dashboard_components_HelpAndService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dashboards/client-dashboard/components/HelpAndService */ "./resources/js/dashboards/client-dashboard/components/HelpAndService.vue");
 
@@ -39417,7 +39425,7 @@ var routes = [{
 }, {
   path: "/dashboard/client/payments",
   name: 'ClientDashboardPayments',
-  component: _dashboards_client_dashboard_components_Payments__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _dashboards_client_dashboard_components_payments_index__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   path: "/dashboard/client/my-information",
   name: 'ClientDashboardMyInformation',
@@ -39708,6 +39716,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/client-dashboard/components/payments/style.css":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/client-dashboard/components/payments/style.css ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/nurse-dashboard/components/bookings/style.css":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/nurse-dashboard/components/bookings/style.css ***!
@@ -39725,7 +39757,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.alternative-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.refuse-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 450px;\n}\n\n.approve-confirm-wrapper {\n    padding-top: 75px;\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".single-chat-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 20%;\n    width: 60%;\n    height: 450px;\n}\n\n.alternative-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 10%;\n    left: 10%;\n    width: 80%;\n    height: 450px;\n}\n\n.refuse-booking-wrapper {\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 450px;\n}\n\n.approve-confirm-wrapper {\n    padding-top: 75px;\n    position: fixed;\n    z-index: 100;\n    background: #0a53be;\n    border: solid 1px black;\n    border-radius: 10px;\n    top: 20%;\n    left: 30%;\n    width: 40%;\n    height: 200px;\n}\n\ntable {\n    margin-bottom: 50px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40704,6 +40736,19 @@ module.exports = code;
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/client-dashboard/components/payments/template.html":
+/*!************************************************************************************!*\
+  !*** ./resources/js/dashboards/client-dashboard/components/payments/template.html ***!
+  \************************************************************************************/
+/***/ ((module) => {
+
+// Module
+var code = "<div>\n    <h3>{{ $t('payment_wait') }}</h3>\n\n    <pre>\n        {{ waiting_payments[0] }}\n    </pre>\n</div>\n";
+// Exports
+module.exports = code;
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/client-dashboard/wrapper.html":
 /*!***************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/wrapper.html ***!
@@ -40724,7 +40769,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h1>Booking</h1>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"not_approved_bookings.length > 0\" v-for=\"booking in not_approved_bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button v-if=\"booking.agree_for_alternative === 'yes'\" class=\"btn btn-sm btn-secondary\">\n                    {{ $t('client-accept-alternative') }}\n                </button>&nbsp;\n                <button v-else-if=\"booking.have_alternative === 'no'\" class=\"btn btn-sm btn-success\"\n                        v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('you-sent-alternative') }}</button>\n                &nbsp\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showApproveBookingConfirm(booking)\">{{ $t('approve') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentAlternativeBooking(booking)\">{{\n                        $t('alternative') }}\n                    </button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showApproveBookingConfirm(booking)\">{{ $t('approve') }}\n                    </button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                    </button>\n\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"alternative-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n\n        </div>\n    </div>\n\n    <div v-if=\"show_refuse\" class=\"refuse-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2> {{ $t('refuse_booking_from') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-8 offset-2\">\n                    <label class=\"form-label col-form-label-sm\">{{ $t('your_reason_to_refuse') }}</label>\n                    <select class=\"form-control form-control-sm\"\n                            v-model=\"booking.reason_of_refuse_booking\">\n                        <option value=\"distance\">{{ $t('distance') }}</option>\n                        <option value=\"time\">{{ $t('time') }}</option>\n                        <option value=\"a\">{{ $t('a') }}</option>\n                        <option value=\"b\">{{ $t('b') }}</option>\n                        <option value=\"c\">{{ $t('c') }}</option>\n                        <option value=\"other\">{{ $t('other') }}</option>\n                    </select>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-12\">\n                    <span>{{ $t('if_you_refuse_booking_he_remove_from_listing') }}</span>\n                </div>\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"refuseBooking(booking.id)\">{{ $t('refuse') }}\n                    </button>\n                </div>\n\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_confirm_approve\" class=\"approve-confirm-wrapper\">\n        <div class=\"container-fluid\">\n            <h2> {{ $t('approve_booking_with') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-danger btn-sm\" v-on:click=\"confirmApproveBooking()\">{{ $t('approve') }}</button>\n                </div>\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-success btn-sm\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n";
+var code = "<div>\n    <h4>{{ $t('bookings_wait_your_approve') }}</h4>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"not_approved_bookings.length > 0\" v-for=\"booking in not_approved_bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button v-if=\"booking.agree_for_alternative === 'yes'\" class=\"btn btn-sm btn-secondary\">\n                    {{ $t('client-accept-alternative') }}\n                </button>&nbsp;\n                <button v-else-if=\"booking.have_alternative === 'no'\" class=\"btn btn-sm btn-success\"\n                        v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('you-sent-alternative') }}</button>\n                &nbsp\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showApproveBookingConfirm(booking)\">{{ $t('approve')\n                    }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <h4>{{ $t('bookings_approved_wait_payments') }}</h4>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"approved_bookings.length > 0\" v-for=\"booking in approved_bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <h4>{{ $t('booking_in_process') }}</h4>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"in_process_bookings.length > 0\" v-for=\"booking in in_process_bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button v-if=\"booking.agree_for_alternative === 'yes'\" class=\"btn btn-sm btn-secondary\">\n                    {{ $t('client-accept-alternative') }}\n                </button>&nbsp;\n                <button v-else-if=\"booking.have_alternative === 'no'\" class=\"btn btn-sm btn-success\"\n                        v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('you-sent-alternative') }}</button>\n                &nbsp\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showApproveBookingConfirm(booking)\">{{ $t('approve')\n                    }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <h4>{{ $t('booking_is_ended') }}</h4>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Client</th>\n            <th>One time or regular</th>\n            <th>Start Data</th>\n            <th>Create Date</th>\n            <th>Is set alternative</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr v-if=\"ended_bookings.length > 0\" v-for=\"booking in ended_bookings\">\n            <th>{{ booking.client.first_name + ' ' + booking.client.last_name}}</th>\n            <th>{{ $t(booking.one_time_or_regular) }}</th>\n            <th>{{ booking.start_date }}</th>\n            <th>{{ booking.created_at.split('T')[0] }}</th>\n            <th v-if=\"booking.agree_for_alternative === 'yes'\">{{ $t('client_agree_on_your_alternative_booking') }}</th>\n            <th>{{ $t(booking.have_alternative) }}</th>\n            <th>\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showCurrentBooking(booking)\">\n                    {{ $t('show') }}\n                </button>&nbsp;\n                <button v-if=\"booking.agree_for_alternative === 'yes'\" class=\"btn btn-sm btn-secondary\">\n                    {{ $t('client-accept-alternative') }}\n                </button>&nbsp;\n                <button v-else-if=\"booking.have_alternative === 'no'\" class=\"btn btn-sm btn-success\"\n                        v-on:click=\"showCurrentAlternativeBooking(booking)\">\n                    {{ $t('alternative') }}\n                </button>&nbsp;\n\n                <button v-else class=\"btn btn-sm btn-secondary\">{{ $t('you-sent-alternative') }}</button>\n                &nbsp\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showChatWithClient(booking.client)\">\n                    {{ $t('send_message') }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showApproveBookingConfirm(booking)\">{{ $t('approve')\n                    }}\n                </button>&nbsp;\n                <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                </button>\n            </th>\n        </tr>\n        </tbody>\n    </table>\n\n    <div v-if=\"show_chat\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <single_chat :nurse=\"user\" :data=\"data\" :client=\"client\"></single_chat>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_booking\" class=\"single-chat-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <booking :booking=\"booking\"></booking>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-6 offset-3\">\n                    <button v-if=\"booking.status === 'not_approved'\"\n                            class=\"btn btn-sm btn-success\"\n                            v-on:click=\"showCurrentAlternativeBooking(booking)\">{{\n                        $t('alternative') }}\n                    </button>&nbsp;\n                    <button v-if=\"booking.status === 'not_approved'\"\n                            class=\"btn btn-sm btn-success\"\n                            v-on:click=\"showApproveBookingConfirm(booking)\">{{\n                        $t('approve') }}\n                    </button>&nbsp;\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"showRefuseBooking(booking)\">{{ $t('refuse') }}\n                    </button>\n\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_alternative\" class=\"alternative-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <alternative :booking=\"booking\" :nurse=\"user\"></alternative>\n            </div>\n\n        </div>\n    </div>\n\n    <div v-if=\"show_refuse\" class=\"refuse-booking-wrapper\">\n        <div class=\"container-fluid\">\n            <h2> {{ $t('refuse_booking_from') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-8 offset-2\">\n                    <label class=\"form-label col-form-label-sm\">{{ $t('your_reason_to_refuse') }}</label>\n                    <select class=\"form-control form-control-sm\"\n                            v-model=\"booking.reason_of_refuse_booking\">\n                        <option value=\"distance\">{{ $t('distance') }}</option>\n                        <option value=\"time\">{{ $t('time') }}</option>\n                        <option value=\"a\">{{ $t('a') }}</option>\n                        <option value=\"b\">{{ $t('b') }}</option>\n                        <option value=\"c\">{{ $t('c') }}</option>\n                        <option value=\"other\">{{ $t('other') }}</option>\n                    </select>\n                </div>\n\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-12\">\n                    <span>{{ $t('if_you_refuse_booking_he_remove_from_listing') }}</span>\n                </div>\n            </div>\n            <br>\n            <div class=\"row\">\n                <div class=\"col-2 offset-10\">\n                    <button class=\"btn btn-sm btn-success\" v-on:click=\"refuseBooking(booking.id)\">{{ $t('refuse') }}\n                    </button>\n                </div>\n\n            </div>\n        </div>\n    </div>\n\n    <div v-if=\"show_confirm_approve\" class=\"approve-confirm-wrapper\">\n        <div class=\"container-fluid\">\n            <h2> {{ $t('approve_booking_with') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>\n            <div class=\"row\">\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-danger btn-sm\" v-on:click=\"confirmApproveBooking()\">{{ $t('approve') }}\n                    </button>\n                </div>\n                <div class=\"col-6\" style=\"text-align: center;\">\n                    <button class=\"btn btn-success btn-sm\" v-on:click=\"closeModal()\">{{ $t('close') }}</button>\n                </div>\n\n            </div>\n        </div>\n    </div>\n\n</div>\n";
 // Exports
 module.exports = code;
 
@@ -64559,6 +64604,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./resources/js/dashboards/client-dashboard/components/payments/style.css":
+/*!********************************************************************************!*\
+  !*** ./resources/js/dashboards/client-dashboard/components/payments/style.css ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/dashboards/client-dashboard/components/payments/style.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/dashboards/nurse-dashboard/components/bookings/style.css":
 /*!*******************************************************************************!*\
   !*** ./resources/js/dashboards/nurse-dashboard/components/bookings/style.css ***!
@@ -68584,34 +68659,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/client-dashboard/components/Payments.vue":
-/*!**************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Payments.vue ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Payments_vue_vue_type_template_id_c8c09a6a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Payments.vue?vue&type=template&id=c8c09a6a */ "./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a");
-/* harmony import */ var _Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Payments.vue?vue&type=script&lang=js */ "./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js");
-/* harmony import */ var C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,C_OpenServer_domains_pflegepanther_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Payments_vue_vue_type_template_id_c8c09a6a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/dashboards/client-dashboard/components/Payments.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/client-dashboard/components/Ratings.vue":
 /*!*************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/Ratings.vue ***!
@@ -69926,22 +69973,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Payments.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/dashboards/client-dashboard/components/Ratings.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************!*\
   !*** ./resources/js/dashboards/client-dashboard/components/Ratings.vue?vue&type=script&lang=js ***!
@@ -70754,22 +70785,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Overview_vue_vue_type_template_id_5e5e8b17__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Overview_vue_vue_type_template_id_5e5e8b17__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Overview.vue?vue&type=template&id=5e5e8b17 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Overview.vue?vue&type=template&id=5e5e8b17");
-
-
-/***/ }),
-
-/***/ "./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a ***!
-  \********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_template_id_c8c09a6a__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Payments_vue_vue_type_template_id_c8c09a6a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Payments.vue?vue&type=template&id=c8c09a6a */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/dashboards/client-dashboard/components/Payments.vue?vue&type=template&id=c8c09a6a");
 
 
 /***/ }),

@@ -16,6 +16,9 @@ export default {
     data() {
         return {
             not_approved_bookings: [],
+            approved_bookings: [],
+            in_process_bookings: [],
+            ended_bookings: [],
             show_chat: false,
             show_refuse: false,
             client: null,
@@ -116,11 +119,11 @@ export default {
             axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id)
                 .then((response) => {
                     if (response.data.success) {
-                        console.log(response.data);
-                        this.not_approved_bookings = response.data.notApprovedBookings;
-
+                        this.not_approved_bookings = response.data.notApprovedBookings.data;
+                        this.approved_bookings = response.data.approvedBookings.data;
+                        this.in_process_bookings = response.data.inProcessBookings.data;
+                        this.ended_bookings = response.data.endedBookings.data;
                     }
-
                 })
                 .catch((error) => {
                     console.log(error);

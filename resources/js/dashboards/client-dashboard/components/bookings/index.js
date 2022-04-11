@@ -33,7 +33,7 @@ export default {
             axios.get('/dashboard/client-bookings?client_id=' + this.user.id)
                 .then((response) => {
                     if (response.data.success) {
-                        this.bookings = response.data.bookings;
+                        this.bookings = response.data.bookings.data;
                     }
                 })
                 .catch((error) => {
@@ -44,7 +44,6 @@ export default {
             axios.get('/dashboard/client-bookings/agree-with-alternative/' + this.booking.id)
                 .then((response) => {
                     if (response.data.success) {
-                        alert('Agree');
                         this.closeModal();
                     }
                 })
@@ -57,7 +56,6 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.closeModal();
-                        this.booking = null;
                     }
                 }).catch((error) => {
                 console.log(error);
@@ -119,7 +117,6 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.closeModal();
-                        this.booking = null;
                         this.getBookings();
                     }
                 }).catch((error) => {
