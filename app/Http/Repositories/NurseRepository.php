@@ -124,8 +124,6 @@ class NurseRepository
 
         //filter work time pref
         if (request()->filled('work_time_pref') && is_array(request('work_time_pref'))) {
-
-
             foreach (request('work_time_pref') as $key => $value) {
                 if ($value === "1") {
                     $nurse->whereHas('nurse', function ($query) use ($key) {

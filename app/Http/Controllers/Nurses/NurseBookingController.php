@@ -8,6 +8,7 @@ use App\Http\Resources\BookingsResource;
 use App\Models\AlternativeBooking;
 use App\Models\AlternativeBookingTime;
 use App\Models\Booking;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,12 +36,15 @@ class NurseBookingController extends Controller
             abort(409);
         }
 
-        $bookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
+        $notApprovedBookings = BookingsResource::collection(Booking::where('nurse_user_id', $nurseId)
             ->where('nurse_is_refuse_booking', 'no')
+            ->where('status', 'not_approved')
             ->where('is_verification', 'yes')
             ->with('time', 'client', 'alternative')
             ->get());
-        return response()->json(['success' => true, 'bookings' => $bookings]);
+
+
+        return response()->json(['success' => true, 'notApprovedBookings' => $notApprovedBookings]);
     }
 
     public function create()
@@ -115,6 +119,29 @@ class NurseBookingController extends Controller
 
     public function update(Request $request, $id)
     {
+        if(!is_numeric($id)){
+            //todo: hmm
+            return abort(409);
+        }
+
+        if(!$booking = Booking::where('id', $id)->with('time', 'client')->first()){
+            //todo: hmm
+            return abort(409);
+        }
+        $booking->status = 'approved';
+        $booking->save();
+
+        //todo: make tax and agency percent, gateway and currency
+        $payment = new Payment();
+        $payment->booking_id = $id;
+        $payment->client_user_id = $booking->client->id;
+        $payment->nurse_user_id = $booking->nurse->id;
+        $payment->date = $booking->start_date;
+        $payment->sum = $booking->total;
+        $payment->status = 'wait';
+        $payment->save();
+
+
         return response()->json(['success' => true]);
     }
 
