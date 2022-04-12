@@ -219,7 +219,7 @@
 
 <script>
     export default {
-        name: "Booking",
+        name: "BookingEdit",
         props: ['booking'],
         data() {
             return {

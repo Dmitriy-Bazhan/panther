@@ -39,9 +39,20 @@ class ClientBookingsController extends Controller
             }
         }
 
-        $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
+        $notApprovedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'not_approved'))->response()->getData();
+        $approvedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'approved'))->response()->getData();
+        $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
+        $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
 
-        return response()->json(['success' => true, 'bookings' => $bookings]);
+
+        return response()->json([
+            'success' => true,
+            'notApprovedBookings' => $notApprovedBookings,
+            'approvedBookings' => $approvedBookings,
+            'inProcessBookings' => $inProcessBookings,
+            'endedBookings' => $endedBookings,
+
+        ]);
     }
 
     public function create()

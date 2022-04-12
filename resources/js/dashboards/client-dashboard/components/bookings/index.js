@@ -1,8 +1,9 @@
 import template from './template.html';
 import './style.css';
-import Booking from "./Booking";
+import Booking from "./BookingEdit";
 import Alternative from "./Alternative";
 import SingleChat from "./SingleChat";
+import ShowBooking from "./ShowBooking";
 
 export default {
     name: "Bookings",
@@ -12,16 +13,21 @@ export default {
         booking: Booking,
         alternative: Alternative,
         single_chat: SingleChat,
+        show_booking: ShowBooking,
     },
     data() {
         return {
             show_remove_confirm: false,
+            show_booking_edit: false,
             show_booking: false,
             show_refused_booking: false,
             show_alternative: false,
             show_chat: false,
             booking: null,
-            bookings: [],
+            not_approved_bookings: [],
+            approved_bookings: [],
+            in_process_bookings: [],
+            ended_bookings: [],
             nurse: null,
         }
     },
@@ -33,7 +39,10 @@ export default {
             axios.get('/dashboard/client-bookings?client_id=' + this.user.id)
                 .then((response) => {
                     if (response.data.success) {
-                        this.bookings = response.data.bookings.data;
+                        this.not_approved_bookings = response.data.notApprovedBookings.data;
+                        this.approved_bookings = response.data.approvedBookings.data;
+                        this.in_process_bookings = response.data.inProcessBookings.data;
+                        this.ended_bookings = response.data.endedBookings.data;
                     }
                 })
                 .catch((error) => {
@@ -63,6 +72,7 @@ export default {
         },
         closeModal() {
             this.show_chat = false;
+            this.show_booking_edit = false;
             this.show_booking = false;
             this.show_alternative = false;
             this.show_refused_booking = false;
@@ -70,16 +80,26 @@ export default {
             this.booking = null;
             this.nurse = null;
         },
-        showCurrentBooking(booking) {
+        showBookingEdit(booking) {
+            this.show_booking_edit = true;
+            this.show_alternative = false;
+            this.show_refused_booking = false;
+            this.show_booking = false;
+            this.show_chat = false;
+            this.booking = booking;
+        },
+        showBooking(booking) {
             this.show_booking = true;
+            this.show_booking_edit = false;
             this.show_alternative = false;
             this.show_refused_booking = false;
             this.show_chat = false;
             this.booking = booking;
-        },
 
+            },
         showCurrentAlternativeBooking(booking) {
             this.show_alternative = true;
+            this.show_booking_edit = false;
             this.show_booking = false;
             this.show_refused_booking = false;
             this.show_chat = false;
@@ -88,6 +108,7 @@ export default {
         showChatWithNurse(nurse) {
             this.nurse = nurse;
             this.show_chat = true;
+            this.show_booking_edit = false;
             this.show_booking = false;
             this.show_refused_booking = false;
             this.show_alternative = false;
@@ -95,6 +116,7 @@ export default {
         showRefusedBooking(booking) {
             this.show_refused_booking = true;
             this.show_chat = false;
+            this.show_booking_edit = false;
             this.show_booking = false;
             this.show_alternative = false;
             this.booking = booking;
@@ -108,7 +130,7 @@ export default {
                 .then((response) => {
                     this.closeModal();
                     this.getBookings();
-            }).catch((error) => {
+                }).catch((error) => {
                 console.log(error);
             });
         },
