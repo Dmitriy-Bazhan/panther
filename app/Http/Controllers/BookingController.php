@@ -184,11 +184,8 @@ class BookingController extends Controller
 
         if (!$booking = Booking::where('id', $bookingId)->where('client_user_id', $clientId)
             ->with('time', 'client', 'nurse', 'alternative')->first()) {
-            //todo::hmm
             return redirect('/booking-not-exists');
         }
-
-        dd($booking);
 
         $nurse = $booking->nurse;
         $client = $booking->client;
