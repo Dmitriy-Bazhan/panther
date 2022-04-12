@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ $t('booking_verify_ok') }}</h1>
+        <h1>{{ $t('booking_not_exists') }}</h1>
 
         <div class="container-fluid">
             <div class="row">
@@ -17,14 +17,14 @@
 
 <script>
     export default {
-        name: "BookingVerify",
+        name: "BookingNotExists",
         mounted() {
             this.emitter.emit('not-show-layouts');
             this.emitter.emit('not-show-left-panel');
         },
         methods: {
             toBookings() {
-                    location.href = '/dashboard/client/bookings';
+                location.href = '/dashboard/client/bookings';
             },
         }
     }
