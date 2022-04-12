@@ -1,7 +1,24 @@
 <div>
     <h3>{{ $t('payment_wait') }}</h3>
 
-    <pre>
-        {{ waiting_payments[0] }}
-    </pre>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sum</th>
+            <th>Nurse</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr v-if="waiting_payments.length > 0" v-for="payment in waiting_payments">
+                <td>{{ payment.id }}</td>
+                <td>{{ payment.sum }}</td>
+                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
+                <td>{{ payment.date }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

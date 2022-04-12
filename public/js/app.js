@@ -39733,7 +39733,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "table {\n    margin-bottom: 50px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40743,7 +40743,7 @@ module.exports = code;
 /***/ ((module) => {
 
 // Module
-var code = "<div>\n    <h3>{{ $t('payment_wait') }}</h3>\n\n    <pre>\n        {{ waiting_payments[0] }}\n    </pre>\n</div>\n";
+var code = "<div>\n    <h3>{{ $t('payment_wait') }}</h3>\n\n    <table>\n        <thead>\n        <tr>\n            <th>Id</th>\n            <th>Sum</th>\n            <th>Nurse</th>\n            <th>Date</th>\n            <th>Action</th>\n        </tr>\n        </thead>\n        <tbody>\n            <tr v-if=\"waiting_payments.length > 0\" v-for=\"payment in waiting_payments\">\n                <td>{{ payment.id }}</td>\n                <td>{{ payment.sum }}</td>\n                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>\n                <td>{{ payment.date }}</td>\n                <td></td>\n            </tr>\n        </tbody>\n    </table>\n</div>\n";
 // Exports
 module.exports = code;
 

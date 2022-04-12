@@ -5,6 +5,7 @@
             position: relative;
             left: 45%;
         }
+
         .link-button {
             background: forestgreen;
             border: solid 1px green;
@@ -14,6 +15,7 @@
             border-radius: 5px;
             padding: 5px 10px 5px 10px;
         }
+
         .text-wrapper {
             position: relative;
             left: 20%;
@@ -27,6 +29,7 @@
             border-radius: 15px;
             margin: 10px;
         }
+
         .mail-title {
             position: relative;
             left: 30%;
@@ -34,6 +37,7 @@
             font-weight: 700;
             color: red;
         }
+
         .logo {
             height: 100px;
         }
@@ -54,11 +58,17 @@
         @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
     </div>
     <div class="text-wrapper">
-        @lang('mail-message.booking_verification_text_part_one')&nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name . ' ' }}
+        @lang('mail-message.booking_verification_text_part_one')
+        &nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name . ' ' }}
         @lang('mail-message.booking_verification_text_part_two')
     </div>
     <div class="logo">
-        <img class="logo-image" src="{{ $message->embed(url('storage/' . $nurse->entity->original_photo)) }}" alt="logo">
+        @if(file_exists(url('storage/' . $nurse->entity->original_photo)))
+            <img class="logo-image" src="{{ $message->embed(url('storage/' . $nurse->entity->original_photo)) }}"
+                 alt="logo">
+        @else
+            <img class="logo-image" src="{{ $message->embed(asset('/images/no-photo.jpg')) }}" alt="logo">
+        @endif
     </div>
     <div class="link-button-row">
         <a href="{{ $url }}">
