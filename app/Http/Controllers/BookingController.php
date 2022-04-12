@@ -177,7 +177,6 @@ class BookingController extends Controller
 
     public function clientVerificationBooking($bookingId, $clientId)
     {
-
         if (!is_numeric($bookingId) || !is_numeric($clientId)) {
             //todo::hmm
             abort(409);
@@ -186,8 +185,10 @@ class BookingController extends Controller
         if (!$booking = Booking::where('id', $bookingId)->where('client_user_id', $clientId)
             ->with('time', 'client', 'nurse', 'alternative')->first()) {
             //todo::hmm
-            abort(409);
+            return redirect('/booking-not-exists');
         }
+
+        dd($booking);
 
         $nurse = $booking->nurse;
         $client = $booking->client;

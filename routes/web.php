@@ -228,3 +228,6 @@ Route::get('/booking-verify', function () {
     return view('main');
 });
 
+Route::get('/booking-not-exists', function () {
+    return view('main');
+});

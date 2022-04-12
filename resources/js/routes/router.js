@@ -11,6 +11,7 @@ import Listing from '../pages/listing/index';
 import Booking from '../pages/booking/index';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
+import BookingNotExists from "../BookingNotExists";
 
 const routes = [
     {
@@ -47,6 +48,10 @@ const routes = [
     {
         path: "/booking-verify",
         component: BookingVerify
+    },
+    {
+        path: "/booking-not-exists",
+        component: BookingNotExists
     },
     {
         path: "/test",
