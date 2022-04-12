@@ -50,6 +50,12 @@
     -webkit-animation-duration: 3s;
 }
 
+.dev-temporary-notification {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0a53be;
+}
+
 @keyframes blinker {
     from {
         opacity: 1.0;
