@@ -9,13 +9,29 @@ class NurseResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
         $this->entity->work_time_pref = json_decode($this->entity->work_time_pref, true);
 
+        $rate = $this->rate;
+        $this->rate = new \stdClass();
+        if (count($rate) > 0) {
+            $this->rate->count = count($rate);
+
+            $average = $rate->sum(function ($value) {
+                    return $value->rate;
+                }) / $this->rate->count;
+
+            $this->rate->round = round ($average);
+            $this->rate->real = round ($average , 2);
+        }else{
+            $this->rate->count = 0;
+            $this->rate->round = 0;
+            $this->rate->real = 0;
+        }
         return [
             'created_at' => $this->created_at,
             'email' => $this->email,
@@ -31,6 +47,7 @@ class NurseResource extends JsonResource
             'phone' => $this->phone,
             'updated_at' => $this->updated_at,
             'zip_code' => $this->zip_code,
+            'rate' => $this->rate,
         ];
 
     }

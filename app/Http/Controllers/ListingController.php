@@ -106,7 +106,7 @@ class ListingController extends Controller
             'work_time_pref' => $clientSearchInfo['work_time_pref'],
         ]);
 
-        $nurses = $this->nursesRepo->search();
+        $nurses = NurseResource::collection($this->nursesRepo->search())->response()->getData();
 
         return response()->json(['success' => true, 'nurses' => $nurses]);
     }

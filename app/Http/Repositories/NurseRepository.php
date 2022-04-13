@@ -145,6 +145,8 @@ class NurseRepository
             }
         }
 
+        $nurse->with('rate');
+
         return $nurse->paginate(12);
     }
 
