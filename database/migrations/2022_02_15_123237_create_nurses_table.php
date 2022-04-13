@@ -31,6 +31,8 @@ class CreateNursesTable extends Migration
             $table->string('ready_to_work')->default('yes')->comment('yes|no');
             $table->date('start_date_ready_to_work')->nullable()->default(\Carbon\Carbon::now()->format('Y-m-d'));
             $table->date('finish_date_to_work')->nullable();
+            $table->integer('count_completed_booking')->default(0);
+            $table->integer('count_uncompleted_booking')->default(0);
             $table->json('work_time_pref');
             $table->timestamps();
         });
