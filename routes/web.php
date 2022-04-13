@@ -35,8 +35,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-| nurse - медсестра
 */
+
+
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
