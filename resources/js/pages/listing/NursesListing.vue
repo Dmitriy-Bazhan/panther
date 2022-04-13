@@ -13,7 +13,7 @@
     <div class="container-fluid nurse-cards-container">
         <div class="row">
             <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="col-4 nurse-cards-wrapper">
-                <div class="nurse-card" v-on:click="showNurseProfile(nurse)">
+                <div class="nurse-card" v-on:click="showNurseProfile(nurse, $event)">
                     <div class="row">
                         <div class="col-7">
                             <div>
@@ -28,8 +28,14 @@
 
                         <div class="col-5 nurse-card-image-wrapper">
                             <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                                 @error="$event.target.src=path + '/images/no-photo.jpg'"
                                  class="nurse-card-image">
+
+                            <div>
+                                <rate :user="nurse"></rate>
+                            </div>
                         </div>
+
 
                     </div>
 
@@ -47,14 +53,15 @@
 
     </div>
     <br>
-    <div v-if="nurses.links.length > 3" class="container-fluid">
+    <div v-if="nurses.meta.links.length > 3" class="container-fluid">
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
-            <span v-if="nurses.links.length > 0" v-for="link in nurses.links" class="nurse-link-wrapper">
+            <span v-if="nurses.meta.links.length > 0" v-for="link in nurses.meta.links" class="nurse-link-wrapper">
                 <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
                      preview
                 </span>
-                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)" class="nurse-link">
+                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)"
+                      class="nurse-link">
                     next
                 </span>
                 <span v-else v-on:click="newPage(link.url)"
@@ -68,25 +75,36 @@
 </template>
 
 <script>
+    import Rate from '../components/Rate';
+
     export default {
         name: "NursesListing",
         props: ['nurses', 'data'],
+        components: {
+            rate: Rate,
+        },
         data() {
             return {
                 path: location.origin,
             }
         },
         mounted() {
+            console.log(this.nurses);
         },
+
         methods: {
             closeModalNurseListing() {
                 this.emitter.emit('close-modal-nurse-listing');
             },
             newPage(url) {
-               this.emitter.emit('get-nurses-new-page', url);
+                this.emitter.emit('get-nurses-new-page', url);
             },
-            showNurseProfile(nurse){
-                this.emitter.emit('show-nurse-profile', nurse);
+            showNurseProfile(nurse, event) {
+                if (event.target.className === 'ti-star') {
+                    console.log(event.target.className);
+                } else {
+                    this.emitter.emit('show-nurse-profile', nurse);
+                }
             }
         }
     }
@@ -137,6 +155,6 @@
     }
 
     .active-link {
-        color:white;
+        color: white;
     }
 </style>

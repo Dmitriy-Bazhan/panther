@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdditionalInfo;
 use App\Models\ProvideSupport;
+use App\Models\Rate;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
@@ -91,7 +92,7 @@ class MainPageController extends Controller
 
     public function changeLang($lang)
     {
-        if(!in_array($lang, ['en', 'de'])){
+        if (!in_array($lang, ['en', 'de'])) {
             return redirect()->to('404');
         }
 
@@ -100,5 +101,21 @@ class MainPageController extends Controller
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function setUserRate()
+    {
+
+        if (!request()->filled('new_rate')) {
+            return response()->json(['success' => false]);
+        }
+        $data = request('new_rate');
+
+        $success = Rate::updateOrCreate(
+            ['user_id' => $data['user_id'], 'creator_id' => auth()->id()],
+            ['rate' => $data['new_rate']]
+        );
+
+        return response()->json(['success' => true, 'newRate' => $data]);
     }
 }

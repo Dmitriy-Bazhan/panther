@@ -107,5 +107,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\UserPref', 'user_id', 'id');
     }
 
+    public function rate() {
+        return $this->hasMany('App\Models\Rate', 'user_id', 'id');
+    }
 
 }
