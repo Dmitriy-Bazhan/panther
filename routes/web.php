@@ -35,11 +35,13 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-| nurse - медсестра
 */
+
+
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
+Route::post('/set-user-rate', [MainPageController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {

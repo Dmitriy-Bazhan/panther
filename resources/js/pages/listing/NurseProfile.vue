@@ -35,7 +35,12 @@
 
             <div class="col-5 nurse-profile-image-wrapper">
                 <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                     @error="$event.target.src=path + '/images/no-photo.jpg'"
                      class="nurse-profile-image">
+
+                <div>
+                    <rate :user="nurse"></rate>
+                </div>
             </div>
 
                 <div class="row">
@@ -103,12 +108,14 @@
 
 <script>
     import SingleChat from "../../dashboards/nurse-dashboard/components/bookings/SingleChat";
+    import Rate from '../components/Rate';
 
     export default {
         name: "NurseProfile",
         props: ['nurse', 'data', 'user'],
         components: {
             single_chat: SingleChat,
+            rate: Rate,
         },
         data() {
             return {
