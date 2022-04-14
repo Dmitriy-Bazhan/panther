@@ -1,22 +1,12 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3 offset-3 center">
-
-                <button v-on:click="toClientRegister" class="btn btn-primary">Client</button>
-            </div>
-            <div class="col-3 center">
-                <button v-on:click="toNurseRegister" class="btn  btn-primary">Nurse</button>
-
-            </div>
+    <div class="pt-section-default">
+        <div class="pt-tabs">
+            <button v-on:click="activeTav = 1" class="pt-tabs--btn" :class="{active: activeTav === 1}">Ich bin Kunde</button>
+            <button v-on:click="activeTav = 2" class="pt-tabs--btn" :class="{active: activeTav === 2}">Ich bin Pflegekraft</button>
         </div>
 
-        <div class="row">
-            <div class="col-6 offset-3 center">
-                <client_register v-if="showClientRegister" :data="data"></client_register>
-                <nurse_register v-if="showNurseRegister" :data="data"></nurse_register>
-            </div>
-        </div>
+        <client_register v-if="activeTav === 1" :data="data"></client_register>
+        <nurse_register v-if="activeTav === 2" :data="data"></nurse_register>
     </div>
 </template>
 
@@ -33,22 +23,13 @@
         },
         data() {
             return {
-                showNurseRegister: false,
-                showClientRegister: true,
+                activeTav: 1,
             }
         },
         mounted() {
 
         },
         methods: {
-            toClientRegister() {
-                this.showNurseRegister = false;
-                this.showClientRegister = true;
-            },
-            toNurseRegister() {
-                this.showNurseRegister = true;
-                this.showClientRegister = false;
-            },
         }
     }
 </script>
