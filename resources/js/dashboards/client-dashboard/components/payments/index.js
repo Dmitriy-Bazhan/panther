@@ -1,6 +1,7 @@
 import template from './template.html';
 import ShowBooking from "../bookings/ShowBooking";
 import ShowPayment from "./ShowPayment";
+import PayTemporary from "./PayTemporary";
 import './style.css';
 
 export default {
@@ -9,6 +10,7 @@ export default {
     components: {
         show_booking: ShowBooking,
         show_payment: ShowPayment,
+        pay_temporary: PayTemporary,
     },
     props: ['user', 'data'],
     data() {
@@ -19,19 +21,33 @@ export default {
             refuse_payments: [],
             show_booking: false,
             show_payment: false,
+            show_pay_temporary: false,
             booking: null,
             payment: null,
         }
     },
     mounted() {
         this.getClientPayments();
+
+        this.emitter.on('temporary-pay', e =>{
+            this.closeModal();
+            this.getClientPayments();
+        });
     },
     methods: {
         closeModal() {
             this.show_booking = false;
             this.show_payment = false;
+            this.show_pay_temporary = false;
             this.booking = null;
             this.payment = null;
+        },
+        showPaymentTemporary(payment) {
+            this.show_booking = false;
+            this.show_payment = false;
+            this.show_pay_temporary = true;
+            this.booking = null;
+            this.payment = payment;
         },
         showBooking(booking) {
             this.show_booking = true;
@@ -51,7 +67,9 @@ export default {
                     console.log(response);
                     if (response.data.success) {
                         this.waiting_payments = response.data.waitingPayments.data;
-                        console.log(this.waiting_payments);
+                        this.payed_payments = response.data.payedPayments.data;
+                        this.break_payments = response.data.breakPayments.data;
+                        this.refuse_payments = response.data.refusePayments.data;
                     }
                 })
                 .catch((error) => {
