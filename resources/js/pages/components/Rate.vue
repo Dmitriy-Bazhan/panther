@@ -15,20 +15,20 @@
     export default {
         name: "Rate",
         props: ['user'],
-        mounted() {
-            console.log(this.user.rate);
-        },
         methods: {
             setTheRate(index) {
                 let newRate = {
                     user_id: this.user.id,
                     new_rate: index,
                 };
-
                 axios.post('/set-user-rate', {'new_rate': newRate})
                     .then((response) => {
-                        console.log(response.data.newRate);
-                        this.user.rate.round = index;
+                        if (response.data.success) {
+                            this.user.rate.round = response.data.newRate.round;
+                            this.user.rate.real = response.data.newRate.real;
+                            this.user.rate.count = response.data.newRate.count;
+                        }
+
                     })
                     .catch((error) => {
                         console.log(error);
@@ -45,6 +45,7 @@
     .rate-wrapper {
         z-index: 200;
     }
+
     .ti-star {
         cursor: pointer;
     }
