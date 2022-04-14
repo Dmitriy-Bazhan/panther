@@ -92,7 +92,15 @@ class ClientPaymentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(!is_numeric($id)){
+            abort(409);
+        }
+
+        Payment::where('id', $id)->update([
+            'status' => 'payed'
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
     /**

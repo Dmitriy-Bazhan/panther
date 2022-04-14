@@ -18,7 +18,7 @@
                 <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
                 <td>{{ payment.date }}</td>
                 <td>
-                    <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="showPaymentTemporary(payment)">{{ $t('pay') }}</button>
                     <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
                     <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
                 </td>
@@ -45,7 +45,6 @@
             <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
             <td>{{ payment.date }}</td>
             <td>
-                <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
                 <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
                 <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
             </td>
@@ -135,6 +134,21 @@
             <br>
             <div class="row">
                 <show_payment :payment="payment"></show_payment>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_pay_temporary" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <pay_temporary :payment="payment"></pay_temporary>
             </div>
         </div>
     </div>
