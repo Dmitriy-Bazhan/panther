@@ -1,0 +1,101 @@
+html{
+    font-size: 16px;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: $font-family-sans-serif;
+    color: $black;
+    font-size: 18px;
+    line-height: 1.7;
+}
+.wrapper{
+    width: 100%;
+    max-width: $width-lg;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 10px;
+}
+.main-wrapper{
+    width: 100%;
+    max-width: $width-max;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 20px;
+}
+.wrapper-all{
+    width: 100%;
+    //overflow: hidden;
+    min-width: $width-min;
+}
+*{
+    box-sizing: border-box;
+}
+h1, h2, h3, h4, p, a, img, ol, ul, li{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style-type: none;
+    color: inherit;
+}
+header, section, footer{
+    width: 100%;
+    //min-width: $width-min;
+    margin: 0 auto;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+textarea,
+button,
+input{
+    position: relative;
+    box-sizing: border-box;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    border-radius: 0;
+    font-family: inherit;
+}
+
+button{
+    cursor: pointer;
+}
+
+.hidden-md{
+    @media(max-width: $width-md){
+        display: none!important;
+    }
+}
+
+.show-md{
+    @media(min-width: $width-md_min){
+        display: none!important;
+    }
+}
+
+.hidden-sm{
+    @media(max-width: $width-sm){
+        display: none!important;
+    }
+}
+
+.show-sm{
+    @media(min-width: $width-sm_min){
+        display: none!important;
+    }
+}
+
+.hidden-xs{
+    @media(max-width: $width-xs){
+        display: none!important;
+    }
+}
+
+.show-xs{
+    @media(min-width: $width-xs_min){
+        display: none!important;
+    }
+}

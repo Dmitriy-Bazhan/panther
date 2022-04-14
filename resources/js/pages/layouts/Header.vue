@@ -1,52 +1,84 @@
 <template>
-    <div class="container-fluid">
+    <div class="pt-header">
+        <div class="wrapper">
+            <div class="pt-header--container">
+                <a href="" class="pt-header--logo">
+                    <img :src="path + '/images/logo.png'" alt="logo">
+                </a>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-10 offset-1 header-wrapper">
-                    <div class="row">
-                        <div class="col-2 logo">
-                            <img :src="path + '/images/logo.png'" alt="logo" class="logo-image">
-                        </div>
-                        <div class="col-7 offset-1">
-                            <div class="row first-row">
-                                <localization-component></localization-component>
-                            </div>
+                <div class="pt-header--block">
+                    <div class="pt-header--ctrl">
+                        <localization-component></localization-component>
 
-                            <div class="row second-row">
-                                <div class="menu-item">Pflegerkraft</div>
-                                <div class="menu-item">About us</div>
-                                <div class="menu-item"><i class="ti-help"></i><span
-                                    class="menu-item-name">FAQ</span></div>
-                                <div class="menu-item" v-if="!auth">
-                                    <i class="ti-user"></i>&nbsp;
-                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
-                                </div>
-                                <div class="menu-item" v-else-if="auth.email_verified_at === null"
-                                     v-on:click="waitVerification()"><i class="ti-user"></i>&nbsp;
-                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
-                                </div>
-                                <div class="menu-item" v-else v-on:click="toDashboard()">
-                                    <i class="ti-user"></i>&nbsp;
-                                    <span class="menu-item-name">{{ $t('my_account') }}</span>
-                                </div>
-                                <div class="menu-item"><i class="ti-shift-right"></i>
-                                    <span v-if="!auth" v-on:click="toLogin()"
-                                          class="menu-item-name">&nbsp;{{ $t('sign_in') }}</span>
-                                    <logout-component v-else></logout-component>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-2 finder">
-                            <span class="finder-link" v-if="auth.email_verified_at === null"
-                                  v-on:click="waitVerification()">{{ $t('caregiver_finder') }}</span>
-                            <router-link v-else-if="auth.entity_type ==='client'" :to="{ name : 'Listing' }"
-                                         class="finder-link">{{ $t('caregiver_finder') }}
-                            </router-link>
-                            <span class="finder-link" v-else>{{ $t('caregiver_finder') }}</span>
+                        <div class="pt-header--social">
+                            <a href="" class="pt-header--social-text">
+                                info@pflegepanther.com
+                            </a>
+                            <a href="" class="pt-header--social-link">
+                                <pt-icon type="facebook"></pt-icon>
+                            </a>
+                            <a href="" class="pt-header--social-link">
+                                <pt-icon type="twitter"></pt-icon>
+                            </a>
+                            <a href="" class="pt-header--social-link">
+                                <pt-icon type="instagram"></pt-icon>
+                            </a>
                         </div>
                     </div>
+                    <div class="pt-header--nav">
+                        <div class="pt-header--nav-item">
+                            <pt-icon type="list"></pt-icon>
+                            Pflegerkraft
+                        </div>
+                        <div class="pt-header--nav-item">
+                            <pt-icon type="breifcase"></pt-icon>
+                            Über Uns
+                        </div>
+                        <div class="pt-header--nav-item">
+                            <pt-icon type="help"></pt-icon>
+                            FAQ
+                        </div>
+
+                        <div class="pt-header--nav-item" v-if="!auth">
+                            <pt-icon type="user"></pt-icon>
+                            {{ $t('my_account') }}
+                        </div>
+                        <div class="pt-header--nav-item" v-else-if="auth.email_verified_at === null"
+                             v-on:click="waitVerification()">
+                            <pt-icon type="user"></pt-icon>
+                            {{ $t('my_account') }}
+                        </div>
+                        <div class="pt-header--nav-item" v-else v-on:click="toDashboard()">
+                            <pt-icon type="user"></pt-icon>
+                            {{ $t('my_account') }}
+                        </div>
+
+                        <div class="pt-header--nav-item">
+                            <pt-icon type="log_in"></pt-icon>
+                            <span v-if="!auth" v-on:click="toLogin()">
+                                {{ $t('sign_in') }}</span>
+                            <logout-component v-else></logout-component>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-header--finder">
+                    <span class="pt-header--finder-link" v-if="auth.email_verified_at === null"
+                          v-on:click="waitVerification()">
+                        <pt-icon type="nurse"></pt-icon>
+                        {{ $t('caregiver_finder') }}
+                    </span>
+
+                    <router-link v-else-if="auth.entity_type ==='client'"
+                                 :to="{ name : 'Listing' }"
+                                 class="pt-header--finder-link">
+                        <pt-icon type="nurse"></pt-icon>
+                        {{ $t('caregiver_finder') }}
+                    </router-link>
+
+                    <span class="pt-header--finder-link" v-else>
+                        <pt-icon type="nurse"></pt-icon>
+                        {{ $t('caregiver_finder') }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -54,93 +86,50 @@
 </template>
 
 <script>
-    import Localization from "../components/Localization";
-    import Logout from "../components/Logout";
+import Localization from "../components/Localization";
+import Logout from "../components/Logout";
 
-    export default {
-        name: "Header",
-        props: ['auth'],
-        components: {
-            'localization-component': Localization,
-            'logout-component': Logout,
+export default {
+    name: "Header",
+    props: ['auth'],
+    components: {
+        'localization-component': Localization,
+        'logout-component': Logout,
+    },
+    data() {
+        return {
+            path: location.origin,
+        }
+    },
+    mounted() {
+        console.log(this.auth);
+    },
+    methods: {
+        toLogin() {
+            window.location.href = '/login';
         },
-        data() {
-            return {
-                path: location.origin,
+        waitVerification() {
+            alert('Wait email verification');
+        },
+        toDashboard() {
+            if (window.guard === 'admin') {
+                location.href = '/dashboard/admin';
             }
-        },
-        mounted() {
-            // console.log(window.guard);
-            console.log(this.auth);
-        },
-        methods: {
-            toLogin() {
-                window.location.href = '/login';
-            },
-            waitVerification() {
-                alert('Wait email verification');
-            },
-            toDashboard() {
-                if (window.guard === 'admin') {
-                    location.href = '/dashboard/admin';
-                }
 
-                if (window.guard === 'client') {
-                    location.href = '/dashboard/client';
-                }
-
-                if (window.guard === 'nurse') {
-                    location.href = '/dashboard/nurse';
-                }
-
-
+            if (window.guard === 'client') {
+                location.href = '/dashboard/client';
             }
+
+            if (window.guard === 'nurse') {
+                location.href = '/dashboard/nurse';
+            }
+
+
         }
     }
+}
 </script>
 
 <style scoped>
-    .menu-item {
-        display: flex;
-        width: 20%;
-        padding-top: 10px;
-    }
 
-    .menu-item-name {
-        font-size: 14px;
-        font-weight: 700;
-        color: black;
-        cursor: pointer;
-    }
-
-    .logo {
-         height: 100px;
-     }
-
-    .logo-image {
-        width: 90%;
-        height: auto;
-    }
-
-    .finder {
-        height: 100px;
-        background: #0a58ca;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-    }
-
-    .finder-link {
-        color: white;
-        text-decoration: none;
-    }
-
-    .first-row {
-        border-bottom: solid 2px #b4b4b4;
-        padding: 10px;
-    }
-
-    .second-row {
-        padding-top: 10px;
-    }
 </style>

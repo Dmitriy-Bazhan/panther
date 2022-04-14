@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <div v-on:click="changeLangOnDe()" :style="locale === 'de' ? 'color:blue' : ''" class="lang-button">DE</div>
-        &nbsp;
-        <div v-on:click="changeLangOnEng()" :style="locale === 'en' ? 'color:blue' : ''" class="lang-button">ENG</div>
+    <div class="lang-btns">
+        <div v-on:click="changeLangOnDe()" :class="{active: locale === 'de'}" class="lang-btn">DE</div>
+        <div v-on:click="changeLangOnEng()" :class="{active: locale === 'en'}" class="lang-btn">ENG</div>
     </div>
 </template>
 
@@ -77,15 +76,4 @@
 </script>
 
 <style scoped>
-    .lang-button{
-        display: inline-block;
-        border-radius: 5px;
-        width: 40px;
-        background: lightgray;
-        font-size: 12px;
-        font-weight: 700;
-        color: gray;
-        text-align: center;
-        cursor: pointer;
-    }
 </style>

@@ -1,41 +1,62 @@
 <template>
-    <div class="container-fluild">
-        <div class="row">
+    <div class="pt-section-default">
+        <div class="wrapper">
+            <p class="pt-subtitle">
+                <span>login</span>
+            </p>
+            <h2 class="pt-title">
+                Auf der Plattform anmelden
+            </h2>
 
-            <div class="col-4 offset-4">
-                <h1>Login</h1>
+            <form class="pt-form">
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        E-Mail  :
+                    </p>
+                    <pt-input type="email" :modelValue="email" icon="email"
+                              @update:modelValue="newValue => email = newValue"
+                    ></pt-input>
+                </div>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        Passwort :
+                    </p>
+                    <pt-input type="password" :modelValue="password" icon="password"
+                              @update:modelValue="newValue => password = newValue"
+                    ></pt-input>
+                </div>
 
-                <form>
-                    <div class="mb-3">
-                        <label for="input_email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="input_email" aria-describedby="emailHelp" v-model="email">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <div class="pt-form--group">
+                    <div class="pt-form--info">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
+                            Remember Me
+                        </label>
+                        <p>
+                            <a href="">
+                                Passwort vergessen?
+                            </a>
+                        </p>
                     </div>
-                    <div class="mb-3">
-                        <label for="input_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="input_password" v-model="password">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
-                        <label class="form-check-label" for="check">Check me out</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <button class="btn btn-primary" v-on:click="SendLogin">Send</button>
-                        </div>
-                        <div class="col-2 offset-8">
-                            <button class="btn btn-primary" v-on:click="backToHome">Back</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
 
-                <p v-if="errors !== null" v-for="error in errors">{{ error }}</p>
-            </div>
-            <a href="register">
-                <button class="btn btn-sm btn-success">Register</button>
-            </a>
+                <div class="pt-form--group">
+                    <button class="pt-btn pt-md" v-on:click="SendLogin">login</button>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--text">
+                        Neues Konto erstellen. <a href="register">Registrierung</a>
+                    </p>
+                </div>
+<!--                <button class="btn btn-primary" v-on:click="backToHome">Back</button>-->
+            </form>
+
+            <p v-if="errors !== null" v-for="error in errors">{{ error }}</p>
+
+
+
         </div>
-
     </div>
 </template>
 
@@ -66,7 +87,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    // console.log(error.response.data.errors);
+                    console.log(error.response.data.errors);
 
                 });
         },

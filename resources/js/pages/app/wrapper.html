@@ -2,21 +2,7 @@
 
     <panther-header :auth="user" v-if="showHeader"></panther-header>
 
-    <br>
-
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <div class="col-10 offset-1">
-
-                <router-view :user="user" :data="data"></router-view>
-
-            </div>
-
-        </div>
-
-    </div>
+    <router-view :user="user" :data="data"></router-view>
 
     <response-success-true v-if="response_success_true"></response-success-true>
 

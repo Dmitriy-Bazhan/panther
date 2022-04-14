@@ -1,115 +1,137 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="pt-section-default">
+        <div class="wrapper">
+            <p class="pt-subtitle">
+                <span>{{ $t('nurse_register') }}</span>
+            </p>
+            <h2 class="pt-title">
+                Werde ein PflegePanther
+            </h2>
 
-            <div class="col-12">
-                <h1>{{ $t('nurse_register') }}</h1>
+            <form class="pt-form pt-form--big">
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('name') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="nurse.first_name"
+                              icon="user"
+                              @update:modelValue="newValue => nurse.first_name = newValue"
+                    ></pt-input>
 
-                <!-- first name -->
-                <div class="row">
-                    <div class="col-6">
-                        <label for="first_name" class="form-label col-form-label-sm">{{ $t('name') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="first_name"
-                               v-model="nurse.first_name">
-                        <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
-                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
+                </div>
 
-                <!-- last name -->
-                    <div class="col-6">
-                        <label for="last_name" class="form-label col-form-label-sm">{{ $t('last_name') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="last_name"
-                               v-model="nurse.last_name">
-                        <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('last_name') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="nurse.last_name"
+                              icon="user"
+                              @update:modelValue="newValue => nurse.last_name = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('phone') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="nurse.phone"
+                              icon="phone"
+                              @update:modelValue="newValue => nurse.phone = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('zip_code') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="nurse.zip_code"
+                              icon="home"
+                              @update:modelValue="newValue => nurse.zip_code = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('email') }} :
+                    </p>
+                    <pt-input type="email" :modelValue="nurse.email"
+                              icon="email"
+                              @update:modelValue="newValue => nurse.email = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.email !== undefined">{{ errors.email[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('password') }} :
+                    </p>
+                    <pt-input type="password" :modelValue="nurse.password"
+                              icon="password"
+                              @update:modelValue="newValue => nurse.password = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('password_confirm') }} :
+                    </p>
+                    <pt-input type="password" :modelValue="nurse.password_confirmation"
+                              icon="password"
+                              @update:modelValue="newValue => nurse.password_confirmation = newValue"
+                    ></pt-input>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('hear_about_us') }} :
+                    </p>
+
+                    <div class="pt-select">
+                        <div class="pt-select--icon">
+                            <pt-icon type="pin"></pt-icon>
+                        </div>
+                        <v-select :options="filterOptions()"
+                                  label="title"
+                                  v-model="nurse.hear_about_us"
+                                  :reduce="(option) => option.id">
+                            <template #open-indicator>
+                                <span class="pt-select--caret"></span>
+                            </template>
+                        </v-select>
                     </div>
                 </div>
 
-                <!-- phone -->
-                <div class="row">
-                    <div class="col-6">
-                        <label for="phone" class="form-label col-form-label-sm">{{ $t('phone') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="phone" v-model="nurse.phone">
-                        <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
-                    </div>
-
-                <!-- zip code -->
-                    <div class="col-6">
-                        <label for="zip_code" class="form-label col-form-label-sm">{{ $t('zip_code') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="zip_code" v-model="nurse.zip_code">
-                        <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
-                    </div>
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('hear_about_us_other') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="nurse.hear_about_us_other"
+                              @update:modelValue="newValue => nurse.hear_about_us_other = newValue"
+                    ></pt-input>
                 </div>
 
-                <br>
-
-                <!-- email -->
-                <div class="row">
-                    <div class="col-3">
-                        <label for="email" class="form-label col-form-label-sm">{{ $t('email') }}</label>
-                    </div>
-                    <div class="col-9">
-                        <input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp"
-                               v-model="nurse.email">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        <span class="register-form-error" v-if="errors !== null && errors.email !== undefined">{{ errors.email[0] }}</span>
-                    </div>
+                <div class="pt-form--group pt-lg">
+                    <button class="pt-btn" v-on:click="sendForm">
+                        Registrierung abschließen
+                    </button>
                 </div>
 
-                <!-- password -->
-                <div class="row">
-                    <div class="col-6">
-                        <label for="password" class="form-label col-form-label-sm">{{ $t('password') }}</label>
-                        <input type="password" class="form-control form-control-sm" id="password"
-                               v-model="nurse.password">
-                        <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
-                    </div>
-
-                <!-- password confirm-->
-                    <div class="col-6">
-                        <label for="password_confirm" class="form-label col-form-label-sm">{{ $t('password_confirm') }}</label>
-                        <input type="password" class="form-control form-control-sm" id="password_confirm"
-                               v-model="nurse.password_confirmation">
-                    </div>
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--text">
+                        Ich habe bereits einen Account. <a href="/login">Login</a>
+                    </p>
                 </div>
-
-                <br>
-
-                <!-- hear about us -->
-                <div class="row">
-                    <div class="col-3">
-                        <label for="hear_about_us" class="form-label col-form-label-sm">{{ $t('hear_about_us') }}</label>
-                    </div>
-                    <div class="col-9">
-                        <select id="hear_about_us" class="form-select form-select-sm"
-                                v-model="nurse.hear_about_us">
-                            <option v-if="data.hear_about_us.length > 0"
-                                    v-for="hear_about_us in data.hear_about_us"
-                                    v-bind:value="hear_about_us.id">
-                                {{ filterHearAboutUs(hear_about_us) }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- hear about us other -->
-                <div class="row">
-                    <div class="col-3">
-                        <label for="hear_about_us_other" class="form-label col-form-label-sm">{{ $t('hear_about_us_other') }}</label>
-                    </div>
-                    <div class="col-9">
-                        <input type="text" class="form-control form-control-sm" id="hear_about_us_other"
-                               v-model="nurse.hear_about_us_other">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-2">
-                        <button class="btn btn-primary btn-sm" v-on:click="sendForm">Send</button>
-                    </div>
-                    <div class="col-2 offset-8">
-                        <button class="btn btn-primary btn-sm" v-on:click="backToHome">Back</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </template>
@@ -167,7 +189,27 @@
                     }
                 });
                 return el[0].data;
-            }
+            },
+            filterOptions() {
+                let result = []
+                let lang = this.locale;
+                this.data.hear_about_us.forEach(function (item){
+                    if(item.is_show){
+                        let tmp = {
+                            id: item.id
+                        }
+
+                        item.data.forEach(function (val){
+                            if(val.lang == lang){
+                                tmp.title = val.data
+                            }
+                        })
+
+                        result.push(tmp)
+                    }
+                })
+                return result
+            },
         }
     }
 </script>
