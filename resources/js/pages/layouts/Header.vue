@@ -2,7 +2,7 @@
     <div class="pt-header">
         <div class="wrapper">
             <div class="pt-header--container">
-                <a href="" class="pt-header--logo">
+                <a href="/" class="pt-header--logo">
                     <img :src="path + '/images/logo.png'" alt="logo">
                 </a>
 
