@@ -66,6 +66,8 @@ Route::prefix('dashboard')->group(function () {
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
+        Route::get('/pages', [AdminDashboardController::class, 'index']);
+        Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
