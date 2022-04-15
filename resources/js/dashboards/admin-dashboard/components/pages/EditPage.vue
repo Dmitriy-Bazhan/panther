@@ -17,7 +17,6 @@
         </div>
 
 
-
         <div class="row mt-2">
             <div class="col-3">
                 <select name="" class="form-select" v-model="selectedBlock">
@@ -33,42 +32,66 @@
 </template>
 
 <script>
-import HeadBlock from "../pageBlocks/HeadBlock";
+    import HeadBlock from "../pageBlocks/HeadBlock";
 
-export default {
-    name: "EditPage",
-    components: {
-        'head-block': HeadBlock,
-        // 'test-chat' : TestChat,
-    },
-    data(){
-        return {
-            selectedBlock: false,
-            blockList: [],
-            pageData: [],
-        }
-    },
-    methods: {
-        addBlock(){
-            if(this.selectedBlock){
-                this.blockList.push(this.selectedBlock)
-                this.selectedBlock = false
+    export default {
+        name: "EditPage",
+        components: {
+            'head-block': HeadBlock,
+            // 'test-chat' : TestChat,
+        },
+        data() {
+            return {
+                selectedBlock: false,
+                blockList: [],
+                pageData: [],
             }
         },
-        savePage(){
-            console.log('Save')
-            console.log(this.pageData)
-            console.log(JSON.stringify(this.pageData))
-
+        mounted() {
+            this.getPage();
         },
-        updateState(e, index){
-            console.log('Update')
-            this.pageData[index] = {}
-            this.pageData[index].data = e
-            this.pageData[index].name = this.blockList[index]
+        methods: {
+            addBlock() {
+                if (this.selectedBlock) {
+                    this.blockList.push(this.selectedBlock)
+                    this.selectedBlock = false
+                }
+            },
+            savePage() {
+                console.log('Save');
+                console.log(this.pageData);
+                axios.post('/dashboard/admin/save-page/home', {'pageData': this.pageData})
+                    .then((response) => {
+                        if(response.data.success){
+                            this.emitter.emit('response-success-true');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            getPage() {
+                axios.get('/dashboard/admin/get-page/home')
+                    .then((response) => {
+                        if(response.data.success){
+                            this.pageData = response.data.page;
+                            console.log(this.pageData);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+
+
+            updateState(e, index) {
+                console.log('Update')
+                this.pageData[index] = {}
+                this.pageData[index].data = e
+                this.pageData[index].name = this.blockList[index]
+            }
         }
     }
-}
 </script>
 
 <style scoped>

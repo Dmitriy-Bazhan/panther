@@ -68,6 +68,8 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
+        Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
+        Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
