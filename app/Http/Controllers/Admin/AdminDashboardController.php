@@ -73,54 +73,38 @@ class AdminDashboardController extends Controller
             abort(409);
         }
 
-        $targetPage = 'save' . ucfirst($page) . 'Page';
-        return $this->$targetPage();
-
-    }
-
-    public function saveHomePage()
-    {
         $pageData = request('pageData');
 
         Page::where('page', 'home')->delete();
 
-        foreach ($pageData as $data) {
-            if (!is_null($data)) {
-                $newBlock = new Page();
-                $newBlock->page = 'home';
-                $newBlock->name = $data['name'];
-                $newBlock->data = json_encode($data['data']);
-                $newBlock->save();
-            }
-        }
+        $newBlock = new Page();
+        $newBlock->page = $pageData['page'];
+        $newBlock->data = json_encode($pageData['data']);
+        $newBlock->save();
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'fff' => $pageData]);
     }
 
-    public function getPage($page){
+    public function saveHomePage()
+    {
+
+    }
+
+    public function getPage($page)
+    {
         if (!in_array($page, ['home'])) {
             //todo:hmm
             abort(409);
         }
 
-        $targetPage = 'get' . ucfirst($page) . 'Page';
-        return $this->$targetPage();
-    }
-
-    public function getHomePage(){
-
-        $blocks = Page::where('page', 'home')->get();
+        $page = Page::where('page', $page)->first();
 
         $result = [];
-        foreach ($blocks as $block){
-            $temp['name'] = $block->name;
-            $temp['data'] = json_decode($block['data'], true);
-            $result[] = $temp;
-        }
+        $result['page'] = $page->page;
+        $result['data'] = json_decode($page->data, true);;
 
         return response()->json(['success' => true, 'page' => $result]);
     }
-
 
     public function create()
     {
