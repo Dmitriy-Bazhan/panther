@@ -77,10 +77,12 @@ class AdminDashboardController extends Controller
 
         Page::where('page', $pageData['page'])->delete();
 
-        $newBlock = new Page();
-        $newBlock->page = $pageData['page'];
-        $newBlock->data = json_encode($pageData['data']);
-        $newBlock->save();
+        if($pageData['page'] != ''){
+            $newBlock = new Page();
+            $newBlock->page = $pageData['page'];
+            $newBlock->data = json_encode($pageData['data']);
+            $newBlock->save();
+        }
 
         return response()->json(['success' => true]);
     }
@@ -93,10 +95,11 @@ class AdminDashboardController extends Controller
 //        }
 
         $page = Page::where('page', $page)->first();
-
         $result = [];
-        $result['page'] = $page->page;
-        $result['data'] = json_decode($page->data, true);;
+        if(!is_null($page)){
+            $result['page'] = $page->page;
+            $result['data'] = json_decode($page->data, true);
+        }
 
         return response()->json(['success' => true, 'page' => $result]);
     }
