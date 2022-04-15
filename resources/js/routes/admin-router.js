@@ -6,6 +6,7 @@ import Client from '../dashboards/admin-dashboard/components/clients/index';
 import Pages from '../dashboards/admin-dashboard/components/pages/Pages';
 import EditPage from '../dashboards/admin-dashboard/components/pages/EditPage';
 import TranslationPage from '../dashboards/admin-dashboard/components/translation/Translation';
+import Media from '../dashboards/admin-dashboard/components/pages/Media';
 
 const routes = [
     {
@@ -47,6 +48,12 @@ const routes = [
         path: "/dashboard/admin/translation",
         name: 'AdminDashboardTranslationPage',
         component: TranslationPage,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/media",
+        name: 'AdminDashboardMediaPage',
+        component: Media,
         props: true,
     },
 ];
