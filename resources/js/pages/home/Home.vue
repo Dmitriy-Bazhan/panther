@@ -80,7 +80,7 @@
             </div>
         </section>
 
-        <main-testimonials></main-testimonials>
+        <main-users></main-users>
 
         <section class="pt-section-benefits">
             <div class="wrapper">

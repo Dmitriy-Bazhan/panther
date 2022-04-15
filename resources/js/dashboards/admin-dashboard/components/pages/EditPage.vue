@@ -52,6 +52,7 @@ import AboutBlock from "../pageBlocks/AboutBlock";
 import BenefitsBlock from "../pageBlocks/BenefitsBlock";
 import FaqBlock from "../pageBlocks/FaqBlock";
 import InfoBlock from "../pageBlocks/InfoBlock";
+import UsersBlock from "../pageBlocks/UsersBlock";
 
 export default {
     name: "EditPage",
@@ -60,6 +61,7 @@ export default {
         'head-block': HeadBlock,
         'about-block': AboutBlock,
         'benefits-block': BenefitsBlock,
+        'users-block': UsersBlock,
         'info-block': InfoBlock,
         'faq-block': FaqBlock,
     },
