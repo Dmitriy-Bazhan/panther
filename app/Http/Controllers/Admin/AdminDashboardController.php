@@ -10,6 +10,7 @@ use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\HearAboutUs;
 use App\Models\Nurse;
+use App\Models\Page;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
 
@@ -63,6 +64,63 @@ class AdminDashboardController extends Controller
 
         return response()->json(['id' => request('id')]);
     }
+
+    public function savePage($page)
+    {
+
+        if (!in_array($page, ['home'])) {
+            //todo:hmm
+            abort(409);
+        }
+
+        $targetPage = 'save' . ucfirst($page) . 'Page';
+        return $this->$targetPage();
+
+    }
+
+    public function saveHomePage()
+    {
+        $pageData = request('pageData');
+
+        Page::where('page', 'home')->delete();
+
+        foreach ($pageData as $data) {
+            if (!is_null($data)) {
+                $newBlock = new Page();
+                $newBlock->page = 'home';
+                $newBlock->name = $data['name'];
+                $newBlock->data = json_encode($data['data']);
+                $newBlock->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getPage($page){
+        if (!in_array($page, ['home'])) {
+            //todo:hmm
+            abort(409);
+        }
+
+        $targetPage = 'get' . ucfirst($page) . 'Page';
+        return $this->$targetPage();
+    }
+
+    public function getHomePage(){
+
+        $blocks = Page::where('page', 'home')->get();
+
+        $result = [];
+        foreach ($blocks as $block){
+            $temp['name'] = $block->name;
+            $temp['data'] = json_decode($block['data'], true);
+            $result[] = $temp;
+        }
+
+        return response()->json(['success' => true, 'page' => $result]);
+    }
+
 
     public function create()
     {
