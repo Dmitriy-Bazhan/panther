@@ -99,6 +99,9 @@ class AdminDashboardController extends Controller
         if(!is_null($page)){
             $result['page'] = $page->page;
             $result['data'] = json_decode($page->data, true);
+        }else{
+            $result['page'] = '';
+            $result['data'] = [];
         }
 
         return response()->json(['success' => true, 'page' => $result]);
