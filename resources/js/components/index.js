@@ -1,9 +1,14 @@
 import Icon from './Icon/Icon';
 import Input from './Input/Input';
 import Accordeon from './Accordeon/Accordeon';
-import MainSlider from './MainSlider/MainSlider';
-import MainUsers from './MainUsers/MainUsers';
-import Faq from './Faq/Faq';
+
+import MainSlider from './PageBlocks/HeadBlock';
+import MainUsers from './PageBlocks/UsersBlock';
+import Faq from './PageBlocks/FaqBlock';
+import AboutBlock from './PageBlocks/AboutBlock';
+import BenefitsBlock from './PageBlocks/BenefitsBlock';
+import InfoBlock from './PageBlocks/InfoBlock';
+
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
 import messages from '../locale';
@@ -54,9 +59,14 @@ else{
             Vue.component('pt-accordeon', Accordeon);
             Vue.component('swiper-slide', SwiperSlide);
             Vue.component('swiper', Swiper);
-            Vue.component('main-slider', MainSlider);
-            Vue.component('main-users', MainUsers);
-            Vue.component('main-faq', Faq);
+
+            Vue.component('head-block', MainSlider);
+            Vue.component('users-block', MainUsers);
+            Vue.component('faq-block', Faq);
+            Vue.component('about-block', AboutBlock);
+            Vue.component('benefits-block', BenefitsBlock);
+            Vue.component('info-block', InfoBlock);
+
             Vue.component("v-select", vSelect);
             Vue.component('Datepicker', Datepicker);
         }

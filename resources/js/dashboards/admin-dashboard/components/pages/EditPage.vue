@@ -12,15 +12,21 @@
         <div class="row">
             <div class="col-12">
                 <div class="tabs">
-                    <draggable class="" :list="pageData.data">
-                        <button class="btn"
-                                @click.prevent="activeTab = index"
-                                :key="index"
-                                v-for="(block, index) in pageData.data"
-                                :class="{'btn-primary': activeTab === index, 'btn-secondary': activeTab !== index}"
-                        >
-                            {{block.name}}
-                        </button>
+                    <draggable class="tabs-list" :list="pageData.data">
+                        <div v-for="(block, index) in pageData.data">
+                            <button class="btn"
+                                    @click.prevent="activeTab = index"
+                                    :key="index"
+                                    :class="{'btn-primary': activeTab === index, 'btn-secondary': activeTab !== index}"
+                            >
+                                {{block.name}}
+                            </button>
+                            <button class="btn btn-sm btn-danger"
+                                    @click.prevent="deleteBlock(block, index)"
+                            >
+                                X
+                            </button>
+                        </div>
                     </draggable>
                 </div>
             </div>
@@ -93,7 +99,12 @@ export default {
         }
     },
     methods: {
-        addBlock(){
+        deleteBlock(block, index){
+            console.log(index)
+
+            this.pageData.data.splice([index], 1)
+        },
+        addBlock() {
             if(this.selectedBlock){
                 console.log(this.pageData.data)
                 this.pageData.data.push({
@@ -120,15 +131,15 @@ export default {
             axios.get('/dashboard/admin/get-page/home')
                 .then((response) => {
                     if(response.data.success){
-                        console.log(response.data.page)
-                        //this.pageData = response.data.page;
+                        this.pageData = response.data.page;
+                        console.log(this.pageData)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        updateState(e, index){
+        updateState(e, index) {
             console.log('Update')
             this.pageData.page = this.$route.params.id
             if(typeof this.pageData.data[index] !== 'object'){
@@ -142,5 +153,11 @@ export default {
 </script>
 
 <style scoped>
+    .tabs-list{
+        display: flex;
+    }
 
+    .tabs-list>div{
+        padding-right: 10px;
+    }
 </style>
