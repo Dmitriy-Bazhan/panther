@@ -1,15 +1,14 @@
 <template>
-    <section class="pt-section-register">
+    <section class="pt-section-register" v-if="blockData">
         <div class="main-wrapper">
             <div class="pt-section-register--items">
                 <div class="pt-section-register--item">
                     <img src="/images/fake/nurse.png" alt="" class="pt-section-register--item-img">
                     <p class="pt-block-heading">
-                        Sie sind Pflegekraft und möchten
-                        flexibel, selbstbestimmt arbeiten?
+                        {{blockData.nurseTitle}}
                     </p>
                     <p class="pt-section-register--item-text">
-                        Wir verbinden Sie mit denjenigen Pflegebedürftigen und Angehörigen, die Ihre Dienste brauchen. Dabei kümmern wir uns um Verträge, Versicherungsschutz Medikamentenpläne und Terminplanung: Sie können sich komplett auf die Pflege konzentrieren, ihren Lohn legen Sie im Vorfeld selbst fest
+                        {{blockData.nurseText}}
                     </p>
 
                     <a href="" class="pt-btn pt-lg">Registrieren</a>
@@ -17,12 +16,10 @@
                 <div class="pt-section-register--item">
                     <img src="/images/fake/old.png" alt="" class="pt-section-register--item-img">
                     <p class="pt-block-heading">
-                        Sie sind Angehörige/r einer
-                        pflegebedürftigen Person und suchen
-                        nach qualifizierter Pflege?
+                        {{blockData.clientTitle}}
                     </p>
                     <p class="pt-section-register--item-text">
-                        Dann ist PflegePanther genau die richtige Wahl. Unter Berücksichtigung der gewünschten Qualifikation, Berufserfahrung, Sprachen, zeitlicher Verfügbarkeit und Vielem mehr suchen wir genau zu Ihnen passende Pflegekräfte in Ihrer Umgebung.
+                        {{blockData.clientText}}
                     </p>
 
                     <a href="" class="pt-btn pt-lg">Registrieren</a>
@@ -34,7 +31,11 @@
 
 <script>
 export default {
-    name: "InfoBlock"
+    name: "InfoBlock",
+    props: ['blockData'],
+    mounted() {
+        console.log(this.blockData)
+    }
 }
 </script>
 

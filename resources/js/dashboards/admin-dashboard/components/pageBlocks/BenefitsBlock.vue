@@ -19,7 +19,10 @@
 
         <div class="" v-for="(item, index) in list">
             <hr>
-            <h3>Item - {{index + 1}}</h3>
+            <h3>
+                Item - {{index + 1}}
+                <button class="btn btn-danger btn-sm" @click.prevent="removeItem(index)">X</button>
+            </h3>
             <div class="form-group">
                 <p class="form-label">
                     Item title
@@ -84,6 +87,9 @@ export default {
         }
     },
     methods: {
+        removeItem(index){
+            this.list.splice(index, 1)
+        },
         addItem(){
             let self = this;
             let isEmpty = false;
