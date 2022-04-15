@@ -1,99 +1,27 @@
 <template>
-    <section class="pt-section-faq">
+    <section class="pt-section-faq" v-if="blockData">
         <div class="wrapper">
-            <p class="pt-subtitle">
-                <span>deine Fragen</span>
+            <p class="pt-subtitle" v-show="blockData.subtitle">
+                <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title">
-                FAQ
+            <h2 class="pt-title" v-show="blockData.title">
+                {{blockData.title}}
             </h2>
 
-            <div class="pt-faq">
-                <div class="pt-faq--item">
-                    <div class="pt-faq--item-head" @click="open(1)" :class="{active: activeFaq === 1}">
+            <div class="pt-faq" v-if="blockData.list.length > 0">
+                <div class="pt-faq--item" v-for="(item, index) in blockData.list">
+                    <div class="pt-faq--item-head" @click="open(index)" :class="{active: activeFaq === index}">
                         <div class="pt-faq--item-head--number">
-                            1
+                            {{index+1}}
                         </div>
                         <p class="pt-faq--item-head--title">
-                            Wie man sich auf der Plattform registriert?
+                            {{item.title}}
                         </p>
                     </div>
                     <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-show="activeFaq === 1">
+                        <div  class="pt-faq--item-body" v-show="activeFaq === index">
                             <div class="pt-faq--item-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto at aut commodi doloremque ea error esse est, harum ipsam iste laborum magnam provident quam quasi tempore. Ab accusamus aliquam aliquid asperiores blanditiis consequatur dolor ea, earum ex excepturi facilis illo impedit inventore ipsa libero magni maxime modi mollitia natus nobis quae quas, quibusdam quis, quos reiciendis rem sapiente! Exercitationem illo minus qui sunt voluptatibus? A culpa, cupiditate deserunt doloremque enim explicabo in ipsum iure magnam minima modi, mollitia necessitatibus officia praesentium provident quam, ratione repellat reprehenderit tempore vel vero voluptas voluptatem. Commodi dicta eaque necessitatibus officia, pariatur sit.
-                            </div>
-                        </div>
-                    </pt-accordeon>
-                </div>
-
-                <div class="pt-faq--item">
-                    <div class="pt-faq--item-head" @click="open(2)" :class="{active: activeFaq === 2}">
-                        <div class="pt-faq--item-head--number">
-                            2
-                        </div>
-                        <p class="pt-faq--item-head--title">
-                            Wie man für die Dienstleistungen des Dienstes bezahlt, wie hoch ist die Provision für die Dienstleistungen?
-                        </p>
-                    </div>
-                    <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-show="activeFaq === 2">
-                            <div class="pt-faq--item-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto at aut commodi doloremque ea error esse est, harum ipsam iste laborum magnam provident quam quasi tempore. Ab accusamus aliquam aliquid asperiores blanditiis consequatur dolor ea, earum ex excepturi facilis illo impedit inventore ipsa libero magni maxime modi mollitia natus nobis quae quas, quibusdam quis, quos reiciendis rem sapiente! Exercitationem illo minus qui sunt voluptatibus? A culpa, cupiditate deserunt doloremque enim explicabo in ipsum iure magnam minima modi, mollitia necessitatibus officia praesentium provident quam, ratione repellat reprehenderit tempore vel vero voluptas voluptatem. Commodi dicta eaque necessitatibus officia, pariatur sit.
-                            </div>
-                        </div>
-                    </pt-accordeon>
-                </div>
-
-                <div class="pt-faq--item">
-                    <div class="pt-faq--item-head" @click="open(3)" :class="{active: activeFaq === 3}">
-                        <div class="pt-faq--item-head--number">
-                            3
-                        </div>
-                        <p class="pt-faq--item-head--title">
-                            Wie finde ich die richtige Krankenschwester?
-                        </p>
-                    </div>
-                    <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-show="activeFaq === 3">
-                            <div class="pt-faq--item-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto at aut commodi doloremque ea error esse est, harum ipsam iste laborum magnam provident quam quasi tempore. Ab accusamus aliquam aliquid asperiores blanditiis consequatur dolor ea, earum ex excepturi facilis illo impedit inventore ipsa libero magni maxime modi mollitia natus nobis quae quas, quibusdam quis, quos reiciendis rem sapiente! Exercitationem illo minus qui sunt voluptatibus? A culpa, cupiditate deserunt doloremque enim explicabo in ipsum iure magnam minima modi, mollitia necessitatibus officia praesentium provident quam, ratione repellat reprehenderit tempore vel vero voluptas voluptatem. Commodi dicta eaque necessitatibus officia, pariatur sit.
-                            </div>
-                        </div>
-                    </pt-accordeon>
-                </div>
-
-                <div class="pt-faq--item">
-                    <div class="pt-faq--item-head" @click="open(4)" :class="{active: activeFaq === 4}">
-                        <div class="pt-faq--item-head--number">
-                            4
-                        </div>
-                        <p class="pt-faq--item-head--title">
-                            Ich bin eine Krankenschwester. Wie registriere ich mich auf der Plattform?
-                        </p>
-                    </div>
-                    <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-show="activeFaq === 4">
-                            <div class="pt-faq--item-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto at aut commodi doloremque ea error esse est, harum ipsam iste laborum magnam provident quam quasi tempore. Ab accusamus aliquam aliquid asperiores blanditiis consequatur dolor ea, earum ex excepturi facilis illo impedit inventore ipsa libero magni maxime modi mollitia natus nobis quae quas, quibusdam quis, quos reiciendis rem sapiente! Exercitationem illo minus qui sunt voluptatibus? A culpa, cupiditate deserunt doloremque enim explicabo in ipsum iure magnam minima modi, mollitia necessitatibus officia praesentium provident quam, ratione repellat reprehenderit tempore vel vero voluptas voluptatem. Commodi dicta eaque necessitatibus officia, pariatur sit.
-                            </div>
-                        </div>
-                    </pt-accordeon>
-                </div>
-
-                <div class="pt-faq--item">
-                    <div class="pt-faq--item-head" @click="open(5)" :class="{active: activeFaq === 5}">
-                        <div class="pt-faq--item-head--number">
-                            5
-                        </div>
-                        <p class="pt-faq--item-head--title">
-                            Wie oft kann ich den Dienst nutzen?
-                        </p>
-                    </div>
-                    <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-show="activeFaq === 5">
-                            <div class="pt-faq--item-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto at aut commodi doloremque ea error esse est, harum ipsam iste laborum magnam provident quam quasi tempore. Ab accusamus aliquam aliquid asperiores blanditiis consequatur dolor ea, earum ex excepturi facilis illo impedit inventore ipsa libero magni maxime modi mollitia natus nobis quae quas, quibusdam quis, quos reiciendis rem sapiente! Exercitationem illo minus qui sunt voluptatibus? A culpa, cupiditate deserunt doloremque enim explicabo in ipsum iure magnam minima modi, mollitia necessitatibus officia praesentium provident quam, ratione repellat reprehenderit tempore vel vero voluptas voluptatem. Commodi dicta eaque necessitatibus officia, pariatur sit.
+                                {{item.text}}
                             </div>
                         </div>
                     </pt-accordeon>
@@ -108,10 +36,14 @@ import { ref } from 'vue';
 
 export default {
     name: "Faq",
+    props: ['blockData'],
     data(){
         return {
             activeFaq: false
         }
+    },
+    mounted() {
+        console.log(this.blockData)
     },
     methods: {
         open(n) {
