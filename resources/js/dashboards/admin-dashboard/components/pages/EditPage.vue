@@ -100,9 +100,7 @@ export default {
     },
     methods: {
         deleteBlock(block, index){
-            console.log(index)
-
-            this.pageData.data.splice([index], 1)
+            this.pageData.data.splice(index, 1)
         },
         addBlock() {
             if(this.selectedBlock){

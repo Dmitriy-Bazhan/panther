@@ -22,10 +22,19 @@
             </p>
             <textarea type="text" class="form-control" v-model="text" @change="update"></textarea>
         </div>
+        <div class="form-group">
+            <p class="form-label">
+                List heading
+            </p>
+            <input type="text" class="form-control" v-model="listHeading" @change="update">
+        </div>
 
         <div class="" v-for="(item, index) in list">
             <hr>
-            <h3>List item - {{index + 1}}</h3>
+            <h3>
+                List item - {{index + 1}}
+                <button class="btn btn-danger btn-sm" @click.prevent="removeItem(index)">X</button>
+            </h3>
             <div class="form-group">
                 <p class="form-label">
                     List item title
@@ -76,6 +85,7 @@ export default {
             subtitle: '',
             title: '',
             text: '',
+            listHeading: '',
             list: [],
             listItem: {
                 title: '',
@@ -88,10 +98,14 @@ export default {
             this.list = this.blockData.list
             this.text = this.blockData.text
             this.title = this.blockData.title
+            this.listHeading = this.blockData.listHeading
             this.subtitle = this.blockData.subtitle
         }
     },
     methods: {
+        removeItem(index){
+            this.list.splice(index, 1)
+        },
         addItem(){
             let self = this;
             let isEmpty = false;
@@ -124,6 +138,7 @@ export default {
             form.subtitle = self.subtitle
             form.text = self.text
             form.list = self.list
+            form.listHeading = self.listHeading
             this.$emit('update', form, self.index)
         }
     }

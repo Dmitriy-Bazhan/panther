@@ -1,24 +1,24 @@
 <template>
-    <section class="pt-section-benefits">
+    <section class="pt-section-benefits" v-if="blockData">
         <div class="wrapper">
-            <p class="pt-subtitle">
-                <span>vorteile</span>
+            <p class="pt-subtitle" v-show="blockData.subtitle">
+                <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title">
-                PflegePanther – wir stehen für freundliche und qualifizierte Pflege
+            <h2 class="pt-title" v-show="blockData.title">
+                {{blockData.title}}
             </h2>
 
-            <div class="pt-row pt-section-benefits--items">
-                <div class="pt-col-md-6" v-for="n in 4">
+            <div class="pt-row pt-section-benefits--items" v-if="blockData.list.length > 0">
+                <div class="pt-col-md-6" v-for="item in blockData.list">
                     <div class="pt-section-benefits--item">
                         <div class="pt-section-benefits--item-title">
                             <div class="pt-section-benefits--item-icon">
                                 <pt-icon type="decor"></pt-icon>
                             </div>
-                            Geprüfte Qualität
+                            {{item.title}}
                         </div>
                         <div class="pt-section-benefits--item-text">
-                            Sämtliche der auf der Plattform registrierten Pflegekräfte wurden von unserem Team von Experten auf ihre nachweisbare Qualifikation hin geprüft
+                            {{item.text}}
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,11 @@
 
 <script>
 export default {
-    name: "BenefitsBlock"
+    name: "BenefitsBlock",
+    props: ['blockData'],
+    mounted() {
+
+    }
 }
 </script>
 

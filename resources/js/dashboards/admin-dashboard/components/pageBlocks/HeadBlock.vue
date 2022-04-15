@@ -5,7 +5,10 @@
         </h2>
         <div class="" v-for="(item, index) in slider">
             <hr>
-            <h3>Slide - {{index + 1}}</h3>
+            <h3>
+                Slide - {{index + 1}}
+                <button class="btn btn-danger btn-sm" @click.prevent="removeItem(index)">X</button>
+            </h3>
             <div class="form-group">
                 <p class="form-label">
                     Slide title
@@ -74,6 +77,9 @@ export default {
         }
     },
     methods: {
+        removeItem(index){
+            this.slider.splice(index, 1)
+        },
         addItem(){
             let self = this;
             let isEmpty = false;

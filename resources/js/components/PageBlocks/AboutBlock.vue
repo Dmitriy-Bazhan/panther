@@ -1,59 +1,33 @@
 <template>
     <section class="pt-section-default pt-section-about">
         <div class="wrapper">
-            <p class="pt-subtitle">
-                <span>Wer sind wir</span>
+            <p class="pt-subtitle" v-show="blockData.subtitle">
+                <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title">
-                PflegePanther - Pflege neu gedacht
+            <h2 class="pt-title" v-show="blockData.title">
+                {{blockData.title}}
             </h2>
 
-            <p class="pt-block-heading">
-                So einfach funktioniert’s
+            <p class="pt-block-heading" v-show="blockData.listHeading && blockData.list.length > 0">
+                {{blockData.listHeading}}
             </p>
 
-            <div class="pt-row">
+            <div class="pt-row" v-show="blockData.list.length > 0">
                 <div class="pt-col-md-6">
-                    <p class="pt-i-list--heading">
-                        PflegePanther ermöglicht Transparenz, Qualität und überzeugenden Service für Sie und Ihre Angehörigen.
+                    <p class="pt-i-list--heading" v-show="blockData.text">
+                        {{blockData.text}}
                     </p>
                     <ul class="pt-i-list">
-                        <li class="pt-i-list--item">
+                        <li class="pt-i-list--item" v-for="item in blockData.list">
                             <div class="pt-i-list--item-icon">
                                 <pt-icon type="company-vision"></pt-icon>
                             </div>
                             <div class="pt-i-list--item-container">
                                 <p class="pt-i-list--item-title">
-                                    Profil erstellen
+                                    {{item.title}}
                                 </p>
                                 <p class="pt-i-list--item-text">
-                                    Angehörige und Pflegekräfte erstellen ein Profil und geben an, welche Orte, Qualifikationen oder Arbeitszeiten sie sich wünschen.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="pt-i-list--item">
-                            <div class="pt-i-list--item-icon">
-                                <pt-icon type="charity"></pt-icon>
-                            </div>
-                            <div class="pt-i-list--item-container">
-                                <p class="pt-i-list--item-title">
-                                    Zusammengebracht werden
-                                </p>
-                                <p class="pt-i-list--item-text">
-                                    Durch unsere Suchfunktion werden Angehörige und Pflegekräfte auf der Basis passender Angaben zusammengebracht.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="pt-i-list--item">
-                            <div class="pt-i-list--item-icon">
-                                <pt-icon type="search2"></pt-icon>
-                            </div>
-                            <div class="pt-i-list--item-container">
-                                <p class="pt-i-list--item-title">
-                                    Passende Pflege erhalten
-                                </p>
-                                <p class="pt-i-list--item-text">
-                                    Buchung und Bezahlung der Pflegedienstleistungen erfolgt schnell und einfach direkt über PflegePanther.
+                                    {{item.text}}
                                 </p>
                             </div>
                         </li>
@@ -80,7 +54,11 @@
 
 <script>
 export default {
-    name: "AboutBlock"
+    name: "AboutBlock",
+    props: ['blockData'],
+    mounted() {
+
+    }
 }
 </script>
 

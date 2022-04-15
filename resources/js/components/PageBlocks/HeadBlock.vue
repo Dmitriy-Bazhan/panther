@@ -1,5 +1,5 @@
 <template>
-    <section class="main-slider">
+    <section class="main-slider" v-if="blockData && blockData.length > 0">
         <div class="main-wrapper">
             <swiper
                 :slides-per-view="1"
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pt-col-md-6">
+                    <div class="pt-col-md-6" v-if="blockData && blockData.length > 0">
                         <div class="main-slider--ctrl">
                             <div class="swiper-pagination"></div>
                             <div class="swiper-button-prev">
@@ -96,7 +96,7 @@ export default {
         };
     },
     mounted() {
-        console.log(this.blockData)
+
     }
 }
 </script>
