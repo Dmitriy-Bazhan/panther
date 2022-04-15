@@ -2,7 +2,7 @@ import Icon from './Icon/Icon';
 import Input from './Input/Input';
 import Accordeon from './Accordeon/Accordeon';
 import MainSlider from './MainSlider/MainSlider';
-import MainTestimonials from './MainTestimonials/MainTestimonials';
+import MainUsers from './MainUsers/MainUsers';
 import Faq from './Faq/Faq';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
@@ -55,7 +55,7 @@ else{
             Vue.component('swiper-slide', SwiperSlide);
             Vue.component('swiper', Swiper);
             Vue.component('main-slider', MainSlider);
-            Vue.component('main-testimonials', MainTestimonials);
+            Vue.component('main-users', MainUsers);
             Vue.component('main-faq', Faq);
             Vue.component("v-select", vSelect);
             Vue.component('Datepicker', Datepicker);

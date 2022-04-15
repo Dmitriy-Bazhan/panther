@@ -1,11 +1,11 @@
 <template>
-    <section class="pt-section-testimonials">
+    <section class="pt-section-users">
         <div class="main-wrapper">
-            <div class="pt-section-testimonials--inner" style="background-image: url('/images/fake/bg.png')">
+            <div class="pt-section-users--inner" style="background-image: url('/images/fake/bg.png')">
                 <div class="wrapper">
                     <div class="pt-row pt-row-stretch">
                         <div class="pt-col-md-6">
-                            <div class="pt-section-testimonials--container">
+                            <div class="pt-section-users--container">
                                 <p class="pt-subtitle">
                                     <span>unser Angebot</span>
                                 </p>
@@ -17,12 +17,12 @@
                                     Unsere Pflegekräfte sind geprüft und durch Versicherungsschutz abgedeckt
                                 </p>
 
-                                <div class="pt-section-testimonials--bottom">
+                                <div class="pt-section-users--bottom">
                                     <a href="" class="pt-btn pt-sm">
                                         alle sehen
                                     </a>
 
-                                    <div class="pt-section-testimonials--ctrl">
+                                    <div class="pt-section-users--ctrl">
                                         <div class="swiper-button-prev">
                                             <i class="fa-solid fa-angle-left"></i>
                                         </div>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="pt-col-md-6">
                             <swiper
-                                class="pt-section-testimonials--slider"
+                                class="pt-section-users--slider"
                                 :slides-per-view="2"
                                 :navigation="navigation"
                                 :pagination="pagination"
@@ -44,79 +44,79 @@
                                 :modules="modules"
                             >
                                 <swiper-slide v-for="n in 4">
-                                    <div class="pt-section-testimonials--slide">
-                                        <div class="pt-section-testimonials--slide-head">
+                                    <div class="pt-section-users--slide">
+                                        <div class="pt-section-users--slide-head">
                                             <img src="/images/fake/ava1.png" alt="pic"
-                                                 class="pt-section-testimonials--slide-avatar">
-                                            <div class="pt-section-testimonials--slide-head--container">
-                                                <div class="pt-section-testimonials--slide-head--rating">
+                                                 class="pt-section-users--slide-avatar">
+                                            <div class="pt-section-users--slide-head--container">
+                                                <div class="pt-section-users--slide-head--rating">
                                                     <i class="fa-solid fa-star" v-for="n in 5"></i>
                                                     (180)
                                                 </div>
-                                                <p class="pt-section-testimonials--slide-head--name">
+                                                <p class="pt-section-users--slide-head--name">
                                                     Katharina M.
                                                 </p>
-                                                <p class="pt-section-testimonials--slide-head--age">
+                                                <p class="pt-section-users--slide-head--age">
                                                     35 Jahre Alt
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="pt-section-testimonials--slide-list">
-                                            <div class="pt-section-testimonials--slide-list--item">
-                                                <div class="pt-section-testimonials--slide-list--item-icon">
+                                        <div class="pt-section-users--slide-list">
+                                            <div class="pt-section-users--slide-list--item">
+                                                <div class="pt-section-users--slide-list--item-icon">
                                                     <pt-icon type="pin"></pt-icon>
                                                 </div>
-                                                <div class="pt-section-testimonials--slide-list--item-container">
-                                                    <p class="pt-section-testimonials--slide-list--item-title">
+                                                <div class="pt-section-users--slide-list--item-container">
+                                                    <p class="pt-section-users--slide-list--item-title">
                                                         Ort:
                                                     </p>
-                                                    <p class="pt-section-testimonials--slide-list--item-text">
+                                                    <p class="pt-section-users--slide-list--item-text">
                                                         Berlin
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="pt-section-testimonials--slide-list--item">
-                                                <div class="pt-section-testimonials--slide-list--item-icon">
+                                            <div class="pt-section-users--slide-list--item">
+                                                <div class="pt-section-users--slide-list--item-icon">
                                                     <pt-icon type="pin"></pt-icon>
                                                 </div>
-                                                <div class="pt-section-testimonials--slide-list--item-container">
-                                                    <p class="pt-section-testimonials--slide-list--item-title">
+                                                <div class="pt-section-users--slide-list--item-container">
+                                                    <p class="pt-section-users--slide-list--item-title">
                                                         Altenpflege:
                                                     </p>
-                                                    <p class="pt-section-testimonials--slide-list--item-text">
+                                                    <p class="pt-section-users--slide-list--item-text">
                                                         8 Years (Medical School)
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="pt-section-testimonials--slide-list--item">
-                                                <div class="pt-section-testimonials--slide-list--item-icon">
+                                            <div class="pt-section-users--slide-list--item">
+                                                <div class="pt-section-users--slide-list--item-icon">
                                                     <pt-icon type="pin"></pt-icon>
                                                 </div>
-                                                <div class="pt-section-testimonials--slide-list--item-container">
-                                                    <p class="pt-section-testimonials--slide-list--item-title">
+                                                <div class="pt-section-users--slide-list--item-container">
+                                                    <p class="pt-section-users--slide-list--item-title">
                                                         Sprachen:
                                                     </p>
-                                                    <p class="pt-section-testimonials--slide-list--item-text">
+                                                    <p class="pt-section-users--slide-list--item-text">
                                                         Deutsch, Englisch
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="pt-section-testimonials--slide-list--item">
-                                                <div class="pt-section-testimonials--slide-list--item-icon">
+                                            <div class="pt-section-users--slide-list--item">
+                                                <div class="pt-section-users--slide-list--item-icon">
                                                     <pt-icon type="pin"></pt-icon>
                                                 </div>
-                                                <div class="pt-section-testimonials--slide-list--item-container">
-                                                    <p class="pt-section-testimonials--slide-list--item-title">
+                                                <div class="pt-section-users--slide-list--item-container">
+                                                    <p class="pt-section-users--slide-list--item-title">
                                                         Verfügbarkeit:
                                                     </p>
-                                                    <p class="pt-section-testimonials--slide-list--item-text">
+                                                    <p class="pt-section-users--slide-list--item-text">
                                                         5 Tage die Woche
                                                         (08:00-21:00 Uhr)
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="pt-section-testimonials--slide-footer">
+                                        <div class="pt-section-users--slide-footer">
                                             <a href="" class="pt-btn--primary pt-md">
                                                 kontakt
                                             </a>
@@ -186,12 +186,12 @@ export default {
             ],
             modules: [Navigation, Pagination, EffectFade],
             pagination: {
-                el: '.pt-section-testimonials  .swiper-pagination',
+                el: '.pt-section-users  .swiper-pagination',
                 clickable: true,
             },
             navigation: {
-                nextEl: '.pt-section-testimonials .swiper-button-next',
-                prevEl: '.pt-section-testimonials .swiper-button-prev',
+                nextEl: '.pt-section-users .swiper-button-next',
+                prevEl: '.pt-section-users .swiper-button-prev',
             },
         };
     },

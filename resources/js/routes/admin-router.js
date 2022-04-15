@@ -5,6 +5,7 @@ import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
 import Client from '../dashboards/admin-dashboard/components/clients/index';
 import Pages from '../dashboards/admin-dashboard/components/pages/Pages';
 import EditPage from '../dashboards/admin-dashboard/components/pages/EditPage';
+import TranslationPage from '../dashboards/admin-dashboard/components/translation/Translation';
 
 const routes = [
     {
@@ -40,6 +41,12 @@ const routes = [
         path: "/dashboard/admin/pages/:id",
         name: 'AdminDashboardEditPage',
         component: EditPage,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/translation",
+        name: 'AdminDashboardTranslationPage',
+        component: TranslationPage,
         props: true,
     },
 ];

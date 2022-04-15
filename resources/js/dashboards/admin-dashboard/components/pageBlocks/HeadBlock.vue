@@ -1,5 +1,5 @@
 <template>
-    <form class="form" @submit.prevent="addSlide">
+    <form class="form" @submit.prevent="addItem">
         <h2>
             Head Block
         </h2>
@@ -10,19 +10,19 @@
                 <p class="form-label">
                     Slide title
                 </p>
-                <input type="text" v-model="item.title">
+                <input type="text" class="form-control" v-model="item.title">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slide subtitle
                 </p>
-                <input type="text" v-model="item.subtitle">
+                <input type="text" class="form-control" v-model="item.subtitle">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slide text
                 </p>
-                <input type="text" v-model="item.text">
+                <input type="text" class="form-control" v-model="item.text">
             </div>
             <hr>
         </div>
@@ -31,19 +31,19 @@
                 <p class="form-label">
                     Slider title
                 </p>
-                <input type="text" v-model="slide.title">
+                <input type="text" class="form-control" v-model="slide.title">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slider subtitle
                 </p>
-                <input type="text" v-model="slide.subtitle">
+                <input type="text" class="form-control" v-model="slide.subtitle">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slider text
                 </p>
-                <input type="text" v-model="slide.text">
+                <input type="text" class="form-control" v-model="slide.text">
             </div>
             <div class="form-group mt-2">
                 <button class="btn btn-success">
@@ -74,7 +74,7 @@ export default {
         }
     },
     methods: {
-        addSlide(){
+        addItem(){
             let self = this;
             let isEmpty = false;
 
