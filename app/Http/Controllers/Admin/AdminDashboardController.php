@@ -68,34 +68,29 @@ class AdminDashboardController extends Controller
     public function savePage($page)
     {
 
-        if (!in_array($page, ['home'])) {
-            //todo:hmm
-            abort(409);
-        }
+//        if (!in_array($page, ['home'])) {
+//            //todo:hmm
+//            abort(409);
+//        }
 
         $pageData = request('pageData');
 
-        Page::where('page', 'home')->delete();
+        Page::where('page', $pageData['page'])->delete();
 
         $newBlock = new Page();
         $newBlock->page = $pageData['page'];
         $newBlock->data = json_encode($pageData['data']);
         $newBlock->save();
 
-        return response()->json(['success' => true, 'fff' => $pageData]);
-    }
-
-    public function saveHomePage()
-    {
-
+        return response()->json(['success' => true]);
     }
 
     public function getPage($page)
     {
-        if (!in_array($page, ['home'])) {
-            //todo:hmm
-            abort(409);
-        }
+//        if (!in_array($page, ['home'])) {
+//            //todo:hmm
+//            abort(409);
+//        }
 
         $page = Page::where('page', $page)->first();
 
