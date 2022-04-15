@@ -9,7 +9,7 @@
                 :speed="1000"
                 :modules="modules"
             >
-                <swiper-slide v-for="n in 3">
+                <swiper-slide v-for="slide in blockData">
                     <div class="main-slider--item">
                         <img src="/images/fake/fake-slide.png" alt="pic" class="main-slider--img">
                         <div class="wrapper">
@@ -81,6 +81,7 @@ import "swiper/css/effect-fade";
 
 export default {
     name: "main-slider",
+    props: ['blockData'],
     setup() {
         return {
             modules: [Navigation, Pagination, EffectFade],
@@ -94,6 +95,9 @@ export default {
             },
         };
     },
+    mounted() {
+        console.log(this.blockData)
+    }
 }
 </script>
 
