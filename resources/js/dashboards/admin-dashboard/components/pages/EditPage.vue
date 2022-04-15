@@ -78,6 +78,8 @@ export default {
         }
     },
     mounted() {
+        this.getPage();
+
         for(let key in this.$options.components){
             if(key.indexOf('-block') !== -1){
                 let name = key.replace('-', ' ')
@@ -93,6 +95,7 @@ export default {
     methods: {
         addBlock(){
             if(this.selectedBlock){
+                console.log(this.pageData.data)
                 this.pageData.data.push({
                     name: this.selectedBlock
                 })
@@ -100,11 +103,30 @@ export default {
                 this.selectedBlock = false
             }
         },
-        savePage(){
-            console.log('Save')
-            console.log(this.pageData)
-            console.log(JSON.stringify(this.pageData))
-
+        savePage() {
+            console.log('Save');
+            console.log(this.pageData);
+            axios.post('/dashboard/admin/save-page/home', {'pageData': this.pageData})
+                .then((response) => {
+                    if(response.data.success){
+                        this.emitter.emit('response-success-true');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        getPage() {
+            axios.get('/dashboard/admin/get-page/home')
+                .then((response) => {
+                    if(response.data.success){
+                        console.log(response.data.page)
+                        //this.pageData = response.data.page;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         updateState(e, index){
             console.log('Update')
