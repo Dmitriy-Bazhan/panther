@@ -67,11 +67,17 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
+        //media
         Route::get('/media', [AdminDashboardController::class, 'index']);
+        Route::post('/save-media', [AdminDashboardController::class, 'saveMedia']);
+        Route::get('/get-media', [AdminDashboardController::class, 'getMedia']);
+        Route::post('/delete-media', [AdminDashboardController::class, 'deleteMedia']);
+        //pages
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
         Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);

@@ -9,10 +9,14 @@ use App\Http\Resources\ClientResource;
 use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\HearAboutUs;
+use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Image;
 
 class AdminDashboardController extends Controller
 {
@@ -77,7 +81,7 @@ class AdminDashboardController extends Controller
 
         Page::where('page', $pageData['page'])->delete();
 
-        if($pageData['page'] != ''){
+        if ($pageData['page'] != '') {
             $newBlock = new Page();
             $newBlock->page = $pageData['page'];
             $newBlock->data = json_encode($pageData['data']);
@@ -96,15 +100,82 @@ class AdminDashboardController extends Controller
 
         $page = Page::where('page', $page)->first();
         $result = [];
-        if(!is_null($page)){
+        if (!is_null($page)) {
             $result['page'] = $page->page;
             $result['data'] = json_decode($page->data, true);
-        }else{
+        } else {
             $result['page'] = '';
             $result['data'] = [];
         }
 
         return response()->json(['success' => true, 'page' => $result]);
+    }
+
+    public function getMedia()
+    {
+
+        $media = Media::where('media_type', 'pages_image')->paginate(12);
+        return response()->json(['success' => true, 'media' => $media]);
+    }
+
+    public function saveMedia(Request $request)
+    {
+        $rules = [
+            'file' => 'required|file|mimes:jpeg,bmp,png'
+        ];
+
+        if ($request->file('file')) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+            }
+        }
+
+        if ($request->file('file')) {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $file_name = time() . '_' .$request->file('file')->getClientOriginalName();
+            $fileSize = $request->file('file')->getSize();
+            $fileType = $request->file('file')->getClientMimeType();
+            $directory_name = 'media';
+            $original_path = Storage::disk('public')->putFileAs($directory_name, $request->file('file'), $file_name);
+
+            //make thumbnail or avatar
+//            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+//                $constraint->aspectRatio();
+//            });
+//
+//            $img->save();
+
+            $media = new Media();
+            $media->path = '/storage/' . $original_path;
+            $media->file_name = $file_name;
+            $media->size = $fileSize;
+            $media->extension = $extension;
+            $media->type = $fileType;
+            $media->media_type = 'pages_image';
+            $media->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteMedia()
+    {
+        $id = key(request()->post());
+
+        if (!is_numeric($id)) {
+            return response()->json(['success' => false]);
+        }
+
+        if (!$media = Media::find($id)) {
+            return response()->json(['success' => false]);
+        }
+
+        $path = 'media/' . $media->file_name;
+        Storage::disk('public')->delete($path);
+        Media::where('id', $id)->delete();
+
+        return response()->json(['success' => true]);
     }
 
     public function create()
