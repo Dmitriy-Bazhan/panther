@@ -175,7 +175,7 @@ class AdminDashboardController extends Controller
         Storage::disk('public')->delete($path);
         Media::where('id', $id)->delete();
 
-        return response()->json(['success' => true, 'media' => $media]);
+        return response()->json(['success' => true]);
     }
 
     public function create()
