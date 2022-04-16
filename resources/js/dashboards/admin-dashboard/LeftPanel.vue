@@ -11,6 +11,7 @@
             <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardSettings' }">Settings</router-link></li>
             <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardPages' }">Pages</router-link></li>
             <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardTranslationPage' }">Translation</router-link></li>
+            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardMediaPage' }">Media</router-link></li>
         </ul>
     </div>
 </template>
