@@ -14,6 +14,7 @@ use App\Models\Nurse;
 use App\Models\Page;
 use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Image;
@@ -113,6 +114,27 @@ class AdminDashboardController extends Controller
 
     public function getMedia()
     {
+        if (count(Media::where('media_type', 'pages_image')->get()) == 0 && count(File::files('storage/media/')) == 0) {
+            $path = public_path('images/fake/');
+            $files = File::files($path);
+            foreach ($files as $file){
+                $extension = $file->getExtension();
+                $file_name = time() . '_' . $file->getFilename();
+                $fileSize = $file->getSize();
+                $fileType = $file->getType();
+                $directory_name = 'media';
+                $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+
+                $media = new Media();
+                $media->path = '/storage/' . $original_path;
+                $media->file_name = $file_name;
+                $media->size = $fileSize;
+                $media->extension = $extension;
+                $media->type = $fileType;
+                $media->media_type = 'pages_image';
+                $media->save();
+            }
+        }
 
         $media = Media::where('media_type', 'pages_image')->paginate(12);
         return response()->json(['success' => true, 'media' => $media]);
@@ -121,7 +143,7 @@ class AdminDashboardController extends Controller
     public function saveMedia(Request $request)
     {
         $rules = [
-            'file' => 'required|file|mimes:jpeg,bmp,png'
+            'file' => 'required|file|mimes:jpeg,bmp,png,svg'
         ];
 
         if ($request->file('file')) {
@@ -133,7 +155,7 @@ class AdminDashboardController extends Controller
 
         if ($request->file('file')) {
             $extension = $request->file('file')->getClientOriginalExtension();
-            $file_name = time() . '_' .$request->file('file')->getClientOriginalName();
+            $file_name = time() . '_' . $request->file('file')->getClientOriginalName();
             $fileSize = $request->file('file')->getSize();
             $fileType = $request->file('file')->getClientMimeType();
             $directory_name = 'media';
