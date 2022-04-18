@@ -3,7 +3,7 @@
         <h1>Admin Media</h1>
         <div class="mb-3">
             <label class="form-label">Upload your media</label>
-            <input class="form-control" type="file" @change="fileUpload($event)">
+            <input class="form-control" type="file" ref="file" @change="fileUpload($event)">
         </div>
         <div class="progress mb-3" v-show="loading">
             <div class="progress-bar" role="progressbar" :style="{width: progress +'%'}"
@@ -15,17 +15,29 @@
             <div class="pt-admin--media-list">
                 <div class="pt-admin--media-list--inner">
                     <div class="pt-admin--media-item" v-for="(item, index) in media">
-                        <div class="pt-admin--media-item--inner" @click="openMediaInfo(index, item)">
-
+                        <div class="pt-admin--media-item--inner"
+                             @click="openMediaInfo(index, item)"
+                        >
+                            <img :src="item.path" alt="pic">
                         </div>
                     </div>
                 </div>
+                <nav class="mt-4">
+                    <ul class="pagination">
+                        <li class="page-item"
+                            v-for="link in pagination.links"
+                            :class="{active: link.active, disabled: !link.url}"
+                        >
+                            <a class="page-link" href="" @click.prevent="getMedia(link.url)">{{link.label}}</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
             <div class="pt-admin--media-panel" v-show="isMediaInfo !== false">
                 <button class="btn btn-sm btn-danger float-end ms-1" @click.prevent="closeMediaInfo">X</button>
                 <h3>
-                    {{activeMedia.name}}
+                    {{activeMedia.file_name}}
                 </h3>
                 <ul>
                     <li>
@@ -55,57 +67,13 @@ export default {
             mediaFile: false,
             isMediaInfo: false,
             activeMedia: false,
-            media: [
-                {
-                    id: '1',
-                    name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto!',
-                    path: 'media path 1',
-                    preview: 'preview media path 1',
-                    size: '2mb',
-                },
-                {
-                    id: '2',
-                    name: 'media 2',
-                    path: 'media path 2',
-                    preview: 'preview media path 2',
-                    size: '2mb',
-                },
-                {
-                    id: '3',
-                    name: 'media 3',
-                    path: 'media path 3',
-                    preview: 'preview media path 3',
-                    size: '2mb',
-                },
-                {
-                    id: '4',
-                    name: 'media 4',
-                    path: 'media path 4',
-                    preview: 'preview media path 4',
-                    size: '2mb',
-                },
-                {
-                    id: '5',
-                    name: 'media 5',
-                    path: 'media path 5',
-                    preview: 'preview media path 5',
-                    size: '2mb',
-                },
-                {
-                    id: '6',
-                    name: 'media 6',
-                    path: 'media path 6',
-                    preview: 'preview media path 6',
-                    size: '2mb',
-                },
-                {
-                    id: '7',
-                    name: 'media 7',
-                    path: 'media path 7',
-                    preview: 'preview media path 7',
-                    size: '2mb',
-                },
-            ]
+            media: [],
+            pagination: {
+                from: false,
+                to: false,
+                perPage: false,
+                page: false,
+            }
         }
     },
     mounted() {
@@ -120,11 +88,19 @@ export default {
             this.isMediaInfo = false
             this.activeMedia = false
         },
-        getMedia() {
-            axios.get('/dashboard/admin/get-media')
+        getMedia(link) {
+            let self = this;
+            let url = link?link:'/dashboard/admin/get-media';
+            axios.get(url)
                 .then((response) => {
                     if(response.data.success){
-                        console.log(response.data)
+                        console.log(response.data.media)
+                        self.media = response.data.media.data
+                        self.pagination.from = response.data.media.from
+                        self.pagination.last_page = response.data.media.last_page
+                        self.pagination.perPage = response.data.media.per_page
+                        self.pagination.links = response.data.media.links
+                        self.pagination.total = response.data.media.total
                     }
                 })
                 .catch((error) => {
@@ -141,6 +117,7 @@ export default {
             })
                 .then((response) => {
                     console.log('Media deleted');
+                    self.getMedia()
                     self.closeMediaInfo()
                 })
                 .catch((error) => {
@@ -171,12 +148,13 @@ export default {
             })
                 .then((response) => {
                     console.log('Media added');
-                    self.loader = false;
+                    self.loading = false;
                     self.progress = 0;
+                    this.$refs.file.value = ''
                     self.getMedia()
                 })
                 .catch((error) => {
-                    this.loader = false;
+                    this.loading = false;
                     console.log(error);
                 });
         }
@@ -186,7 +164,7 @@ export default {
 
 <style lang="scss" scoped>
     $offset: 10px;
-    $panel-width: 300px;
+    $panel-width: 360px;
 
     .pt-admin--media{
         &-container{
@@ -201,6 +179,16 @@ export default {
             min-width: $panel-width;
             margin-left: 20px;
             padding: 20px;
+
+            h1,h2,h3,h4,h5,h6{
+                word-break: break-word;
+            }
+
+            li{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         &-list{
@@ -222,10 +210,19 @@ export default {
 
             &--inner{
                 height: 150px;
-                background-color: gray;
                 cursor: pointer;
                 border: 2px solid transparent;
                 transition: 0.3s;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+
+                img{
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
 
                 &:hover{
                     border-color: #3a3a3a;
