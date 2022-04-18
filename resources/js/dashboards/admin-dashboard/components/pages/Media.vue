@@ -1,6 +1,14 @@
 <template>
     <div class="pt-admin--media">
-        <h1>Admin Media</h1>
+        <h1>
+            Admin Media
+
+            <button class="btn btn-sm btn-danger float-end ms-1"
+                    v-if="isPopup"
+                    @click.prevent="closeMedia">
+                X
+            </button>
+        </h1>
         <div class="mb-3">
             <label class="form-label">Upload your media</label>
             <input class="form-control" type="file" ref="file" @change="fileUpload($event)">
@@ -51,6 +59,11 @@
                     </li>
                 </ul>
 
+                <button class="btn btn-success float-end ms-1"
+                        v-if="isPopup"
+                        @click.prevent="selectMedia(activeMedia)">
+                    Select image
+                </button>
                 <button class="btn btn-sm btn-danger" @click.prevent="deleteMedia(activeMedia.id)">Delete</button>
             </div>
         </div>
@@ -60,6 +73,7 @@
 <script>
 export default {
     name: "Media",
+    props: ['is-popup'],
     data(){
         return {
             progress: 0,
@@ -78,8 +92,16 @@ export default {
     },
     mounted() {
         this.getMedia()
+        console.log(this.isPopup)
     },
     methods: {
+        closeMedia(){
+            this.$emit('close-media')
+        },
+        selectMedia(media){
+            this.$emit('select-media', media)
+            this.closeMedia()
+        },
         openMediaInfo(index, item){
             this.isMediaInfo = index
             this.activeMedia = item

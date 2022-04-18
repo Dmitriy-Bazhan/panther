@@ -150,7 +150,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
     .tabs-list{
         display: flex;
     }
@@ -158,4 +158,13 @@ export default {
     .tabs-list>div{
         padding-right: 10px;
     }
+
+    .vue-universal-modal{
+        .pt-admin--media{
+            background-color: white;
+            max-width: 90%;
+            padding: 20px;
+        }
+    }
+
 </style>

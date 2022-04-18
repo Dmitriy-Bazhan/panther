@@ -27,6 +27,15 @@
                 </p>
                 <input type="text" class="form-control" v-model="item.text">
             </div>
+            <div class="form-group">
+                <p class="form-label">
+                    Slider image
+                </p>
+                <div class="form-media--preview" v-if="item.media">
+                    <img :src="item.media.path" alt="">
+                    {{item.media.file_name}}
+                </div>
+            </div>
             <hr>
         </div>
         <div class="">
@@ -48,12 +57,29 @@
                 </p>
                 <input type="text" class="form-control" v-model="slide.text">
             </div>
-            <div class="form-group mt-2">
+            <div class="form-group">
+                <p class="form-label">
+                    Slider image
+                </p>
+                <div class="form-media--preview" v-if="slide.media">
+                    <img :src="slide.media.path" alt="">
+                    {{slide.media.file_name}}
+                </div>
+                <button class="btn btn-secondary mt-1" @click="openPopup('media')">Open media</button>
+            </div>
+            <div class="form-group mt-3">
                 <button class="btn btn-success">
                     Add
                 </button>
             </div>
         </div>
+
+        <Modal
+            v-model="modal.isOpen"
+            :close="closePopup"
+        >
+            <media :is-popup="true" @close-media="closePopup" @select-media="selectMedia"></media>
+        </Modal>
     </form>
 </template>
 
@@ -68,6 +94,11 @@ export default {
                 title: '',
                 subtitle: '',
                 text: '',
+                media: '',
+            },
+            modal: {
+                isOpen: false,
+                id: false
             }
         }
     },
@@ -77,6 +108,16 @@ export default {
         }
     },
     methods: {
+        selectMedia(media){
+            console.log(media)
+            this.slide.media = media
+        },
+        closePopup(id){
+            this.modal.isOpen = false
+        },
+        openPopup(id){
+            this.modal.isOpen = true
+        },
         removeItem(index){
             this.slider.splice(index, 1)
         },
@@ -107,6 +148,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .form-media--preview{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
 
+        img{
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-right: 15px;
+        }
+    }
 </style>
