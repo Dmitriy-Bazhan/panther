@@ -110,9 +110,9 @@ class MainPageController extends Controller
         if(!is_null($lang)){
             $langs = Translate::where('lang', $lang)->get();
             $translates[$lang] = [];
-            foreach ($langs as $lang){
-                $record[$lang->name] = $lang->date;
-                $translates[$lang][] = $record;
+            foreach ($langs as $item){
+                $record[$item->name] = $item->data;
+                $translates[$lang] = $record;
             }
 
         }else{
