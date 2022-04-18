@@ -43,6 +43,7 @@ Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
 Route::post('/set-user-rate', [MainPageController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
+Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
 
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
@@ -76,7 +77,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
-        Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+       // Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
 
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);

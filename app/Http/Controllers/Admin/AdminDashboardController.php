@@ -128,7 +128,7 @@ class AdminDashboardController extends Controller
                 $media = new Media();
                 $media->path = '/storage/' . $original_path;
                 $media->file_name = $file_name;
-                $media->size = $fileSize;
+                $media->size = $fileSize / 1000;
                 $media->extension = $extension;
                 $media->type = $fileType;
                 $media->media_type = 'pages_image';
@@ -171,7 +171,7 @@ class AdminDashboardController extends Controller
             $media = new Media();
             $media->path = '/storage/' . $original_path;
             $media->file_name = $file_name;
-            $media->size = $fileSize;
+            $media->size = $fileSize / 1000;
             $media->extension = $extension;
             $media->type = $fileType;
             $media->media_type = 'pages_image';
