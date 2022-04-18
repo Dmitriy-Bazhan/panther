@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdditionalInfo;
 use App\Models\ProvideSupport;
 use App\Models\Rate;
+use App\Models\Translate;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
@@ -88,5 +89,60 @@ class MainPageController extends Controller
         $newRate->real = round ($average , 2);
 
         return response()->json(['success' => true, 'newRate' => $newRate]);
+    }
+
+    public function getTranslate($lang = null){
+
+//        (function () {
+//            $.ajax({
+//                method: 'GET',
+//                dataType: 'json',
+//                url: 'get-translate/' + window.locale,
+//                success: function (data) {
+//                console.log(data);
+//            },
+//                error: function (errorThrown) {
+//                console.log(errorThrown);
+//            }
+//            });
+//        })();
+
+        if(!is_null($lang)){
+            $langs = Translate::where('lang', $lang)->get();
+            $translates[$lang] = [];
+            foreach ($langs as $lang){
+                $record[$lang->name] = $lang->date;
+                $translates[$lang][] = $record;
+            }
+
+        }else{
+            $langs = Translate::all()->groupBy('lang');
+            foreach ($langs as $key => $lang){
+                $translates[$key] = [];
+                $record = [];
+                foreach ($lang as $item){
+                    $record[$item->name] = $item->data;
+                    $translates[$key] = $record;
+                }
+            }
+
+        }
+        return response()->json(['success' => true, 'translates' => $translates]);
+    }
+
+    public function saveTranslates(){
+        Translate::truncate();
+        $langs = request('langs');
+        foreach ($langs as $lang => $items) {
+            foreach ($items as $name => $data){
+                $newTranslate = new Translate();
+                $newTranslate->name = $name;
+                $newTranslate->lang = $lang;
+                $newTranslate->data = $data;
+                $newTranslate->save();
+            }
+        }
+
+        return response()->json(['success' => true, 'langs' => $langs]);
     }
 }

@@ -45,6 +45,10 @@ Route::post('/set-user-rate', [MainPageController::class, 'setUserRate'])->middl
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
 
+Route::get('get-translate', [MainPageController::class, 'getTranslate']);
+Route::get('get-translate/{lang}', [MainPageController::class, 'getTranslate']);
+Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->middleware(['auth:sanctum', 'checkAdmin']);
+
 Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
