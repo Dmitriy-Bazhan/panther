@@ -12,6 +12,7 @@ use App\Models\UserPref;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use phpDocumentor\Reflection\Utils;
@@ -111,8 +112,8 @@ class RegisterController extends Controller
                 return response()->json(['success' => true]);
             }
         } else {
-            //todo: I will ask my comrades for best practices for logs and errors
-            return abort(500);
+            Log::error('Can\'t create client in Register Controller');
+            return response()->json(['success' => false]);
         }
     }
 
