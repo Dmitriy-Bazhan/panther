@@ -76,7 +76,7 @@ export default {
             axios.get('/get-translate')
                 .then((response) => {
                     if(response.data.success){
-                        self.langs = response.data.translates
+                        self.langs = response.data.langs
                     }
                 })
                 .catch((error) => {
