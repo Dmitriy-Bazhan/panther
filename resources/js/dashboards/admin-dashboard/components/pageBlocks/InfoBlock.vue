@@ -10,13 +10,13 @@
                     <p class="form-label">
                         Title
                     </p>
-                    <input type="text" class="form-control" v-model="nurseTitle" @change="update">
+                    <input type="text" class="form-control" v-model="form.nurseTitle">
                 </div>
                 <div class="form-group">
                     <p class="form-label">
                         Text
                     </p>
-                    <textarea type="text" class="form-control" v-model="nurseText" @change="update"></textarea>
+                    <textarea type="text" class="form-control" v-model="form.nurseText"></textarea>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -24,13 +24,13 @@
                     <p class="form-label">
                         Title
                     </p>
-                    <input type="text" class="form-control" v-model="clientTitle" @change="update">
+                    <input type="text" class="form-control" v-model="form.clientTitle">
                 </div>
                 <div class="form-group">
                     <p class="form-label">
                         Text
                     </p>
-                    <textarea type="text" class="form-control" v-model="clientText" @change="update"></textarea>
+                    <textarea type="text" class="form-control" v-model="form.clientText"></textarea>
                 </div>
             </div>
         </div>
@@ -38,38 +38,27 @@
 </template>
 
 <script>
+import AdminPageBlockInit from "../../../mixins/AdminPageBlockInit";
+
 export default {
     name: "InfoBlock",
+    mixins: [AdminPageBlockInit],
     props: ['blockData', 'index'],
     data(){
         return {
-            nurseText: '',
-            nurseTitle: '',
-            clientText: '',
-            clientTitle: '',
+            form: {
+                nurseText: '',
+                nurseTitle: '',
+                clientText: '',
+                clientTitle: '',
+            }
         }
     },
     mounted() {
-        if(this.blockData){
-            this.nurseText = this.blockData.nurseText
-            this.nurseTitle = this.blockData.nurseTitle
-            this.clientText = this.blockData.clientText
-            this.clientTitle = this.blockData.clientTitle
-        }
+
     },
     methods: {
-        update(){
-            let self = this;
-            let form = {}
 
-            form.nurseText = self.nurseText
-            form.nurseTitle = self.nurseTitle
-
-            form.clientText = self.clientText
-            form.clientTitle = self.clientTitle
-
-            this.$emit('update', form, self.index)
-        }
     }
 }
 </script>

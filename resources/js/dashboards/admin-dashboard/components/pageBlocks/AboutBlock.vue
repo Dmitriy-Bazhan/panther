@@ -8,33 +8,95 @@
             <p class="form-label">
                 Title
             </p>
-            <input type="text" class="form-control" v-model="title" @change="update">
+            <input type="text" class="form-control" v-model="form.title">
         </div>
         <div class="form-group">
             <p class="form-label">
                 Subtitle
             </p>
-            <input type="text" class="form-control" v-model="subtitle" @change="update">
+            <input type="text" class="form-control" v-model="form.subtitle">
         </div>
         <div class="form-group">
             <p class="form-label">
                 Text
             </p>
-            <textarea type="text" class="form-control" v-model="text" @change="update"></textarea>
+            <textarea type="text" class="form-control" v-model="form.text"></textarea>
         </div>
+        <div class="form-group">
+            <h2>
+                Images:
+            </h2>
+        </div>
+
+        <div class="form-group">
+            <p class="form-label">
+                Slider image 1
+            </p>
+            <div class="form-media--preview" v-if="form.image1">
+                <img :src="form.image1.path" alt="">
+                {{form.image1.file_name}}
+            </div>
+            <media-popup
+                :modelValue="form.image1"
+                @update:modelValue="newValue => form.image1 = newValue"
+            ></media-popup>
+        </div>
+
+        <div class="form-group">
+            <p class="form-label">
+                Slider image 1
+            </p>
+            <div class="form-media--preview" v-if="form.image2">
+                <img :src="form.image2.path" alt="">
+                {{form.image2.file_name}}
+            </div>
+            <media-popup
+                :modelValue="form.image2"
+                @update:modelValue="newValue => form.image2 = newValue"
+            ></media-popup>
+        </div>
+
+        <div class="form-group">
+            <p class="form-label">
+                Slider image 1
+            </p>
+            <div class="form-media--preview" v-if="form.image3">
+                <img :src="form.image3.path" alt="">
+                {{form.image3.file_name}}
+            </div>
+            <media-popup
+                :modelValue="form.image3"
+                @update:modelValue="newValue => form.image3 = newValue"
+            ></media-popup>
+        </div>
+
+        <hr>
+
         <div class="form-group">
             <p class="form-label">
                 List heading
             </p>
-            <input type="text" class="form-control" v-model="listHeading" @change="update">
+            <input type="text" class="form-control" v-model="form.listHeading">
         </div>
 
-        <div class="" v-for="(item, index) in list">
+        <div class="" v-for="(item, index) in form.list">
             <hr>
             <h3>
                 List item - {{index + 1}}
                 <button class="btn btn-danger btn-sm" @click.prevent="removeItem(index)">X</button>
             </h3>
+            <div class="form-group">
+                <p class="form-label">
+                    List item icon
+                </p>
+
+                <v-select :options="icons" label="name" v-model="item.icon">
+                    <template #option="{name, icon}">
+                        <pt-icon :type="icon"></pt-icon>
+                        <em>{{ name }}</em>
+                    </template>
+                </v-select>
+            </div>
             <div class="form-group">
                 <p class="form-label">
                     List item title
@@ -57,13 +119,13 @@
                 <p class="form-label">
                     List item title
                 </p>
-                <input type="text" class="form-control"  v-model="listItem.title">
+                <input type="text" class="form-control" v-model="form.listItem.title">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     List item text
                 </p>
-                <textarea type="text" class="form-control" v-model="listItem.text">
+                <textarea type="text" class="form-control" v-model="form.listItem.text">
 
                 </textarea>
             </div>
@@ -77,74 +139,66 @@
 </template>
 
 <script>
+
+import AdminPageBlockInit from '../../../mixins/AdminPageBlockInit'
+
 export default {
     name: "AboutBlock",
+    mixins: [AdminPageBlockInit],
     props: ['blockData', 'index'],
     data(){
         return {
-            subtitle: '',
-            title: '',
-            text: '',
-            listHeading: '',
-            list: [],
-            listItem: {
+            icons: [
+                {
+                    icon: 'company-vision',
+                    name: 'company vision',
+                },
+                {
+                    icon: 'search2',
+                    name: 'search',
+                },
+                {
+                    icon: 'charity',
+                    name: 'charity',
+                },
+                {
+                    icon: 'nurse',
+                    name: 'nurse',
+                },
+            ],
+            form: {
+                subtitle: '',
                 title: '',
                 text: '',
+                image1: '',
+                image2: '',
+                image3: '',
+                listHeading: '',
+                list: [],
+                listItem: {
+                    title: '',
+                    text: '',
+                    icon: '',
+                }
             }
         }
     },
     mounted() {
-        if(this.blockData){
-            this.list = this.blockData.list
-            this.text = this.blockData.text
-            this.title = this.blockData.title
-            this.listHeading = this.blockData.listHeading
-            this.subtitle = this.blockData.subtitle
-        }
+
     },
     methods: {
-        removeItem(index){
-            this.list.splice(index, 1)
-        },
-        addItem(){
-            let self = this;
-            let isEmpty = false;
-            let form = {}
 
-            for (let key in self.listItem){
-                if(self.listItem[key] === ''){
-                    isEmpty = true
-                }
-            }
-
-            if(!isEmpty){
-                if(!self.list){
-                    self.list = []
-                }
-
-                self.list.push(JSON.parse(JSON.stringify(self.listItem)))
-
-                for (let key in self.listItem){
-                    self.listItem[key] = ''
-                }
-            }
-            self.update()
-        },
-        update(){
-            let self = this;
-            let form = {}
-
-            form.title = self.title
-            form.subtitle = self.subtitle
-            form.text = self.text
-            form.list = self.list
-            form.listHeading = self.listHeading
-            this.$emit('update', form, self.index)
-        }
     }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .v-select{
+        .pt-icon{
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            color: black;
+        }
+    }
 </style>

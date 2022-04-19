@@ -48,7 +48,6 @@
             changeShow(item) {
                 axios.get('/dashboard/admin/change-hear-about-us-show/' + item.id)
                     .then((response) => {
-                        console.log(response.data);
                         if(response.data.success){
                             item.is_show = response.data.is_show;
                         }

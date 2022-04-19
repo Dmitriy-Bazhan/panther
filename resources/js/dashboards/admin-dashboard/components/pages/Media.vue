@@ -72,7 +72,7 @@
 
 <script>
 export default {
-    name: "Media",
+    name: "MediaPage",
     props: ['is-popup'],
     data(){
         return {
@@ -92,7 +92,6 @@ export default {
     },
     mounted() {
         this.getMedia()
-        console.log(this.isPopup)
     },
     methods: {
         closeMedia(){
@@ -116,7 +115,6 @@ export default {
             axios.get(url)
                 .then((response) => {
                     if(response.data.success){
-                        console.log(response.data.media)
                         self.media = response.data.media.data
                         self.pagination.from = response.data.media.from
                         self.pagination.last_page = response.data.media.last_page
@@ -131,14 +129,12 @@ export default {
         },
         deleteMedia(mediaId){
             let self = this;
-            console.log(mediaId)
             axios({
                 method: 'post',
                 url: '/dashboard/admin/delete-media',
                 data: mediaId,
             })
                 .then((response) => {
-                    console.log('Media deleted');
                     self.getMedia()
                     self.closeMediaInfo()
                 })
@@ -169,7 +165,6 @@ export default {
                 }
             })
                 .then((response) => {
-                    console.log('Media added');
                     self.loading = false;
                     self.progress = 0;
                     this.$refs.file.value = ''
@@ -185,71 +180,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $offset: 10px;
-    $panel-width: 360px;
 
-    .pt-admin--media{
-        &-container{
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        &-panel{
-            background-color: #cccccc;
-            transition: 0.3s;
-            width: $panel-width;
-            min-width: $panel-width;
-            margin-left: 20px;
-            padding: 20px;
-
-            h1,h2,h3,h4,h5,h6{
-                word-break: break-word;
-            }
-
-            li{
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-
-        &-list{
-            width: 100%;
-
-            &--inner{
-                display: flex;
-                justify-content: flex-start;
-                align-items: flex-start;
-                flex-wrap: wrap;
-                margin: -$offset;
-                //margin-right: -$offset;
-            }
-        }
-
-        &-item{
-            width: 20%;
-            padding: $offset;
-
-            &--inner{
-                height: 150px;
-                cursor: pointer;
-                border: 2px solid transparent;
-                transition: 0.3s;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-
-                img{
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: contain;
-                }
-
-                &:hover{
-                    border-color: #3a3a3a;
-                }
-            }
-        }
-    }
 </style>

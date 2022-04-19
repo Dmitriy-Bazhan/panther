@@ -3,7 +3,7 @@
         <h2>
             Head Block
         </h2>
-        <div class="" v-for="(item, index) in slider">
+        <div class="" v-for="(item, index) in form.list">
             <hr>
             <h3>
                 Slide - {{index + 1}}
@@ -43,29 +43,32 @@
                 <p class="form-label">
                     Slider title
                 </p>
-                <input type="text" class="form-control" v-model="slide.title">
+                <input type="text" class="form-control" v-model="form.listItem.title">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slider subtitle
                 </p>
-                <input type="text" class="form-control" v-model="slide.subtitle">
+                <input type="text" class="form-control" v-model="form.listItem.subtitle">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slider text
                 </p>
-                <input type="text" class="form-control" v-model="slide.text">
+                <input type="text" class="form-control" v-model="form.listItem.text">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     Slider image
                 </p>
-                <div class="form-media--preview" v-if="slide.media">
-                    <img :src="slide.media.path" alt="">
-                    {{slide.media.file_name}}
+                <div class="form-media--preview" v-if="form.listItem.media">
+                    <img :src="form.listItem.media.path" alt="">
+                    {{form.listItem.media.file_name}}
                 </div>
-                <button class="btn btn-secondary mt-1" @click="openPopup('media')">Open media</button>
+                <media-popup
+                    :modelValue="form.listItem.media"
+                    @update:modelValue="newValue => form.listItem.media = newValue"
+                ></media-popup>
             </div>
             <div class="form-group mt-3">
                 <button class="btn btn-success">
@@ -73,92 +76,34 @@
                 </button>
             </div>
         </div>
-
-        <Modal
-            v-model="modal.isOpen"
-            :close="closePopup"
-        >
-            <media :is-popup="true" @close-media="closePopup" @select-media="selectMedia"></media>
-        </Modal>
     </form>
 </template>
 
 <script>
+import AdminPageBlockInit from '../../../mixins/AdminPageBlockInit'
 export default {
     name: "HeadBlock",
+    mixins: [AdminPageBlockInit],
     props: ['blockData', 'index'],
     data(){
         return {
-            slider: [],
-            slide: {
-                title: '',
-                subtitle: '',
-                text: '',
-                media: '',
-            },
-            modal: {
-                isOpen: false,
-                id: false
+            form: {
+                list: [],
+                listItem: {
+                    title: '',
+                    subtitle: '',
+                    text: '',
+                    media: '',
+                },
             }
-        }
-    },
-    mounted() {
-        if(this.blockData){
-            this.slider = this.blockData
         }
     },
     methods: {
-        selectMedia(media){
-            console.log(media)
-            this.slide.media = media
-        },
-        closePopup(id){
-            this.modal.isOpen = false
-        },
-        openPopup(id){
-            this.modal.isOpen = true
-        },
-        removeItem(index){
-            this.slider.splice(index, 1)
-        },
-        addItem(){
-            let self = this;
-            let isEmpty = false;
 
-            for (let key in self.slide){
-                if(self.slide[key] === ''){
-                    isEmpty = true
-                }
-            }
-
-            if(!isEmpty){
-                if(!self.slider){
-                    self.slider = []
-                }
-
-                self.slider.push(JSON.parse(JSON.stringify(self.slide)))
-
-                for (let key in self.slide){
-                    self.slide[key] = ''
-                }
-            }
-            this.$emit('update', self.slider, self.index)
-        }
     }
 }
 </script>
 
 <style scoped lang="scss">
-    .form-media--preview{
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
 
-        img{
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin-right: 15px;
-        }
-    }
 </style>

@@ -43,7 +43,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.blockData)
+
     },
     methods: {
         open(n) {

@@ -10,19 +10,19 @@
                     <p class="form-label">
                         Title
                     </p>
-                    <input type="text" class="form-control" v-model="title" @change="update">
+                    <input type="text" class="form-control" v-model="form.title">
                 </div>
                 <div class="form-group">
                     <p class="form-label">
                         Subtitle
                     </p>
-                    <input type="text" class="form-control" v-model="subtitle" @change="update">
+                    <input type="text" class="form-control" v-model="form.subtitle">
                 </div>
                 <div class="form-group">
                     <p class="form-label">
                         Text
                     </p>
-                    <textarea type="text" class="form-control" v-model="text" @change="update"></textarea>
+                    <textarea type="text" class="form-control" v-model="form.text"></textarea>
                 </div>
             </div>
         </div>
@@ -35,33 +35,24 @@ export default {
     props: ['blockData', 'index'],
     data(){
         return {
-            subtitle: '',
-            title: '',
-            text: '',
-            list: [],
-            listItem: {
+            form: {
+                subtitle: '',
                 title: '',
                 text: '',
+                list: [],
+                listItem: {
+                    title: '',
+                    text: '',
+                }
             }
         }
     },
     mounted() {
-        if(this.blockData){
-            this.text = this.blockData.text
-            this.title = this.blockData.title
-            this.subtitle = this.blockData.subtitle
-        }
+
+
     },
     methods: {
-        update(){
-            let self = this;
-            let form = {}
 
-            form.title = self.title
-            form.subtitle = self.subtitle
-            form.text = self.text
-            this.$emit('update', form, self.index)
-        }
     }
 }
 </script>

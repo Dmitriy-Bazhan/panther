@@ -16,6 +16,7 @@ import vSelect from "vue-select";
 import Datepicker from '@vuepic/vue-datepicker';
 import 'vue-universal-modal/dist/index.css'
 import VueUniversalModal from 'vue-universal-modal'
+import MediaPopup from './Media/Media'
 
 import '@vuepic/vue-datepicker/dist/main.css'
 import 'swiper/css';
@@ -24,7 +25,7 @@ import "vue-select/dist/vue-select.css";
 import AdminDashboard from '../dashboards/admin-dashboard/index';
 import ClientDashboard from '../dashboards/client-dashboard/index';
 import NurseDashboard from '../dashboards/nurse-dashboard/index';
-import Media from "../dashboards/admin-dashboard/components/pages/Media";
+
 
 const i18n = VueI18n.createI18n({
     locale: window.locale,
@@ -38,7 +39,10 @@ if (window.dashboard === 'dashboard') {
     Components = {
         install(Vue) {
             Vue.use(i18n);
-            Vue.component('media', Media);
+            Vue.component('media-popup', MediaPopup);
+            Vue.component('pt-icon', Icon);
+            Vue.component("v-select", vSelect);
+
             Vue.use(VueUniversalModal, {
                 teleportTarget: '#modals'
             })
@@ -60,6 +64,7 @@ if (window.dashboard === 'dashboard') {
 else{
     Components = {
         install(Vue) {
+
             Vue.use(i18n);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);

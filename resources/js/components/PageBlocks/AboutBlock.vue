@@ -19,8 +19,8 @@
                     </p>
                     <ul class="pt-i-list">
                         <li class="pt-i-list--item" v-for="item in blockData.list">
-                            <div class="pt-i-list--item-icon">
-                                <pt-icon type="company-vision"></pt-icon>
+                            <div class="pt-i-list--item-icon" v-if="item.icon">
+                                <pt-icon :type="item.icon.icon"></pt-icon>
                             </div>
                             <div class="pt-i-list--item-container">
                                 <p class="pt-i-list--item-title">
@@ -36,14 +36,14 @@
 
                 <div class="pt-col-md-6">
                     <div class="pt-section-about--grid">
-                        <div class="pt-section-about--grid-item">
-                            <img src="/images/fake/pic1.png" alt="pic">
+                        <div class="pt-section-about--grid-item" v-show="blockData.image1">
+                            <img :src="blockData.image1.path" alt="pic">
                         </div>
-                        <div class="pt-section-about--grid-item">
-                            <img src="/images/fake/pic2.png" alt="pic">
+                        <div class="pt-section-about--grid-item" v-show="blockData.image2">
+                            <img :src="blockData.image2.path" alt="pic">
                         </div>
-                        <div class="pt-section-about--grid-item">
-                            <img src="/images/fake/pic3.png" alt="pic">
+                        <div class="pt-section-about--grid-item" v-show="blockData.image3">
+                            <img :src="blockData.image3.path" alt="pic">
                         </div>
                     </div>
                 </div>

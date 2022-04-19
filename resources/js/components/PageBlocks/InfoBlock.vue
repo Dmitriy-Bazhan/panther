@@ -34,7 +34,7 @@ export default {
     name: "InfoBlock",
     props: ['blockData'],
     mounted() {
-        console.log(this.blockData)
+
     }
 }
 </script>

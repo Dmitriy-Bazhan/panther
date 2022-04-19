@@ -8,16 +8,16 @@
             <p class="form-label">
                 Title
             </p>
-            <input type="text" class="form-control" v-model="title" @change="update">
+            <input type="text" class="form-control" v-model="form.title">
         </div>
         <div class="form-group">
             <p class="form-label">
                 Subtitle
             </p>
-            <input type="text" class="form-control" v-model="subtitle" @change="update">
+            <input type="text" class="form-control" v-model="form.subtitle">
         </div>
 
-        <div class="" v-for="(item, index) in list">
+        <div class="" v-for="(item, index) in form.list">
             <hr>
             <h3>
                 FAQ - {{index + 1}}
@@ -45,13 +45,13 @@
                 <p class="form-label">
                     FAQ title
                 </p>
-                <input type="text" class="form-control"  v-model="listItem.title">
+                <input type="text" class="form-control"  v-model="form.listItem.title">
             </div>
             <div class="form-group">
                 <p class="form-label">
                     FAQ text
                 </p>
-                <textarea type="text" class="form-control" v-model="listItem.text">
+                <textarea type="text" class="form-control" v-model="form.listItem.text">
 
                 </textarea>
             </div>
@@ -65,64 +65,29 @@
 </template>
 
 <script>
+import AdminPageBlockInit from '../../../mixins/AdminPageBlockInit'
 export default {
     name: "FaqBlock",
+    mixins: [AdminPageBlockInit],
     props: ['blockData', 'index'],
     data(){
         return {
-            subtitle: '',
-            title: '',
-            list: [],
-            listItem: {
+            form: {
+                subtitle: '',
                 title: '',
-                text: '',
+                list: [],
+                listItem: {
+                    title: '',
+                    text: '',
+                }
             }
         }
     },
     mounted() {
-        if(this.blockData){
-            this.list = this.blockData.list
-            this.title = this.blockData.title
-            this.subtitle = this.blockData.subtitle
-        }
+
     },
     methods: {
-        removeItem(index){
-            this.list.splice(index, 1)
-        },
-        addItem(){
-            let self = this;
-            let isEmpty = false;
-            let form = {}
 
-            for (let key in self.listItem){
-                if(self.listItem[key] === ''){
-                    isEmpty = true
-                }
-            }
-
-            if(!isEmpty){
-                if(!self.list){
-                    self.list = []
-                }
-
-                self.list.push(JSON.parse(JSON.stringify(self.listItem)))
-
-                for (let key in self.listItem){
-                    self.listItem[key] = ''
-                }
-            }
-            self.update()
-        },
-        update(){
-            let self = this;
-            let form = {}
-
-            form.title = self.title
-            form.subtitle = self.subtitle
-            form.list = self.list
-            this.$emit('update', form, self.index)
-        }
     }
 }
 </script>

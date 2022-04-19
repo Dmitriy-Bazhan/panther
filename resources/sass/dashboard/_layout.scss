@@ -1,0 +1,99 @@
+.form-media--preview{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    img{
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-right: 15px;
+    }
+}
+
+
+.tabs-list{
+    display: flex;
+}
+
+.tabs-list>div{
+    padding-right: 10px;
+}
+
+.vue-universal-modal{
+    z-index: 1000;
+
+    .pt-admin--media{
+        background-color: white;
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+$offset: 10px;
+$panel-width: 360px;
+
+.pt-admin--media{
+    &-container{
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    &-panel{
+        background-color: #cccccc;
+        transition: 0.3s;
+        width: $panel-width;
+        min-width: $panel-width;
+        margin-left: 20px;
+        padding: 20px;
+
+        h1,h2,h3,h4,h5,h6{
+            word-break: break-word;
+        }
+
+        li{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &-list{
+        width: 100%;
+
+        &--inner{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: -$offset;
+            //margin-right: -$offset;
+        }
+    }
+
+    &-item{
+        width: 20%;
+        padding: $offset;
+
+        &--inner{
+            height: 150px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.3s;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            &:hover{
+                border-color: #3a3a3a;
+            }
+        }
+    }
+}

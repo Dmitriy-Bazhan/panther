@@ -1,5 +1,5 @@
 <template>
-    <section class="main-slider" v-if="blockData && blockData.length > 0">
+    <section class="main-slider" v-if="blockData && blockData.list.length > 0">
         <div class="main-wrapper">
             <swiper
                 :slides-per-view="1"
@@ -9,7 +9,7 @@
                 :speed="1000"
                 :modules="modules"
             >
-                <swiper-slide v-for="slide in blockData">
+                <swiper-slide v-for="slide in blockData.list">
                     <div class="main-slider--item">
                         <img src="/images/fake/fake-slide.png" alt="pic" class="main-slider--img">
                         <div class="wrapper">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pt-col-md-6" v-if="blockData && blockData.length > 0">
+                    <div class="pt-col-md-6" v-if="blockData && blockData.list.length > 0">
                         <div class="main-slider--ctrl">
                             <div class="swiper-pagination"></div>
                             <div class="swiper-button-prev">

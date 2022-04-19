@@ -60,6 +60,7 @@ import FaqBlock from "../pageBlocks/FaqBlock";
 import InfoBlock from "../pageBlocks/InfoBlock";
 import UsersBlock from "../pageBlocks/UsersBlock";
 
+
 export default {
     name: "EditPage",
     components: {
@@ -104,7 +105,6 @@ export default {
         },
         addBlock() {
             if(this.selectedBlock){
-                console.log(this.pageData.data)
                 this.pageData.data.push({
                     name: this.selectedBlock
                 })
@@ -113,8 +113,6 @@ export default {
             }
         },
         savePage() {
-            console.log('Save');
-            console.log(this.pageData);
             axios.post('/dashboard/admin/save-page/home', {'pageData': this.pageData})
                 .then((response) => {
                     if(response.data.success){
@@ -130,7 +128,6 @@ export default {
                 .then((response) => {
                     if(response.data.success){
                         this.pageData = response.data.page;
-                        console.log(this.pageData)
                     }
                 })
                 .catch((error) => {
@@ -138,7 +135,6 @@ export default {
                 });
         },
         updateState(e, index) {
-            console.log('Update')
             this.pageData.page = this.$route.params.id
             if(typeof this.pageData.data[index] !== 'object'){
                 this.pageData.data[index] = {}
@@ -151,20 +147,5 @@ export default {
 </script>
 
 <style lang="scss">
-    .tabs-list{
-        display: flex;
-    }
-
-    .tabs-list>div{
-        padding-right: 10px;
-    }
-
-    .vue-universal-modal{
-        .pt-admin--media{
-            background-color: white;
-            max-width: 90%;
-            padding: 20px;
-        }
-    }
 
 </style>

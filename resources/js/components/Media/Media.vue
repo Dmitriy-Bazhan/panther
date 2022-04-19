@@ -1,35 +1,45 @@
 <template>
-    <div class="pt-media">
-        <div class="pt-media--modal">
-            <h1>Media</h1>
-        </div>
+    <div>
+        <button class="btn btn-secondary mt-1" @click="openPopup('media')">Open media</button>
+
+        <Modal
+            v-model="isOpen"
+            :close="closePopup"
+        >
+            <media :is-popup="true" @close-media="closePopup" @select-media="selectMedia"></media>
+        </Modal>
     </div>
 </template>
 
 <script>
+import MediaPopup from "../../dashboards/admin-dashboard/components/pages/Media";
+
 export default {
-    name: "Media",
+    name: "MediaPopup",
+    props: ['modelValue'],
+    emits: ['update:modelValue'],
+    components: {
+        'media': MediaPopup
+    },
+    data(){
+        return {
+            isOpen: false
+        }
+    },
+    methods: {
+        selectMedia(media){
+            this.$emit('update:modelValue', media)
+        },
+        closePopup(id){
+            this.isOpen = false
+        },
+        openPopup(id){
+            this.isOpen = true
+        },
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-    .pt-media{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 100;
-        padding: 20px;
-        background-color: rgba(0,0,0,0.3);
 
-        &--modal{
-            width: 90%;
-            height: 90vh;
-            margin: 5vh auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 5px;
-        }
-    }
 </style>
