@@ -136,7 +136,7 @@ class AdminDashboardController extends Controller
             }
         }
 
-        $media = Media::where('media_type', 'pages_image')->paginate(12);
+        $media = Media::orderByDesc('id')->where('media_type', 'pages_image')->paginate(12);
         return response()->json(['success' => true, 'media' => $media]);
     }
 

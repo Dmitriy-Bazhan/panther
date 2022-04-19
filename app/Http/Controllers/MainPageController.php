@@ -116,7 +116,7 @@ class MainPageController extends Controller
             }
 
         }else{
-            $langs = Translate::all()->groupBy('lang');
+            $langs = Translate::orderBy('name')->get()->groupBy('lang');
             foreach ($langs as $key => $lang){
                 $translates[$key] = [];
                 $record = [];
@@ -127,7 +127,7 @@ class MainPageController extends Controller
             }
 
         }
-        return response()->json(['success' => true, 'translates' => $translates]);
+        return response()->json(['success' => true, 'langs' => $translates]);
     }
 
     public function saveTranslates(){

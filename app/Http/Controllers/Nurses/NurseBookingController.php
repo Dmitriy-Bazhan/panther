@@ -11,6 +11,7 @@ use App\Models\AlternativeBookingTime;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -164,6 +165,14 @@ class NurseBookingController extends Controller
     public function nurseRefuseBooking()
     {
         $id = request('booking')['id'];
+
+        if(!is_numeric($id)){
+            return response()->json(['success' => false]);
+        }
+
+        if(!Booking::find($id)){
+            return response()->json(['success' => false]);
+        }
 
         Booking::where('id', $id)->update(
             [
