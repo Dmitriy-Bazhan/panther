@@ -9,9 +9,8 @@ import AboutBlock from './PageBlocks/AboutBlock';
 import BenefitsBlock from './PageBlocks/BenefitsBlock';
 import InfoBlock from './PageBlocks/InfoBlock';
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
-import messages from '../locale';
 import vSelect from "vue-select";
 import Datepicker from '@vuepic/vue-datepicker';
 import 'vue-universal-modal/dist/index.css'
@@ -26,18 +25,26 @@ import AdminDashboard from '../dashboards/admin-dashboard/index';
 import ClientDashboard from '../dashboards/client-dashboard/index';
 import NurseDashboard from '../dashboards/nurse-dashboard/index';
 
-
-const i18n = VueI18n.createI18n({
+let i18n = VueI18n.createI18n({
     locale: window.locale,
-    messages
 });
-
 
 let Components
 
 if (window.dashboard === 'dashboard') {
     Components = {
         install(Vue) {
+            axios.get('/get-translate')
+                .then((response) => {
+                    if (response.data.success) {
+                        for (let key in response.data.translates) {
+                            i18n.global.setLocaleMessage(key, response.data.translates[key])
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             Vue.use(i18n);
             Vue.component('media-popup', MediaPopup);
             Vue.component('pt-icon', Icon);
@@ -60,11 +67,20 @@ if (window.dashboard === 'dashboard') {
             }
         }
     };
-}
-else{
+} else {
     Components = {
         install(Vue) {
-
+            axios.get('/get-translate')
+                .then((response) => {
+                    if (response.data.success) {
+                        for (let key in response.data.translates) {
+                            i18n.global.setLocaleMessage(key, response.data.translates[key])
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             Vue.use(i18n);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);
