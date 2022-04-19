@@ -45,7 +45,7 @@
               <button class="btn btn-primary" @click="addItem">
                   Add
               </button>
-              <button class="btn btn-danger">
+              <button class="btn btn-danger" @click="save">
                   Save
               </button>
           </div>
@@ -55,10 +55,8 @@
 
 <script>
 
-import messages from '../../../../locale';
 const _ = require('lodash');
 
-console.log(messages)
 export default {
     name: "Translation",
     data(){
@@ -66,10 +64,39 @@ export default {
             newItemLabel: '',
             newItemText: '',
             activeTab: 'en',
-            langs: messages
+            langs: false
         }
     },
+    mounted() {
+        this.getTranslate()
+    },
     methods: {
+        getTranslate(){
+            let self = this
+            axios.get('/get-translate')
+                .then((response) => {
+                    if(response.data.success){
+                        self.langs = response.data.translates
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        save(){
+            let self = this
+            axios.post('/save-translates', {
+                langs: self.langs
+            })
+                .then((response) => {
+                    if(response.data.success){
+                        self.langs = response.data.langs
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         remove(item){
             delete this.langs[this.activeTab][item]
         },
