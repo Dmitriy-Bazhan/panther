@@ -36,17 +36,15 @@ class AuthServiceProvider extends ServiceProvider
                 $text = __('mail-message.email_verification_for_nurses');
                 $user = auth()->user();
 
-                Mail::mailer('smtp')->to(auth()->user()->email)->
-                send(new VerificationMail($url, $text, $user));
+                if (env('MAIL_USE_QUEUE')) {
+                    Mail::mailer('smtp')->to(auth()->user()->email)->
+                    queue(new VerificationMail($url, $text, $user));
+                } else {
+                    Mail::mailer('smtp')->to(auth()->user()->email)->
+                    send(new VerificationMail($url, $text, $user));
+                }
 
                 return new VerificationMail($url, $text, $user);
-
-
-//                return (new MailMessage)
-//                    ->mailer('smtp')
-//                    ->subject('Verify Email Address')
-//                    ->line(__('mail-message.email_verification_for_nurses'))
-//                    ->action('Verify Email Address', $url);
             }
 
             if (auth()->user()->is_client) {
@@ -54,16 +52,15 @@ class AuthServiceProvider extends ServiceProvider
                 $text = __('mail-message.email_verification_for_clents');
                 $user = auth()->user();
 
-                Mail::mailer('smtp')->to(auth()->user()->email)->
-                send(new VerificationMail($url, $text, $user));
+                if (env('MAIL_USE_QUEUE')) {
+                    Mail::mailer('smtp')->to(auth()->user()->email)->
+                    queue(new VerificationMail($url, $text, $user));
+                } else {
+                    Mail::mailer('smtp')->to(auth()->user()->email)->
+                    send(new VerificationMail($url, $text, $user));
+                }
 
                 return new VerificationMail($url, $text, $user);
-
-//                return (new MailMessage)
-//                    ->mailer('smtp')
-//                    ->subject('Verify Email Address')
-//                    ->line(__('mail-message.email_verification_for_clents'))
-//                    ->action('Verify Email Address', $url);
             }
         });
     }
