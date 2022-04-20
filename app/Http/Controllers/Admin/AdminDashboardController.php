@@ -9,6 +9,7 @@ use App\Http\Resources\ClientResource;
 use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\HearAboutUs;
+use App\Models\Lang;
 use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
@@ -40,6 +41,7 @@ class AdminDashboardController extends Controller
 
         $data['data']['provider_supports'] = ProvideSupport::all();
         $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
+        $data['data']['languages'] = Lang::all();
         return view('dashboard', $data);
     }
 

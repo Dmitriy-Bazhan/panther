@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdditionalInfo;
+use App\Models\Lang;
 use App\Models\ProvideSupport;
 use App\Models\Rate;
 use App\Models\Translate;
@@ -13,6 +14,7 @@ class MainPageController extends Controller
     public function index()
     {
         $data = [];
+        $data['data']['languages'] = Lang::all();
         if (auth()->check()) {
             $data['data']['provider_supports'] = ProvideSupport::all();
             $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
@@ -92,20 +94,6 @@ class MainPageController extends Controller
     }
 
     public function getTranslate($lang = null){
-
-//        (function () {
-//            $.ajax({
-//                method: 'GET',
-//                dataType: 'json',
-//                url: 'get-translate/' + window.locale,
-//                success: function (data) {
-//                console.log(data);
-//            },
-//                error: function (errorThrown) {
-//                console.log(errorThrown);
-//            }
-//            });
-//        })();
 
         if(!is_null($lang)){
             $langs = Translate::where('lang', $lang)->get();

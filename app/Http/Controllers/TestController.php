@@ -12,6 +12,7 @@ use App\Models\Translate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
@@ -33,22 +34,7 @@ class TestController extends Controller
 //        dd('FFFFF');
 
 
-        $translates = $this->langArrTest();
-
-        foreach ($translates as $key => $translate) {
-            $newTranslate = new Translate();
-            $newTranslate->name = $key;
-            $newTranslate->lang = 'en';
-            $newTranslate->data = $translate;
-            $newTranslate->save();
-
-            $newTranslate = new Translate();
-            $newTranslate->name = $key;
-            $newTranslate->lang = 'de';
-            $newTranslate->data = $translate;
-            $newTranslate->save();
-        }
-
+        Log::debug('Test Message');
 
         dd('stop');
         $id = null;

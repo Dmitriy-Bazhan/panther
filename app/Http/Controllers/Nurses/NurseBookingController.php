@@ -13,6 +13,7 @@ use App\Models\Payment;
 use App\Models\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class NurseBookingController extends Controller
@@ -37,7 +38,8 @@ class NurseBookingController extends Controller
 
         if (!User::find($nurseId)) {
             //todo: hmmm
-            abort(409);
+            Log::debug('Nurse with this id not exists in NurseBookingController::index');
+            abort(409, 'Nurse with this id not exists');
         }
 
         request()->merge([
@@ -113,7 +115,6 @@ class NurseBookingController extends Controller
             $alternativeBookingTime->alternative_time_interval = $key;
             $alternativeBookingTime->alternative_time = $data['alternative_time']['time'][$key];
             $alternativeBookingTime->save();
-
         }
 
         return response()->json(['success' => true]);

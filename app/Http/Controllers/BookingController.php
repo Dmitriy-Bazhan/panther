@@ -8,6 +8,7 @@ use App\Mail\SendNurseNewBookingMail;
 use App\Models\AdditionalInfo;
 use App\Models\Booking;
 use App\Models\BookingTime;
+use App\Models\Lang;
 use App\Models\ProvideSupport;
 use App\Models\User;
 use Carbon\Carbon;
@@ -120,7 +121,7 @@ class BookingController extends Controller
             $booking->days = json_encode(request('booking')['days']);
             $booking->weeks = request('booking')['weeks'];
             $booking->start_date = request('booking')['date'];
-            $booking->finish_date = Carbon::createFromFormat('Y-m-d',request('booking')['date'])->addRealWeeks(request('booking')['weeks']);
+            $booking->finish_date = Carbon::createFromFormat('Y-m-d', request('booking')['date'])->addRealWeeks(request('booking')['weeks']);
             $booking->additional_email = request('booking')['additional_email'];
             $booking->comment = request('booking')['comment'];
             $booking->save();
@@ -139,7 +140,14 @@ class BookingController extends Controller
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
 
-        Mail::mailer('smtp')->to($client->email)->send(new ClientVerificationBookingMail($booking, $nurse, $client));
+        if (env('MAIL_USE_QUEUE')) {
+            Mail::mailer('smtp')->to($client->email)
+                ->queue(new ClientVerificationBookingMail($booking, $nurse, $client));
+        } else {
+            Mail::mailer('smtp')->to($client->email)
+                ->send(new ClientVerificationBookingMail($booking, $nurse, $client));
+        }
+
 
         return response()->json(['success' => true]);
     }
@@ -147,6 +155,7 @@ class BookingController extends Controller
     public function show($id)
     {
         $data = [];
+        $data['data']['languages'] = Lang::all();
         if (auth()->check()) {
             $data['data']['provider_supports'] = ProvideSupport::all();
             $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
@@ -197,7 +206,15 @@ class BookingController extends Controller
         $booking->save();
 
         app()->setLocale($nurse->prefs->pref_lang);
-        Mail::mailer('smtp')->to($nurse->email)->send(new SendNurseNewBookingMail($nurse, $client));
+
+        if (env('MAIL_USE_QUEUE')) {
+            Mail::mailer('smtp')->to($nurse->email)
+                ->queue(new SendNurseNewBookingMail($nurse, $client));
+        } else {
+            Mail::mailer('smtp')->to($nurse->email)
+                ->send(new SendNurseNewBookingMail($nurse, $client));
+        }
+
 
         return redirect('/booking-verify');
     }
