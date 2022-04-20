@@ -289,10 +289,13 @@
             border: none;
             border-radius: 0;
             background-color: transparent;
+            padding: 0;
         }
 
         .vs__selected{
             height: 100%;
+            padding: 0 0 0 20px;
+            margin: 0 0 0 0;
         }
 
         .vs__search{
