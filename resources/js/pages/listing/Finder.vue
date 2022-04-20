@@ -38,75 +38,54 @@
                             {{ $t(block.title) }}
                         </div>
                         <div class="pt-finder--form-block--inner">
-                            <div class="pt-finder--form-group"
-                                 v-if="block.fields && block.model === 'box'"
-                                 v-for="field in block.fields">
-                                <label class="pt-box">
-                                    <input :type="block.type" :name="block.name" :value="field.value"
-                                           @change="ForMeOrForRelative"
-                                           v-model="block.value">
-                                    <span class="pt-box--body"></span>
-                                    <span class="pt-box--label">{{ $t(field.label) }}</span>
-                                </label>
-                            </div>
-
-                            <div class="pt-finder--form-group"
-                                 v-if="block.fields && block.model === 'field'"
-                                 v-for="field in block.fields"
-                            >
-                                <div class="pt-row">
-                                    <div class="pt-col-md-12">
-                                        <p class="pt-form--label">
-                                            {{ $t(field.label) }}
-                                        </p>
-                                        <template v-if="field.type === 'select'">
-                                            <div class="pt-select">
-                                                <div class="pt-select--icon">
-                                                    <pt-icon :type="field.icon"></pt-icon>
-                                                </div>
-                                                <v-select :options="translatedOptions(field.options)"
-                                                          label="title"
-                                                          v-model="field.value"
-                                                          :reduce="(option) => option.id">
-                                                    <template #option="{ title }">
-                                                        {{ title }}
-                                                    </template>
-
-                                                    <template #open-indicator>
-                                                        <span class="pt-select--caret"></span>
-                                                    </template>
-                                                </v-select>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <pt-input :type="field.type" :modelValue="field.value"
-                                                      :icon="field.icon"
-                                                      @update:modelValue="newValue => field.value = newValue"
-                                            ></pt-input>
-                                        </template>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <template v-if="block.fields && block.model === 'calendar'">
-                                <div class="pt-finder--form-group" v-for="field in block.fields">
+                            <template v-if="block.fields && block.model === 'box'"
+                                      v-for="field in block.fields">
+                                <div class="pt-finder--form-group">
                                     <label class="pt-box">
-                                        <input type="radio" :name="block.name" :value="field.input.value"
+                                        <input :type="block.type" :name="block.name" :value="field.value"
+                                               @change="ForMeOrForRelative"
                                                v-model="block.value">
                                         <span class="pt-box--body"></span>
-                                        <span class="pt-box--label">{{ $t(field.input.label) }}</span>
+                                        <span class="pt-box--label">{{ $t(field.label) }}</span>
                                     </label>
                                 </div>
+                            </template>
 
+                            <template v-if="block.fields && block.model === 'field'"
+                                      v-for="field in block.fields">
                                 <div class="pt-finder--form-group">
-                                    <Datepicker v-for="field in block.fields"
-                                                v-model="field.date.value"
-                                                inline
-                                                autoApply
-                                                :monthChangeOnScroll="false"
-                                                :range="field.date.range"
-                                                v-show="field.input.value === block.value"
-                                                :enableTimePicker="false"/>
+                                    <div class="pt-row">
+                                        <div class="pt-col-md-12">
+                                            <p class="pt-form--label">
+                                                {{ $t(field.label) }}
+                                            </p>
+                                            <template v-if="field.type === 'select'">
+                                                <div class="pt-select">
+                                                    <div class="pt-select--icon">
+                                                        <pt-icon :type="field.icon"></pt-icon>
+                                                    </div>
+                                                    <v-select :options="translatedOptions(field.options)"
+                                                              label="title"
+                                                              v-model="field.value"
+                                                              :reduce="(option) => option.id">
+                                                        <template #option="{ title }">
+                                                            {{ title }}
+                                                        </template>
+
+                                                        <template #open-indicator>
+                                                            <span class="pt-select--caret"></span>
+                                                        </template>
+                                                    </v-select>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <pt-input :type="field.type" :modelValue="field.value"
+                                                          :icon="field.icon"
+                                                          @update:modelValue="newValue => field.value = newValue"
+                                                ></pt-input>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
 
@@ -155,6 +134,28 @@
                                         <span class="pt-box--body"></span>
                                         <span class="pt-box--label">{{ $t(field.label) }}</span>
                                     </label>
+                                </div>
+                            </template>
+
+                            <template v-if="block.fields && block.model === 'calendar'">
+                                <div class="pt-finder--form-group" v-for="field in block.fields">
+                                    <label class="pt-box">
+                                        <input type="radio" :name="block.name" :value="field.input.value"
+                                               v-model="block.value">
+                                        <span class="pt-box--body"></span>
+                                        <span class="pt-box--label">{{ $t(field.input.label) }}</span>
+                                    </label>
+                                </div>
+
+                                <div class="pt-finder--form-group">
+                                    <Datepicker v-for="field in block.fields"
+                                                v-model="field.date.value"
+                                                inline
+                                                autoApply
+                                                :monthChangeOnScroll="false"
+                                                :range="field.date.range"
+                                                v-show="field.input.value === block.value"
+                                                :enableTimePicker="false"/>
                                 </div>
                             </template>
                         </div>
@@ -859,7 +860,28 @@ export default {
                             },
                         ],
                     },
-                ]
+                ],
+                1: [
+                    {
+                        name: 'for_whom',
+                        title: 'for_whom',
+                        model: 'box',
+                        type: 'radio',
+                        value: '',
+                        fields: [
+                            {
+                                label: 'to_me',
+                                value: 'to_me',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                            {
+                                label: 'for_a_relative',
+                                value: 'for_a_relative',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                        ],
+                    },
+                ],
             }
         }
     },
