@@ -93,20 +93,6 @@ class MainPageController extends Controller
 
     public function getTranslate($lang = null){
 
-//        (function () {
-//            $.ajax({
-//                method: 'GET',
-//                dataType: 'json',
-//                url: 'get-translate/' + window.locale,
-//                success: function (data) {
-//                console.log(data);
-//            },
-//                error: function (errorThrown) {
-//                console.log(errorThrown);
-//            }
-//            });
-//        })();
-
         if(!is_null($lang)){
             $langs = Translate::where('lang', $lang)->get();
             $translates[$lang] = [];
