@@ -8,6 +8,7 @@ use App\Mail\SendNurseNewBookingMail;
 use App\Models\AdditionalInfo;
 use App\Models\Booking;
 use App\Models\BookingTime;
+use App\Models\Lang;
 use App\Models\ProvideSupport;
 use App\Models\User;
 use Carbon\Carbon;
@@ -154,6 +155,7 @@ class BookingController extends Controller
     public function show($id)
     {
         $data = [];
+        $data['data']['languages'] = Lang::all();
         if (auth()->check()) {
             $data['data']['provider_supports'] = ProvideSupport::all();
             $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
