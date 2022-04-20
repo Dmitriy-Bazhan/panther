@@ -74,3 +74,39 @@ $grid-offset: 15px;
         }
     }
 }
+
+@each $offset in
+        (10), (20), (30), (40), (50){
+    @each $opt, $cls in
+            (margin-top, mt),
+            (margin-bottom, mb),
+            (margin-left, ml),
+            (margin-right, mr),{
+        .pt-#{$cls}-#{$offset}{
+            #{$opt}: #{$offset}px;
+        }
+    }
+}
+
+@for $offset from 1 through 50 {
+  @each $opt, $cls in
+      (margin-top, mt),
+      (margin-bottom, mb),
+      (margin-left, ml),
+      (margin-right, mr),{
+    .pt-#{$cls}-#{$offset}{
+      #{$opt}: #{$offset}px;
+    }
+  }
+}
+
+.pt-m-a{
+    margin-left: auto;
+    margin-right: auto;
+}
+.pt-ml-a{
+    margin-left: auto;
+}
+.pt-mr-a{
+    margin-right: auto;
+}

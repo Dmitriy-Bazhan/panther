@@ -20,18 +20,158 @@
             </div>
 
             <div class="pt-finder--steps">
-                <div class="pt-finder--steps-item" v-for="(item, index) in 3" :class="{active: index === activeStep}">
+                <div class="pt-finder--steps-item" v-for="(step, key) in steps" :class="{active: Number(key) === activeStep}">
                     <div class="pt-finder--steps-item--title">
-                        {{ index + 1 }}
+                        {{ Number(key) + 1 }}
                     </div>
                     <div class="pt-finder--steps-item--text">
-                        step {{ index + 1 }}
+                        step {{ Number(key) + 1 }}
                     </div>
                 </div>
             </div>
 
             <form action="" class="pt-finder--form" @submit.prevent="">
-                <div class="pt-finder--form-step" v-show="activeStep === 0">
+                <div class="pt-finder--form-step" v-show="activeStep === Number(key)" v-for="(step, key) in steps">
+                    <div class="pt-finder--form-block" v-for="(block, index) in step">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">{{ index + 1 }}</div>
+                            {{ $t(block.title) }}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+                            <template v-if="block.fields && block.model === 'box'"
+                                      v-for="field in block.fields">
+                                <div class="pt-finder--form-group">
+                                    <label class="pt-box">
+                                        <input :type="block.type" :name="block.name" :value="field.value"
+                                               @change="ForMeOrForRelative"
+                                               v-model="block.value">
+                                        <span class="pt-box--body"></span>
+                                        <span class="pt-box--label">{{ $t(field.label) }}</span>
+                                    </label>
+                                </div>
+                            </template>
+
+                            <template v-if="block.fields && block.model === 'field'"
+                                      v-for="field in block.fields">
+                                <div class="pt-finder--form-group">
+                                    <div class="pt-row">
+                                        <div class="pt-col-md-12">
+                                            <p class="pt-form--label">
+                                                {{ $t(field.label) }}
+                                            </p>
+                                            <template v-if="field.type === 'select'">
+                                                <div class="pt-select">
+                                                    <div class="pt-select--icon">
+                                                        <pt-icon :type="field.icon"></pt-icon>
+                                                    </div>
+                                                    <v-select :options="translatedOptions(field.options)"
+                                                              label="title"
+                                                              v-model="field.value"
+                                                              :reduce="(option) => option.id">
+                                                        <template #option="{ title }">
+                                                            {{ title }}
+                                                        </template>
+
+                                                        <template #open-indicator>
+                                                            <span class="pt-select--caret"></span>
+                                                        </template>
+                                                    </v-select>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <pt-input :type="field.type" :modelValue="field.value"
+                                                          :icon="field.icon"
+                                                          @update:modelValue="newValue => field.value = newValue"
+                                                ></pt-input>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template v-if="block.groups" v-for="group in block.groups">
+                                <div class="pt-finder--form-group" v-if="group.model === 'field'">
+                                    <div class="pt-row">
+                                        <div class="pt-col-md-6" v-for="field in group.fields">
+                                            <p class="pt-form--label">
+                                                {{ $t(field.label) }}
+                                            </p>
+                                            <pt-input :type="field.type" :modelValue="field.value"
+                                                      :icon="field.icon"
+                                                      @update:modelValue="newValue => field.value = newValue"
+                                            ></pt-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-finder--form-group"
+                                     v-if="group.model === 'box' && group.special === 'box-list'"
+                                >
+                                    <div class="pt-row">
+                                        <div class="pt-col-md-12">
+                                            <p class="pt-form--label">
+                                                {{ $t(group.title) }}
+                                            </p>
+                                            <div class="pt-form--box-list">
+                                                <div class="pt-form--box-list--item" v-for="field in group.fields">
+                                                    <label class="pt-box">
+                                                        <input :type="group.type" :name="group.name"
+                                                               :value="field.value"
+                                                               v-model="group.value">
+                                                        <span class="pt-box--body"></span>
+                                                        <span class="pt-box--label">{{ field.label }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-finder--form-group"
+                                     v-if="group.model === 'box' && !group.special"
+                                     v-for="field in group.fields">
+                                    <label class="pt-box">
+                                        <input :type="group.type" :name="group.name" :value="field.value"
+                                               v-model="group.value">
+                                        <span class="pt-box--body"></span>
+                                        <span class="pt-box--label">{{ $t(field.label) }}</span>
+                                    </label>
+                                </div>
+                            </template>
+
+                            <template v-if="block.fields && block.model === 'calendar'">
+                                <div class="pt-finder--form-group" v-for="field in block.fields">
+                                    <label class="pt-box">
+                                        <input type="radio" :name="block.name" :value="field.input.value"
+                                               v-model="block.value">
+                                        <span class="pt-box--body"></span>
+                                        <span class="pt-box--label">{{ $t(field.input.label) }}</span>
+                                    </label>
+                                </div>
+
+                                <div class="pt-finder--form-group">
+                                    <Datepicker v-for="field in block.fields"
+                                                v-model="field.date.value"
+                                                inline
+                                                autoApply
+                                                :monthChangeOnScroll="false"
+                                                :range="field.date.range"
+                                                v-show="field.input.value === block.value"
+                                                :enableTimePicker="false"/>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+
+                    <div class="pt-finder--form-block">
+                        <button class="pt-btn--primary pt-md pt-mt-20 pt-m-a"
+                                @click.prevent="setStep(Number(key) + 1)">
+                            weiter
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="pt-finder--form-step" v-show="activeStep === 20">
 
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
@@ -120,7 +260,6 @@
                         </div>
                     </div>
 
-
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
                             <div class="pt-finder--form-label--number">3</div>
@@ -152,7 +291,7 @@
                                             autoApply
                                             :monthChangeOnScroll="false"
                                             v-show="showOneTimeCalendar"
-                                            :enableTimePicker="false" />
+                                            :enableTimePicker="false"/>
 
                                 <Datepicker v-model="clientSearchInfo.regular_time_range"
                                             inline
@@ -160,10 +299,49 @@
                                             range
                                             v-show="showRegularCalendar"
                                             :monthChangeOnScroll="false"
-                                            :enableTimePicker="false" />
+                                            :enableTimePicker="false"/>
 
                             </div>
                         </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">4</div>
+                            {{ $t('what_support_looking') }}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+                            <div class="pt-finder--form-group">
+                                <p class="pt-form--label">
+                                    {{ $t('what_support_looking') }}
+                                </p>
+
+                                <div class="pt-select">
+                                    <div class="pt-select--icon">
+                                        <pt-icon type="help"></pt-icon>
+                                    </div>
+                                    <v-select :options="[]"
+                                              label="title"
+                                              v-model="clientSearchInfo.provider_supports"
+                                              :reduce="(option) => option.id">
+                                        <template #option="{ title }">
+                                            {{ title }}
+                                        </template>
+
+                                        <template #open-indicator>
+                                            <span class="pt-select--caret"></span>
+                                        </template>
+                                    </v-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
+                        <button class="pt-btn--primary pt-md pt-mt-20 pt-m-a"
+                                @click.prevent="setStep(1)">
+                            weiter
+                        </button>
                     </div>
                 </div>
 
@@ -174,23 +352,6 @@
 
 
                             <div class="col-3">
-                                <!--provider supports-->
-                                <label for="provider_support" class="form-label col-form-label-sm">{{
-                                        $t('what_support_looking')
-                                    }}</label>
-                                <select id="provider_support" class="form-select form-select-sm" multiple
-                                        v-model="clientSearchInfo.provider_supports">
-                                    <option v-if="data.provider_supports.length > 0"
-                                            v-for="provider_support in data.provider_supports"
-                                            v-bind:value="provider_support.id">
-                                        {{ $t(provider_support.name) }}
-                                    </option>
-                                </select>
-                                <span class="register-form-error"
-                                      v-if="errors !== null && errors['provider_supports'] !== undefined">{{
-                                        errors['provider_supports'][0]
-                                    }}</span>
-
                                 <!--                additional info , disease -->
                                 <label for="disease" class="form-label col-form-label-sm">{{ $t('disease') }}</label>
                                 <select id="disease" class="form-select form-select-sm" multiple
@@ -493,6 +654,7 @@ export default {
                 '90+',
             ],
 
+            activeCalendar: false,
             activeStep: 0,
             path: location.origin,
             nurses: [],
@@ -539,6 +701,187 @@ export default {
                     weekdays_17_21: "0",
                     weekends_17_21: "0",
                 },
+            },
+
+
+            steps: {
+                0: [
+                    {
+                        name: 'for_whom',
+                        title: 'for_whom',
+                        model: 'box',
+                        type: 'radio',
+                        value: '',
+                        fields: [
+                            {
+                                label: 'to_me',
+                                value: 'to_me',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                            {
+                                label: 'for_a_relative',
+                                value: 'for_a_relative',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                        ],
+                    },
+                    {
+                        name: 'information_about_person',
+                        title: 'information_about_person',
+                        groups: [
+                            {
+                                model: 'field',
+                                fields: [
+                                    {
+                                        type: 'text',
+                                        label: 'name',
+                                        icon: 'user',
+                                        value: '',
+                                    },
+                                    {
+                                        type: 'text',
+                                        label: 'last_name',
+                                        icon: 'user',
+                                        value: '',
+                                    },
+                                ],
+                            },
+                            {
+                                type: 'radio',
+                                model: 'box',
+                                special: 'box-list',
+                                title: 'age_range',
+                                name: 'age_range',
+                                value: '',
+                                fields: [
+                                    {
+                                        label: '0-20',
+                                        value: '0-20',
+                                    },
+                                    {
+                                        label: '20-40',
+                                        value: '20-40',
+                                    },
+                                    {
+                                        label: '40-60',
+                                        value: '40-60',
+                                    },
+                                    {
+                                        label: '60-70',
+                                        value: '60-70',
+                                    },
+                                    {
+                                        label: '70-80',
+                                        value: '70-80',
+                                    },
+                                    {
+                                        label: '80-90',
+                                        value: '80-90',
+                                    },
+                                    {
+                                        label: '90+',
+                                        value: '90+',
+                                    },
+                                ],
+                            }
+                        ]
+                    },
+                    {
+                        name: 'one_or_regular',
+                        title: 'one_or_regular',
+                        model: 'calendar',
+                        value: '',
+                        fields: [
+                            {
+                                input: {
+                                    label: 'one',
+                                    value: 'one',
+                                },
+                                date: {
+                                    value: '',
+                                }
+                            },
+                            {
+                                input: {
+                                    label: 'regular',
+                                    value: 'regular',
+                                },
+                                date: {
+                                    value: [],
+                                    range: true
+                                }
+                            },
+                        ],
+                    },
+                    {
+                        name: 'what_support_looking',
+                        title: 'what_support_looking',
+                        model: 'field',
+                        fields: [
+                            {
+                                type: 'select',
+                                label: 'Test label',
+                                icon: 'help',
+                                value: '',
+                                options: [
+                                    {
+                                    "id": 1,
+                                    "name": "society_and_care",
+                                    "title": "society_and_care"
+                                }, {
+                                    "id": 2,
+                                    "name": "escort_and_transportation",
+                                    "title": "escort_and_transportation"
+                                }, {
+                                    "id": 3,
+                                    "name": "food_and_drinks",
+                                    "title": "food_and_drinks"
+                                }, {
+                                    "id": 4,
+                                    "name": "activity_and_exercise",
+                                    "title": "activity_and_exercise"
+                                }, {
+                                    "id": 5,
+                                    "name": "housekeeping_and_laundry",
+                                    "title": "housekeeping_and_laundry"
+                                }, {
+                                    "id": 6,
+                                    "name": "basic_care",
+                                    "title": "basic_care"
+                                }, {
+                                    "id": 7,
+                                    "name": "purchases_and_errands",
+                                    "title": "purchases_and_errands"
+                                }, {
+                                    "id": 8,
+                                    "name": "technical_assistance",
+                                    "title": "technical_assistance"
+                                }]
+                            },
+                        ],
+                    },
+                ],
+                1: [
+                    {
+                        name: 'for_whom',
+                        title: 'for_whom',
+                        model: 'box',
+                        type: 'radio',
+                        value: '',
+                        fields: [
+                            {
+                                label: 'to_me',
+                                value: 'to_me',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                            {
+                                label: 'for_a_relative',
+                                value: 'for_a_relative',
+                                onchange: 'ForMeOrForRelative'
+                            },
+                        ],
+                    },
+                ],
             }
         }
     },
@@ -548,6 +891,9 @@ export default {
                 document.addEventListener('click', this.closeReminderBlock);
             }
         },
+    },
+    computed: {
+
     },
     mounted() {
         this.getClientSearchInfo();
@@ -576,11 +922,24 @@ export default {
         });
     },
     methods: {
+        showCalendar(name) {
+            this.activeCalendar = name
+        },
+        translatedOptions(options) {
+            let self = this
+            options.forEach(function (item) {
+                item.title = self.$t(item.name)
+            })
+            return options
+        },
+        setStep(n) {
+            this.activeStep = n
+        },
         getClientSearchInfo() {
             axios.get('finder/get-client-search-info')
                 .then((response) => {
                     if (response.data.success) {
-                        //this.clientSearchInfo = response.data.clientSearchInfo;
+                        this.clientSearchInfo = response.data.clientSearchInfo;
                         this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
                         this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
                         this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
