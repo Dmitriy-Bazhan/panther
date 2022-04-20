@@ -329,3 +329,48 @@
         color: $highlight-primary;
     }
 }
+
+.pt-box{
+    $self: &;
+    display: inline-flex;
+    vertical-align: top;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+
+    input{
+        display: none;
+    }
+
+    &--body{
+        width: 25px;
+        min-width: 25px;
+        height: 25px;
+        border: 2px solid $light-gray;
+        background-color: $white;
+        border-radius: 5px;
+        margin-right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &--label{
+        color: $gray;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    input:checked ~ #{$self}--body{
+        background-color: $highlight-primary;
+
+        &:before{
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-size: 16px;
+            font-weight: 900;
+            color: $white;
+        }
+    }
+}

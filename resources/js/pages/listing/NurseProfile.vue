@@ -149,7 +149,7 @@
             sendToBookings() {
                 window.open('booking/' + this.nurse.id);
             }, getPrivateChats() {
-                axios.get('/listing/get-private-chats/' + this.nurse.id)
+                axios.get('/finder/get-private-chats/' + this.nurse.id)
                     .then((response) => {
                         if (response.data.chat.length > 0) {
                             for (let value in response.data.chat) {
@@ -169,7 +169,7 @@
                     });
             },
             sendPrivateMessage() {
-                axios.post('listing/send-private-message', {
+                axios.post('finder/send-private-message', {
                     'nurse_id': this.nurse.id,
                     'privateMessage': this.privateMessage
                 }).then((response) => {
