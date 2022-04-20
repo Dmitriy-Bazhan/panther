@@ -49,7 +49,7 @@ Route::get('get-translate', [MainPageController::class, 'getTranslate']);
 Route::get('get-translate/{lang}', [MainPageController::class, 'getTranslate']);
 Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->middleware(['auth:sanctum', 'checkAdmin']);
 
-Route::prefix('listing')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
+Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
     Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);

@@ -7,7 +7,7 @@ import NurseRegister from '../pages/auth/NurseRegister';
 import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
-import Listing from '../pages/listing/index';
+import Finder from '../pages/listing/Finder';
 import Booking from '../pages/booking/index';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
@@ -58,9 +58,9 @@ const routes = [
         component: Test
     },
     {
-        path: "/listing",
-        name: 'Listing',
-        component: Listing,
+        path: "/finder",
+        name: 'Finder',
+        component: Finder,
         props: true,
     },
     {
