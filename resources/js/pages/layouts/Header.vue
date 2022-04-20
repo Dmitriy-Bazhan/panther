@@ -69,7 +69,7 @@
                     </span>
 
                     <router-link v-else-if="auth.entity_type ==='client'"
-                                 :to="{ name : 'Listing' }"
+                                 :to="{ name : 'Finder' }"
                                  class="pt-header--finder-link">
                         <pt-icon type="nurse"></pt-icon>
                         {{ $t('caregiver_finder') }}
@@ -102,7 +102,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.auth);
+        //console.log(this.auth);
     },
     methods: {
         toLogin() {
