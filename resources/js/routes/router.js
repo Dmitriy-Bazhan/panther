@@ -8,6 +8,7 @@ import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
 import Finder from '../pages/listing/Finder';
+import Listing from '../pages/listing/Listing';
 import Booking from '../pages/booking/index';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
@@ -61,6 +62,12 @@ const routes = [
         path: "/finder",
         name: 'Finder',
         component: Finder,
+        props: true,
+    },
+    {
+        path: "/listing",
+        name: 'Listing',
+        component: Listing,
         props: true,
     },
     {
