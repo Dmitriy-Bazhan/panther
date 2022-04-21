@@ -842,15 +842,6 @@
                     </div>
                 </div>
             </form>
-
-
-            <div v-if="showModalNursesListing" class="nurses-listing-wrapper">
-                <nurses-listing :nurses="nurses"></nurses-listing>
-            </div>
-
-            <div v-if="showModalNurseProfile" class="nurse-profile-wrapper">
-                <nurses-profile :nurse="nurse" :data="data" :user="user"></nurses-profile>
-            </div>
         </div>
     </div>
 
@@ -907,7 +898,7 @@ export default {
                 '90+',
             ],
 
-            activeStep: 0,
+            activeStep: 2,
             path: location.origin,
             nurses: [],
             nurse: null,
@@ -1025,6 +1016,10 @@ export default {
                         this.errors = null;
                         this.nurses = response.data.nurses;
                         this.showModalNursesListing = true;
+
+                        this.$router.push({ name: 'Listing', params: {
+                            data: JSON.stringify(response.data.nurses)
+                            } })
                     } else {
                         this.errors = response.data.errors;
                     }
