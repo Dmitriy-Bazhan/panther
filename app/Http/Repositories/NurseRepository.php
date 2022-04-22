@@ -182,12 +182,14 @@ class NurseRepository
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)
-        NurseLang::updateOrCreate(
-            ['nurse_id' => $data['entity_id']],
-            [
-                'lang' => $data['entity']['languages'][0]['lang'],
-                'level' => $data['entity']['languages'][0]['level'],
-            ]);
+        NurseLang::where('nurse_id', $data['entity_id'])->delete();
+        foreach ($data['entity']['languages'] as $lang){
+            $newLang = new NurseLang();
+            $newLang->nurse_id = $data['entity_id'];
+            $newLang->lang = $lang['lang'];
+            $newLang->level = $lang['level'];
+            $newLang->save();
+        }
 
         ProvideSupportAssigned::where('nurse_id', $data['entity_id'])->delete();
         if (count($data['entity']['provide_supports']) > 0) {

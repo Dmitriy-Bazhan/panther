@@ -306,7 +306,7 @@
             }
         },
         mounted() {
-            this.tmpUser = JSON.parse(JSON.stringify(this.user))
+            this.tmpUser = this.user;
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });
@@ -324,7 +324,7 @@
                 }
             },
             updateInformation() {
-                axios.put('/dashboard/nurse-my-information/' + this.user.id, {'user': this.tmpUser})
+                axios.put('/dashboard/nurse-my-information/' + this.user.id, {'user': this.user})
                     .then((response) => {
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
