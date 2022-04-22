@@ -4,7 +4,7 @@ import Messages from "../dashboards/nurse-dashboard/components/messages/index";
 import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/bookings/index";
 import Payments from "../dashboards/nurse-dashboard/components/payments/index";
-import MyInformation from "../dashboards/nurse-dashboard/components/my-information/index";
+import MyInformation from "../dashboards/nurse-dashboard/components/my-information/MyInformation";
 import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";
 
 const routes = [
