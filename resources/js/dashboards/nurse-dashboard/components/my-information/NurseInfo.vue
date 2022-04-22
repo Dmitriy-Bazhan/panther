@@ -114,8 +114,8 @@
 
                     <div class="col-8">
                         <div class="row">
-                            <template v-for="item in tmpUser.entity.languages">
-                                <div class="col-8">
+                            <template v-for="(item, index) in tmpUser.entity.languages">
+                                <div class="col-7">
                                     <select class="form-control form-control-sm"
                                             v-model="item.lang">
                                         <option :value="lang.val" v-for="lang in languages">{{ $t(lang.title) }}</option>
@@ -132,7 +132,9 @@
                                         <option value="C1">C1</option>
                                         <option value="C2">C2</option>
                                     </select>
+                                    <span v-on:click="removeLang(index)" style="cursor:pointer">x</span>
                                 </div>
+
                             </template>
 
 
@@ -329,6 +331,11 @@
                         lang: '',
                         level: '',
                     })
+                }
+            },
+            removeLang(index){
+                if(this.tmpUser.entity.languages.length > 1){
+                    this.tmpUser.entity.languages.splice(index,1);
                 }
             },
             updateInformation() {
