@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="tmpUser.entity">
         <div class="row">
             <div class="col-3">
 
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.gender" id="gender">
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.gender" id="gender">
                             <option value="male">{{ $t('male') }}</option>
                             <option value="female">{{ $t('female') }}</option>
                         </select>
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="col-8">
-                        <input type="number" class="form-control form-control-sm" v-model="user.entity.age" id="age"
+                        <input type="number" class="form-control form-control-sm" v-model="tmpUser.entity.age" id="age"
                                min="18" max="100">
                     </div>
                     <span class="register-form-error" v-if="errors !== null && errors['entity.age'] !== undefined">{{ errors['entity.age'][0] }}</span>
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="col-8">
-                        <input type="number" class="form-control form-control-sm" v-model="user.entity.experience"
+                        <input type="number" class="form-control form-control-sm" v-model="tmpUser.entity.experience"
                                id="experience" min="0" max="100">
                     </div>
                     <span class="register-form-error"
@@ -109,33 +109,42 @@
                 <!-- languages -->
                 <div class="row">
                     <div class="col-4">
-                        <label for="languages" class="form-label col-form-label-sm">{{ $t('languages') }}</label>
+                        <label class="form-label col-form-label-sm">{{ $t('languages') }}</label>
                     </div>
 
-                    <div class="col-6">
-                        <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm"
-                                v-model="user.entity.languages[0].lang" id="languages">
-                            <option value="English">{{ $t('english') }}</option>
-                            <option value="Deutsche">{{ $t('german') }}</option>
-                        </select>
-                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <template v-for="item in tmpUser.entity.languages">
+                                <div class="col-8">
+                                    <select class="form-control form-control-sm"
+                                            v-model="item.lang">
+                                        <option :value="lang.val" v-for="lang in languages">{{ $t(lang.title) }}</option>
+                                    </select>
+                                </div>
 
-                    <div class="col-2">
-                        <select v-if="user.entity.languages.length > 0" class="form-control form-control-sm"
-                                v-model="user.entity.languages[0].level" id="">
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                            <option value="C1">C1</option>
-                            <option value="C2">C2</option>
-                        </select>
+                                <div class="col-4">
+                                    <select class="form-control form-control-sm"
+                                            v-model="item.level">
+                                        <option value="A1">A1</option>
+                                        <option value="A2">A2</option>
+                                        <option value="B1">B1</option>
+                                        <option value="B2">B2</option>
+                                        <option value="C1">C1</option>
+                                        <option value="C2">C2</option>
+                                    </select>
+                                </div>
+                            </template>
+
+
+                            <div class="col-12">
+                                <button class="btn btn-light ms-auto d-block mt-1"
+                                        @click.prevent="addLanguage"
+                                >+</button>
+                            </div>
+                        </div>
                     </div>
-                    <span class="register-form-error"
-                          v-if="errors !== null && errors['entity.languages.0.lang'] !== undefined">{{ errors['entity.languages.0.lang'][0] }}</span>
-                    <span class="register-form-error"
-                          v-if="errors !== null && errors['entity.languages.0.level'] !== undefined">{{ errors['entity.languages.0.level'][0] }}</span>
                 </div>
+
             </div>
 
             <div class="col-4">
@@ -148,7 +157,7 @@
                     </div>
 
                     <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.pref_client_gender"
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.pref_client_gender"
                                 id="pref_client_gender">
                             <option value="no_matter">{{ $t('no_matter') }}</option>
                             <option value="male">{{ $t('male') }}</option>
@@ -168,7 +177,7 @@
                     </div>
 
                     <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.available_care_range"
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.available_care_range"
                                 id="available_care_range">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -191,7 +200,7 @@
                     </div>
 
                     <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.multiple_bookings"
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.multiple_bookings"
                                 id="multiple_bookings">
                             <option value="yes">{{ $t('yes') }}</option>
                             <option value="no">{{ $t('no') }}</option>
@@ -209,7 +218,7 @@
                     </div>
 
                     <div class="col-8">
-                        <select class="form-control form-control-sm" v-model="user.entity.provide_supports"
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.provide_supports"
                                 id="provide_supports" multiple>
                             <option v-for="support in data.provider_supports"
                                     :value="support">
@@ -231,7 +240,7 @@
 
                     <div class="col-8">
 
-                        <select class="form-control form-control-sm" v-model="user.entity.additional_info"
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.additional_info"
                                 id="additional_info" multiple>
                             <option v-for="(info_item, index) in data.additional_info"
                                     :value="info_item">
@@ -254,7 +263,7 @@
                     </div>
 
                     <div class="col-10">
-                            <textarea class="form-control form-control-sm" v-model="user.entity.description"
+                            <textarea class="form-control form-control-sm" v-model="tmpUser.entity.description"
                                       id="description" rows="5">
 
                             </textarea>
@@ -282,37 +291,40 @@
         name: "NurseInfo",
         props: ['user', 'data', 'errors'],
         data() {
-            return {}
+            return {
+                tmpUser: {},
+                languages: [
+                    {
+                        title: 'english',
+                        val: 'English'
+                    },
+                    {
+                        title: 'german',
+                        val: 'Deutsche'
+                    }
+                ]
+            }
         },
         mounted() {
+            this.tmpUser = JSON.parse(JSON.stringify(this.user))
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });
-            console.log(this.user);
         },
         watch: {
-            user: {
-                handler(newValue, oldValue) {
-                    if (this.user.entity.languages.length === 0) {
-                        this.user.entity.languages = [];
-                        let lang = new Object({
-                            lang: '',
-                            level: ''
-                        });
 
-                        this.user.entity.languages.push(lang);
-                    }
-
-                    if (typeof this.user.entity.work_time_pref === "string") {
-                        this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
-                    }
-                },
-                immediate: true
-            },
         },
         methods: {
+            addLanguage() {
+                if(this.tmpUser.entity.languages.length < this.languages.length){
+                    this.tmpUser.entity.languages.push({
+                        lang: '',
+                        level: '',
+                    })
+                }
+            },
             updateInformation() {
-                axios.put('/dashboard/nurse-my-information/' + this.user.id, {'user': this.user})
+                axios.put('/dashboard/nurse-my-information/' + this.user.id, {'user': this.tmpUser})
                     .then((response) => {
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');

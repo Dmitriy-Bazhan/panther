@@ -8,7 +8,6 @@
                 <button class="btn btn-success btn-sm" v-on:click="closeModalNurseListing()">close</button>
             </div>
         </div>
-
     </div>
     <div class="container-fluid nurse-cards-container">
         <div class="row">
@@ -75,86 +74,86 @@
 </template>
 
 <script>
-    import Rate from '../components/Rate';
+import Rate from '../components/Rate';
 
-    export default {
-        name: "NursesListing",
-        props: ['nurses', 'data'],
-        components: {
-            rate: Rate,
-        },
-        data() {
-            return {
-                path: location.origin,
-            }
-        },
-        mounted() {
-            console.log(this.nurses);
-        },
+export default {
+    name: "NursesListing",
+    props: ['nurses', 'data'],
+    components: {
+        rate: Rate,
+    },
+    data() {
+        return {
+            path: location.origin,
+        }
+    },
+    mounted() {
+        console.log(this.nurses);
+    },
 
-        methods: {
-            closeModalNurseListing() {
-                this.emitter.emit('close-modal-nurse-listing');
-            },
-            newPage(url) {
-                this.emitter.emit('get-nurses-new-page', url);
-            },
-            showNurseProfile(nurse, event) {
-                if (event.target.className === 'ti-star') {
-                    console.log(event.target.className);
-                } else {
-                    this.emitter.emit('show-nurse-profile', nurse);
-                }
+    methods: {
+        closeModalNurseListing() {
+            this.emitter.emit('close-modal-nurse-listing');
+        },
+        newPage(url) {
+            this.emitter.emit('get-nurses-new-page', url);
+        },
+        showNurseProfile(nurse, event) {
+            if (event.target.className === 'ti-star') {
+                console.log(event.target.className);
+            } else {
+                this.emitter.emit('show-nurse-profile', nurse);
             }
         }
     }
+}
 </script>
 
 <style scoped>
-    .nurse-cards-container {
-        height: 80%;
-        overflow: auto;
-    }
+.nurse-cards-container {
+    height: 80%;
+    overflow: auto;
+}
 
-    .nurse-cards-wrapper {
-        padding: 10px;
-    }
+.nurse-cards-wrapper {
+    padding: 10px;
+}
 
-    .nurse-card {
-        border: solid 1px black;
-        box-shadow: 10px 5px 5px #afafaf;
-        height: 300px;
-    }
+.nurse-card {
+    border: solid 1px black;
+    box-shadow: 10px 5px 5px #afafaf;
+    height: 300px;
+}
 
-    .nurse-card:hover {
-        box-shadow: 5px 2px 2px #afafaf;
-    }
+.nurse-card:hover {
+    box-shadow: 5px 2px 2px #afafaf;
+}
 
-    .nurse-card-image-wrapper {
-        padding: 10px;
-        height: 180px;
-    }
+.nurse-card-image-wrapper {
+    padding: 10px;
+    height: 180px;
+}
 
-    .nurse-card-image {
-        width: 90%;
-    }
+.nurse-card-image {
+    width: 90%;
+}
 
-    .nurse-card-item {
-        font-size: 14px;
-        font-weight: 600;
-    }
+.nurse-card-item {
+    font-size: 14px;
+    font-weight: 600;
+}
 
-    .nurse-link-wrapper {
-        background: #0a58ca;
-        padding: 10px;
-        margin: 1px;
-    }
+.nurse-link-wrapper {
+    background: #0a58ca;
+    padding: 10px;
+    margin: 1px;
+}
 
-    .nurse-link {
-        cursor: pointer;
-    }
+.nurse-link {
+    cursor: pointer;
+}
 
-    .active-link {
-        color: white;
-    }
+.active-link {
+    color: white;
+}
 </style>
