@@ -306,10 +306,8 @@
             }
         },
         mounted() {
-
             this.tmpUser = this.user;
             this.emitter.on('update-information', e => {
-
                 this.updateInformation();
             });
         },
@@ -322,6 +320,7 @@
                 },
                 immediate: true
             },
+
         },
         methods: {
             addLanguage() {
@@ -347,6 +346,7 @@
                         console.log(error);
                     });
             },
+
         }
     }
 </script>
