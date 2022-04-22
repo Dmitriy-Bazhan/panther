@@ -66,19 +66,19 @@ class NurseRepository
         }
 
         //filter language
-        if (request()->filled('language') && request('language') != 'no_matter') {
+        if (request()->filled('language')) {
             $nurse->whereHas('nurse', function ($query) {
                 return $query->whereHas('languages', function ($query) {
-                    return $query->where('lang', request('language'));
+                    return $query->whereIn('lang', request('language'));
                 });
             });
         }
 
         //filter language_level
-        if (request()->filled('language_level') && request('language_level') != 'no_matter') {
+        if (request()->filled('language_level')) {
             $nurse->whereHas('nurse', function ($query) {
                 return $query->whereHas('languages', function ($query) {
-                    return $query->where('level', request('language_level'));
+                    return $query->whereIn('level', request('language_level'));
                 });
             });
         }

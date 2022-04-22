@@ -97,12 +97,23 @@ class ListingController extends Controller
             return abort(409);
         }
 
+        $clientSearchInfo['language'] = [];
+        $clientSearchInfo['language_level'] = [];
+
+        foreach ($clientSearchInfo['languages'] as $language){
+            $clientSearchInfo['language'][] = $language['val'];
+            $clientSearchInfo['language_level'][] = $language['level'];
+        }
+
+
+
+
         request()->merge([
             'is_approved' => 'yes',
             'provider_supports' => $clientSearchInfo['provider_supports'],
             'degree_of_care_available' => $clientSearchInfo['degree_of_care_available'],
-//            'language' => $clientSearchInfo['language'],
-//            'language_level' => $clientSearchInfo['language_level'],                      //filter
+            'language' => $clientSearchInfo['language'],
+            'language_level' => $clientSearchInfo['language_level'],                      //filter
             'preference_for_the_nurse' => $clientSearchInfo['preference_for_the_nurse'],
             'one_or_regular' => $clientSearchInfo['one_or_regular'],
             'one_time_date' => $clientSearchInfo['one_time_date'],
