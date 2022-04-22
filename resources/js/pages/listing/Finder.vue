@@ -250,10 +250,7 @@
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
                             <div class="pt-finder--form-label--number">3</div>
-                            {{ $t('language_skills') }} -
-
-
-                            {{clientSearchInfo.languages}}
+                            {{ $t('language_skills') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
 
@@ -1095,6 +1092,7 @@ export default {
         },
         addLanguage() {
             if(
+                this.clientSearchInfo.languages &&
                 this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].val &&
                 this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].level &&
                 this.clientSearchInfo.languages.length < this.languageOptions.length
@@ -1105,6 +1103,16 @@ export default {
                         level: '',
                     }
                 )
+                this.activelanguage = this.clientSearchInfo.languages.length - 1
+            }
+
+            if(!this.clientSearchInfo.languages){
+                this.clientSearchInfo.languages = [
+                    {
+                        val: '',
+                        level: '',
+                    }
+                ]
                 this.activelanguage = this.clientSearchInfo.languages.length - 1
             }
         },
