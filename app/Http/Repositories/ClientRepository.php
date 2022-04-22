@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\ClientSearchInfo;
 use App\Models\Nurse;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
@@ -113,8 +114,7 @@ class ClientRepository
                 'disease' => json_encode($clientSearchInfo['disease']),
                 'other_disease' => $clientSearchInfo['other_disease'],
                 'degree_of_care_available' => $clientSearchInfo['degree_of_care_available'],
-                'language' => $clientSearchInfo['language'],
-                'language_level' => $clientSearchInfo['language_level'],
+                'languages' => json_encode($clientSearchInfo['languages']),
                 'do_you_need_help_moving' => $clientSearchInfo['do_you_need_help_moving'],
                 'additional_transportation' => $clientSearchInfo['additional_transportation'],
                 'memory' => $clientSearchInfo['memory'],
@@ -125,7 +125,7 @@ class ClientRepository
                 'areas_help' => $clientSearchInfo['areas_help'],
                 'other_areas' => $clientSearchInfo['other_areas'],
                 'one_or_regular' => $clientSearchInfo['one_or_regular'],
-                'one_time_date' => $clientSearchInfo['one_time_date'],
+                'one_time_date' => Carbon::createFromDate($clientSearchInfo['one_time_date'])->format('Y-m-d'),
                 'regular_time_start_date' => $clientSearchInfo['regular_time_start_date'],
                 'regular_time_finish_date' => $clientSearchInfo['regular_time_finish_date'],
                 'work_time_pref' => json_encode($clientSearchInfo['work_time_pref']),

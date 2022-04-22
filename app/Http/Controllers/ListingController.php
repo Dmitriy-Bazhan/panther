@@ -9,6 +9,7 @@ use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\NurseResource;
 use App\Models\ClientSearchInfo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,8 +63,7 @@ class ListingController extends Controller
             'disease' => 'sometimes',
             'other_disease' => 'sometimes',
             'degree_of_care_available' => 'required|in:0,1,2,3,4,5',  //filter
-            'language' => 'required|in:english,deutsche,no_matter',         //filter
-            'language_level' => 'required|in:A1,A2,B1,B2,C1,C2,no_matter',         //filter
+            'languages' => 'required',         //filter
             'do_you_need_help_moving' => 'required',
             'additional_transportation' => 'required',
             'memory' => 'required',
@@ -87,6 +87,11 @@ class ListingController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
+        if(isset($clientSearchInfo['regular_time_range']) && count($clientSearchInfo['regular_time_range']) > 0){
+            $clientSearchInfo['regular_time_start_date'] = Carbon::createFromDate($clientSearchInfo['regular_time_range'][0])->format('Y-m-d');
+            $clientSearchInfo['regular_time_finish_date'] = Carbon::createFromDate($clientSearchInfo['regular_time_range'][1])->format('Y-m-d');
+        }
+
         if (!$this->clientsRepo->store($clientSearchInfo)) {
             //todo: hmm
             return abort(409);
@@ -96,8 +101,8 @@ class ListingController extends Controller
             'is_approved' => 'yes',
             'provider_supports' => $clientSearchInfo['provider_supports'],
             'degree_of_care_available' => $clientSearchInfo['degree_of_care_available'],
-            'language' => $clientSearchInfo['language'],
-            'language_level' => $clientSearchInfo['language_level'],
+//            'language' => $clientSearchInfo['language'],
+//            'language_level' => $clientSearchInfo['language_level'],                      //filter
             'preference_for_the_nurse' => $clientSearchInfo['preference_for_the_nurse'],
             'one_or_regular' => $clientSearchInfo['one_or_regular'],
             'one_time_date' => $clientSearchInfo['one_time_date'],
