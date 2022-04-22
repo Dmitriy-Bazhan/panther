@@ -46,6 +46,17 @@
             background-color: $highlight;
         }
     }
+
+    &--light{
+        @extend .pt-btn;
+        color: $black;
+        background-color: $light-blue;
+
+        &:hover{
+            color: $white;
+            background-color: $highlight;
+        }
+    }
 }
 
 .pt-simple-input{
@@ -376,4 +387,8 @@
             color: $white;
         }
     }
+}
+
+.pt-disabled{
+    pointer-events: none;
 }

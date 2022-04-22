@@ -248,6 +248,86 @@
                     </div>
 
                     <div class="pt-finder--form-block">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">3</div>
+                            {{ $t('language_skills') }} -
+
+
+                            {{clientSearchInfo.languages}}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+
+                            <div class="pt-finder--form-group"
+                                 v-for="(item, index) in clientSearchInfo.languages">
+                                <div class="pt-row">
+                                    <div class="pt-col-md-6" :class="{'pt-disabled': index !== activelanguage}">
+                                        <p class="pt-form--label">
+                                            {{ $t('language_skills') }}
+                                        </p>
+
+                                        <div class="pt-select">
+                                            <div class="pt-select--icon">
+                                                <pt-icon type="help"></pt-icon>
+                                            </div>
+                                            <v-select :options="filteredOption(languageOptions)"
+                                                      label="title"
+                                                      v-model="item.val"
+                                                      :reduce="(option) => option.val">
+                                                <template #option="{ title }">
+                                                    {{ title }}
+                                                </template>
+
+                                                <template #open-indicator>
+                                                    <span class="pt-select--caret"></span>
+                                                </template>
+                                            </v-select>
+                                        </div>
+                                    </div>
+                                    <div class="pt-col-md-5">
+                                        <p class="pt-form--label">
+                                            {{ $t('language_skills') }}
+                                        </p>
+
+                                        <div class="pt-select">
+                                            <div class="pt-select--icon">
+                                                <pt-icon type="help"></pt-icon>
+                                            </div>
+                                            <v-select :options="languageLevelOptions"
+                                                      label="title"
+                                                      v-model="item.level"
+                                                      :reduce="(option) => option.val">
+                                                <template #option="{ title }">
+                                                    {{ title }}
+                                                </template>
+
+                                                <template #open-indicator>
+                                                    <span class="pt-select--caret"></span>
+                                                </template>
+                                            </v-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-col-md-1">
+                                        <button class="pt-btn--icon" @click.prevent="removeLang(item, index)">
+                                            x
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-finder--form-group">
+                                <div class="pt-row">
+                                    <div class="pt-col-md-12">
+                                        <button class="pt-btn--light pt-md" @click.prevent="addLanguage">
+                                            add language
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
                         <button class="pt-btn--primary pt-md pt-mt-20 pt-m-a"
                                 @click.prevent="setStep(++activeStep)">
                             weiter
@@ -712,36 +792,6 @@
 
                     <div class="container-fluid">
                         <div class="row">
-
-
-                            <div class="col-3">
-                                <!--languages-->
-                                <label class="form-label col-form-label-sm">{{ $t('language_skills') }}</label><br>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <select class="form-control form-control-sm" id="language"
-                                                v-model="clientSearchInfo.language">
-                                            <option value="english">{{ $t('english') }}</option>
-                                            <option value="deutsche">{{ $t('german') }}</option>
-                                            <option value="no_matter">{{ $t('no_matter') }}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <select class="form-control form-control-sm"
-                                                v-model="clientSearchInfo.language_level">
-                                            <option value="A1">A1</option>
-                                            <option value="A2">A2</option>
-                                            <option value="B1">B1</option>
-                                            <option value="B2">B2</option>
-                                            <option value="C1">C1</option>
-                                            <option value="C2">C2</option>
-                                            <option value="no_matter">{{ $t('no_matter') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="col-3">
 
 
@@ -897,8 +947,49 @@ export default {
                 '80-90',
                 '90+',
             ],
+            languageOptions: [
+                {
+                    val: 'english',
+                    title: 'english',
+                },
+                {
+                    val: 'deutsche',
+                    title: 'german',
+                },
+            ],
+            languageLevelOptions: [
+                {
+                    val: 'A1',
+                    title: 'A1',
+                },
+                {
+                    val: 'A2',
+                    title: 'A2',
+                },
+                {
+                    val: 'B1',
+                    title: 'B1',
+                },
+                {
+                    val: 'B2',
+                    title: 'B2',
+                },
+                {
+                    val: 'C1',
+                    title: 'C1',
+                },
+                {
+                    val: 'C2',
+                    title: 'C2',
+                },
+                {
+                    val: 'no_matter',
+                    title: 'no_matter',
+                },
+            ],
 
-            activeStep: 2,
+            activeStep: 1,
+            activelanguage: 0,
             path: location.origin,
             nurses: [],
             nurse: null,
@@ -910,6 +1001,12 @@ export default {
             showRegularCalendar: false,
             url: 'finder/get-nurses-to-listing',
             clientSearchInfo: {
+                languages: [
+                    {
+                        val: '',
+                        level: '',
+                    }
+                ],
                 regular_time_range: [],
                 for_whom: 'for_a_relative',
                 name: '',
@@ -982,6 +1079,35 @@ export default {
         });
     },
     methods: {
+        removeLang(item, index) {
+            this.clientSearchInfo.languages.splice(index, 1)
+            this.activelanguage = this.clientSearchInfo.languages.length - 1
+        },
+        filteredOption(options) {
+            let self = this
+            let result = self.languageOptions.filter(function (item){
+                let tmp = self.clientSearchInfo.languages.find(function (el){
+                    return el.val === item.val
+                })
+                return !tmp
+            })
+            return result
+        },
+        addLanguage() {
+            if(
+                this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].val &&
+                this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].level &&
+                this.clientSearchInfo.languages.length < this.languageOptions.length
+            ){
+                this.clientSearchInfo.languages.push(
+                    {
+                        val: '',
+                        level: '',
+                    }
+                )
+                this.activelanguage = this.clientSearchInfo.languages.length - 1
+            }
+        },
         translateOptions(options) {
             let self = this
             options.forEach(function (item) {
@@ -996,10 +1122,10 @@ export default {
             axios.get('finder/get-client-search-info')
                 .then((response) => {
                     if (response.data.success) {
-                        this.clientSearchInfo = response.data.clientSearchInfo;
-                        this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
-                        this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
-                        this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
+                        //this.clientSearchInfo = response.data.clientSearchInfo;
+                        // this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
+                        // this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
+                        // this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
                     }
                 })
                 .catch((error) => {
