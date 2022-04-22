@@ -306,13 +306,22 @@
             }
         },
         mounted() {
+
             this.tmpUser = this.user;
             this.emitter.on('update-information', e => {
+
                 this.updateInformation();
             });
         },
         watch: {
-
+            user: {
+                handler(newValue, oldValue) {
+                    if (typeof this.user.entity.work_time_pref === "string") {
+                        this.user.entity.work_time_pref = JSON.parse(this.user.entity.work_time_pref);
+                    }
+                },
+                immediate: true
+            },
         },
         methods: {
             addLanguage() {

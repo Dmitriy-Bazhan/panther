@@ -708,7 +708,7 @@
                 </div>
 
 
-                <div class="pt-finder--form-step" v-show="activeStep === 3">
+                <div class="pt-finder--form-step" v-show="activeStep === 2">
 
                     <div class="container-fluid">
                         <div class="row">
