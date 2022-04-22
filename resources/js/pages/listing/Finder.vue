@@ -1011,13 +1011,13 @@ export default {
                 for_whom: 'for_a_relative',
                 name: '',
                 last_name: '',
-                age_range: '',
+                age_range: '20-40',
                 provider_supports: [],
                 disease: [],
                 other_disease: '',
                 degree_of_care_available: 3,
-                language: 'no_matter',
-                language_level: 'no_matter',
+                // language: 'no_matter',
+                // language_level: 'no_matter',
                 do_you_need_help_moving: 'unknown',
                 additional_transportation: 'unknown',
                 memory: 'unknown',
@@ -1122,10 +1122,11 @@ export default {
             axios.get('finder/get-client-search-info')
                 .then((response) => {
                     if (response.data.success) {
-                        //this.clientSearchInfo = response.data.clientSearchInfo;
-                        // this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
-                        // this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
-                        // this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
+                        this.clientSearchInfo = response.data.clientSearchInfo;
+                        this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
+                        this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
+                        this.clientSearchInfo.languages = JSON.parse(this.clientSearchInfo.languages);
+                        this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
                     }
                 })
                 .catch((error) => {
@@ -1188,7 +1189,7 @@ export default {
         closeCalendars() {
             this.showOneTimeCalendar = false;
             this.showRegularCalendar = false;
-        }
+        },
     }
 }
 

@@ -1043,7 +1043,7 @@
   margin-right: auto;
 }
 
-.pt-btn, .pt-btn--primary {
+.pt-btn, .pt-btn--light, .pt-btn--primary {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1059,21 +1059,21 @@
   transition: 0.3s;
   padding: 0 15px;
 }
-.pt-btn:hover, .pt-btn--primary:hover {
+.pt-btn:hover, .pt-btn--light:hover, .pt-btn--primary:hover {
   color: #ffffff;
   background-color: #005eaf;
 }
-.pt-btn:active, .pt-btn--primary:active {
+.pt-btn:active, .pt-btn--light:active, .pt-btn--primary:active {
   color: #6a6a6a;
   background-color: #f1fcff;
 }
-.pt-btn.pt-sm, .pt-sm.pt-btn--primary {
+.pt-btn.pt-sm, .pt-sm.pt-btn--light, .pt-sm.pt-btn--primary {
   max-width: 180px;
 }
-.pt-btn.pt-md, .pt-md.pt-btn--primary {
+.pt-btn.pt-md, .pt-md.pt-btn--light, .pt-md.pt-btn--primary {
   max-width: 200px;
 }
-.pt-btn.pt-lg, .pt-lg.pt-btn--primary {
+.pt-btn.pt-lg, .pt-lg.pt-btn--light, .pt-lg.pt-btn--primary {
   max-width: 220px;
 }
 .pt-btn--primary {
@@ -1081,6 +1081,14 @@
   background-color: #005eaf;
 }
 .pt-btn--primary:hover {
+  color: #ffffff;
+  background-color: #ff9600;
+}
+.pt-btn--light {
+  color: #293335;
+  background-color: #f1fcff;
+}
+.pt-btn--light:hover {
   color: #ffffff;
   background-color: #ff9600;
 }
@@ -1359,6 +1367,10 @@
   font-size: 16px;
   font-weight: 900;
   color: #ffffff;
+}
+
+.pt-disabled {
+  pointer-events: none;
 }
 
 /*!
@@ -11988,7 +12000,7 @@ button {
   color: #005eaf;
   text-decoration: none;
 }
-.pt-form .pt-btn, .pt-form .pt-btn--primary {
+.pt-form .pt-btn, .pt-form .pt-btn--primary, .pt-form .pt-btn--light {
   margin: 0 auto;
 }
 .pt-form--big {
@@ -12005,7 +12017,7 @@ button {
 .pt-form--big .pt-form--group.pt-lg {
   width: 100%;
 }
-.pt-form--big .pt-btn, .pt-form--big .pt-btn--primary {
+.pt-form--big .pt-btn, .pt-form--big .pt-btn--primary, .pt-form--big .pt-btn--light {
   max-width: 300px;
 }
 
@@ -12506,7 +12518,7 @@ button {
 .pt-section-users--slide-footer {
   padding: 20px 0 10px 0;
 }
-.pt-section-users--slide-footer .pt-btn, .pt-section-users--slide-footer .pt-btn--primary {
+.pt-section-users--slide-footer .pt-btn, .pt-section-users--slide-footer .pt-btn--primary, .pt-section-users--slide-footer .pt-btn--light {
   margin: 0 auto;
 }
 .pt-section-users .pt-search-form {
@@ -12621,7 +12633,7 @@ button {
   margin-bottom: 25px;
   padding-right: 190px;
 }
-.pt-section-register--item .pt-btn, .pt-section-register--item .pt-btn--primary {
+.pt-section-register--item .pt-btn, .pt-section-register--item .pt-btn--primary, .pt-section-register--item .pt-btn--light {
   margin-top: auto;
 }
 
