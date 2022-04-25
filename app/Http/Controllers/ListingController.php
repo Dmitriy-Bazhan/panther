@@ -102,7 +102,7 @@ class ListingController extends Controller
         $this->setFilters($clientSearchInfo);
 
         $nurses = $this->nursesRepo->search();
-        $responseNurses = NurseResource::collection($this->nursesRepo->search())->response()->getData();
+        $responseNurses = NurseResource::collection($nurses)->response()->getData();
 
         $filters['prices'] = [
             'min_price' => $nurses->min_price,
