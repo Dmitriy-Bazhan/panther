@@ -36,8 +36,9 @@ class ListingController extends Controller
         return response()->json(['success' => true, 'clientSearchInfo' => $clientSearchInfo]);
     }
 
-    public function getPrivateChats($nurse_id = null){
-        if(is_null($nurse_id) || !is_numeric($nurse_id)){
+    public function getPrivateChats($nurse_id = null)
+    {
+        if (is_null($nurse_id) || !is_numeric($nurse_id)) {
             //todo: logs
             return abort(409);
         }
@@ -87,44 +88,73 @@ class ListingController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        if(isset($clientSearchInfo['regular_time_range']) && count($clientSearchInfo['regular_time_range']) > 0){
+        if (isset($clientSearchInfo['regular_time_range']) && count($clientSearchInfo['regular_time_range']) > 0) {
             $clientSearchInfo['regular_time_start_date'] = Carbon::createFromDate($clientSearchInfo['regular_time_range'][0])->format('Y-m-d');
             $clientSearchInfo['regular_time_finish_date'] = Carbon::createFromDate($clientSearchInfo['regular_time_range'][1])->format('Y-m-d');
         }
 
-        if (!$this->clientsRepo->store($clientSearchInfo)) {
+        $clientSearchInfo = $this->clientsRepo->store($clientSearchInfo);
+        if (!$clientSearchInfo) {
             //todo: hmm
             return abort(409);
         }
 
-        $clientSearchInfo['language'] = [];
-        $clientSearchInfo['language_level'] = [];
+        $this->setFilters($clientSearchInfo);
 
-        foreach ($clientSearchInfo['languages'] as $language){
-            $clientSearchInfo['language'][] = $language['val'];
-            $clientSearchInfo['language_level'][] = $language['level'];
+        $nurses = $this->nursesRepo->search();
+        $responseNurses = NurseResource::collection($this->nursesRepo->search())->response()->getData();
+
+        $filters['prices'] = [
+            'min_price' => $nurses->min_price,
+            'max_price' => $nurses->max_price
+        ];
+
+        return response()->json(['success' => true, 'nurses' => $responseNurses, 'filters' => $filters, 's' => $clientSearchInfo]);
+    }
+
+    public function listingFilterAndSort()
+    {
+
+//        /get-nurses-to-listing-after-sort
+//        {
+//            user_id: user.entity.id,
+//            filters: {
+//                        price: {
+//                            max,
+//                            min
+//                     }
+//            sort: {
+//                  name: (name, price),
+//                  sort: (asc, desc)
+//                  }
+//            }
+//        }
+
+    }
+
+    private function setFilters($clientSearchInfo){
+
+        $searchLang['language'] = [];
+        $searchLang['language_level'] = [];
+
+        foreach (json_decode($clientSearchInfo->languages, true) as $language) {
+            $searchLang['language'][] = $language['val'];
+            $searchLang['language_level'][] = $language['level'];
         }
-
-
-
 
         request()->merge([
             'is_approved' => 'yes',
-            'provider_supports' => $clientSearchInfo['provider_supports'],
-            'degree_of_care_available' => $clientSearchInfo['degree_of_care_available'],
-            'language' => $clientSearchInfo['language'],
-            'language_level' => $clientSearchInfo['language_level'],                      //filter
-            'preference_for_the_nurse' => $clientSearchInfo['preference_for_the_nurse'],
-            'one_or_regular' => $clientSearchInfo['one_or_regular'],
-            'one_time_date' => $clientSearchInfo['one_time_date'],
-            'regular_time_start_date' => $clientSearchInfo['regular_time_start_date'],
-            'regular_time_finish_date' => $clientSearchInfo['regular_time_finish_date'],
-            'work_time_pref' => $clientSearchInfo['work_time_pref'],
+            'provider_supports' => $clientSearchInfo->provider_supports,
+            'degree_of_care_available' => $clientSearchInfo->degree_of_care_available,
+            'language' => $searchLang['language'],
+            'language_level' => $searchLang['language_level'],                      //filter
+            'preference_for_the_nurse' => $clientSearchInfo->preference_for_the_nurse,
+            'one_or_regular' => $clientSearchInfo->one_or_regular,
+            'one_time_date' => $clientSearchInfo->one_time_date,
+            'regular_time_start_date' => $clientSearchInfo->regular_time_start_date,
+            'regular_time_finish_date' => $clientSearchInfo->regular_time_finish_date,
+            'work_time_pref' => json_decode($clientSearchInfo->work_time_pref, true),
         ]);
-
-        $nurses = NurseResource::collection($this->nursesRepo->search())->response()->getData();
-
-        return response()->json(['success' => true, 'nurses' => $nurses]);
     }
 
     public function sendPrivateMessage()

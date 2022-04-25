@@ -147,16 +147,27 @@ class NurseRepository
             if (request()->filled('order_by')) {
 
             } else {
+                if (true) {
+                    $nurse->select('users.*', 'nurse_prices.hourly_payment')
+                        ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
+                    $nurse->orderBy('hourly_payment');
+                } else {
+
 //                default order(info_is_full is hidden var, needed only order)
-                $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
-                    ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
-                $nurse->orderByDesc('info_is_full')->orderByDesc('change_info');
+                    $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
+                        ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
+                    $nurse->orderByDesc('info_is_full')->orderByDesc('change_info');
+                }
             }
         }
 
         $nurse->with('rate');
 
-        return $nurse->paginate(12);
+        $SendNurse = $nurse->paginate(12);
+        $SendNurse->min_price = NursePrice::min('hourly_payment');
+        $SendNurse->max_price = NursePrice::max('hourly_payment');
+
+        return $SendNurse;
     }
 
     public function update($id)
@@ -192,7 +203,7 @@ class NurseRepository
 
         //update lang (remake to foreach, then in future will use some languages)
         NurseLang::where('nurse_id', $data['entity_id'])->delete();
-        foreach ($data['entity']['languages'] as $lang){
+        foreach ($data['entity']['languages'] as $lang) {
             $newLang = new NurseLang();
             $newLang->nurse_id = $data['entity_id'];
             $newLang->lang = $lang['lang'];
