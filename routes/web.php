@@ -53,6 +53,7 @@ Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])
     Route::get('/', [MainPageController::class, 'index']);
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
     Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+    Route::post('/get-nurses-to-listing-after-sort', [ListingController::class, 'listingFilterAndSort']);
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });

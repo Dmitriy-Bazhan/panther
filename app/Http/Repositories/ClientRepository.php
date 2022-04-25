@@ -65,7 +65,8 @@ class ClientRepository
         return true;
     }
 
-    public function uploadPhoto($request, $id){
+    public function uploadPhoto($request, $id)
+    {
         if ($request->file('file')) {
             $file_name = 'original_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
             $thumbnail_name = 'thumbnail_photo_user_' . $id . '_' . $request->file('file')->getClientOriginalName();
@@ -131,6 +132,10 @@ class ClientRepository
                 'work_time_pref' => json_encode($clientSearchInfo['work_time_pref']),
             ]);
 
-        return $success;
+        if ($success) {
+            return $success;
+        } else {
+            return false;
+        }
     }
 }
