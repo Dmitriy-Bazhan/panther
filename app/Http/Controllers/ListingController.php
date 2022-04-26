@@ -99,7 +99,7 @@ class ListingController extends Controller
             return abort(409);
         }
 
-        $this->setFilters($clientSearchInfo);
+        $this->setFiltersForFindNurse($clientSearchInfo);
 
         $nurses = $this->nursesRepo->search();
         $responseNurses = NurseResource::collection($nurses)->response()->getData();
@@ -109,7 +109,7 @@ class ListingController extends Controller
             'max_price' => $nurses->max_price
         ];
 
-        return response()->json(['success' => true, 'nurses' => $responseNurses, 'filters' => $filters, 's' => $clientSearchInfo]);
+        return response()->json(['success' => true, 'nurses' => $responseNurses, 'filters' => $filters]);
     }
 
     public function listingFilterAndSort()
@@ -132,7 +132,7 @@ class ListingController extends Controller
 
     }
 
-    private function setFilters($clientSearchInfo){
+    private function setFiltersForFindNurse($clientSearchInfo){
 
         $searchLang['language'] = [];
         $searchLang['language_level'] = [];
