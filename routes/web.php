@@ -19,6 +19,7 @@ use App\Http\Controllers\Clients\ClientPaymentsController;
 use App\Http\Controllers\Clients\ClientMyInformationController;
 
 use App\Http\Controllers\Nurses\NurseDashboardController;
+use App\Http\Controllers\Nurses\NurseController;
 use App\Http\Controllers\Nurses\NursesMyInformationController;
 use App\Http\Controllers\Nurses\NursesPaymentsController;
 use App\Http\Controllers\Nurses\NursesMessageController;
@@ -41,7 +42,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
-Route::get('/nurse/{id}', [MainPageController::class, 'index']);
+Route::get('/get-nurse-profile/{id}', [NurseController::class, 'show'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
 Route::post('/set-user-rate', [MainPageController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
