@@ -58,7 +58,12 @@ class NurseController extends Controller
         }
         $nurse = $nurses->first();
 
-        return response()->json(['success' => true, 'nurse' => new NurseResource($nurse) ]);
+        if(request()->ajax()){
+            return response()->json(['success' => true, 'nurse' => new NurseResource($nurse) ]);
+        }else{
+            return response()->json(['success' => true]);
+        }
+
     }
 
     /**
