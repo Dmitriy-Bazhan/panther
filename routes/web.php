@@ -58,6 +58,10 @@ Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
 
+//default redirect when listing page reload
+Route::get('/listing', function (){
+    return redirect()->to(url('/finder'));
+});
 
 /*
  *booking
