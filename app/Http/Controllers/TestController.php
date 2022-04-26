@@ -48,7 +48,7 @@ class TestController extends Controller
         return view('test', $data);
     }
 
-    public function getNurseWorkCalendar($date = '2022-04-26')
+    public function getNurseWorkCalendar($date = '2022-04-01')
     {
         $nurse = User::where('id', 101)->first();
         $bookings = Booking::where('nurse_user_id', 101)->whereIn('status', ['approved', 'in_process'])->with('time')->get();
@@ -117,7 +117,7 @@ class TestController extends Controller
                                         $timeCalendar[$weekDay][$time] = "0";
                                     }
                                 }
-                                if($weekDay > $lastDay){
+                                if($weekDay >= $lastDay){
                                     break 2;
                                 }
                             }
