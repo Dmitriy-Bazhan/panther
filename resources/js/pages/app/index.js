@@ -20,6 +20,8 @@ export default {
         'response-success-true': ResponseSuccessTrue,
     },
     mounted() {
+        this.$store.commit('initStore', this.user)
+
         this.emitter.on('response-success-true', e => {
             this.response_success_true = true;
             setTimeout(() => {

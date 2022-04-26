@@ -9,6 +9,7 @@ import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
 import Finder from '../pages/listing/Finder';
 import Listing from '../pages/listing/Listing';
+import NurseProfile from '../pages/listing/NurseProfile';
 import Booking from '../pages/booking/index';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
@@ -69,6 +70,13 @@ const routes = [
         name: 'Listing',
         component: Listing,
         props: true,
+    },
+    {
+        path: '/nurse/:id',
+        component: NurseProfile,
+        children: [
+            { path: '', component: NurseProfile },
+        ],
     },
     {
         path: "/send-booking-message",

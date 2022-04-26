@@ -9,6 +9,7 @@ import AboutBlock from './PageBlocks/AboutBlock';
 import BenefitsBlock from './PageBlocks/BenefitsBlock';
 import InfoBlock from './PageBlocks/InfoBlock';
 
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
 import vSelect from "vue-select";
@@ -82,6 +83,15 @@ if (window.dashboard === 'dashboard') {
                 .catch((error) => {
                     console.log(error);
                 });
+
+            Vue.use(VueGoogleMaps, {
+                load: {
+                    key: '',
+                    libraries: "places"
+                },
+                autobindAllEvents: true,
+            })
+
             Vue.use(i18n);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);

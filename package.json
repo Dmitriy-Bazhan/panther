@@ -28,6 +28,8 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
+        "@fawmi/vue-google-maps": "^0.9.67",
+        "@vueform/slider": "^2.0.9",
         "@vuepic/vue-datepicker": "^3.1.0",
         "alpine": "^0.2.1",
         "alpinejs": "^3.9.0",
@@ -42,7 +44,6 @@
         "vue-i18n": "^9.1.9",
         "vue-select": "^4.0.0-beta.3",
         "vue-universal-modal": "^1.1.3",
-        "vue3-google-map": "^0.10.0",
         "vuex": "^4.0.2"
     }
 }

@@ -1,60 +1,64 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <h4>List of nurses by search results</h4>
-            </div>
-            <div class="col-1 offset-7">
-                <button class="btn btn-success btn-sm" v-on:click="closeModalNurseListing()">close</button>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid nurse-cards-container">
-        <div class="row">
-            <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="col-4 nurse-cards-wrapper">
-                <div class="nurse-card" v-on:click="showNurseProfile(nurse, $event)">
-                    <div class="row">
-                        <div class="col-7">
-                            <div>
-                                <div class="nurse-card-item">name: {{ nurse.first_name }}</div>
-                                <div class="nurse-card-item">last_name: {{ nurse.last_name }}</div>
-                                <div class="nurse-card-item">age: {{ nurse.entity.age }}</div>
-                                <div class="nurse-card-item">price: {{ nurse.entity.price.hourly_payment }}</div>
-                                <div class="nurse-card-item">distance: distance</div>
-
+    <div class="pt-listing">
+        <filters :filters="filters"></filters>
+        <div class="pt-list--wrapper">
+            <div class="pt-list">
+                <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="">
+                    <div class="pt-card">
+                        <div class="pt-card--inner">
+                            <div class="pt-card--preview">
+                                <div class="pt-card--preview-img">
+                                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                                         @error="$event.target.src=path + '/images/no-photo.jpg'">
+                                </div>
+                                <div class="pt-card--preview-rate">
+                                    <rate :user="nurse"></rate>
+                                </div>
+                            </div>
+                            <div class="pt-card--info">
+                                <div class="pt-card--info-top">
+                                    <div class="pt-card--info-general">
+                                        <div class="pt-card--info-name">
+                                            - {{ nurse.first_name }} - {{ nurse.last_name }}
+                                        </div>
+                                        <div class="pt-card--info-age">
+                                            {{ nurse.entity.age }} Jahre Alt
+                                        </div>
+                                        <div class="pt-card--info-price">
+                                            €{{ nurse.entity.price.hourly_payment }}/stunde
+                                        </div>
+                                    </div>
+                                    <div class="pt-card--info-list">
+                                        <div class="pt-card--info-list--item" v-for="n in 4">
+                                            <pt-icon type="pin"></pt-icon>
+                                            <div class="">
+                                                <div class="pt-card--info-list--item-title">
+                                                    Ort:
+                                                </div>
+                                                <div class="pt-card--info-list--item-text">
+                                                    12345 Berlin
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-card--info-bottom">
+                                    <div class="pt-card--info-descr">
+                                        {{ nurse.entity.description }}
+                                    </div>
+                                    <a href="" class="pt-btn--primary pt-sm"
+                                       @click.prevent="showNurseProfile(nurse)">
+                                        Kontakt
+                                    </a>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="col-5 nurse-card-image-wrapper">
-                            <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
-                                 @error="$event.target.src=path + '/images/no-photo.jpg'"
-                                 class="nurse-card-image">
-
-                            <div>
-                                <rate :user="nurse"></rate>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div>description: {{ nurse.entity.description }}</div>
-                        </div>
-
                     </div>
                 </div>
             </div>
-
-        </div>
-
-
-    </div>
-    <br>
-    <div v-if="nurses.meta.links.length > 3" class="container-fluid">
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
+            <div v-if="nurses.meta.links.length > 3" class="container-fluid">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
             <span v-if="nurses.meta.links.length > 0" v-for="link in nurses.meta.links" class="nurse-link-wrapper">
                 <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
                      preview
@@ -68,6 +72,8 @@
                     {{ link.label }}
                 </span>
             </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -75,35 +81,29 @@
 
 <script>
 import Rate from '../components/Rate';
+import Filters from './Filters';
 
 export default {
     name: "NursesListing",
-    props: ['nurses', 'data'],
+    props: ['nurses', 'data', 'filters'],
     components: {
         rate: Rate,
+        filters: Filters,
     },
     data() {
         return {
             path: location.origin,
+            nurse: false,
+            showModalNurseProfile: false
         }
     },
     mounted() {
-        console.log(this.nurses);
+
     },
 
     methods: {
-        closeModalNurseListing() {
-            this.emitter.emit('close-modal-nurse-listing');
-        },
-        newPage(url) {
-            this.emitter.emit('get-nurses-new-page', url);
-        },
-        showNurseProfile(nurse, event) {
-            if (event.target.className === 'ti-star') {
-                console.log(event.target.className);
-            } else {
-                this.emitter.emit('show-nurse-profile', nurse);
-            }
+        showNurseProfile(nurse) {
+            this.$router.push({ path: `/nurse/${nurse.id}` })
         }
     }
 }

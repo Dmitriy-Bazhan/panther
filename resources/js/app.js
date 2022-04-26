@@ -4,6 +4,7 @@ require('alpinejs');
 import * as Vue from 'vue';
 
 import App from './pages/app/index';
+import Store from './store/store';
 import publicRouter from './routes/router';
 import adminRouter from './routes/admin-router';
 import clientRouter from './routes/client-router';
@@ -36,6 +37,7 @@ if (window.dashboard === 'dashboard') {
 } else {
     const app = Vue.createApp({});
     app.component('app', App);
+    app.use(Store)
     app.use(Components);
     app.use(publicRouter);
     app.config.globalProperties.emitter = emitter;
