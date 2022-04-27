@@ -33,6 +33,10 @@ class NurseRepository
             $nurse->where('id', $id);
         }
 
+        //needed joins for work filters and sort
+        $nurse->select('users.*', 'nurse_prices.hourly_payment')
+            ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
+
         //get nurses to admin/nurses list
 //        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
 //            $nurse->whereHas('nurse', function ($query) {
@@ -55,15 +59,6 @@ class NurseRepository
                 });
             });
         }
-
-        //filter provider_support
-//        if (request()->filled('provider_supports')) {
-//            $nurse->whereHas('nurse', function ($query) {
-//                return $query->whereHas('provideSupports', function ($query) {
-//                    return $query->where('support_id', request('provider_supports'));
-//                });
-//            });
-//        }
 
         //filter degree_of_care_available
         if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {
@@ -142,16 +137,27 @@ class NurseRepository
             }
         }
 
+        //filter price
+
+
+        if (request()->filled('filter_price') && is_array(request('filter_price'))) {
+            $nurse->where('hourly_payment', '>=', request('filter_price')[0])
+                ->where('hourly_payment', '<=', request('filter_price')[1]);
+        }
+
         //order (only for some nurses)
         if (is_null($id)) {
             if (request()->filled('order_by')) {
 
             } else {
-                if (true) {
-                    $nurse->select('users.*', 'nurse_prices.hourly_payment')
-                        ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
-                    $nurse->orderBy('hourly_payment');
-                } else {
+                if (request()->filled('sort_name') && request('sort_name') == 'price') {
+                    $nurse->orderBy('hourly_payment', request('sort_direction'));
+                }elseif (request()->filled('sort_name') && request('sort_name') == 'name') {
+                    $nurse->orderBy('last_name', request('sort_direction'));
+                }
+
+
+                else {
 
 //                default order(info_is_full is hidden var, needed only order)
                     $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
