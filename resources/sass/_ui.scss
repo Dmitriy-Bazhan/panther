@@ -407,6 +407,13 @@
     pointer-events: none;
 }
 
+.pt-preloader--container{
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .pt-card{
     &--inner{
         display: flex;

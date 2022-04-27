@@ -1,6 +1,7 @@
 import Icon from './Icon/Icon';
 import Input from './Input/Input';
 import Accordeon from './Accordeon/Accordeon';
+import Preloader from './Preloader/Preloader';
 
 import MainSlider from './PageBlocks/HeadBlock';
 import MainUsers from './PageBlocks/UsersBlock';
@@ -93,6 +94,7 @@ if (window.dashboard === 'dashboard') {
             })
 
             Vue.use(i18n);
+            Vue.component('pt-preloader', Preloader);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);
             Vue.component('pt-accordeon', Accordeon);

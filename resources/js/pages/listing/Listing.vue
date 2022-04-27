@@ -5,13 +5,7 @@
                 <span>Suchen</span>
             </p>
             <h2 class="pt-title">
-                LISTING - {{sort}}
-            </h2>
-            <h2 class="pt-title">
-                Sort - {{sort}}
-            </h2>
-            <h2 class="pt-title">
-                Filter - {{filter}}
+                LISTING
             </h2>
 
             <div v-if="nurses" class="pt-listing">
@@ -31,7 +25,7 @@
                         </v-select>
                     </div>
 
-                    <div class="pt-list">
+                    <div v-show="!load" class="pt-list">
                         <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="">
                             <div class="pt-card">
                                 <div class="pt-card--inner">
@@ -86,6 +80,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="pt-preloader--container" v-show="load">
+                        <pt-preloader></pt-preloader>
+                    </div>
+
                     <div v-if="nurses.meta.links.length > 3" class="container-fluid">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center">
@@ -123,6 +122,7 @@ export default {
     },
     data() {
         return {
+            load: false,
             nurses: false,
             filters: false,
             path: location.origin,
@@ -175,11 +175,7 @@ export default {
         filterStart(filters) {
             let self = this
             self.filter = filters
-            console.log({
-                user_id: this.$store.state.user.entity_id,
-                filters: self.filter,
-                sort: self.sort,
-            })
+            self.load = true
 
             axios.post('/finder/get-nurses-to-listing-after-sort', {
                 user_id: this.$store.state.user.entity_id,
@@ -187,7 +183,8 @@ export default {
                 sort: self.sort,
             })
                 .then((response) => {
-                    console.log(response.data)
+                    self.nurses = response.data.nurses
+                    self.load = false
                 })
                 .catch((error) => {
                     console.log(error);
