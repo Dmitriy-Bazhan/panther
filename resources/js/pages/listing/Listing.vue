@@ -33,8 +33,14 @@ export default {
 
         axios.get('/listing/' + this.$store.state.user.entity_id)
             .then((response) => {
-                self.nurses = response.data.nurses
-                self.filters = response.data.filters
+                console.log(response.data)
+                // if(response.data.success && response.data.nurses.data.length > 0){
+                //     self.nurses = response.data.nurses
+                //     self.filters = response.data.filters
+                // }
+                // else{
+                //     self.$router.push({ name: 'Finder' })
+                // }
             })
             .catch((error) => {
                 console.log(error);

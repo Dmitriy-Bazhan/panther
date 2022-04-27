@@ -303,10 +303,10 @@
             padding: 0;
         }
 
-        .vs__selected{
-            height: 100%;
-            padding: 0 0 0 20px;
-            margin: 0 0 0 0;
+        .vs__dropdown-option{
+            &.vs__dropdown-option--selected{
+                background-color: $light-gray;
+            }
         }
 
         .vs__search{
@@ -315,6 +315,20 @@
 
         .vs__actions{
             padding: 4px 10px 0 0;
+        }
+
+        &.vs--single{
+            .vs__selected{
+                height: 100%;
+                padding: 0 0 0 20px;
+                margin: 0 0 0 0;
+            }
+        }
+
+        &.vs--multiple{
+            .vs__selected{
+                margin: 2px;
+            }
         }
     }
 }

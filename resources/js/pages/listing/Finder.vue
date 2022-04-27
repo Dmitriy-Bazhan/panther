@@ -179,7 +179,7 @@
                                     <div class="pt-select--icon">
                                         <pt-icon type="help"></pt-icon>
                                     </div>
-                                    <v-select :options="translateOptions(data.provider_supports)"
+                                    <v-select multiple :options="translateOptions(data.provider_supports)"
                                               label="title"
                                               v-model="clientSearchInfo.provider_supports"
                                               :reduce="(option) => option.id">
@@ -735,7 +735,7 @@
 
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
-                            <div class="pt-finder--form-label--number">8</div>
+                            <div class="pt-finder--form-label--number">9</div>
                             {{ $t('areas_help') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
@@ -1017,7 +1017,7 @@ export default {
                     title: 'no_matter',
                 },
             ],
-            activeStep: 2,
+            activeStep: 0,
             activelanguage: 0,
             path: location.origin,
             nurses: [],
@@ -1170,6 +1170,7 @@ export default {
             axios.get('finder/get-client-search-info')
                 .then((response) => {
                     if (response.data.success) {
+                        console.log(response.data.clientSearchInfo)
                         this.clientSearchInfo = response.data.clientSearchInfo;
                         this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
                         this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
@@ -1183,6 +1184,7 @@ export default {
         },
 
         saveClientInfo() {
+            console.log(this.clientSearchInfo)
             this.closeCalendars();
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
