@@ -103,12 +103,12 @@ class ListingController extends Controller
 
     public function getNursesToListing($id)
     {
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             //todo:hmm
             abort(409);
         }
 
-        if(!$clientSearchInfo = ClientSearchInfo::where('client_id', $id)->first()){
+        if (!$clientSearchInfo = ClientSearchInfo::where('client_id', $id)->first()) {
             //todo:hmm
             return response()->json(['success' => false]);
         }
@@ -128,22 +128,38 @@ class ListingController extends Controller
 
     public function listingFilterAndSort()
     {
+        $data = request()->post();
+        if(!is_numeric($data['user_id'])){
+            //todo::hmm
+            return abort(409);
+        }
 
-//        /get-nurses-to-listing-after-sort
-//        {
-//            user_id: user.entity.id,
-//            filters: {
-//                        price: {
-//                            max,
-//                            min
-//                     }
-//            sort: {
-//                  name: (name, price),
-//                  sort: (asc, desc)
-//                  }
-//            }
-//        }
+        if (!$clientSearchInfo = ClientSearchInfo::where('client_id', $data['user_id'])->first()) {
+            //todo:hmm
+            return response()->json(['success' => false]);
+        }
 
+        $this->setFiltersForFindNurse($clientSearchInfo);
+
+        if($data['sort'] !== false){
+            request()->merge([
+                'sort_name' => $data['sort']['name'],
+                'sort_direction' => $data['sort']['val'],
+            ]);
+        }
+
+        if($data['filters'] !== false){
+            if(isset($data['filters']['price']) && is_array($data['filters']['price'])){
+                request()->merge([
+                    'filter_price' => $data['filters']['price']
+                ]);
+            }
+        }
+
+        $nurses = $this->nursesRepo->search();
+        $responseNurses = NurseResource::collection($nurses)->response()->getData();
+
+        return response()->json(['success' => true, 's' => $data, 'nurses' => $responseNurses]);
     }
 
     private function setFiltersForFindNurse($clientSearchInfo)
