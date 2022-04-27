@@ -48,7 +48,7 @@ class ListingController extends Controller
 
     }
 
-    public function getNursesToListing()
+    public function saveClientSearchInfo()
     {
         if (!auth()->user()->is_client) {
             return abort(409);
@@ -98,6 +98,20 @@ class ListingController extends Controller
             //todo: hmm
             return abort(409);
         }
+        return response()->json(['success' => true]);
+    }
+
+    public function getNursesToListing($id)
+    {
+        if(!is_numeric($id)){
+            //todo:hmm
+            abort(409);
+        }
+
+        if(!$clientSearchInfo = ClientSearchInfo::where('client_id', $id)->first()){
+            //todo:hmm
+            return response()->json(['success' => false]);
+        }
 
         $this->setFiltersForFindNurse($clientSearchInfo);
 
@@ -132,7 +146,8 @@ class ListingController extends Controller
 
     }
 
-    private function setFiltersForFindNurse($clientSearchInfo){
+    private function setFiltersForFindNurse($clientSearchInfo)
+    {
 
         $searchLang['language'] = [];
         $searchLang['language_level'] = [];

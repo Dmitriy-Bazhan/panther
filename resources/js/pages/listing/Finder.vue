@@ -812,7 +812,7 @@
                     </div>
 
                     <div class="pt-finder--form-block pt-mt-20">
-                        <button class="pt-btn--primary pt-md pt-m-a" v-on:click="findNeedNurses()">
+                        <button class="pt-btn--primary pt-md pt-m-a" v-on:click="saveClientInfo()">
                             {{ $t('find') }}
                         </button>
                     </div>
@@ -902,7 +902,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-2 offset-10">
-                                <button class="btn btn-success btn-sm" v-on:click="findNeedNurses()">{{
+                                <button class="btn btn-success btn-sm" v-on:click="saveClientInfo()">{{
                                         $t('find')
                                     }}
                                 </button>
@@ -1029,7 +1029,7 @@ export default {
             showModalNurseProfile: false,
             showOneTimeCalendar: false,
             showRegularCalendar: false,
-            url: 'finder/get-nurses-to-listing',
+            url: 'finder/save-client-search-info',
             clientSearchInfo: {
                 languages: [
                     {
@@ -1096,7 +1096,7 @@ export default {
         this.emitter.on('get-nurses-new-page', url => {
             if (url !== null) {
                 this.url = url;
-                this.findNeedNurses();
+                this.saveClientInfo();
             }
 
         });
@@ -1183,19 +1183,19 @@ export default {
                 });
         },
 
-        findNeedNurses() {
+        saveClientInfo() {
             this.closeCalendars();
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
                         this.emitter.emit('response-success-true');
                         this.errors = null;
-                        this.nurses = response.data.nurses;
+                        // this.nurses = response.data.nurses;
                         this.showModalNursesListing = true;
 
                         this.$router.push({ name: 'Listing', params: {
-                            data: JSON.stringify(response.data.nurses),
-                            filters: JSON.stringify(response.data.filters)
+                            // data: JSON.stringify(response.data.nurses),
+                            // filters: JSON.stringify(response.data.filters)
                             } })
                     } else {
                         this.errors = response.data.errors;

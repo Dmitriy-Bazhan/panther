@@ -55,16 +55,14 @@ Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->m
 Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
     Route::get('/get-client-search-info', [ListingController::class, 'getClientSearchInfo']);
-    Route::post('/get-nurses-to-listing', [ListingController::class, 'getNursesToListing']);
+    Route::post('/save-client-search-info', [ListingController::class, 'saveClientSearchInfo']);
     Route::post('/get-nurses-to-listing-after-sort', [ListingController::class, 'listingFilterAndSort']);
     Route::post('send-private-message', [ListingController::class, 'sendPrivateMessage']);
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
 
-//default redirect when listing page reload
-Route::get('/listing', function (){
-    return redirect()->to(url('/finder'));
-});
+Route::get('/listing/{id}', [ListingController::class, 'getNursesToListing']);
+Route::get('/listing', [MainPageController::class, 'index']);
 
 /*
  *booking
