@@ -1,6 +1,6 @@
 <template>
     <div class="pt-listing">
-        <filters :filters="filters"></filters>
+        <filters :filters="filters" @filter="filterStart"></filters>
         <div class="pt-list--wrapper">
             <div class="pt-list">
                 <div v-if="nurses.data.length > 0" v-for="nurse in nurses.data" class="">
@@ -104,6 +104,24 @@ export default {
     methods: {
         showNurseProfile(nurse) {
             this.$router.push({ path: `/nurse/${nurse.id}` })
+        },
+        filterStart(filters) {
+            console.log(filters)
+
+            // /get-nurses-to-listing-after-sort
+            // {
+            //     user_id: user.entity.id,
+            //         filters: {
+            //     price: {
+            //         max,
+            //             min
+            //     }
+            //     sort: {
+            //         name: (name, price),
+            //             sort: (asc, desc)
+            //     }
+            // }
+            // }
         }
     }
 }

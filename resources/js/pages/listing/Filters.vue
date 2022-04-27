@@ -1,21 +1,22 @@
 <template>
     <div class="pt-filters">
+        <div class="pt-btn--primary" @click.prevent="filter">Neue suche</div>
         <div class="pt-filter">
             <div class="pt-filter--inner">
                 <div class="pt-filter--title">
                     Preis
                 </div>
                 <div class="pt-range--slider">
-                    <Slider v-model="priceValue"
+                    <Slider v-model="filtersSettings.price"
                             :min="filters.prices.min_price"
                             :max="filters.prices.max_price"
                             tooltipPosition="bottom"
                             :format="format"
                     />
                     <div class="pt-range--slider-values">
-                        <span>€{{priceValue[0]}}</span>
+                        <span>€{{filtersSettings.price[0]}}</span>
                         -
-                        <span>€{{priceValue[1]}}</span>
+                        <span>€{{filtersSettings.price[1]}}</span>
                     </div>
                 </div>
             </div>
@@ -35,15 +36,22 @@ export default {
     props: ['filters'],
     data() {
         return {
-            priceValue: [0, 0],
+            filtersSettings: {
+                price: [0, 0],
+            },
             format: function (value) {
                 return `€${Math.round(value)}`
             },
         }
     },
     mounted() {
-        this.priceValue[0] = this.filters.prices.min_price
-        this.priceValue[1] = this.filters.prices.max_price
+        this.filtersSettings.price[0] = this.filters.prices.min_price
+        this.filtersSettings.price[1] = this.filters.prices.max_price
+    },
+    methods: {
+        filter(){
+            this.$emit('filter', this.filtersSettings)
+        }
     }
 }
 </script>
