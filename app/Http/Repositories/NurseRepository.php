@@ -57,13 +57,13 @@ class NurseRepository
         }
 
         //filter provider_support
-        if (request()->filled('provider_supports')) {
-            $nurse->whereHas('nurse', function ($query) {
-                return $query->whereHas('provideSupports', function ($query) {
-                    return $query->where('support_id', request('provider_supports'));
-                });
-            });
-        }
+//        if (request()->filled('provider_supports')) {
+//            $nurse->whereHas('nurse', function ($query) {
+//                return $query->whereHas('provideSupports', function ($query) {
+//                    return $query->where('support_id', request('provider_supports'));
+//                });
+//            });
+//        }
 
         //filter degree_of_care_available
         if (request()->filled('degree_of_care_available') && is_numeric(request('degree_of_care_available'))) {

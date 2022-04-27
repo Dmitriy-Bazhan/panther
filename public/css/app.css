@@ -1300,16 +1300,22 @@
   background-color: transparent;
   padding: 0;
 }
-.pt-select .v-select .vs__selected {
-  height: 100%;
-  padding: 0 0 0 20px;
-  margin: 0 0 0 0;
+.pt-select .v-select .vs__dropdown-option.vs__dropdown-option--selected {
+  background-color: #edf6f8;
 }
 .pt-select .v-select .vs__search {
   padding: 0 0 0 20px;
 }
 .pt-select .v-select .vs__actions {
   padding: 4px 10px 0 0;
+}
+.pt-select .v-select.vs--single .vs__selected {
+  height: 100%;
+  padding: 0 0 0 20px;
+  margin: 0 0 0 0;
+}
+.pt-select .v-select.vs--multiple .vs__selected {
+  margin: 2px;
 }
 
 .lang-btns {
