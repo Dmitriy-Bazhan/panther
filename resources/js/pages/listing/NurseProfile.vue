@@ -8,15 +8,58 @@
                 LISTING
             </h2>
 
+            <div class="pt-row">
+                <div class="pt-col-md-6">
+                    <div class="pt-profile--head">
+                        <div class="pt-profile--head-avatar">
+                            <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
+                                 @error="$event.target.src=path + '/images/no-photo.jpg'">
+                        </div>
+                        <div class="pt-profile--head-info">
+                            <div class="pt-profile--head-top">
+                                <rate :user="nurse"></rate>
+                                <div class="pt-profile--name">
+                                    {{ nurse.first_name }} {{ nurse.last_name }}
+                                </div>
+                                <div class="pt-profile--age">
+                                    {{ nurse.entity.age }} Jahre Alt
+                                </div>
+                                <div class="pt-profile--price">
+                                    €{{ nurse.entity.price.hourly_payment }}/stunde
+                                </div>
+                            </div>
+                            <div class="pt-profile--head-bottom">
+                                <button class="pt-btn pt-sm">
+                                    Buchung
+                                </button>
+                                <button class="pt-btn pt-sm">
+                                    chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-profile--list">
+                        <div class="pt-profile--list-item" v-for="n in 4">
+                            <pt-icon type="pin"></pt-icon>
+                            <div class="">
+                                <div class="pt-profile--list-item-title">
+                                    Ort:
+                                </div>
+                                <div class="pt-profile--list-item-text">
+                                    12345 Berlin
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-7">
                     <div>
-                        <div class="nurse-profile-item">{{ $t('name') }}: {{ nurse.first_name }}</div>
-                        <div class="nurse-profile-item">{{ $t('last_name') }}: {{ nurse.last_name }}</div>
-                        <div class="nurse-profile-item">{{ $t('age') }}: {{ nurse.entity.age }}</div>
+
                         <div class="nurse-profile-item">{{ $t('gender') }}: {{ nurse.entity.gender }}</div>
                         <div class="nurse-profile-item">{{ $t('experience') }}: {{ nurse.entity.experience }}</div>
-                        <div class="nurse-profile-item">{{ $t('price') }}: {{ nurse.entity.price.hourly_payment }}</div>
                         <div class="nurse-profile-item">{{ $t('distance') }}: distance</div>
 
                         <div class="nurse-profile-item">{{ $t('provide_supports') }}:</div>
@@ -29,16 +72,6 @@
                             . {{ filterAdditionalInfo(additional_info.id) }}
                         </div>
 
-                    </div>
-                </div>
-
-                <div class="col-5 nurse-profile-image-wrapper">
-                    <img v-bind:src="path + '/storage/' + nurse.entity.original_photo" alt="no-photo"
-                         @error="$event.target.src=path + '/images/no-photo.jpg'"
-                         class="nurse-profile-image">
-
-                    <div>
-                        <rate :user="nurse"></rate>
                     </div>
                 </div>
 
@@ -162,7 +195,7 @@ export default {
     },
     methods: {
         sendToBookings() {
-            window.open('booking/' + this.nurse.id);
+            window.open('/booking/' + this.nurse.id);
         },
         getPrivateChats() {
             axios.get('/finder/get-private-chats/' + this.nurse.id)
