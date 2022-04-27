@@ -26,6 +26,11 @@ $green: #00b350;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
+:root {
+    --slider-height: 4px;
+    --slider-handle-width: 20px;
+    --slider-handle-height: 20px;
+}
 
 // sizes
 $width-max: 1500px;

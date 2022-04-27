@@ -8,7 +8,7 @@
                 LISTING
             </h2>
 
-            <nurses-listing v-if="nurses" :nurses="nurses"></nurses-listing>
+            <nurses-listing v-if="nurses" :nurses="nurses" :filters="filters"></nurses-listing>
         </div>
     </div>
 </template>
@@ -21,16 +21,16 @@ export default {
     name: "Listing",
     components: {
         'nurses-listing': NursesListing,
-        'nurses-profile': NurseProfile,
     },
     data(){
         return {
-            nurses: false
+            nurses: false,
+            filters: false,
         }
     },
     mounted() {
-        //console.log()
         this.nurses = JSON.parse(this.$route.params.data)
+        this.filters = JSON.parse(this.$route.params.filters)
     }
 }
 </script>

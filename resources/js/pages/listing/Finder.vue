@@ -220,6 +220,40 @@
                                 <p class="pt-form--label">
                                     {{ $t('is_degree_of_care') }}
                                 </p>
+                                <div class="pt-input">
+                                    <div class="pt-input--icon">
+                                        <pt-icon type="pin"></pt-icon>
+                                    </div>
+                                    <GMapAutocomplete
+                                        class="pt-input"
+                                        placeholder="This is a placeholder"
+                                        @place_changed="setPlace"
+                                    >
+                                    </GMapAutocomplete>
+                                    <div class="pt-input--box"></div>
+                                </div>
+                            </div>
+                            <div class="pt-finder--form-group">
+                                <GMapMap
+                                    class="map"
+                                    :center="{lat: 51.093048, lng: 6.842120}"
+                                    :zoom="7"
+                                >
+                                </GMapMap>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">2</div>
+                            {{ $t('what_support_looking') }}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+                            <div class="pt-finder--form-group">
+                                <p class="pt-form--label">
+                                    {{ $t('is_degree_of_care') }}
+                                </p>
 
                                 <div class="pt-select">
                                     <div class="pt-select--icon">
@@ -789,18 +823,6 @@
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-3">
-
-
-                                <label for="other_areas" class="form-label col-form-label-sm">{{
-                                        $t('other_areas')
-                                    }}</label>
-                                <input id="other_areas" class="form-control form-control-sm" type="text"
-                                       v-model="clientSearchInfo.other_areas">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
                             <div class="col-6">
                                 <div class="row">
                                     <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
@@ -895,19 +917,30 @@
 </template>
 
 <script>
+
 import NursesListing from "./NursesListing";
 import NurseProfile from "./NurseProfile";
+import Slider from '@vueform/slider'
+import '@vueform/slider/themes/default.css'
 
 export default {
     //name: "Finder"
     name: 'Finder',
     components: {
+        Slider,
         'nurses-listing': NursesListing,
         'nurses-profile': NurseProfile,
     },
     props: ['data', 'user'],
     data() {
         return {
+            mapOptions: {
+
+            },
+            center: {
+                lat: 43.689247,
+                lng: -74.044502
+            },
             date: new Date(),
             care_degree_options: [
                 {
@@ -985,7 +1018,7 @@ export default {
                 },
             ],
 
-            activeStep: 1,
+            activeStep: 2,
             activelanguage: 0,
             path: location.origin,
             nurses: [],
@@ -1076,6 +1109,14 @@ export default {
         });
     },
     methods: {
+        setPlace(e) {
+            console.log(e)
+            console.log('test')
+        },
+        test(e) {
+            this.center.lat = e.latLng.lat()
+            this.center.lng = e.latLng.lng()
+        },
         removeLang(item, index) {
             this.clientSearchInfo.languages.splice(index, 1)
             this.activelanguage = this.clientSearchInfo.languages.length - 1
@@ -1153,7 +1194,8 @@ export default {
                         this.showModalNursesListing = true;
 
                         this.$router.push({ name: 'Listing', params: {
-                            data: JSON.stringify(response.data.nurses)
+                            data: JSON.stringify(response.data.nurses),
+                            filters: JSON.stringify(response.data.filters)
                             } })
                     } else {
                         this.errors = response.data.errors;
@@ -1265,6 +1307,12 @@ export default {
     height: 50%;
     z-index: 200;
     overflow: auto;
+}
+
+.map{
+    display: block;
+    width: 100%;
+    height: 500px;
 }
 
 </style>

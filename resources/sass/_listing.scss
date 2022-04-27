@@ -1,0 +1,18 @@
+.pt-listing{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .pt-filters{
+        width: 300px;
+        min-width: 300px;
+        margin-right: 30px;
+        border-radius: 5px;
+        border: 2px solid $light-blue;
+        padding: 15px 20px;
+    }
+
+    .pt-list--wrapper{
+        width: calc(100% - 330px);
+    }
+}
