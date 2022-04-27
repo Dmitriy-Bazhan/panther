@@ -53,6 +53,10 @@ class NurseController extends Controller
             abort(409);
         }
 
+        request()->merge([
+            'is_approved' => 'yes',
+        ]);
+
         if(!$nurses = $this->nurseRepo->search($id)){
             return response()->json(['success' => false]);
         }
