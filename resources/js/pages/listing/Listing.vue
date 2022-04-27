@@ -29,8 +29,16 @@ export default {
         }
     },
     mounted() {
-        this.nurses = JSON.parse(this.$route.params.data)
-        this.filters = JSON.parse(this.$route.params.filters)
+        let self = this
+
+        axios.get('/listing/' + this.$store.state.user.entity_id)
+            .then((response) => {
+                self.nurses = response.data.nurses
+                self.filters = response.data.filters
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
 </script>

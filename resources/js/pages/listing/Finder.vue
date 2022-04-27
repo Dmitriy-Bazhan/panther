@@ -1017,7 +1017,6 @@ export default {
                     title: 'no_matter',
                 },
             ],
-
             activeStep: 2,
             activelanguage: 0,
             path: location.origin,
@@ -1188,15 +1187,7 @@ export default {
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
-                        this.emitter.emit('response-success-true');
-                        this.errors = null;
-                        // this.nurses = response.data.nurses;
-                        this.showModalNursesListing = true;
-
-                        this.$router.push({ name: 'Listing', params: {
-                            // data: JSON.stringify(response.data.nurses),
-                            // filters: JSON.stringify(response.data.filters)
-                            } })
+                        this.$router.push({ name: 'Listing' })
                     } else {
                         this.errors = response.data.errors;
                     }

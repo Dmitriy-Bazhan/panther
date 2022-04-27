@@ -200,7 +200,6 @@ export default {
         getPrivateChats() {
             axios.get('/finder/get-private-chats/' + this.nurse.id)
                 .then((response) => {
-                    console.log(response.data)
                     if (response.data.chat.length > 0) {
                         for (let value in response.data.chat) {
                             let message = {
