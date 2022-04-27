@@ -159,7 +159,7 @@ class ListingController extends Controller
 
         request()->merge([
             'is_approved' => 'yes',
-            'provider_supports' => $clientSearchInfo->provider_supports,
+            'provider_supports' => json_decode($clientSearchInfo->provider_supports, true),
             'degree_of_care_available' => $clientSearchInfo->degree_of_care_available,
             'language' => $searchLang['language'],
             'language_level' => $searchLang['language_level'],                      //filter
