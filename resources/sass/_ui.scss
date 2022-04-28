@@ -14,6 +14,12 @@
     transition: 0.3s;
     padding: 0 15px;
 
+    .pt-icon{
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
     &:hover{
         color: $white;
         background-color: $highlight-primary;
@@ -55,6 +61,18 @@
         &:hover{
             color: $white;
             background-color: $highlight;
+        }
+    }
+
+    &--border{
+        @extend .pt-btn;
+        color: $highlight-primary;
+        background-color: transparent;
+        border: 2px solid $highlight-primary;
+
+        &:hover{
+            color: $white;
+            background-color: $highlight-primary;
         }
     }
 }
@@ -415,6 +433,8 @@
 }
 
 .pt-card{
+    margin-bottom: 30px;
+
     &--inner{
         display: flex;
         justify-content: flex-start;
@@ -528,19 +548,23 @@
 }
 
 .pt-range--slider{
+    margin-top: 35px;
+
     &-values{
         display: flex;
         justify-content: space-between;
         align-items: center;
         color: $gray;
-        margin-top: 50px;
+        margin-top: 55px;
 
         span{
-            padding: 5px 20px;
+            padding: 5px 30px;
             background-color: $light-blue;
             color: $black;
             border-radius: 5px;
             text-align: center;
+            line-height: 1;
+            font-size: 14px;
         }
     }
 
@@ -576,12 +600,5 @@
             top: calc(50% - 3px);
             left: calc(50% - 3px);
         }
-    }
-}
-
-.pt-filter{
-    &--title{
-        margin-bottom: 20px;
-        font-weight: 700;
     }
 }

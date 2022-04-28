@@ -5,24 +5,38 @@
                 <span>Suchen</span>
             </p>
             <h2 class="pt-title">
-                LISTING
+                Listing
             </h2>
 
             <div v-if="nurses" class="pt-listing">
                 <filters :filters="filters" @filter="filterStart"></filters>
                 <div class="pt-list--wrapper">
-                    <div class="pt-select">
-                        <v-select :options="sortOptions"
-                                  label="title"
-                                  v-model="sort">
-                            <template #option="{ title }">
-                                {{ title }}
-                            </template>
+                    <div class="pt-listing--head">
+                        <div class="pt-listing--head-title">
+                            125 Ergebnisse gefunden in Berlin
+                        </div>
+                        <div class="pt-listing--head-reset">
+                            <pt-icon type="cross"></pt-icon>
+                            <span>Ergebnisse zurücksetzen</span>
+                        </div>
+                        <div class="pt-listing--head-sort">
+                            <div class="pt-listing--head-sort--title">
+                                Sortierung:
+                            </div>
+                            <div class="pt-select">
+                                <v-select :options="sortOptions"
+                                          label="title"
+                                          v-model="sort">
+                                    <template #option="{ title }">
+                                        {{ title }}
+                                    </template>
 
-                            <template #open-indicator>
-                                <span class="pt-select--caret"></span>
-                            </template>
-                        </v-select>
+                                    <template #open-indicator>
+                                        <span class="pt-select--caret"></span>
+                                    </template>
+                                </v-select>
+                            </div>
+                        </div>
                     </div>
 
                     <div v-show="!load" class="pt-list">
@@ -125,6 +139,7 @@ export default {
             load: false,
             nurses: false,
             filters: false,
+            activeFilter: false,
             path: location.origin,
             sortOptions: [
                 {
@@ -148,8 +163,27 @@ export default {
                     val: 'desc',
                 },
             ],
-            sort: false,
+            sort: '',
             filter: false,
+        }
+    },
+    watch: {
+        sort: function (val){
+            let self = this
+            self.load = true
+
+            axios.post('/finder/get-nurses-to-listing-after-sort', {
+                user_id: this.$store.state.user.entity_id,
+                filters: self.activeFilter?self.activeFilter:{},
+                sort: self.sort,
+            })
+                .then((response) => {
+                    self.nurses = response.data.nurses
+                    self.load = false
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     },
     mounted() {
@@ -175,6 +209,7 @@ export default {
         filterStart(filters) {
             let self = this
             self.filter = filters
+            self.activeFilter = filters
             self.load = true
 
             axios.post('/finder/get-nurses-to-listing-after-sort', {

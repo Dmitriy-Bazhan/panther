@@ -1,10 +1,19 @@
 <template>
     <div class="pt-filters">
-        <div class="pt-btn--primary" @click.prevent="filter">Neue suche</div>
+        <div class="pt-filters--ctrl">
+            <router-link class="pt-btn--border" to="/finder">
+                <pt-icon type="left"></pt-icon>
+                zurück zur Suche
+            </router-link>
+            <button class="pt-btn--primary" @click.prevent="filter">
+                neue Suche
+            </button>
+        </div>
+
         <div class="pt-filter">
             <div class="pt-filter--inner">
                 <div class="pt-filter--title">
-                    Preis
+                    Preis pro Stunde
                 </div>
                 <div class="pt-range--slider">
                     <Slider v-model="filtersSettings.price"
