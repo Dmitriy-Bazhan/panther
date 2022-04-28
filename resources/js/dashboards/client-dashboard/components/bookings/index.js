@@ -4,6 +4,7 @@ import Booking from "./BookingEdit";
 import Alternative from "./Alternative";
 import SingleChat from "./SingleChat";
 import ShowBooking from "./ShowBooking";
+import FeedBack from "./FeedBack";
 
 export default {
     name: "Bookings",
@@ -14,6 +15,7 @@ export default {
         alternative: Alternative,
         single_chat: SingleChat,
         show_booking: ShowBooking,
+        feedback: FeedBack,
     },
     data() {
         return {
@@ -23,6 +25,7 @@ export default {
             show_refused_booking: false,
             show_alternative: false,
             show_chat: false,
+            show_feedback: false,
             booking: null,
             not_approved_bookings: [],
             approved_bookings: [],
@@ -33,6 +36,10 @@ export default {
     },
     mounted() {
         this.getBookings();
+
+        this.emitter.on('close-modal', (e) => {
+            this.closeModal();
+        });
     },
     methods: {
         getBookings() {
@@ -72,6 +79,7 @@ export default {
         },
         closeModal() {
             this.show_chat = false;
+            this.show_feedback = false;
             this.show_booking_edit = false;
             this.show_booking = false;
             this.show_alternative = false;
@@ -80,9 +88,21 @@ export default {
             this.booking = null;
             this.nurse = null;
         },
+        showFeedback(nurse){
+            this.show_feedback = true;
+            this.show_chat = false;
+            this.show_booking_edit = false;
+            this.show_booking = false;
+            this.show_alternative = false;
+            this.show_refused_booking = false;
+            this.show_remove_confirm = false;
+            this.booking = null;
+            this.nurse = nurse;
+        },
         showBookingEdit(booking) {
             this.show_booking_edit = true;
             this.show_alternative = false;
+            this.show_feedback = false;
             this.show_refused_booking = false;
             this.show_booking = false;
             this.show_chat = false;
@@ -91,6 +111,7 @@ export default {
         showBooking(booking) {
             this.show_booking = true;
             this.show_booking_edit = false;
+            this.show_feedback = false;
             this.show_alternative = false;
             this.show_refused_booking = false;
             this.show_chat = false;
@@ -100,6 +121,7 @@ export default {
         showCurrentAlternativeBooking(booking) {
             this.show_alternative = true;
             this.show_booking_edit = false;
+            this.show_feedback = false;
             this.show_booking = false;
             this.show_refused_booking = false;
             this.show_chat = false;
@@ -109,6 +131,7 @@ export default {
             this.nurse = nurse;
             this.show_chat = true;
             this.show_booking_edit = false;
+            this.show_feedback = false;
             this.show_booking = false;
             this.show_refused_booking = false;
             this.show_alternative = false;
@@ -117,6 +140,7 @@ export default {
             this.show_refused_booking = true;
             this.show_chat = false;
             this.show_booking_edit = false;
+            this.show_feedback = false;
             this.show_booking = false;
             this.show_alternative = false;
             this.booking = booking;

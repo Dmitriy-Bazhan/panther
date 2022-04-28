@@ -35,6 +35,18 @@
     height: 200px;
 }
 
+.feedback-wrapper {
+    position: fixed;
+    z-index: 100;
+    background: #0a53be;
+    border: solid 1px black;
+    border-radius: 10px;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 200px;
+}
+
 .client-refuse-booking-wrapper {
     position: fixed;
     z-index: 100;

@@ -65,34 +65,6 @@ class MainPageController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function setUserRate()
-    {
-
-        if (!request()->filled('new_rate')) {
-            return response()->json(['success' => false]);
-        }
-        $data = request('new_rate');
-
-        $result = Rate::updateOrCreate(
-            ['user_id' => $data['user_id'], 'creator_id' => auth()->id()],
-            ['rate' => $data['new_rate']]
-        );
-
-        $newRate = new \stdClass();
-        $rate = Rate::where('user_id', $data['user_id'])->get();
-
-        $newRate->count = count($rate);
-
-        $average = $rate->sum(function ($value) {
-                return $value->rate;
-            }) / $newRate->count;
-
-        $newRate->round = round ($average);
-        $newRate->real = round ($average , 2);
-
-        return response()->json(['success' => true, 'newRate' => $newRate]);
-    }
-
     public function getTranslate($lang = null){
 
         if(!is_null($lang)){
