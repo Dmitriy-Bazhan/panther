@@ -9,13 +9,13 @@
             </h2>
 
             <div v-if="nurses" class="pt-listing">
-                <filters :filters="filters" @filter="filterStart"></filters>
+                <filters :filters="filters" :clear="filter" @filter="filterSet"></filters>
                 <div class="pt-list--wrapper">
                     <div class="pt-listing--head">
                         <div class="pt-listing--head-title">
-                            125 Ergebnisse gefunden in Berlin
+                            {{nurses.data.length}} Ergebnisse gefunden
                         </div>
-                        <div class="pt-listing--head-reset">
+                        <div class="pt-listing--head-reset" v-show="filter" @click="clearFilters">
                             <pt-icon type="cross"></pt-icon>
                             <span>Ergebnisse zurücksetzen</span>
                         </div>
@@ -139,51 +139,37 @@ export default {
             load: false,
             nurses: false,
             filters: false,
-            activeFilter: false,
             path: location.origin,
             sortOptions: [
                 {
                     title: 'Name >',
                     name: 'name',
-                    val: 'asc',
+                    val: 'desc',
                 },
                 {
                     title: 'Name <',
                     name: 'name',
-                    val: 'desc',
+                    val: 'asc',
                 },
                 {
                     title: 'Price >',
                     name: 'price',
-                    val: 'asc',
+                    val: 'desc',
                 },
                 {
                     title: 'Price <',
                     name: 'price',
-                    val: 'desc',
+                    val: 'asc',
                 },
             ],
-            sort: '',
+            sort: null,
             filter: false,
         }
     },
     watch: {
-        sort: function (val){
+        sort: function () {
             let self = this
-            self.load = true
-
-            axios.post('/finder/get-nurses-to-listing-after-sort', {
-                user_id: this.$store.state.user.entity_id,
-                filters: self.activeFilter?self.activeFilter:{},
-                sort: self.sort,
-            })
-                .then((response) => {
-                    self.nurses = response.data.nurses
-                    self.load = false
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            self.filterStart()
         }
     },
     mounted() {
@@ -206,15 +192,22 @@ export default {
         showNurseProfile(nurse) {
             this.$router.push({path: `/nurse/${nurse.id}`})
         },
-        filterStart(filters) {
+        clearFilters() {
+            this.filterSet(false);
+            console.log(this.filters)
+        },
+        filterSet(filters){
             let self = this
             self.filter = filters
-            self.activeFilter = filters
+            self.filterStart()
+        },
+        filterStart() {
+            let self = this
             self.load = true
 
             axios.post('/finder/get-nurses-to-listing-after-sort', {
-                user_id: this.$store.state.user.entity_id,
-                filters: self.filter,
+                user_id: self.$store.state.user.entity_id,
+                filters: self.filter ? self.filter : {},
                 sort: self.sort,
             })
                 .then((response) => {

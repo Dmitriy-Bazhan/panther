@@ -42,7 +42,7 @@ export default {
     components: {
         Slider,
     },
-    props: ['filters'],
+    props: ['filters', 'clear'],
     data() {
         return {
             filtersSettings: {
@@ -56,6 +56,14 @@ export default {
     mounted() {
         this.filtersSettings.price[0] = this.filters.prices.min_price
         this.filtersSettings.price[1] = this.filters.prices.max_price
+    },
+    watch: {
+        clear: function (val){
+            if(!val){
+                this.filtersSettings.price[0] = this.filters.prices.min_price
+                this.filtersSettings.price[1] = this.filters.prices.max_price
+            }
+        }
     },
     methods: {
         filter(){
