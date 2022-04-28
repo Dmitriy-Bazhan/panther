@@ -34,8 +34,11 @@ class NurseRepository
         }
 
         //needed joins for work filters and sort
-        $nurse->select('users.*', 'nurse_prices.hourly_payment')
-            ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
+        if(is_null($id)){
+            $nurse->select('users.*', 'nurse_prices.hourly_payment')
+                ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
+        }
+
 
         //get nurses to admin/nurses list
 //        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
