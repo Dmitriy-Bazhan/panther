@@ -141,7 +141,7 @@ class ListingController extends Controller
 
         $this->setFiltersForFindNurse($clientSearchInfo);
 
-        if(isset($data['sort']) && count($data['sort']) > 0){
+        if(isset($data['sort']) && is_array($data['sort']) && count($data['sort']) > 0){
             request()->merge([
                 'sort_name' => $data['sort']['name'],
                 'sort_direction' => $data['sort']['val'],

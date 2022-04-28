@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             //AddTwoTestRealAccauntsSeader::class,
             DefaultTranslateSeeder::class,
             LangSeeder::class,
+            DefaultFeedbackSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
     }
