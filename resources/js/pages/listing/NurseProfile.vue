@@ -21,7 +21,8 @@
                                     <rate :user="nurse"></rate>
                                     <div class="pt-profile--name">
                                         {{ nurse.first_name }}
-                                        <div>{{ nurse.last_name }}</div>.
+                                        <div>{{ nurse.last_name }}</div>
+                                        .
                                     </div>
                                     <div class="pt-profile--age">
                                         {{ nurse.entity.age }} Jahre Alt
@@ -127,7 +128,14 @@
                 </h3>
                 <p>
                     {{ nurse.hear_about_us }}
-                    This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.
+                    This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean
+                    sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.
+                    Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec
+                    tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit.
+                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris
+                    in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed
+                    ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat,
+                    velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.
                 </p>
             </div>
 
@@ -137,7 +145,7 @@
                 </h3>
                 <div class="pt-profile--file" v-for="(item, index) in nurse.entity.files">
                     <div class="pt-profile--file-number">
-                        {{index+1}}
+                        {{ index + 1 }}
                     </div>
                     <img :src="path + '/images/fake/fake-calendar.png'" alt="pic" class="pt-profile--file-preview">
                     <div class="pt-profile--file-inner">
@@ -160,24 +168,27 @@
                 </h3>
 
                 <div class="pt-testimonials">
-                    <div class="pt-testimonial" v-for="n in 4">
+                    <div class="pt-testimonial" v-for="feedback in feedbacks">
                         <div class="pt-testimonial--avatar">
-
+                            <img :src="feedback.creator.entity.thumbnail_photo" alt="pic" v-if="feedback.creator.entity.thumbnail_photo">
                         </div>
                         <div class="pt-testimonial--container">
                             <div class="pt-testimonial--info">
                                 <div class="pt-testimonial--name">
-                                    Anna L.
+                                    {{feedback.creator.first_name}}
+                                    <div>
+                                        {{feedback.creator.last_name}}
+                                    </div>
                                     <rate :user="nurse"></rate>
                                 </div>
                                 <div class="pt-testimonial--date">
-                                    05.03.2022
+                                    {{serializeDate(feedback.created_at)}}
                                 </div>
                             </div>
                             <div class="pt-testimonial--text">
                                 <pt-icon type="quotes"></pt-icon>
                                 <p>
-                                    This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum ...
+                                    {{feedback.description}}
                                 </p>
                             </div>
                         </div>
@@ -189,7 +200,7 @@
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                     <a href="" class="pt-pagination--link" v-for="n in 5">
-                        {{n}}
+                        {{ n }}
                     </a>
                     <a href="" class="pt-pagination--link">
                         <i class="fa-solid fa-angle-right"></i>
@@ -305,11 +316,22 @@ export default {
             path: location.origin,
             privateMessage: '',
             comments: [],
+            feedbacks: [],
         }
     },
     mounted() {
         let self = this
         self.user = self.$store.state.user
+
+        axios.get('/feedback/' + self.$route.params.id).then((response) => {
+            if (response.data.success) {
+                console.log(response.data)
+                self.feedbacks = response.data.feedbacks
+            }
+        })
+            .catch((error) => {
+                console.log(error);
+            });
 
         axios.get('/get-nurse-profile/' + self.$route.params.id)
             .then((response) => {
@@ -343,11 +365,19 @@ export default {
             });
     },
     methods: {
-        closePopup(){
+        serializeDate(date) {
+            let publicDate = new Date(date)
+            let result = ''
+            result += (publicDate.getDate()<10?'0'+publicDate.getDate(): publicDate.getDate())+'.';
+            result += (publicDate.getMonth() + 1<10?'0'+(publicDate.getMonth()+1):(publicDate.getMonth() + 1))+'.';
+            result += publicDate.getFullYear();
+            return result;
+        },
+        closePopup() {
             this.modal.isOpen = false
             this.modal.src = false
         },
-        openPopup(src){
+        openPopup(src) {
             this.modal.isOpen = true
             this.modal.src = src
         },
