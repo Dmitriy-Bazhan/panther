@@ -29,7 +29,7 @@ class RateController extends Controller
 
         if(!$result){
             //todo::hmm
-            Log::debug('Cant create/update Rate');
+            Log::error('Cant create/update Rate');
         }
 
         $newRate = new \stdClass();

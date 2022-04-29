@@ -34,7 +34,7 @@ class NurseRepository
         }
 
         //needed joins for work filters and sort
-        if(is_null($id)){
+        if (is_null($id)) {
             $nurse->select('users.*', 'nurse_prices.hourly_payment')
                 ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
         }
@@ -155,12 +155,9 @@ class NurseRepository
             } else {
                 if (request()->filled('sort_name') && request('sort_name') == 'price') {
                     $nurse->orderBy('hourly_payment', request('sort_direction'));
-                }elseif (request()->filled('sort_name') && request('sort_name') == 'name') {
+                } elseif (request()->filled('sort_name') && request('sort_name') == 'name') {
                     $nurse->orderBy('last_name', request('sort_direction'));
-                }
-
-
-                else {
+                } else {
 
 //                default order(info_is_full is hidden var, needed only order)
                     $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
@@ -269,19 +266,65 @@ class NurseRepository
                 $original_name = $document->getClientOriginalName();
                 $extension = $document->getClientOriginalExtension();
                 $file_name = $key . '_user_' . $nurse->id . '_number_' . $number . '.' . $extension;
+                $thumbnail_name = $key . '_thumbnail_user_' . $nurse->id . '_number_' . $number . '.' . $extension;
+
                 $file_path = Storage::disk('public')->putFileAs($directory_name, $document, $file_name);
+                $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $document, $thumbnail_name);
+
+                $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $img->save();
 
                 NurseFile::create([
                     'nurse_id' => $nurse->entity_id,
                     'original_name' => $original_name,
                     'file_path' => $file_path,
-                    'file_type' => $key
+                    'file_type' => $key,
+                    'thumbnail_path' => $thumbnail_path,
                 ]);
             }
 
             Nurse::where('id', auth()->user()->entity_id)->update([
                 'change_info' => 'yes',
             ]);
+        }
+
+        $certificates = json_decode($request->input('certificates'), true);
+        if (count($certificates) > 0) {
+            $files = $request->file('certificates_files');
+            $directory_name = 'user_' . $nurse->id . '/' . 'certificates';
+
+            if (is_array($files)) {
+                foreach ($files as $number => $file) {
+                    $original_name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $file_name = 'certificate' . '_user_' . $nurse->id . '_' . time() . '.' . $extension;
+                    $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . time() . '.' . $extension;
+
+                    $file_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+                    $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+
+                    $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $img->save();
+
+                    NurseFile::create([
+                        'nurse_id' => $nurse->entity_id,
+                        'original_name' => $original_name,
+                        'file_path' => $file_path,
+                        'file_type' => 'certificate',
+                        'date' => $certificates[$number]['date'],
+                        'place_of_receipt' => $certificates[$number]['place_of_receipt'],
+                        'other_info' => $certificates[$number]['other_info'],
+                        'title' => $certificates[$number]['title'],
+                        'thumbnail_path' => $thumbnail_path,
+                    ]);
+                }
+            }
         }
 
         return true;

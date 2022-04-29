@@ -21,7 +21,30 @@
                 <span class="register-form-error" v-if="errors !== null && errors['file'] !== undefined">{{ errors['file'][0] }}</span>
             </div>
 
-            <div class="col-3 offset-1" style="border: solid 1px lightgray">
+            <div class="col-5 offset-1" style="border: solid 1px lightgray">
+                <div>
+                    {{ $t('certificates') }}
+
+                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'certificate')">{{
+                        item.original_name  + ' Title: ' + item.title + ' Date: ' + item.date + ' Place: ' + item.place_of_receipt
+                        + ' Other info: ' + item.other_info
+                        }}</p><br>
+
+                    <div v-for="(certificat, index) in certificates">
+
+                        Title:<input type="text" v-model="certificat.title"><br>
+                        Date:<input type="text" v-model="certificat.date"><br>
+                        Place of receipt:<input type="text" v-model="certificat.place_of_receipt"><br>
+                        Other info:<input type="text" v-model="certificat.other_info"><br>
+
+                        <input type="file" @change="upload($event, index)"><br>
+
+                    </div>
+
+                    <button @click="addItem">Add Certificat</button>
+                </div>
+
+
                 <div>
                     {{ $t('criminal_record') }}
                     <input type="file" id="criminal_record" ref="criminal_record" multiple
@@ -76,6 +99,7 @@
             return {
                 path: location.origin,
                 errors: null,
+                certificates: [],
                 criminal_record: '',
                 documentation_of_training: '',
                 CPR_course: '',
@@ -83,7 +107,22 @@
                 file: '',
             }
         },
+        mounted() {
+            console.log(this.user);
+
+        },
+        watch: {
+        },
         methods: {
+            addItem() {
+                this.certificates.push({title: '', date: '', place_of_receipt: '', other_info: '', file: '',})
+            },
+
+            upload(event, index) {
+                this.certificates[index].file = event.target.files[0]
+            },
+
+
             updateFilesAndPhoto() {
                 this.criminal_record = this.$refs.criminal_record.files;
                 this.documentation_of_training = this.$refs.documentation_of_training.files;
@@ -91,8 +130,13 @@
                 this.references = this.$refs.references.files;
                 this.file = this.$refs.file.files[0];
                 let formData = new FormData();
-
                 formData.append('file', this.file);
+                formData.append('certificates', JSON.stringify(this.certificates));
+
+                for (let i = 0; i < this.certificates.length; i++) {
+                    let file = this.certificates[i].file;
+                    formData.append('certificates_files[' + i + ']', file);
+                }
 
                 for (let i = 0; i < this.criminal_record.length; i++) {
                     let file = this.criminal_record[i];
@@ -124,6 +168,8 @@
                     })
                     .then((response) => {
                         if (response.data.success) {
+                            console.log(response.data);
+                            this.certificates = [];
                             this.emitter.emit('response-success-true');
                             this.errors = null;
                             this.emitter.emit('photo-exist');

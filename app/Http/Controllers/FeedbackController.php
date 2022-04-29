@@ -28,7 +28,7 @@ class FeedbackController extends Controller
 
         if(!User::find($data['id'])){
             //todo::hmm
-            Log::debug('User not exists. Store methods in FeedbackController');
+            Log::error('User not exists. Store methods in FeedbackController');
             return response()->json(['success' => false]);
         }
 
@@ -51,7 +51,7 @@ class FeedbackController extends Controller
         $feedback->description = $data['feedback'];
         if(!$feedback->save()){
             //todo::hmm
-            Log::debug('Cant save feedback in store method in FeedbackController');
+            Log::error('Cant save feedback in store method in FeedbackController');
             return response()->json(['success' => false]);
         }
 
