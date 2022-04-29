@@ -125,7 +125,6 @@ class NursesMyInformationController extends Controller
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
         }
-
         if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
             //todo:: hmm
             return response()->json(['success' => false, 'errors' => []]);

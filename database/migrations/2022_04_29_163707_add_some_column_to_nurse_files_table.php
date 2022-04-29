@@ -21,7 +21,7 @@ class AddSomeColumnToNurseFilesTable extends Migration
             $table->string('title')->nullable();
             $table->string('date')->nullable();
             $table->string('place_of_receipt')->nullable();
-            $table->text('other_info');
+            $table->text('other_info')->nullable();
         });
     }
 
