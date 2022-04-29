@@ -66,7 +66,13 @@ class FeedbackController extends Controller
 
         $feedbacks = Feedback::where('target_user_id', $id)->with('creator')->get();
 
-        return response()->json(['success' => true, 'feedbacks' => $feedbacks]);
+
+        if($feedbacks->count() > 0 && request()->ajax()){
+            return response()->json(['success' => true, 'feedbacks' => $feedbacks]);
+        }else{
+            return response()->json(['success' => false]);
+        }
+
     }
 
     public function edit($id)
