@@ -60,7 +60,13 @@ class FeedbackController extends Controller
 
     public function show($id)
     {
-        //
+        if(!is_numeric($id)){
+            return response()->json(['success' => false]);
+        }
+
+        $feedbacks = Feedback::where('target_user_id', $id)->with('creator')->get();
+
+        return response()->json(['success' => true, 'feedbacks' => $feedbacks]);
     }
 
     public function edit($id)
