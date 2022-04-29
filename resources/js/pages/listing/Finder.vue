@@ -8,15 +8,17 @@
                 Pflegecraft finden
             </h2>
 
-            <div class="listing-reminder-begin">
-                {{ $t('how_does_the_booking_process_work') }}?
-                <div class="listing-reminder-end" id="listing-reminder-end" v-on:click="showReminderBlock()">
-                    {{ $t('click_to_show_more') }}
+            <div class="pt-info pt-mt-45" v-show="activeStep === 0">
+                <div class="pt-info--icon">
+                    <i class="fa-solid fa-circle-info"></i>
                 </div>
-            </div>
+                <div class="pt-info--text">
+                    {{ $t('how_does_the_booking_process_work') }}?
 
-            <div v-if="showReminder" class="block-with-reminder">
-                <p>{{ $t('how_does_the_booking_process_work_description') }}</p>
+                    <a href="" @click.prevent="openPopup()">
+                        {{ $t('click_to_show_more') }}
+                    </a>
+                </div>
             </div>
 
             <div class="pt-finder--steps">
@@ -167,6 +169,72 @@
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
                             <div class="pt-finder--form-label--number">4</div>
+                            {{ $t('weekdays') }} {{ $t('mon_fri') }}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+                            <div class="pt-finder--form-group">
+                                <div class="">
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekdays_7_11">
+                                        <span class="pt-checkbox--body">7-11 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekdays_11_14">
+                                        <span class="pt-checkbox--body">11-14 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekdays_14_17">
+                                        <span class="pt-checkbox--body">14-17 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekdays_17_21">
+                                        <span class="pt-checkbox--body">17-21 Uhr</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">5</div>
+                            {{ $t('weekends') }} {{ $t('sat_sun') }}
+                        </div>
+                        <div class="pt-finder--form-block--inner">
+                            <div class="pt-finder--form-group">
+                                <div class="">
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekends_7_11">
+                                        <span class="pt-checkbox--body">7-11 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekends_11_14">
+                                        <span class="pt-checkbox--body">11-14 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekends_14_17">
+                                        <span class="pt-checkbox--body">14-17 Uhr</span>
+                                    </label>
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
+                                               v-model="clientSearchInfo.work_time_pref.weekends_17_21">
+                                        <span class="pt-checkbox--body">17-21 Uhr</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-finder--form-block">
+                        <div class="pt-finder--form-label">
+                            <div class="pt-finder--form-label--number">6</div>
                             {{ $t('what_support_looking') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
@@ -287,7 +355,6 @@
                             {{ $t('language_skills') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
-
                             <div class="pt-finder--form-group"
                                  v-for="(item, index) in clientSearchInfo.languages">
                                 <div class="pt-row">
@@ -298,7 +365,7 @@
 
                                         <div class="pt-select">
                                             <div class="pt-select--icon">
-                                                <pt-icon type="help"></pt-icon>
+                                                <pt-icon type="globe"></pt-icon>
                                             </div>
                                             <v-select :options="filteredOption(languageOptions)"
                                                       label="title"
@@ -321,7 +388,7 @@
 
                                         <div class="pt-select">
                                             <div class="pt-select--icon">
-                                                <pt-icon type="help"></pt-icon>
+                                                <pt-icon type="globe"></pt-icon>
                                             </div>
                                             <v-select :options="languageLevelOptions"
                                                       label="title"
@@ -339,14 +406,14 @@
                                     </div>
 
                                     <div class="pt-col-md-1">
-                                        <button class="pt-btn--icon" @click.prevent="removeLang(item, index)">
-                                            x
+                                        <button class="pt-btn--icon pt-m-a pt-mt-35" @click.prevent="removeLang(item, index)">
+                                            <i class="fa-solid fa-xmark"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="pt-finder--form-group">
+                            <div class="pt-finder--form-group" v-show="languageOptions.length > clientSearchInfo.languages.length">
                                 <div class="pt-row">
                                     <div class="pt-col-md-12">
                                         <button class="pt-btn--light pt-md" @click.prevent="addLanguage">
@@ -817,102 +884,29 @@
                         </button>
                     </div>
                 </div>
-
-
-                <div class="pt-finder--form-step" v-show="activeStep === 2">
-
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="row">
-                                    <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
-                                    <div class="col-4 justify-content-center">{{ $t('weekends') }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 offset-4 justify-content-center">{{ $t('mon_fri') }}</div>
-                                    <div class="col-4 justify-content-center">{{ $t('sat_sun') }}</div>
-                                </div>
-
-                                <!--                        7-11 Uhr  -->
-                                <div class="row">
-                                    <div class="col-4">7-11 Uhr</div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_7_11">
-                                        &nbsp;<label for="weekdays_morning"></label>
-                                    </div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_7_11">
-                                        &nbsp;<label for="weekends_morning"></label>
-                                    </div>
-                                </div>
-                                <!--                        11-14 Uhr  -->
-                                <div class="row">
-                                    <div class="col-4">11-14 Uhr</div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_11_14">
-                                        &nbsp;<label for="weekdays_afternoon"></label>
-                                    </div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_11_14">
-                                        &nbsp;<label for="weekends_afternoon"></label>
-                                    </div>
-                                </div>
-                                <!--                        14-17 Uhr -->
-                                <div class="row">
-                                    <div class="col-4">14-17 Uhr</div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_14_17">
-                                        &nbsp;<label for="weekdays_evening"></label>
-                                    </div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_14_17">
-                                        &nbsp;<label for="weekends_evening"></label>
-                                    </div>
-                                </div>
-                                <!--                        17-21 Uhr -->
-                                <div class="row">
-                                    <div class="col-4">17-21 Uhr</div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_17_21">
-                                        &nbsp;<label for="weekdays_overnight"></label>
-                                    </div>
-                                    <div class="col-4 justify-content-center">
-                                        <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_17_21">
-                                        &nbsp;<label for="weekends_overnight"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--            <div class="col-5">-->
-                            <!--                <label for="where_should_help_be_provided" class="form-label col-form-label-sm">-->
-                            <!--                    {{ $t('where_should_help_be_provided') }}</label><br>-->
-                            <!--                <input id="where_should_help_be_provided" placeholder="Later">-->
-                            <!--            </div>-->
-
-                        </div>
-                    </div>
-
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-2 offset-10">
-                                <button class="btn btn-success btn-sm" v-on:click="saveClientInfo()">{{
-                                        $t('find')
-                                    }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
+
+    <Modal
+        v-model="isOpen"
+        :close="closePopup"
+    >
+        <div class="pt-popup">
+            <button class="pt-popup--close" @click.prevent="closePopup">
+                <pt-icon type="cross"></pt-icon>
+            </button>
+            <div class="pt-popup--inner">
+                <h3 class="pt-title">
+
+                </h3>
+                <p>{{ $t('how_does_the_booking_process_work_description') }}</p>
+                <button @click.prevent="closePopup" class="pt-btn--primary pt-sm pt-m-a pt-mt-25">
+                    ok
+                </button>
+            </div>
+        </div>
+    </Modal>
 
 </template>
 
@@ -934,6 +928,7 @@ export default {
     props: ['data', 'user'],
     data() {
         return {
+            isOpen: false,
             mapOptions: {
 
             },
@@ -1108,6 +1103,12 @@ export default {
         });
     },
     methods: {
+        closePopup(id){
+            this.isOpen = false
+        },
+        openPopup(id){
+            this.isOpen = true
+        },
         setPlace(e) {
             console.log(e)
             console.log('test')
@@ -1184,7 +1185,6 @@ export default {
         },
 
         saveClientInfo() {
-            console.log(this.clientSearchInfo)
             this.closeCalendars();
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
@@ -1239,68 +1239,6 @@ export default {
 </script>
 
 <style scoped>
-.listing-reminder-begin {
-    font-size: 14px;
-    color: green;
-}
-
-.listing-reminder-end {
-    font-size: 12px;
-    color: blue;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.block-with-reminder {
-    position: absolute;
-    border: solid 1px red;
-    border-radius: 10px;
-    background: blue;
-    padding: 10px;
-    width: 50%;
-}
-
-.nurses-listing-wrapper {
-    position: fixed;
-    width: 70%;
-    top: 10%;
-    left: 20%;
-    background: #d9d9d9;
-    padding: 15px;
-    border: #888888;
-    border-radius: 10px;
-    height: 70%;
-    z-index: 100;
-    overflow: auto;
-}
-
-.nurse-profile-wrapper {
-    position: fixed;
-    width: 94%;
-    top: 3%;
-    left: 3%;
-    background: #98d9b2;
-    padding: 15px;
-    border: #388844;
-    border-radius: 10px;
-    height: 90%;
-    z-index: 200;
-    overflow: auto;
-}
-
-.listing-one-time-calendar-wrapper, .listing-regular-calendar-wrapper {
-    position: fixed;
-    width: 50%;
-    top: 20%;
-    left: 25%;
-    background: #98d9b2;
-    padding: 15px;
-    border: #388844;
-    border-radius: 10px;
-    height: 50%;
-    z-index: 200;
-    overflow: auto;
-}
 
 .map{
     display: block;

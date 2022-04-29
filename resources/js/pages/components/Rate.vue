@@ -1,11 +1,10 @@
 <template>
-    <div class="rate-wrapper" :title="user.rate.real + '(' + user.rate.count + ')'">
+    <div class="pt-rate" :title="user.rate.real + '(' + user.rate.count + ')'">
         <span v-for="index in [1,2,3,4,5]">
-        <i class="ti-star"
-           v-on:click="setTheRate(index)"
-           :style="{'background-color': user.rate.round >= index ? '#e6f326' : '#6B9BF3'}"
-        ></i>
-
+            <i class="fa-solid fa-star"
+               v-on:click="setTheRate(index)"
+               :style="{'color': user.rate.round >= index ? '#ff9600' : '#c8d8dc'}"
+            ></i>
         </span>
 
     </div>
@@ -42,11 +41,5 @@
 </script>
 
 <style scoped>
-    .rate-wrapper {
-        z-index: 200;
-    }
 
-    .ti-star {
-        cursor: pointer;
-    }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="pt-filters">
         <div class="pt-filters--ctrl">
-            <router-link class="pt-btn--border" to="/finder">
+            <router-link class="pt-btn--primary-border" to="/finder">
                 <pt-icon type="left"></pt-icon>
                 zurück zur Suche
             </router-link>

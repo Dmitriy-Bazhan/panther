@@ -39,6 +39,7 @@
         "postcss": "^8.1.14",
         "sass": "^1.49.9",
         "swiper": "^8.1.0",
+        "v-viewer": "^1.6.4",
         "vue": "^3.2.29",
         "vue-draggable-next": "^2.1.1",
         "vue-i18n": "^9.1.9",

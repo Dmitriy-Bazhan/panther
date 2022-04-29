@@ -1,5 +1,4 @@
 import * as VueRouter from "vue-router";
-import Test from '../pages/test';
 import Home from '../pages/home/Home';
 import Login from '../pages/auth/Login';
 import StartRegister from '../pages/auth/StartRegister';
@@ -54,10 +53,6 @@ const routes = [
     {
         path: "/booking-not-exists",
         component: BookingNotExists
-    },
-    {
-        path: "/test",
-        component: Test
     },
     {
         path: "/finder",

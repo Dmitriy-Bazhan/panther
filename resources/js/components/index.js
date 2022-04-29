@@ -15,13 +15,14 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
 import vSelect from "vue-select";
 import Datepicker from '@vuepic/vue-datepicker';
-import 'vue-universal-modal/dist/index.css'
-import VueUniversalModal from 'vue-universal-modal'
-import MediaPopup from './Media/Media'
+import 'vue-universal-modal/dist/index.css';
+import VueUniversalModal from 'vue-universal-modal';
+import MediaPopup from './Media/Media';
 
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
 import 'swiper/css';
 import "vue-select/dist/vue-select.css";
+import 'viewerjs/dist/viewer.css';
 
 import AdminDashboard from '../dashboards/admin-dashboard/index';
 import ClientDashboard from '../dashboards/client-dashboard/index';
@@ -92,7 +93,9 @@ if (window.dashboard === 'dashboard') {
                 },
                 autobindAllEvents: true,
             })
-
+            Vue.use(VueUniversalModal, {
+                teleportTarget: '#modals'
+            })
             Vue.use(i18n);
             Vue.component('pt-preloader', Preloader);
             Vue.component('pt-icon', Icon);
