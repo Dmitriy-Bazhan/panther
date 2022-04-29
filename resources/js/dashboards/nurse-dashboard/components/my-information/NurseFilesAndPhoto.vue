@@ -76,6 +76,7 @@
             return {
                 path: location.origin,
                 errors: null,
+                certificates: '',
                 criminal_record: '',
                 documentation_of_training: '',
                 CPR_course: '',
