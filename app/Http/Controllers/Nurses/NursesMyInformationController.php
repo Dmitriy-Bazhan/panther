@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Nurses;
 use App\Events\Admin\NurseAddNewProfile;
 use App\Http\Repositories\NurseRepository;
 use App\Models\Nurse;
+use App\Models\NurseFile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 
@@ -136,6 +138,28 @@ class NursesMyInformationController extends Controller
         }
 
         $this->makeEventSendProfileToAdmin($id);
+        $certificates = json_decode($request->input('certificates'), true);
+        $files = $request->file('certificates_files');
+        return response()->json(['success' => true, 'files' => $files, 'certificates' => $certificates]);
+    }
+
+    public function removeCertificate() {
+        $id = request()->post('id');
+
+        if(!is_numeric($id)){
+            //todo:: hmm
+            return response()->json(['success' => false]);
+        }
+
+        if(!$nurseFile = NurseFile::where('id', $id)->first()){
+            //todo:: hmm
+            return response()->json(['success' => false]);
+        }
+
+        Storage::disk('public')->delete($nurseFile->file_path);
+        Storage::disk('public')->delete($nurseFile->thumbnail_path);
+        NurseFile::where('id', $id)->delete();
+
         return response()->json(['success' => true]);
     }
 

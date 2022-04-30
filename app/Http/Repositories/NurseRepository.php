@@ -11,6 +11,7 @@ use App\Models\ProvideSupportAssigned;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Image;
 
 class NurseRepository
@@ -300,8 +301,14 @@ class NurseRepository
                 foreach ($files as $number => $file) {
                     $original_name = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
-                    $file_name = 'certificate' . '_user_' . $nurse->id . '_' . time() . '.' . $extension;
-                    $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . time() . '.' . $extension;
+                    $file_name = 'certificate' . '_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
+                    $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
+
+                    if(isset($certificates[$number]['id'])) {
+                        $cert = NurseFile::where('id', $certificates[$number]['id'])->first();
+                        Storage::disk('public')->delete($cert->file_path);
+                        Storage::disk('public')->delete($cert->thumbnail_path);
+                    }
 
                     $file_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
                     $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
@@ -312,18 +319,47 @@ class NurseRepository
 
                     $img->save();
 
-                    NurseFile::create([
-                        'nurse_id' => $nurse->entity_id,
-                        'original_name' => $original_name,
-                        'file_path' => $file_path,
-                        'file_type' => 'certificate',
-                        'date' => $certificates[$number]['date'],
-                        'place_of_receipt' => $certificates[$number]['place_of_receipt'],
-                        'other_info' => $certificates[$number]['other_info'],
-                        'title' => $certificates[$number]['title'],
-                        'thumbnail_path' => $thumbnail_path,
-                    ]);
+                    if (isset($certificates[$number]['id'])) {
+                        NurseFile::where('id', $certificates[$number]['id'])->update([
+                            'original_name' => $original_name,
+                            'file_path' => $file_path,
+                            'file_type' => 'certificate',
+                            'date' => $certificates[$number]['date'],
+                            'place_of_receipt' => $certificates[$number]['place_of_receipt'],
+                            'other_info' => $certificates[$number]['other_info'],
+                            'title' => $certificates[$number]['title'],
+                            'thumbnail_path' => $thumbnail_path,
+                        ]);
+                    } else {
+                        NurseFile::create(
+                            [
+                                'nurse_id' => $nurse->entity_id,
+                                'original_name' => $original_name,
+                                'file_path' => $file_path,
+                                'file_type' => 'certificate',
+                                'date' => $certificates[$number]['date'],
+                                'place_of_receipt' => $certificates[$number]['place_of_receipt'],
+                                'other_info' => $certificates[$number]['other_info'],
+                                'title' => $certificates[$number]['title'],
+                                'thumbnail_path' => $thumbnail_path,
+                            ]);
+                    }
                 }
+            }
+
+            if (!is_array($files) || count($files) < count($certificates)) {
+                foreach ($certificates as $certificate) {
+                    if (isset($certificate['id'])) {
+                        NurseFile::where('id', $certificate['id'])->update([
+                            'date' => $certificate['date'],
+                            'place_of_receipt' => $certificate['place_of_receipt'],
+                            'other_info' => $certificate['other_info'],
+                            'title' => $certificate['title'],
+                        ]);
+                    }
+
+                }
+
             }
         }
 

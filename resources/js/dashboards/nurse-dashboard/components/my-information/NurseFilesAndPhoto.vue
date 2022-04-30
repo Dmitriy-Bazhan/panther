@@ -21,27 +21,34 @@
                 <span class="register-form-error" v-if="errors !== null && errors['file'] !== undefined">{{ errors['file'][0] }}</span>
             </div>
 
-            <div class="col-5 offset-1" style="border: solid 1px lightgray">
+            <div class="col-7 offset-1" style="border: solid 1px lightgray">
                 <div>
                     {{ $t('certificates') }}
 
-                    <p class="file_name" v-for="item in filterFiles(user.entity.files, 'certificate')">{{
-                        item.original_name  + ' Title: ' + item.title + ' Date: ' + item.date + ' Place: ' + item.place_of_receipt
-                        + ' Other info: ' + item.other_info
-                        }}</p><br>
-
                     <div v-for="(certificat, index) in certificates">
 
-                        Title:<input type="text" v-model="certificat.title"><br>
-                        Date:<input type="text" v-model="certificat.date"><br>
-                        Place of receipt:<input type="text" v-model="certificat.place_of_receipt"><br>
-                        Other info:<input type="text" v-model="certificat.other_info"><br>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="certificate-thumbnail-photo-wrapper">
+                                    <img v-bind:src="path + '/storage/' + certificat.file_path" alt="no-photo"
+                                         class="certificate-thumbnail-photo">
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                Title:<input type="text" v-model="certificat.title"><br>
+                                Date:<input type="text" v-model="certificat.date"><br>
+                                Place of receipt:<input type="text" v-model="certificat.place_of_receipt"><br>
+                                Other info:<input type="text" v-model="certificat.other_info"><br>
 
-                        <input type="file" @change="upload($event, index)"><br>
-
+                                <input type="file" @change="upload($event, index)"><br>
+                                <button v-on:click="removeCert(index,certificat )">Remove</button>
+                            </div>
+                        </div>
+                        <hr>
                     </div>
 
                     <button @click="addItem">Add Certificat</button>
+                    <hr>
                 </div>
 
 
@@ -112,6 +119,24 @@
 
         },
         watch: {
+            user: {
+                handler(newValue, oldValue) {
+                    let arr = this.filterFiles(this.user.entity.files, 'certificate');
+                    for (let i = 0; i < arr.length; i++) {
+                        this.certificates.push({
+                            id: arr[i].id,
+                            title: arr[i].title,
+                            thumbnail_path: arr[i].thumbnail_path,
+                            file_path: arr[i].file_path,
+                            date: arr[i].date,
+                            place_of_receipt: arr[i].place_of_receipt,
+                            other_info: arr[i].other_info,
+                            file: '',
+                        });
+                    }
+                },
+                immediate: true
+            },
         },
         methods: {
             addItem() {
@@ -121,7 +146,23 @@
             upload(event, index) {
                 this.certificates[index].file = event.target.files[0]
             },
+            removeCert(index, cert) {
+                if (cert.id === undefined) {
+                    this.certificates.splice(index, 1);
+                } else {
 
+                    axios.post('/dashboard/nurse-my-information/remove-certificate', {'id': cert.id})
+                        .then((response) => {
+                            if (response.data.success) {
+                                this.certificates.splice(index, 1);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+
+            },
 
             updateFilesAndPhoto() {
                 this.criminal_record = this.$refs.criminal_record.files;
@@ -169,7 +210,6 @@
                     .then((response) => {
                         if (response.data.success) {
                             console.log(response.data);
-                            this.certificates = [];
                             this.emitter.emit('response-success-true');
                             this.errors = null;
                             this.emitter.emit('photo-exist');
