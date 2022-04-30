@@ -41,6 +41,7 @@
                                 Other info:<input type="text" v-model="certificat.other_info"><br>
 
                                 <input type="file" @change="upload($event, index)"><br>
+                                <button v-on:click="removeCert(index,certificat )">Remove</button>
                             </div>
                         </div>
                         <hr>
@@ -145,7 +146,23 @@
             upload(event, index) {
                 this.certificates[index].file = event.target.files[0]
             },
+            removeCert(index, cert) {
+                if (cert.id === undefined) {
+                    this.certificates.splice(index, 1);
+                } else {
 
+                    axios.post('/dashboard/nurse-my-information/remove-certificate', {'id': cert.id})
+                        .then((response) => {
+                            if (response.data.success) {
+                                this.certificates.splice(index, 1);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+
+            },
 
             updateFilesAndPhoto() {
                 this.criminal_record = this.$refs.criminal_record.files;
