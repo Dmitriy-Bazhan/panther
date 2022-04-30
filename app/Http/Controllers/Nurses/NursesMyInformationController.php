@@ -136,7 +136,9 @@ class NursesMyInformationController extends Controller
         }
 
         $this->makeEventSendProfileToAdmin($id);
-        return response()->json(['success' => true]);
+        $certificates = json_decode($request->input('certificates'), true);
+        $files = $request->file('certificates_files');
+        return response()->json(['success' => true, 'files' => $files, 'certificates' => $certificates]);
     }
 
     public function destroy($id)

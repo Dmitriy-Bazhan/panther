@@ -12,6 +12,14 @@
     width: 100%;
 }
 
+.certificate-thumbnail-photo-wrapper {
+
+}
+
+.certificate-thumbnail-photo {
+    width: 70%;
+}
+
 .nurse-card-photo {
     width: 70%;
 }
