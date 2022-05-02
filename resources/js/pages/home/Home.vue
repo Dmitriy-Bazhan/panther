@@ -57,7 +57,7 @@ export default {
     },
     methods: {
         getPage() {
-            axios.get('/dashboard/admin/get-page/home')
+            axios.get('/dashboard/admin/get-page/home' + '?lang=' + window.locale)
                 .then((response) => {
                     if(response.data.success){
                         this.pageData = response.data.page.data;
