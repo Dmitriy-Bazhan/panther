@@ -652,6 +652,16 @@
                 &-text{
                     font-weight: 700;
                     font-size: 15px;
+
+                    span:after{
+                        content: ', ';
+                    }
+
+                    span:last-child{
+                        &:after{
+                            display: none;
+                        }
+                    }
                 }
             }
         }

@@ -1025,7 +1025,7 @@ export default {
                     title: 'no_matter',
                 },
             ],
-            activeStep: 2,
+            activeStep: 0,
             activelanguage: 0,
             path: location.origin,
             nurses: [],

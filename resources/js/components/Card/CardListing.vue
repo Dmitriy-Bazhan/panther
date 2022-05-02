@@ -25,14 +25,14 @@
                         </div>
                     </div>
                     <div class="pt-card--info-list">
-                        <div class="pt-card--info-list--item" v-for="n in 4">
-                            <pt-icon type="pin"></pt-icon>
+                        <div class="pt-card--info-list--item">
+                            <pt-icon type="globe"></pt-icon>
                             <div class="">
                                 <div class="pt-card--info-list--item-title">
-                                    Ort:
+                                    Sprachen:
                                 </div>
                                 <div class="pt-card--info-list--item-text">
-                                    12345 Berlin
+                                    <span v-for="lang in nurse.entity.languages">{{lang.lang}}</span>
                                 </div>
                             </div>
                         </div>
