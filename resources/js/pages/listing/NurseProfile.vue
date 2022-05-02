@@ -337,7 +337,6 @@ export default {
             .then((response) => {
                 if (response.data.success) {
                     self.nurse = response.data.nurse
-                    console.log(response.data.nurse)
                     self.getPrivateChats();
 
                     try {

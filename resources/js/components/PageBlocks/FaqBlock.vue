@@ -1,10 +1,10 @@
 <template>
     <section class="pt-section-faq" v-if="blockData">
         <div class="wrapper">
-            <p class="pt-subtitle" v-v-if="blockData.subtitle">
+            <p class="pt-subtitle" v-if="blockData.subtitle">
                 <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title" v-v-if="blockData.title">
+            <h2 class="pt-title" v-if="blockData.title">
                 {{blockData.title}}
             </h2>
 
@@ -19,7 +19,7 @@
                         </p>
                     </div>
                     <pt-accordeon>
-                        <div  class="pt-faq--item-body" v-v-if="activeFaq === index">
+                        <div  class="pt-faq--item-body" v-if="activeFaq === index">
                             <div class="pt-faq--item-text">
                                 {{item.text}}
                             </div>
