@@ -1,10 +1,10 @@
 <template>
     <section class="pt-section-benefits" v-if="blockData">
         <div class="wrapper">
-            <p class="pt-subtitle" v-show="blockData.subtitle">
+            <p class="pt-subtitle" v-if="blockData.subtitle">
                 <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title" v-show="blockData.title">
+            <h2 class="pt-title" v-if="blockData.title">
                 {{blockData.title}}
             </h2>
 

@@ -1,20 +1,20 @@
 <template>
     <section class="pt-section-default pt-section-about">
         <div class="wrapper">
-            <p class="pt-subtitle" v-show="blockData.subtitle">
+            <p class="pt-subtitle" v-if="blockData.subtitle">
                 <span>{{blockData.subtitle}}</span>
             </p>
-            <h2 class="pt-title" v-show="blockData.title">
+            <h2 class="pt-title" v-if="blockData.title">
                 {{blockData.title}}
             </h2>
 
-            <p class="pt-block-heading" v-show="blockData.listHeading && blockData.list.length > 0">
+            <p class="pt-block-heading" v-if="blockData.listHeading && blockData.list.length > 0">
                 {{blockData.listHeading}}
             </p>
 
-            <div class="pt-row" v-show="blockData.list.length > 0">
+            <div class="pt-row" v-if="blockData.list.length > 0">
                 <div class="pt-col-md-6">
-                    <p class="pt-i-list--heading" v-show="blockData.text">
+                    <p class="pt-i-list--heading" v-if="blockData.text">
                         {{blockData.text}}
                     </p>
                     <ul class="pt-i-list">
@@ -36,13 +36,13 @@
 
                 <div class="pt-col-md-6">
                     <div class="pt-section-about--grid">
-                        <div class="pt-section-about--grid-item" v-show="blockData.image1">
+                        <div class="pt-section-about--grid-item" v-if="blockData.image1">
                             <img :src="blockData.image1.path" alt="pic">
                         </div>
-                        <div class="pt-section-about--grid-item" v-show="blockData.image2">
+                        <div class="pt-section-about--grid-item" v-if="blockData.image2">
                             <img :src="blockData.image2.path" alt="pic">
                         </div>
-                        <div class="pt-section-about--grid-item" v-show="blockData.image3">
+                        <div class="pt-section-about--grid-item" v-if="blockData.image3">
                             <img :src="blockData.image3.path" alt="pic">
                         </div>
                     </div>

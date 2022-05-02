@@ -4,10 +4,10 @@
             <div class="pt-section-register--items">
                 <div class="pt-section-register--item">
                     <img src="/images/fake/nurse.png" alt="" class="pt-section-register--item-img">
-                    <p class="pt-block-heading">
+                    <p class="pt-block-heading" v-if="blockData.nurseTitle">
                         {{blockData.nurseTitle}}
                     </p>
-                    <p class="pt-section-register--item-text">
+                    <p class="pt-section-register--item-text" v-if="blockData.nurseText">
                         {{blockData.nurseText}}
                     </p>
 
@@ -15,10 +15,10 @@
                 </div>
                 <div class="pt-section-register--item">
                     <img src="/images/fake/old.png" alt="" class="pt-section-register--item-img">
-                    <p class="pt-block-heading">
+                    <p class="pt-block-heading" v-if="blockData.clientTitle">
                         {{blockData.clientTitle}}
                     </p>
-                    <p class="pt-section-register--item-text">
+                    <p class="pt-section-register--item-text" v-if="blockData.clientText">
                         {{blockData.clientText}}
                     </p>
 
