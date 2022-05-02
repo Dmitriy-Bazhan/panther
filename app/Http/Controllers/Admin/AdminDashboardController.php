@@ -83,7 +83,7 @@ class AdminDashboardController extends Controller
         $pageData = request('pageData');
         $lang = request('lang');
 
-        Page::where('page', $pageData['page'])->delete();
+        Page::where('lang', $lang)->where('page', $pageData['page'])->delete();
 
         if ($pageData['page'] != '') {
             $newBlock = new Page();
