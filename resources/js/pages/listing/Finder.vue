@@ -2,10 +2,10 @@
     <div class="pt-finder">
         <div class="wrapper">
             <p class="pt-subtitle">
-                <span>Suchen</span>
+                <span>{{ $t('finder_subtitle') }}</span>
             </p>
             <h2 class="pt-title">
-                Pflegecraft finden
+                {{ $t('finder_title') }}
             </h2>
 
             <div class="pt-info pt-mt-45" v-show="activeStep === 0">
@@ -240,7 +240,7 @@
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <p class="pt-form--label">
-                                    {{ $t('what_support_looking') }}
+                                    {{ $t('what_support_looking_subtitle') }} :
                                 </p>
 
                                 <div class="pt-select">
@@ -272,7 +272,7 @@
                     <div class="pt-finder--form-block">
                         <button class="pt-btn--primary pt-md pt-mt-20 pt-m-a"
                                 @click.prevent="setStep(++activeStep)">
-                            weiter
+                            {{ $t('next_btn') }}
                         </button>
                     </div>
                 </div>
@@ -281,12 +281,12 @@
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
                             <div class="pt-finder--form-label--number">1</div>
-                            {{ $t('what_support_looking') }}
+                            {{ $t('nurse_location_title') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <p class="pt-form--label">
-                                    {{ $t('is_degree_of_care') }}
+                                    {{ $t('nurse_location_subtitle') }}
                                 </p>
                                 <div class="pt-input">
                                     <div class="pt-input--icon">
@@ -294,7 +294,7 @@
                                     </div>
                                     <GMapAutocomplete
                                         class="pt-input"
-                                        placeholder="This is a placeholder"
+                                        placeholder=""
                                         @place_changed="setPlace"
                                     >
                                     </GMapAutocomplete>
@@ -315,12 +315,12 @@
                     <div class="pt-finder--form-block">
                         <div class="pt-finder--form-label">
                             <div class="pt-finder--form-label--number">2</div>
-                            {{ $t('what_support_looking') }}
+                            {{ $t('degree_of_care_title') }}
                         </div>
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <p class="pt-form--label">
-                                    {{ $t('is_degree_of_care') }}
+                                    {{ $t('degree_of_care_subtitle') }}
                                 </p>
 
                                 <div class="pt-select">
@@ -360,7 +360,7 @@
                                 <div class="pt-row">
                                     <div class="pt-col-md-6" :class="{'pt-disabled': index !== activelanguage}">
                                         <p class="pt-form--label">
-                                            {{ $t('language_skills') }}
+                                            {{ $t('language_title') }}
                                         </p>
 
                                         <div class="pt-select">
@@ -383,7 +383,7 @@
                                     </div>
                                     <div class="pt-col-md-5">
                                         <p class="pt-form--label">
-                                            {{ $t('language_skills') }}
+                                            {{ $t('language_level_title') }}
                                         </p>
 
                                         <div class="pt-select">
@@ -417,7 +417,8 @@
                                 <div class="pt-row">
                                     <div class="pt-col-md-12">
                                         <button class="pt-btn--light pt-md" @click.prevent="addLanguage">
-                                            add language
+                                            <i class="fa-solid fa-plus"></i>
+                                            {{ $t('add_language') }}
                                         </button>
                                     </div>
                                 </div>
@@ -425,11 +426,20 @@
                         </div>
                     </div>
 
-                    <div class="pt-finder--form-block">
-                        <button class="pt-btn--primary pt-md pt-mt-20 pt-m-a"
-                                @click.prevent="setStep(++activeStep)">
-                            weiter
-                        </button>
+                    <div class="pt-finder--form-block pt-mt-20">
+                        <div class="pt-row">
+                            <div class="pt-col-md-6">
+                                <button class="pt-btn--primary-border pt-md pt-ml-a" @click="setStep(--activeStep)">
+                                    {{ $t('back_btn') }}
+                                </button>
+                            </div>
+                            <div class="pt-col-md-6">
+                                <button class="pt-btn--primary pt-md pt-mr-a"
+                                        @click.prevent="setStep(++activeStep)">
+                                    {{ $t('next_btn') }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -475,7 +485,7 @@
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <p class="pt-form--label">
-                                    {{ $t('disease') }}
+                                    {{ $t('disease_subtitle') }}
                                 </p>
 
                                 <div class="pt-select">
@@ -516,9 +526,15 @@
                                                            value="need_help_with_walking"
                                                            v-model="clientSearchInfo.additional_transportation">
                                                     <span class="pt-box--body"></span>
-                                                    <span class="pt-box--label">{{
-                                                            $t('need_help_with_walking')
-                                                        }}</span>
+                                                    <span class="pt-box--label">{{ $t('need_help_with_walking') }}</span>
+                                                </label>
+                                            </div>
+                                            <div class="pt-form--box-list--item">
+                                                <label class="pt-box">
+                                                    <input type="radio" name="additional_transportation" value="nothing"
+                                                           v-model="clientSearchInfo.additional_transportation">
+                                                    <span class="pt-box--body"></span>
+                                                    <span class="pt-box--label">{{ $t('nothing') }}</span>
                                                 </label>
                                             </div>
                                             <div class="pt-form--box-list--item">
@@ -532,15 +548,6 @@
                                             </div>
                                             <div class="pt-form--box-list--item">
                                                 <label class="pt-box">
-                                                    <input type="radio" name="additional_transportation"
-                                                           value="crutches"
-                                                           v-model="clientSearchInfo.additional_transportation">
-                                                    <span class="pt-box--body"></span>
-                                                    <span class="pt-box--label">{{ $t('crutches') }}</span>
-                                                </label>
-                                            </div>
-                                            <div class="pt-form--box-list--item">
-                                                <label class="pt-box">
                                                     <input type="radio" name="additional_transportation" value="unknown"
                                                            v-model="clientSearchInfo.additional_transportation">
                                                     <span class="pt-box--body"></span>
@@ -549,10 +556,11 @@
                                             </div>
                                             <div class="pt-form--box-list--item">
                                                 <label class="pt-box">
-                                                    <input type="radio" name="additional_transportation" value="nothing"
+                                                    <input type="radio" name="additional_transportation"
+                                                           value="crutches"
                                                            v-model="clientSearchInfo.additional_transportation">
                                                     <span class="pt-box--body"></span>
-                                                    <span class="pt-box--label">{{ $t('nothing') }}</span>
+                                                    <span class="pt-box--label">{{ $t('crutches') }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -596,9 +604,7 @@
                                                            value="significant_difficulties"
                                                            v-model="clientSearchInfo.memory">
                                                     <span class="pt-box--body"></span>
-                                                    <span class="pt-box--label">{{
-                                                            $t('significant_difficulties')
-                                                        }}</span>
+                                                    <span class="pt-box--label">{{ $t('significant_difficulties') }}</span>
                                                 </label>
                                             </div>
                                             <div class="pt-form--box-list--item">
@@ -843,9 +849,7 @@
                                                            value="preparation_of_medicines"
                                                            v-model="clientSearchInfo.areas_help">
                                                     <span class="pt-box--body"></span>
-                                                    <span class="pt-box--label">{{
-                                                            $t('preparation_of_medicines')
-                                                        }}</span>
+                                                    <span class="pt-box--label">{{ $t('preparation_of_medicines') }}</span>
                                                 </label>
                                             </div>
                                             <div class="pt-form--box-list--item">
@@ -879,9 +883,18 @@
                     </div>
 
                     <div class="pt-finder--form-block pt-mt-20">
-                        <button class="pt-btn--primary pt-md pt-m-a" v-on:click="saveClientInfo()">
-                            {{ $t('find') }}
-                        </button>
+                        <div class="pt-row">
+                            <div class="pt-col-md-6">
+                                <button class="pt-btn--primary-border pt-md pt-ml-a" @click="setStep(--activeStep)">
+                                    {{ $t('back_btn') }}
+                                </button>
+                            </div>
+                            <div class="pt-col-md-6">
+                                <button class="pt-btn--primary pt-md pt-mr-a" @click="saveClientInfo()">
+                                    {{ $t('find') }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -1012,7 +1025,7 @@ export default {
                     title: 'no_matter',
                 },
             ],
-            activeStep: 0,
+            activeStep: 2,
             activelanguage: 0,
             path: location.origin,
             nurses: [],

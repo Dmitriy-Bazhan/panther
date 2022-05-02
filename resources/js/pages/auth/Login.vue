@@ -2,16 +2,16 @@
     <div class="pt-section-default">
         <div class="wrapper">
             <p class="pt-subtitle">
-                <span>login</span>
+                <span>{{$t('login_subtitle')}}</span>
             </p>
             <h2 class="pt-title">
-                Auf der Plattform anmelden
+                {{$t('login_title')}}
             </h2>
 
             <form class="pt-form">
                 <div class="pt-form--group">
                     <p class="pt-form--label">
-                        E-Mail  :
+                        {{$t('email')}} :
                     </p>
                     <pt-input type="email" :modelValue="email" icon="email"
                               @update:modelValue="newValue => email = newValue"
@@ -19,7 +19,7 @@
                 </div>
                 <div class="pt-form--group">
                     <p class="pt-form--label">
-                        Passwort :
+                        {{$t('password')}} :
                     </p>
                     <pt-input type="password" :modelValue="password" icon="password"
                               @update:modelValue="newValue => password = newValue"
@@ -30,23 +30,23 @@
                     <div class="pt-form--info">
                         <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
-                            Remember Me
+                            {{$t('remember_me')}}
                         </label>
                         <p>
                             <a href="">
-                                Passwort vergessen?
+                                {{$t('password_forgot')}}
                             </a>
                         </p>
                     </div>
                 </div>
 
                 <div class="pt-form--group">
-                    <button class="pt-btn pt-md" v-on:click="SendLogin">login</button>
+                    <button class="pt-btn pt-md" v-on:click="SendLogin">{{$t('login_btn')}}</button>
                 </div>
 
                 <div class="pt-form--group">
                     <p class="pt-form--text">
-                        Neues Konto erstellen. <a href="register">Registrierung</a>
+                        {{$t('register_text')}} <a href="register">{{$t('register_link')}}</a>
                     </p>
                 </div>
 <!--                <button class="btn btn-primary" v-on:click="backToHome">Back</button>-->

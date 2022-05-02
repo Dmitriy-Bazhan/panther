@@ -1,5 +1,5 @@
 <template>
-    <span v-on:click="logOut" class="menu-item-name">&nbsp;{{ $t('log_out') }}</span>
+    <span v-on:click="logOut">{{ $t('log_out') }}</span>
 </template>
 
 <script>

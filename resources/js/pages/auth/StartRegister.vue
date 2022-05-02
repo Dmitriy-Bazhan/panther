@@ -1,8 +1,12 @@
 <template>
     <div class="pt-section-default">
         <div class="pt-tabs">
-            <button v-on:click="activeTav = 1" class="pt-tabs--btn" :class="{active: activeTav === 1}">Ich bin Kunde</button>
-            <button v-on:click="activeTav = 2" class="pt-tabs--btn" :class="{active: activeTav === 2}">Ich bin Pflegekraft</button>
+            <button v-on:click="activeTav = 1" class="pt-tabs--btn" :class="{active: activeTav === 1}">
+                {{$t('i_am_client')}}
+            </button>
+            <button v-on:click="activeTav = 2" class="pt-tabs--btn" :class="{active: activeTav === 2}">
+                {{$t('i_am_nurse')}}
+            </button>
         </div>
 
         <client_register v-if="activeTav === 1" :data="data"></client_register>

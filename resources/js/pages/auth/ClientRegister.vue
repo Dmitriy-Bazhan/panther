@@ -5,7 +5,7 @@
                 <span>{{ $t('client_register') }}</span>
             </p>
             <h2 class="pt-title">
-                Registrierung
+                {{ $t('client_register_title') }}
             </h2>
 
             <form class="pt-form pt-form--big">
@@ -122,13 +122,13 @@
 
                 <div class="pt-form--group pt-lg">
                     <button class="pt-btn" v-on:click="sendForm">
-                        Registrierung abschließen
+                        {{ $t('registration_btn') }}
                     </button>
                 </div>
 
                 <div class="pt-form--group pt-lg">
                     <p class="pt-form--text">
-                        Ich habe bereits einen Account. <a href="/login">Login</a>
+                        {{ $t('login_text') }} <a href="/login">{{$t('login_subtitle')}}</a>
                     </p>
                 </div>
             </form>
