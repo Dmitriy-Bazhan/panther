@@ -81,12 +81,14 @@ class AdminDashboardController extends Controller
 //        }
 
         $pageData = request('pageData');
+        $lang = request('lang');
 
-        Page::where('page', $pageData['page'])->delete();
+        Page::where('lang', $lang)->where('page', $pageData['page'])->delete();
 
         if ($pageData['page'] != '') {
             $newBlock = new Page();
             $newBlock->page = $pageData['page'];
+            $newBlock->lang = $lang;
             $newBlock->data = json_encode($pageData['data']);
             $newBlock->save();
         }
@@ -101,7 +103,9 @@ class AdminDashboardController extends Controller
 //            abort(409);
 //        }
 
-        $page = Page::where('page', $page)->first();
+        $lang = request('lang');
+
+        $page = Page::where('lang', $lang)->where('page', $page)->first();
         $result = [];
         if (!is_null($page)) {
             $result['page'] = $page->page;
