@@ -117,6 +117,18 @@
             <h3>New list item</h3>
             <div class="form-group">
                 <p class="form-label">
+                    List item icon
+                </p>
+
+                <v-select :options="icons" label="name" v-model="form.listItem.icon">
+                    <template #option="{name, icon}">
+                        <pt-icon :type="icon"></pt-icon>
+                        <em>{{ name }}</em>
+                    </template>
+                </v-select>
+            </div>
+            <div class="form-group">
+                <p class="form-label">
                     List item title
                 </p>
                 <input type="text" class="form-control" v-model="form.listItem.title">
