@@ -113,7 +113,10 @@ export default {
             }
         },
         savePage() {
-            axios.post('/dashboard/admin/save-page/home', {'pageData': this.pageData})
+            axios.post('/dashboard/admin/save-page/home', {
+                'pageData': this.pageData,
+                'lang': window.locale,
+            })
                 .then((response) => {
                     if(response.data.success){
                         this.emitter.emit('response-success-true');
@@ -124,7 +127,7 @@ export default {
                 });
         },
         getPage() {
-            axios.get('/dashboard/admin/get-page/home')
+            axios.get('/dashboard/admin/get-page/home' + '?lang=' + window.locale)
                 .then((response) => {
                     if(response.data.success){
                         this.pageData = response.data.page;
