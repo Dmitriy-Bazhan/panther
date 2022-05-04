@@ -25,6 +25,10 @@ class NurseRepository
 
     public function search($id = null)
     {
+//        return Nurse::query()
+////            ->when(!is_null($id), function ($query) use ($id) {
+////                return $query->where('id', $id);
+////            })->paginate(12);
 
         $nurse = $this->nurse->newQuery();
         //only nurses
@@ -36,8 +40,9 @@ class NurseRepository
 
         //needed joins for work filters and sort
         if (is_null($id)) {
-            $nurse->select('users.*', 'nurse_prices.hourly_payment')
-                ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id');
+            $nurse->select('users.*', 'nurse_prices.hourly_payment', 'nurses.work_time_pref')
+                ->leftJoin('nurse_prices', 'users.entity_id', '=', 'nurse_prices.nurse_id')
+                ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
         }
 
 
@@ -132,15 +137,22 @@ class NurseRepository
 
         //filter work time pref
         if (request()->filled('work_time_pref') && is_array(request('work_time_pref'))) {
+            $string = '';
             foreach (request('work_time_pref') as $key => $value) {
                 if ($value === "1") {
-                    $nurse->whereHas('nurse', function ($query) use ($key) {
-                        return $query->whereJsonContains('work_time_pref->' . $key, request('work_time_pref')[$key]);
-                    });
+//                    $nurse->whereHas('nurse', function ($query) use ($key) {
+//                        return $query->whereJsonContains('work_time_pref->' . $key, request('work_time_pref')[$key]);
+//                        return $query->orderBy('work_time_pref', 'desc');
+//                        return $query->orderByRaw("cast(work_time_pref->'$.weekdays_7_11' as unsigned) desc");
+//                        return $query->orderByRaw("cast(json_extract('work_time_pref','$.weekdays_7_11') as unsigned) desc");
+//                    });
+                    $string .= $key . '": "'. $value . '%';
                 }
             }
-        }
 
+            $nurse->orderByRaw("work_time_pref like '%". $string ."%' DESC");
+
+        }
         //filter price
 
 
@@ -159,11 +171,11 @@ class NurseRepository
                 } elseif (request()->filled('sort_name') && request('sort_name') == 'name') {
                     $nurse->orderBy('last_name', request('sort_direction'));
                 } else {
-
+//                    $nurse->orderBy('last_name');
 //                default order(info_is_full is hidden var, needed only order)
-                    $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
-                        ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
-                    $nurse->orderByDesc('info_is_full')->orderByDesc('change_info');
+//                    $nurse->select('users.*', 'nurses.info_is_full', 'nurses.change_info')
+//                        ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
+//                    $nurse->orderByDesc('info_is_full')->orderByDesc('change_info');
                 }
             }
         }
@@ -304,7 +316,7 @@ class NurseRepository
                     $file_name = 'certificate' . '_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
                     $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
 
-                    if(isset($certificates[$number]['id'])) {
+                    if (isset($certificates[$number]['id'])) {
                         $cert = NurseFile::where('id', $certificates[$number]['id'])->first();
                         Storage::disk('public')->delete($cert->file_path);
                         Storage::disk('public')->delete($cert->thumbnail_path);
