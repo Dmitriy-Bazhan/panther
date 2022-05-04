@@ -25,6 +25,10 @@ class NurseRepository
 
     public function search($id = null)
     {
+//        return Nurse::query()
+////            ->when(!is_null($id), function ($query) use ($id) {
+////                return $query->where('id', $id);
+////            })->paginate(12);
 
         $nurse = $this->nurse->newQuery();
         //only nurses
@@ -304,7 +308,7 @@ class NurseRepository
                     $file_name = 'certificate' . '_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
                     $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
 
-                    if(isset($certificates[$number]['id'])) {
+                    if (isset($certificates[$number]['id'])) {
                         $cert = NurseFile::where('id', $certificates[$number]['id'])->first();
                         Storage::disk('public')->delete($cert->file_path);
                         Storage::disk('public')->delete($cert->thumbnail_path);

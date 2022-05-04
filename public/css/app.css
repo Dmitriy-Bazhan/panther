@@ -1598,6 +1598,12 @@
   font-weight: 700;
   font-size: 15px;
 }
+.pt-card--info-list--item-text span:after {
+  content: ", ";
+}
+.pt-card--info-list--item-text span:last-child:after {
+  display: none;
+}
 
 .pt-range--slider {
   margin-top: 35px;
