@@ -161,6 +161,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
+        Route::post('get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar']);
 
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
@@ -181,7 +182,6 @@ Route::prefix('dashboard')->group(function () {
 
     //nurse payments
     Route::prefix('nurse-payments')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
-
     });
     Route::resource('nurse-payments', NursesPaymentsController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 

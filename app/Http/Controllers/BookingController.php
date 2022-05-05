@@ -29,6 +29,7 @@ class BookingController extends Controller
 
     public function index()
     {
+        //
     }
 
     public function create()
@@ -148,7 +149,6 @@ class BookingController extends Controller
                 ->send(new ClientVerificationBookingMail($booking, $nurse, $client));
         }
 
-
         return response()->json(['success' => true]);
     }
 
@@ -214,7 +214,6 @@ class BookingController extends Controller
             Mail::mailer('smtp')->to($nurse->email)
                 ->send(new SendNurseNewBookingMail($nurse, $client));
         }
-
 
         return redirect('/booking-verify');
     }

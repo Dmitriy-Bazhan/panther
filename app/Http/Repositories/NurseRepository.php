@@ -45,7 +45,6 @@ class NurseRepository
                 ->leftJoin('nurses', 'users.entity_id', '=', 'nurses.id');
         }
 
-
         //get nurses to admin/nurses list
 //        if (request()->filled('only_full_info') && request('only_full_info') == 'yes') {
 //            $nurse->whereHas('nurse', function ($query) {
@@ -142,20 +141,14 @@ class NurseRepository
                 if ($value === "1") {
 //                    $nurse->whereHas('nurse', function ($query) use ($key) {
 //                        return $query->whereJsonContains('work_time_pref->' . $key, request('work_time_pref')[$key]);
-//                        return $query->orderBy('work_time_pref', 'desc');
-//                        return $query->orderByRaw("cast(work_time_pref->'$.weekdays_7_11' as unsigned) desc");
-//                        return $query->orderByRaw("cast(json_extract('work_time_pref','$.weekdays_7_11') as unsigned) desc");
 //                    });
                     $string .= $key . '": "'. $value . '%';
                 }
             }
-
             $nurse->orderByRaw("work_time_pref like '%". $string ."%' DESC");
-
         }
+
         //filter price
-
-
         if (request()->filled('filter_price') && is_array(request('filter_price'))) {
             $nurse->where('hourly_payment', '>=', request('filter_price')[0])
                 ->where('hourly_payment', '<=', request('filter_price')[1]);
