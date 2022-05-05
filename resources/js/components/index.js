@@ -30,6 +30,7 @@ import NurseDashboard from '../dashboards/nurse-dashboard/index';
 
 let i18n = VueI18n.createI18n({
     locale: window.locale,
+    silentTranslationWarn: true,
 });
 
 let Components
