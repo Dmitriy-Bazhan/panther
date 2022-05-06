@@ -10,11 +10,14 @@ use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
 use App\Models\HearAboutUs;
+use App\Models\HearAboutUsData;
 use App\Models\Lang;
 use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
 use App\Models\ProvideSupport;
+use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -249,10 +252,114 @@ class AdminDashboardController extends Controller
         return ClientResource::collection($clients);
     }
 
-    public function hearAboutUs()
+    public function getHearAboutUs()
     {
-        $hearAboutUs = HearAboutUs::with('data')->get();
-        return response()->json(['hear_about_us' => $hearAboutUs]);
+        $lang = request('lang');
+        $hearAboutUs = HearAboutUs::with(['data' => function ($query) use ($lang) {
+            return $query->where('lang', $lang);
+        }])->get();
+        return response()->json(['success' => true, 'hear_about_us' => $hearAboutUs]);
+    }
+
+    public function setHearAboutUs()
+    {
+        $hearAboutUs = request('hear_about_us');
+
+        foreach ($hearAboutUs as $item) {
+            HearAboutUsData::where('id', $item['data'][0]['id'])->update([
+                'data' => $item['data'][0]['data']
+            ]);
+        }
+
+        $lang = request('lang');
+        $secondLang = $lang == 'de' ? 'en' : 'de';
+        $newHearAboutAs = request('new_hear_about_us');
+        if (count($newHearAboutAs) > 0) {
+            foreach ($newHearAboutAs as $item) {
+                $new = new HearAboutUs();
+                $new->save();
+                $id = $new->id;
+
+                $newData = new HearAboutUsData();
+                $newData->near_about_us_id = $id;
+                $newData->lang = $lang;
+                $newData->data = $item['data'];
+                $newData->save();
+
+                $newData = new HearAboutUsData();
+                $newData->near_about_us_id = $id;
+                $newData->lang = $secondLang;
+                $newData->data = $item['data'];
+                $newData->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function removeHearAboutUs($id){
+
+        if(!is_null($id) && !is_numeric($id)){
+            //todo::hmm
+            return response()->json(['success' => false, 'errors' => ['Something wrong with id'] ]);
+        }
+
+        if(!$hearAboutUs = HearAboutUs::where('id', $id)->with('data')->first()){
+            //todo::hmm
+            return response()->json(['success' => false, 'errors' => ['Not exists item'] ]);
+        }
+
+        $hearAboutUs->delete();
+
+        User::where('hear_about_us', $id)->update([
+            'hear_about_us' => null,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function getSiteSettings()
+    {
+        $siteSettings = Setting::first();
+        return response()->json(['success' => true, 'site_settings' => $siteSettings]);
+    }
+
+    public function setSiteSettings()
+    {
+        $rules = [
+            'site_email' => 'required|email',
+            'listing_paginate' => 'required|numeric|min:1',
+            'facebook_link' => 'required|active_url',
+            'twitter_link' => 'required|active_url',
+            'instagram_link' => 'required|active_url',
+        ];
+
+        $validator = Validator::make(request()->post('site_settings'), $rules);
+
+        $errors = [];
+        if ($validator->fails()) {
+            $errors = array_merge($errors, $validator->errors()->toArray());
+        }
+
+        if (count($errors) > 0) {
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        Setting::truncate();
+
+        $settings = new Setting();
+        $settings->listing_paginate = request()->post('site_settings')['listing_paginate'];
+        $settings->site_email = request()->post('site_settings')['site_email'];
+        $settings->facebook_link = request()->post('site_settings')['facebook_link'];
+        $settings->twitter_link = request()->post('site_settings')['twitter_link'];
+        $settings->instagram_link = request()->post('site_settings')['instagram_link'];
+
+        if (!$settings->save()) {
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function changeHearAboutUsShow($id)

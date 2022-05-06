@@ -11,6 +11,11 @@
             <span>{{ $t('hear_about_us') }}</span>
         </div>
 
+        <div v-bind:class="[active === 'site_settings' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('site_settings')">
+            <span>{{ $t('site_settings') }}</span>
+        </div>
+
     </div>
 </template>
 

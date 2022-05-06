@@ -97,8 +97,14 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-clients', [AdminDashboardController::class, 'getClients']);
         Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
-        Route::get('/hear-about-us', [AdminDashboardController::class, 'hearAboutUs']);
+        //settings
+        Route::get('/get-hear-about-us', [AdminDashboardController::class, 'getHearAboutUs']);
+        Route::post('/set-hear-about-us', [AdminDashboardController::class, 'setHearAboutUs']);
+        Route::get('/remove-hear-about-us/{id}', [AdminDashboardController::class, 'removeHearAboutUs']);
         Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
+
+        Route::get('/get-site-settings', [AdminDashboardController::class, 'getSiteSettings']);
+        Route::post('/set-site-settings', [AdminDashboardController::class, 'setSiteSettings']);
 
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
