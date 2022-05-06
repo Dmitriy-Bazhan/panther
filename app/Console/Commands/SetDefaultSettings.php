@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\NurseLang;
+use App\Models\Setting;
 use Illuminate\Console\Command;
 
-class SetDefaultLang extends Command
+class SetDefaultSettings extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'lang:default';
+    protected $signature = 'settings:default';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update lang in nurse langs table to english lang level A1';
+    protected $description = 'Set/Update data in settings table';
 
     /**
      * Create a new command instance.
@@ -38,12 +38,15 @@ class SetDefaultLang extends Command
      */
     public function handle()
     {
-        $nurseLangs = NurseLang::all()->groupBy('nurse_id');
-        foreach ($nurseLangs as $langs){
-            $langs[0]->lang = 'English';
-            $langs[0]->level = 'A1';
-            $langs[0]->save();
-        }
+        Setting::truncate();
+
+        $settings = new Setting();
+        $settings->listing_paginate = 12;
+        $settings->site_email = 'info@pflegepanther.com';
+        $settings->facebook_link = 'https://www.facebook.com/';
+        $settings->twitter_link = 'https://twitter.com/';
+        $settings->instagram_link = 'https://www.instagram.com/';
+        $settings->save();
 
         echo 'Success';
         return 0;

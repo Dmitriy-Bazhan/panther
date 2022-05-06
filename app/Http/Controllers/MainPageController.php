@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdditionalInfo;
+use App\Models\AdditionalInfoData;
 use App\Models\Lang;
 use App\Models\ProvideSupport;
 use App\Models\Rate;
@@ -14,10 +15,11 @@ class MainPageController extends Controller
     public function index()
     {
         $data = [];
-        $data['data']['languages'] = Lang::all();
         if (auth()->check()) {
-            $data['data']['provider_supports'] = ProvideSupport::all();
-            $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
+            $data = siteData();
+        } else {
+            $data['data']['settings'] = config('settings');
+            $data['data']['languages'] = Lang::all();
         }
         return view('main', $data);
     }
@@ -65,22 +67,23 @@ class MainPageController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function getTranslate($lang = null){
+    public function getTranslate($lang = null)
+    {
 
-        if(!is_null($lang)){
+        if (!is_null($lang)) {
             $langs = Translate::where('lang', $lang)->get();
             $translates[$lang] = [];
-            foreach ($langs as $item){
+            foreach ($langs as $item) {
                 $record[$item->name] = $item->data;
                 $translates[$lang] = $record;
             }
 
-        }else{
+        } else {
             $langs = Translate::orderBy('name')->get()->groupBy('lang');
-            foreach ($langs as $key => $lang){
+            foreach ($langs as $key => $lang) {
                 $translates[$key] = [];
                 $record = [];
-                foreach ($lang as $item){
+                foreach ($lang as $item) {
                     $record[$item->name] = $item->data;
                     $translates[$key] = $record;
                 }
@@ -90,11 +93,12 @@ class MainPageController extends Controller
         return response()->json(['success' => true, 'langs' => $translates]);
     }
 
-    public function saveTranslates(){
+    public function saveTranslates()
+    {
         Translate::truncate();
         $langs = request('langs');
         foreach ($langs as $lang => $items) {
-            foreach ($items as $name => $data){
+            foreach ($items as $name => $data) {
                 $newTranslate = new Translate();
                 $newTranslate->name = $name;
                 $newTranslate->lang = $lang;

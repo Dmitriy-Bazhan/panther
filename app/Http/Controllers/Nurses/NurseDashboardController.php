@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
 use App\Models\Booking;
+use App\Models\Lang;
 use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
 use App\Models\User;
@@ -26,9 +27,8 @@ class NurseDashboardController extends Controller
 
     public function index()
     {
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::all();
-        $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
+        $data = siteData();
+
         $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
             ->where('status', 'not_approved')
             ->where('is_verification', 'yes')

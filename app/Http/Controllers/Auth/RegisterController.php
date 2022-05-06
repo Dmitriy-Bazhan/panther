@@ -26,7 +26,7 @@ class RegisterController extends Controller
     {
         parent::__construct();
 
-        $data['hear_about_us'] = HearAboutUs::with('data')->get();
+        $data['hear_about_us'] = HearAboutUs::where('is_show', 'yes')->with('data')->get();
         $this->data = $data;
     }
 
