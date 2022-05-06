@@ -19,7 +19,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'other',
+                active: 'hear_about_us',
             }
         },
         methods: {

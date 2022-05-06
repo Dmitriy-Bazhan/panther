@@ -24,6 +24,7 @@ export default {
         // 'test-chat' : TestChat,
     },
     mounted() {
+        console.log(this.data);
         this.emitter.on('response-success-true', e => {
             this.response_success_true = true;
             setTimeout(() => {

@@ -20,6 +20,7 @@ export default {
         'response-success-true': ResponseSuccessTrue,
     },
     mounted() {
+        console.log(this.data);
         this.$store.commit('initStore', this.user)
 
         this.emitter.on('response-success-true', e => {

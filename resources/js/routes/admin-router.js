@@ -12,7 +12,8 @@ const routes = [
     {
         path: "/dashboard/admin",
         name: 'AdminDashboard',
-        component: Dashboard
+        component: Dashboard,
+        props: true,
     },
     {
         path: "/dashboard/admin/clients",

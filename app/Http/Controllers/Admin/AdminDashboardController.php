@@ -8,6 +8,7 @@ use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
+use App\Models\AdditionalInfoData;
 use App\Models\HearAboutUs;
 use App\Models\Lang;
 use App\Models\Media;
@@ -34,14 +35,14 @@ class AdminDashboardController extends Controller
 
     public function index()
     {
+        $data = siteData();
+
         $data['data']['incoming_new_user_info'] = null;
         if (Nurse::where('info_is_full', 'yes')->where('is_approved', 'no')->first() || Nurse::where('change_info', 'yes')->first()) {
             $data['data']['incoming_new_user_info'] = true;
         }
 
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-        $data['data']['languages'] = Lang::all();
+
         return view('dashboard', $data);
     }
 
@@ -123,7 +124,7 @@ class AdminDashboardController extends Controller
         if (count(Media::where('media_type', 'pages_image')->get()) == 0 && count(File::files('storage/media/')) == 0) {
             $path = public_path('images/fake/');
             $files = File::files($path);
-            foreach ($files as $file){
+            foreach ($files as $file) {
                 $extension = $file->getExtension();
                 $file_name = time() . '_' . $file->getFilename();
                 $fileSize = $file->getSize();

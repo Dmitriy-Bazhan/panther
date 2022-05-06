@@ -19,10 +19,8 @@ class ClientDashboardController extends Controller
      */
     public function index()
     {
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::all();
-        $data['data']['languages'] = Lang::all();
-        $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
+        $data = siteData();
+
         $data['data']['have_new_message'] = PrivateChat::where('client_user_id', auth()->id())
             ->where('status', 'unread')
             ->whereNotNull('nurse_sent')
