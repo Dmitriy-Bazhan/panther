@@ -17,6 +17,8 @@ use App\Models\Nurse;
 use App\Models\Page;
 use App\Models\ProvideSupport;
 use App\Models\Setting;
+use App\Models\TypesOfLearning;
+use App\Models\TypesOfLearningData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -261,6 +263,51 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => true, 'hear_about_us' => $hearAboutUs]);
     }
 
+    public function getTypeOfLearning()
+    {
+        $lang = request('lang');
+        $typeOfLearning = TypesOfLearning::with(['data' => function ($query) use ($lang) {
+            return $query->where('lang', $lang);
+        }])->get();
+        return response()->json(['success' => true, 'type_of_learning' => $typeOfLearning]);
+    }
+
+    public function setTypeOfLearning()
+    {
+        $typeOfLearning = request('type_of_learning');
+
+        foreach ($typeOfLearning as $item) {
+            TypesOfLearningData::where('id', $item['data'][0]['id'])->update([
+                'data' => $item['data'][0]['data']
+            ]);
+        }
+
+        $lang = request('lang');
+        $secondLang = $lang == 'de' ? 'en' : 'de';
+        $newTypeOfLearning = request('new_type_of_learning');
+        if (count($newTypeOfLearning) > 0) {
+            foreach ($newTypeOfLearning as $item) {
+                $new = new TypesOfLearning();
+                $new->save();
+                $id = $new->id;
+
+                $newData = new TypesOfLearningData();
+                $newData->type_of_learning_id = $id;
+                $newData->lang = $lang;
+                $newData->data = $item['data'];
+                $newData->save();
+
+                $newData = new TypesOfLearningData();
+                $newData->type_of_learning_id = $id;
+                $newData->lang = $secondLang;
+                $newData->data = $item['data'];
+                $newData->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function setHearAboutUs()
     {
         $hearAboutUs = request('hear_about_us');
@@ -297,16 +344,38 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function removeHearAboutUs($id){
-
-        if(!is_null($id) && !is_numeric($id)){
+    public function removeTypeOfLearning($id)
+    {
+        if (!is_null($id) && !is_numeric($id)) {
             //todo::hmm
-            return response()->json(['success' => false, 'errors' => ['Something wrong with id'] ]);
+            return response()->json(['success' => false, 'errors' => ['Something wrong with id']]);
         }
 
-        if(!$hearAboutUs = HearAboutUs::where('id', $id)->with('data')->first()){
+        if (!$typeOfLearning = TypesOfLearning::where('id', $id)->with('data')->first()) {
             //todo::hmm
-            return response()->json(['success' => false, 'errors' => ['Not exists item'] ]);
+            return response()->json(['success' => false, 'errors' => ['Not exists item']]);
+        }
+
+        $typeOfLearning->delete();
+
+        Nurse::where('type_of_learning', $id)->update([
+            'type_of_learning' => 1,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function removeHearAboutUs($id)
+    {
+
+        if (!is_null($id) && !is_numeric($id)) {
+            //todo::hmm
+            return response()->json(['success' => false, 'errors' => ['Something wrong with id']]);
+        }
+
+        if (!$hearAboutUs = HearAboutUs::where('id', $id)->with('data')->first()) {
+            //todo::hmm
+            return response()->json(['success' => false, 'errors' => ['Not exists item']]);
         }
 
         $hearAboutUs->delete();

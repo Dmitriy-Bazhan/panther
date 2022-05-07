@@ -211,6 +211,7 @@ class NurseRepository
             'one_or_regular' => $data['entity']['one_or_regular'],
             'ready_to_work' => $data['entity']['ready_to_work'],
             'start_date_ready_to_work' => $data['entity']['start_date_ready_to_work'],
+            'type_of_learning' => $data['entity']['type_of_learning']['id'],
         ]);
 
         //update lang (remake to foreach, then in future will use some languages)

@@ -23,7 +23,7 @@
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-danger" v-on:click="removeYearAboutUs(item.id)">{{ $t('remove')}}
+                    <button class="btn btn-sm btn-danger" v-on:click="removeHearAboutUs(item.id)">{{ $t('remove')}}
                     </button>
                 </td>
 
@@ -55,7 +55,7 @@
             this.getHearAboutUs();
         },
         methods: {
-            removeYearAboutUs(id) {
+            removeHearAboutUs(id) {
                 axios.get('/dashboard/admin/remove-hear-about-us/' + id)
                     .then((response) => {
                         if(response.data.success){

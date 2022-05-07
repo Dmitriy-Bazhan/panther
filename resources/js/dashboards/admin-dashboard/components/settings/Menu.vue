@@ -1,9 +1,14 @@
 <template>
     <div>
 
-        <div v-bind:class="[active === 'other' ? 'menu-item-active' :'menu-item']"
-             v-on:click="showComponent('other')">
-            <span>{{ $t('other') }}</span>
+<!--        <div v-bind:class="[active === 'other' ? 'menu-item-active' :'menu-item']"-->
+<!--             v-on:click="showComponent('other')">-->
+<!--            <span>{{ $t('other') }}</span>-->
+<!--        </div>-->
+
+        <div v-bind:class="[active === 'site_settings' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('site_settings')">
+            <span>{{ $t('site_settings') }}</span>
         </div>
 
         <div v-bind:class="[active === 'hear_about_us' ? 'menu-item-active' :'menu-item']"
@@ -11,11 +16,10 @@
             <span>{{ $t('hear_about_us') }}</span>
         </div>
 
-        <div v-bind:class="[active === 'site_settings' ? 'menu-item-active' :'menu-item']"
-             v-on:click="showComponent('site_settings')">
-            <span>{{ $t('site_settings') }}</span>
+        <div v-bind:class="[active === 'type_of_learning' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('type_of_learning')">
+            <span>{{ $t('type_of_learning') }}</span>
         </div>
-
     </div>
 </template>
 
@@ -24,7 +28,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'hear_about_us',
+                active: 'type_of_learning',
             }
         },
         methods: {

@@ -2,6 +2,7 @@ import template from './template.html';
 import Menu from './Menu';
 import HearAboutUs from "./HearAboutUs";
 import SiteSettings from "./SiteSettings";
+import TypeOfLearning from "./TypeOfLearning";
 
 export default {
     name: "Settings",
@@ -10,11 +11,12 @@ export default {
         menu_settings: Menu,
         hear_about_us: HearAboutUs,
         site_settings: SiteSettings,
+        type_of_learning: TypeOfLearning,
     },
     props: ['user', 'data'],
     data() {
         return {
-            active_menu: 'hear_about_us',
+            active_menu: 'type_of_learning',
         }
     },
     mounted() {

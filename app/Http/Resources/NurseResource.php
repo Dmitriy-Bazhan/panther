@@ -32,6 +32,7 @@ class NurseResource extends JsonResource
             $this->rate->round = 0;
             $this->rate->real = 0;
         }
+
         return [
             'created_at' => $this->created_at,
             'email' => $this->email,
