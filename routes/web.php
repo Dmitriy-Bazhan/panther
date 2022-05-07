@@ -106,6 +106,10 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-site-settings', [AdminDashboardController::class, 'getSiteSettings']);
         Route::post('/set-site-settings', [AdminDashboardController::class, 'setSiteSettings']);
 
+        Route::get('/get-type-of-learning', [AdminDashboardController::class, 'getTypeOfLearning']);
+        Route::post('/set-type-of-learning', [AdminDashboardController::class, 'setTypeOfLearning']);
+        Route::get('/remove-type-of-learning/{id}', [AdminDashboardController::class, 'removeTypeOfLearning']);
+
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 

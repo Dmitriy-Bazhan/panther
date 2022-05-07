@@ -212,6 +212,24 @@
                           v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
                 </div>
 
+                <!-- type_of_learning -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="type_of_learning" class="form-label col-form-label-sm">
+                            {{ $t('type_of_learning') }}
+                        </label>
+                    </div>
+
+                    <div class="col-8">
+                        <select class="form-control form-control-sm" v-model="tmpUser.entity.type_of_learning.id"
+                                id="type_of_learning">
+                            <option v-for="item in data.type_of_learning" :value="item.id">{{ item.data[0].data }}</option>
+                        </select>
+                    </div>
+                    <span class="register-form-error"
+                          v-if="errors !== null && errors['entity.multiple_bookings'] !== undefined">{{ errors['entity.multiple_bookings'][0] }}</span>
+                </div>
+
                 <!-- provide supports -->
                 <div class="row">
                     <div class="col-4">
@@ -309,6 +327,8 @@
         },
         mounted() {
             this.tmpUser = this.user;
+            console.log(this.tmpUser.entity);
+            console.log(this.data);
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });

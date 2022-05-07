@@ -12,7 +12,7 @@ class SetDefaultSettings extends Command
      *
      * @var string
      */
-    protected $signature = 'settings:default';
+    protected $signature = 'default:settings';
 
     /**
      * The console command description.

@@ -12,7 +12,7 @@ class SetDefaultLang extends Command
      *
      * @var string
      */
-    protected $signature = 'lang:default';
+    protected $signature = 'default:lang_en';
 
     /**
      * The console command description.

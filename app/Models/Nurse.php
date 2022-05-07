@@ -49,12 +49,14 @@ class Nurse extends Model
         }',
     ];
 
+
     protected $with = [
         'provideSupports',
         'languages',
         'files',
         'additionalInfo',
         'price',
+        'typeOfLearning'
     ];
 
     public function users()
@@ -101,5 +103,10 @@ class Nurse extends Model
             'id',                                     //from App\Models\ProvideSupport
             'id',                                       //from nurse
             'support_id');                        //from ProvideSupportAssigned
+    }
+
+    public function typeOfLearning() {
+        return $this->hasOne('App\Models\TypesOfLearning', 'id', 'type_of_learning')
+            ->with('data');
     }
 }
