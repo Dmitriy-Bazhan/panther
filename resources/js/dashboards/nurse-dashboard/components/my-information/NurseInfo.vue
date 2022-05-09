@@ -327,8 +327,6 @@
         },
         mounted() {
             this.tmpUser = this.user;
-            console.log(this.tmpUser.entity);
-            console.log(this.data);
             this.emitter.on('update-information', e => {
                 this.updateInformation();
             });
