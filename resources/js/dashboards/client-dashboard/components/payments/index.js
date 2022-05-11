@@ -1,7 +1,8 @@
 import template from './template.html';
 import ShowBooking from "../bookings/ShowBooking";
 import ShowPayment from "./ShowPayment";
-import PayTemporary from "./PayTemporary";
+import PayPayment from "./PayPayment";
+import AddCard from "./AddCard";
 import './style.css';
 
 export default {
@@ -10,7 +11,8 @@ export default {
     components: {
         show_booking: ShowBooking,
         show_payment: ShowPayment,
-        pay_temporary: PayTemporary,
+        pay_payment: PayPayment,
+        add_card: AddCard,
     },
     props: ['user', 'data'],
     data() {
