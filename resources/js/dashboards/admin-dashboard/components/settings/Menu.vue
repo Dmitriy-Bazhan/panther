@@ -28,7 +28,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'type_of_learning',
+                active: 'site_settings',
             }
         },
         methods: {

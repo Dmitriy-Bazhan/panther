@@ -173,21 +173,6 @@ class BookingController extends Controller
         return view('main', $data);
     }
 
-    public function edit($id)
-    {
-
-    }
-
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
-
     public function clientVerificationBooking($bookingId, $clientId)
     {
         if (!is_numeric($bookingId) || !is_numeric($clientId)) {
@@ -227,5 +212,17 @@ class BookingController extends Controller
         }
 
         return redirect('/booking-verify');
+    }
+
+    public function edit($id)
+    {
+    }
+
+    public function update(Request $request, $id)
+    {
+    }
+
+    public function destroy($id)
+    {
     }
 }

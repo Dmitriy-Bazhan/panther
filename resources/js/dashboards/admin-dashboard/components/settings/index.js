@@ -16,7 +16,7 @@ export default {
     props: ['user', 'data'],
     data() {
         return {
-            active_menu: 'type_of_learning',
+            active_menu: 'site_settings',
         }
     },
     mounted() {
