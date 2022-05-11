@@ -27,6 +27,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'stripe_api' => env('STRIPE_KEY', null),
 
     /*
     |--------------------------------------------------------------------------

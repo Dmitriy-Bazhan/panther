@@ -97,7 +97,7 @@ class ClientPaymentsController extends Controller
         }
 
         Payment::where('id', $id)->update([
-            'status' => 'payed'
+
         ]);
 
         return response()->json(['success' => true]);

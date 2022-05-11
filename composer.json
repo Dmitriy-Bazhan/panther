@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.4.1",
         "guzzlehttp/psr7": "^1.8.3",
         "intervention/image": "^2.7",
+        "laravel/cashier": "^13.10",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",

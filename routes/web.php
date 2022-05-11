@@ -10,6 +10,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\FeedbackController;
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\PaymentsController;
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -39,6 +40,17 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(function(){
+    Route::get('get-stripe-api-token', [PaymentsController::class, 'getStripeApiToken']);
+    Route::post('method/store', [PaymentsController::class, 'storePaymentMethod'])->name('payment.store');
+    Route::post('method/remove', [PaymentsController::class, 'removePaymentMethod']);
+    Route::post('payment-pay', [PaymentsController::class, 'paymentPay']);
+    Route::get('payment-methods', [PaymentsController::class, 'getPaymentMethods']);
+});
+
+
+
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index']);
@@ -89,7 +101,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
-       // Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+        // Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
 
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
@@ -114,9 +126,6 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 
 
-
-
-
     /*
      * client
      */
@@ -137,7 +146,7 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('client-payments', ClientPaymentsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client bookings
-    Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function(){
+    Route::prefix('client-bookings')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
         Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
         Route::get('send-booking-again/{id}', [ClientBookingsController::class, 'sendBookingAgain']);
     });
@@ -154,10 +163,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
     });
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
-
-
-
-
 
 
     /*
@@ -177,7 +182,7 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
     //nurse bookings
-    Route::prefix('nurse-bookings')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function(){
+    Route::prefix('nurse-bookings')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
         Route::post('nurse-refuse-booking', [NurseBookingController::class, 'nurseRefuseBooking']);
     });
 

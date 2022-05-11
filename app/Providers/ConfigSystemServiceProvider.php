@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class ConfigSystemServiceProvider extends ServiceProvider
@@ -30,7 +31,10 @@ class ConfigSystemServiceProvider extends ServiceProvider
             app()->setLocale(request()->post('data')['locale']);
         }
 
-        $settings = Setting::first();
+        $settings = [];
+        if(Schema::hasTable('settings')){
+            $settings = Setting::firstOrFail();
+        }
 
         config([
             'settings' => $settings

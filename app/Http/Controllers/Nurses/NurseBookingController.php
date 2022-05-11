@@ -144,17 +144,6 @@ class NurseBookingController extends Controller
         $booking->status = 'approved';
         $booking->save();
 
-        //todo: make tax and agency percent, gateway and currency
-        $payment = new Payment();
-        $payment->booking_id = $id;
-        $payment->client_user_id = $booking->client->id;
-        $payment->nurse_user_id = $booking->nurse->id;
-        $payment->date = $booking->start_date;
-        $payment->sum = $booking->total;
-        $payment->status = 'wait';
-        $payment->save();
-
-
         return response()->json(['success' => true]);
     }
 

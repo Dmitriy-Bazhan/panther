@@ -11,6 +11,7 @@ use App\Models\AdditionalInfoData;
 use App\Models\AlternativeBooking;
 use App\Models\Booking;
 use App\Models\BookingTime;
+use App\Models\Payment;
 use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
 use App\Models\User;
@@ -178,6 +179,11 @@ class ClientBookingsController extends Controller
         }
 
         if(!Booking::where('id', $id)->delete()){
+            //todo:hmm
+            abort(409);
+        }
+
+        if(!Payment::where('booking_id', $id)->update(['status' => 'refuse'])){
             //todo:hmm
             abort(409);
         }

@@ -9,6 +9,7 @@ use App\Models\AdditionalInfo;
 use App\Models\Booking;
 use App\Models\BookingTime;
 use App\Models\Lang;
+use App\Models\Payment;
 use App\Models\ProvideSupport;
 use App\Models\User;
 use Carbon\Carbon;
@@ -204,6 +205,16 @@ class BookingController extends Controller
 
         $booking->is_verification = 'yes';
         $booking->save();
+
+        //todo: make tax and agency percent, gateway and currency
+        $payment = new Payment();
+        $payment->booking_id = $booking->id;
+        $payment->client_user_id = $booking->client->id;
+        $payment->nurse_user_id = $booking->nurse->id;
+        $payment->date = $booking->start_date;
+        $payment->sum = $booking->total;
+        $payment->status = 'wait';
+        $payment->save();
 
         app()->setLocale($nurse->prefs->pref_lang);
 
