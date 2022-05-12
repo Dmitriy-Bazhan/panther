@@ -130,6 +130,7 @@ class NurseBookingController extends Controller
         //
     }
 
+    //nurse approve booking
     public function update(Request $request, $id)
     {
         if(!is_numeric($id)){

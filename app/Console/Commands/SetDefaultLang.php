@@ -45,7 +45,6 @@ class SetDefaultLang extends Command
             $langs[0]->save();
         }
 
-        echo 'Success';
         return 0;
     }
 }

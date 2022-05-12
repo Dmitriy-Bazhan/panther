@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Console\Commands\SetDefaultTimeInterval;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\NurseResource;
-use App\Models\AdditionalInfo;
-use App\Models\AdditionalInfoData;
 use App\Models\HearAboutUs;
 use App\Models\HearAboutUsData;
-use App\Models\Lang;
 use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
-use App\Models\ProvideSupport;
 use App\Models\Setting;
+use App\Models\TimeInterval;
 use App\Models\TypesOfLearning;
 use App\Models\TypesOfLearningData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Image;
@@ -46,7 +45,6 @@ class AdminDashboardController extends Controller
         if (Nurse::where('info_is_full', 'yes')->where('is_approved', 'no')->first() || Nurse::where('change_info', 'yes')->first()) {
             $data['data']['incoming_new_user_info'] = true;
         }
-
 
         return view('dashboard', $data);
     }
@@ -80,7 +78,6 @@ class AdminDashboardController extends Controller
 
     public function savePage($page)
     {
-
 //        if (!in_array($page, ['home'])) {
 //            //todo:hmm
 //            abort(409);
@@ -212,36 +209,6 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
-
     public function getNurses()
     {
         $nurses = $this->nursesRepo->search();
@@ -367,7 +334,6 @@ class AdminDashboardController extends Controller
 
     public function removeHearAboutUs($id)
     {
-
         if (!is_null($id) && !is_numeric($id)) {
             //todo::hmm
             return response()->json(['success' => false, 'errors' => ['Something wrong with id']]);
@@ -452,5 +418,75 @@ class AdminDashboardController extends Controller
         }
 
         return response()->json(['success' => true, 'is_show' => $is_show]);
+    }
+
+    public function setTimeIntervals(){
+
+        if(request()->filled('time_intervals') && is_array(request('time_intervals'))){
+            $timeIntervals = request('time_intervals');
+        }else{
+            //todo::hmm
+            Log::error('AdminDashboardController@setTimeInterval not validate request time_intervals');
+            return response()->json(['success' => false]);
+        }
+
+        TimeInterval::truncate();
+
+        foreach ($timeIntervals as $item){
+            $timeInterval = new TimeInterval();
+            $timeInterval->id = $item['id'];
+            $timeInterval->interval = $item['interval'];
+            $timeInterval->start = $item['start'];
+            $timeInterval->end = $item['end'];
+            $timeInterval->type = $item['type'];
+            $timeInterval->value = json_encode($item['value']);
+            $timeInterval->save();
+
+        }
+
+        return response()->json(['success' => 'true']);
+    }
+
+    public function setDefaultTimeIntervals() {
+
+        $defaultTimeInterval = new SetDefaultTimeInterval();
+        $defaultTimeInterval->handle();
+
+        $timeIntervals = TimeInterval::all();
+        $timeIntervals->map(function ($value){
+            $value->value = json_decode($value->value, true);
+        });
+
+        return response()->json(['success' => true, 'time_intervals' => $timeIntervals]);
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function store(Request $request)
+    {
+        //
+    }
+
+    public function show($id)
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        //
     }
 }

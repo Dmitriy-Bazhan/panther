@@ -17,6 +17,11 @@ if(!function_exists('siteData')){
         $data['data']['languages'] = Lang::all();
         $data['data']['settings'] = config('settings');
 
+        $timeIntervals = \App\Models\TimeInterval::all();
+        $timeIntervals->map(function ($value){
+            $value->value = json_decode($value->value, true);
+        });
+        $data['data']['time_intervals'] = $timeIntervals;
         return $data;
     }
 }

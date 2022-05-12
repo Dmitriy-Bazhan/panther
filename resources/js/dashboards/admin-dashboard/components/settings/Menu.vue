@@ -11,6 +11,11 @@
             <span>{{ $t('site_settings') }}</span>
         </div>
 
+        <div v-bind:class="[active === 'time_intervals' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('time_intervals')">
+            <span>{{ $t('time_intervals') }}</span>
+        </div>
+
         <div v-bind:class="[active === 'hear_about_us' ? 'menu-item-active' :'menu-item']"
              v-on:click="showComponent('hear_about_us')">
             <span>{{ $t('hear_about_us') }}</span>
@@ -28,7 +33,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'site_settings',
+                active: 'time_intervals',
             }
         },
         methods: {
