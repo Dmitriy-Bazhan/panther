@@ -107,6 +107,7 @@
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
                             this.time_intervals = response.data.time_intervals;
+                            this.$props.data['time_intervals'] = response.data.time_intervals;
                         }
                     })
                     .catch((error) => {
