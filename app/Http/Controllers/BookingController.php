@@ -155,13 +155,7 @@ class BookingController extends Controller
 
     public function show($id)
     {
-        $data = [];
-        $data['data']['languages'] = Lang::all();
-        if (auth()->check()) {
-            $data['data']['provider_supports'] = ProvideSupport::all();
-            $data['data']['additional_info'] = AdditionalInfo::with('data')->get();
-        }
-
+        $data = siteData();
         $nurses = $this->nurseRepo->search($id);
         $data['data']['nurse'] = $nurses->first();
         $data['data']['have_booking'] = false;
