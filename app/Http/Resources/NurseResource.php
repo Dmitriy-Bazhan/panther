@@ -45,6 +45,7 @@ class NurseResource extends JsonResource
             'hear_about_us_other' => $this->hear_about_us_other,
             'id' => $this->id,
             'last_name' => $this->last_name,
+            'full_name' => ucfirst($this->first_name) . ' ' . ucfirst(substr($this->last_name, 1, 1)) . '.',
             'phone' => $this->phone,
             'updated_at' => $this->updated_at,
             'zip_code' => $this->zip_code,

@@ -39,7 +39,6 @@
             getSiteSettings() {
                 axios.get('/dashboard/admin/get-site-settings')
                     .then((response) => {
-                        console.log(response.data);
                         this.site_settings = response.data.site_settings;
                     })
                     .catch((error) => {
@@ -49,7 +48,6 @@
             setSiteSettings() {
                 axios.post('/dashboard/admin/set-site-settings', {'site_settings': this.site_settings})
                     .then((response) => {
-                        console.log(response.data);
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
                         } else {

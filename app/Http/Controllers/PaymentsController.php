@@ -12,14 +12,8 @@ class PaymentsController extends Controller
 {
     public function getStripeApiToken()
     {
-        if (config()->has('stripeAPIToken')) {
-            $stripeAPIToken = config('stripeAPIToken');
-        } else {
-            $stripeAPIToken = Config::get('app.stripe_api');
-        }
-
+        $stripeAPIToken = Config::get('app.stripe_api');
         $intentToken = auth()->user()->createSetupIntent();
-
         return response()->json(['success' => true, 'stripeAPIToken' => $stripeAPIToken, 'intentToken' => $intentToken]);
     }
 
@@ -82,9 +76,9 @@ class PaymentsController extends Controller
         $paymentMethodId = request()->post('payment_method_id');
 
         $cashier = Cashier::findBillable($stripedId);
-        try{
+        try {
             $cashier->charge($payment->sum * 100, $paymentMethodId);
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }
 

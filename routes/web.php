@@ -101,7 +101,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
-        // Route::get('/get-page/{page}', [AdminDashboardController::class, 'getPage']);
 
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
@@ -121,6 +120,9 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-type-of-learning', [AdminDashboardController::class, 'getTypeOfLearning']);
         Route::post('/set-type-of-learning', [AdminDashboardController::class, 'setTypeOfLearning']);
         Route::get('/remove-type-of-learning/{id}', [AdminDashboardController::class, 'removeTypeOfLearning']);
+
+        Route::post('/set-time-intervals', [AdminDashboardController::class, 'setTimeIntervals']);
+        Route::get('/set-default-time-intervals', [AdminDashboardController::class, 'setDefaultTimeIntervals']);
 
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);

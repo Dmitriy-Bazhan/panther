@@ -168,6 +168,10 @@ class ClientBookingsController extends Controller
             }
         }
 
+        Payment::where('booking_id' , $id)->update([
+            'sum' => $data['total']
+        ]);
+
         return response()->json(['success' => true]);
     }
 
@@ -241,6 +245,10 @@ class ClientBookingsController extends Controller
             $bookingTime->save();
 
         }
+
+        Payment::where('booking_id' , $id)->update([
+            'sum' => $alternative->total
+        ]);
 
         AlternativeBooking::where('booking_id', $id)->delete();
 
