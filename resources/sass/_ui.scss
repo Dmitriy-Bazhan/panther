@@ -214,6 +214,57 @@
     }
 }
 
+.pt-textarea{
+    $self: &;
+    width: 100%;
+    height: 238px;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+
+    &--icon{
+        width: 50px;
+        min-width: 50px;
+        height: 100%;
+        border-right: 2px solid $light-gray;
+
+        .pt-icon{
+            width: 100%;
+            max-height: 50px;
+            padding: 12px;
+            color: $highlight;
+        }
+    }
+
+    textarea{
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        padding: 12px 20px;
+        color: $gray;
+        font-size: 14px;
+        resize: none;
+    }
+
+    &--box{
+        border: 2px solid $highlight-primary;
+        opacity: 0.1;
+        transition: 0.3s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    textarea:focus ~ #{$self}--box{
+        opacity: 1;
+    }
+}
+
 .swiper{
     &-button{
         &-next,

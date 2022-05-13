@@ -76,7 +76,6 @@ if (window.dashboard === 'dashboard') {
         install(Vue) {
             axios.get('/get-translate')
                 .then((response) => {
-                    console.log(response.data)
                     if (response.data.success) {
                         for (let key in response.data.langs) {
                             i18n.global.setLocaleMessage(key, response.data.langs[key])

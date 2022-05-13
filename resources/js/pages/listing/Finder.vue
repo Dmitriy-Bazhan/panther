@@ -145,6 +145,7 @@
                                     <span class="pt-box--label">{{ $t('regular') }}</span>
                                 </label>
                             </div>
+
                             <div class="pt-finder--form-group">
 
                                 <Datepicker v-model="clientSearchInfo.one_time_date"
@@ -174,26 +175,14 @@
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <div class="">
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_7_11">
-                                        <span class="pt-checkbox--body">7-11 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_11_14">
-                                        <span class="pt-checkbox--body">11-14 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_14_17">
-                                        <span class="pt-checkbox--body">14-17 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekdays_17_21">
-                                        <span class="pt-checkbox--body">17-21 Uhr</span>
-                                    </label>
+                                    <template v-for="item in data.time_intervals">
+                                        <label class="pt-checkbox" v-if="item.type === 'weekdays'">
+                                            <input type="checkbox" name="work_time_pref"
+                                                   true-value="1" false-value="0"
+                                                   v-model="clientSearchInfo.work_time_pref[item.id]">
+                                            <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
+                                        </label>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -207,26 +196,14 @@
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <div class="">
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_7_11">
-                                        <span class="pt-checkbox--body">7-11 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_11_14">
-                                        <span class="pt-checkbox--body">11-14 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_14_17">
-                                        <span class="pt-checkbox--body">14-17 Uhr</span>
-                                    </label>
-                                    <label class="pt-checkbox">
-                                        <input type="checkbox" name="work_time_pref" true-value="1" false-value="0"
-                                               v-model="clientSearchInfo.work_time_pref.weekends_17_21">
-                                        <span class="pt-checkbox--body">17-21 Uhr</span>
-                                    </label>
+                                    <template v-for="item in data.time_intervals">
+                                        <label class="pt-checkbox" v-if="item.type === 'weekends'">
+                                            <input type="checkbox" name="work_time_pref"
+                                                   true-value="1" false-value="0"
+                                                   v-model="clientSearchInfo.work_time_pref[item.id]">
+                                            <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
+                                        </label>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -1068,16 +1045,7 @@ export default {
                 one_time_date: null,
                 regular_time_start_date: null,
                 regular_time_finish_date: null,
-                work_time_pref: {
-                    weekdays_7_11: "0",
-                    weekends_7_11: "0",
-                    weekdays_11_14: "0",
-                    weekends_11_14: "0",
-                    weekdays_14_17: "0",
-                    weekends_14_17: "0",
-                    weekdays_17_21: "0",
-                    weekends_17_21: "0",
-                },
+                work_time_pref: [],
             }
         }
     },
@@ -1090,30 +1058,8 @@ export default {
     },
     computed: {},
     mounted() {
+        console.log(this.data)
         this.getClientSearchInfo();
-        this.emitter.on('close-modal-nurse-listing', e => {
-            this.showModalNursesListing = false;
-        });
-
-        this.emitter.on('close-modal-nurse-profile', e => {
-            this.nurse = null;
-            this.showModalNurseProfile = false;
-        });
-
-        this.emitter.on('get-nurses-new-page', url => {
-            if (url !== null) {
-                this.url = url;
-                this.saveClientInfo();
-            }
-
-        });
-
-        this.emitter.on('show-nurse-profile', nurse => {
-            if (nurse !== null) {
-                this.nurse = nurse;
-                this.showModalNurseProfile = true;
-            }
-        });
     },
     methods: {
         closePopup(id){
@@ -1147,8 +1093,9 @@ export default {
         addLanguage() {
             if(
                 this.clientSearchInfo.languages &&
-                this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].val &&
-                this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].level &&
+                this.clientSearchInfo.languages.length === 0 ||
+                (this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].val &&
+                    this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].level) &&
                 this.clientSearchInfo.languages.length < this.languageOptions.length
             ){
                 this.clientSearchInfo.languages.push(
@@ -1202,6 +1149,7 @@ export default {
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
+                        console.log('test')
                         this.$router.push({ name: 'Listing' })
                     } else {
                         this.errors = response.data.errors;

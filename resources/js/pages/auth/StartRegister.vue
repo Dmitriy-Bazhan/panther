@@ -1,16 +1,16 @@
 <template>
     <div class="pt-section-default">
         <div class="pt-tabs">
-            <button v-on:click="activeTav = 1" class="pt-tabs--btn" :class="{active: activeTav === 1}">
+            <button v-on:click="activeTab = 1" class="pt-tabs--btn" :class="{active: activeTab === 1}">
                 {{$t('i_am_client')}}
             </button>
-            <button v-on:click="activeTav = 2" class="pt-tabs--btn" :class="{active: activeTav === 2}">
+            <button v-on:click="activeTab = 2" class="pt-tabs--btn" :class="{active: activeTab === 2}">
                 {{$t('i_am_nurse')}}
             </button>
         </div>
 
-        <client_register v-if="activeTav === 1" :data="data"></client_register>
-        <nurse_register v-if="activeTav === 2" :data="data"></nurse_register>
+        <client_register v-if="activeTab === 1" :data="data"></client_register>
+        <nurse_register v-if="activeTab === 2" :data="data"></nurse_register>
     </div>
 </template>
 
@@ -27,7 +27,7 @@
         },
         data() {
             return {
-                activeTav: 1,
+                activeTab: 1,
             }
         },
         mounted() {

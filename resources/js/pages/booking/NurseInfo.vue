@@ -1,5 +1,56 @@
 <template>
-    <div>
+    <div class="pt-nurse--info">
+        <div class="pt-nurse--info-general">
+            <div class="">
+                <div class="pt-nurse--info-name">
+                    {{ data.nurse.first_name }} <div>{{ data.nurse.last_name }}</div>.
+                </div>
+                <div class="pt-nurse--info-age">
+                    {{ data.nurse.entity.age }} Jahre Alt
+                </div>
+            </div>
+            <div class="pt-nurse--info-price">
+                €{{ data.nurse.entity.price.hourly_payment }}/stunde
+            </div>
+        </div>
+
+        <div class="pt-nurse--info-list">
+            <div class="pt-nurse--info-list--item">
+                <pt-icon type="phone"></pt-icon>
+                <div class="">
+                    <div class="pt-nurse--info-list--item-title">
+                        {{data.nurse.phone}}
+                    </div>
+                </div>
+            </div>
+            <div class="pt-nurse--info-list--item">
+                <pt-icon type="bar"></pt-icon>
+                <div class="">
+                    <div class="pt-nurse--info-list--item-title">
+                        {{data.nurse.entity.available_care_range}}
+                    </div>
+                </div>
+            </div>
+            <div class="pt-nurse--info-list--item">
+                <pt-icon type="email"></pt-icon>
+                <div class="">
+                    <div class="pt-nurse--info-list--item-title">
+                        {{data.nurse.email}}
+                    </div>
+                </div>
+            </div>
+            <div class="pt-nurse--info-list--item">
+                <pt-icon type="watch"></pt-icon>
+                <div class="">
+                    <div class="pt-nurse--info-list--item-title">
+                        Verfügbarkeit: 5 Tage die Woche (07:00-21:00 Uhr)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-show="false">
         <h4>{{ $t('information') }}</h4>
         <div class="container-fluid">
             <div class="row">

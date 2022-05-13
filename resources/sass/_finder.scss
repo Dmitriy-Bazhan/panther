@@ -77,6 +77,8 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+            font-size: 14px;
+            text-transform: uppercase;
             margin-bottom: 10px;
 
             &--number{
@@ -137,8 +139,25 @@
     }
 
     .dp__main{
-        width: 100%;
         max-width: 500px;
+
+        .dp__calendar{
+            .dp__calendar{
+                max-width: calc(100% - 100px);
+                margin: 0 auto 50px auto;
+            }
+
+            .dp__cell_inner{
+                height: 55px;
+                width: 55px;
+            }
+        }
+    }
+}
+
+.pt-calendar{
+    .dp__main{
+        width: 100%;
 
         .dp__menu{
             width: 100%;
@@ -146,9 +165,32 @@
 
         .dp__month_year_row{
             padding: 10px;
+            height: auto;
             background-color: $highlight-primary;
             border-radius: 5px;
             color: $white;
+            justify-content: center;
+
+            .dp__month_year_select{
+                width: auto;
+                padding: 0 5px;
+
+                &:nth-of-type(2){
+                    &:after{
+                        content: ', ';
+                    }
+                }
+            }
+
+            .dp__month_year_col_nav{
+                &:first-child{
+                    margin: 0 auto 0 0;
+                }
+            }
+
+            .dp__month_year_col_nav{
+                margin: 0 0 0 auto;
+            }
         }
 
         .dp__month_year_select{
@@ -203,7 +245,7 @@
             width: 100%;
 
             .dp__calendar{
-                max-width: calc(100% - 100px);
+                max-width: calc(100% - 50px);
                 margin: 0 auto 50px auto;
             }
 
@@ -213,9 +255,9 @@
 
             .dp__cell_inner{
                 margin: 0 auto;
-                height: 55px;
+                height: 80px;
                 padding: 5px;
-                width: 55px;
+                width: 80px;
                 border-radius: 5px;
                 font-weight: 700;
                 background-color: $white;

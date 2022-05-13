@@ -9,7 +9,7 @@ import YouWelcome from "../YouWelcome";
 import Finder from '../pages/listing/Finder';
 import Listing from '../pages/listing/Listing';
 import NurseProfile from '../pages/listing/NurseProfile';
-import Booking from '../pages/booking/index';
+import Booking from '../pages/booking/Booking';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
 import BookingNotExists from "../BookingNotExists";
