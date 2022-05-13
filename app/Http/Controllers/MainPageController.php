@@ -69,7 +69,7 @@ class MainPageController extends Controller
 
     public function getTranslate($lang = null)
     {
-
+        $translates = [];
         if (!is_null($lang)) {
             $langs = Translate::where('lang', $lang)->get();
             $translates[$lang] = [];

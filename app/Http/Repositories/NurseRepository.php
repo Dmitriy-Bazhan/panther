@@ -175,7 +175,7 @@ class NurseRepository
 
         $nurse->with('rate');
 
-        $SendNurse = $nurse->paginate(12);
+        $SendNurse = $nurse->paginate(config('settings.listing_paginate'));
         $SendNurse->min_price = NursePrice::min('hourly_payment');
         $SendNurse->max_price = NursePrice::max('hourly_payment');
 

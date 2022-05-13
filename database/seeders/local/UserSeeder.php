@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Local;
 
 use App\Models\Admin;
 use App\Models\User;

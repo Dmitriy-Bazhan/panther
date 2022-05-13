@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
 
 class PaymentsController extends Controller
@@ -79,7 +80,11 @@ class PaymentsController extends Controller
         try {
             $cashier->charge($payment->sum * 100, $paymentMethodId);
         } catch (\Exception $exception) {
-            return back()->with('error', $exception->getMessage());
+            Log::error($exception->getMessage());
+//            return back()->with('error', $exception->getMessage());
+            return response()->json([
+                'success' => false,
+            ]);
         }
 
         $payment->status = 'payed';
@@ -90,3 +95,4 @@ class PaymentsController extends Controller
         ]);
     }
 }
+
