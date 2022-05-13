@@ -53,7 +53,7 @@ Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(funct
 
 
 Route::get('/', [MainPageController::class, 'index']);
-Route::get('/send-booking-message', [MainPageController::class, 'index']);
+Route::get('/send-booking-message', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'verified']);;
 Route::get('/get-nurse-profile/{id}', [NurseController::class, 'show'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
 Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
 Route::post('/set-user-rate', [RateController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
