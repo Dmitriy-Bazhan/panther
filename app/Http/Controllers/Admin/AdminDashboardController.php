@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Console\Commands\SetDefaultTimeInterval;
+use App\Exports\TranslateExport;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\NurseResource;
+use App\Imports\TranslateImport;
 use App\Models\HearAboutUs;
 use App\Models\HearAboutUsData;
 use App\Models\Media;
@@ -15,6 +17,7 @@ use App\Models\Nurse;
 use App\Models\Page;
 use App\Models\Setting;
 use App\Models\TimeInterval;
+use App\Models\Translate;
 use App\Models\TypesOfLearning;
 use App\Models\TypesOfLearningData;
 use App\Models\User;
@@ -24,6 +27,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Image;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminDashboardController extends Controller
 {
@@ -420,11 +424,12 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => true, 'is_show' => $is_show]);
     }
 
-    public function setTimeIntervals(){
+    public function setTimeIntervals()
+    {
 
-        if(request()->filled('time_intervals') && is_array(request('time_intervals'))){
+        if (request()->filled('time_intervals') && is_array(request('time_intervals'))) {
             $timeIntervals = request('time_intervals');
-        }else{
+        } else {
             //todo::hmm
             Log::error('AdminDashboardController@setTimeInterval not validate request time_intervals');
             return response()->json(['success' => false]);
@@ -432,7 +437,7 @@ class AdminDashboardController extends Controller
 
         TimeInterval::truncate();
 
-        foreach ($timeIntervals as $item){
+        foreach ($timeIntervals as $item) {
             $timeInterval = new TimeInterval();
             $timeInterval->id = $item['id'];
             $timeInterval->interval = $item['interval'];
@@ -447,17 +452,38 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => 'true']);
     }
 
-    public function setDefaultTimeIntervals() {
+    public function setDefaultTimeIntervals()
+    {
 
         $defaultTimeInterval = new SetDefaultTimeInterval();
         $defaultTimeInterval->handle();
 
         $timeIntervals = TimeInterval::all();
-        $timeIntervals->map(function ($value){
+        $timeIntervals->map(function ($value) {
             $value->value = json_decode($value->value, true);
         });
 
         return response()->json(['success' => true, 'time_intervals' => $timeIntervals]);
+    }
+
+    public function exportTranslate()
+    {
+        return Excel::download(new TranslateExport(), 'translates_' . time() . '.xlsx');
+    }
+
+    public function importTranslate(Request $request)
+    {
+
+        $file = $request->file('file');
+
+        if ($file->getClientOriginalExtension() !== 'xlsx') {
+            return response()->json(['success' => false, 'error' => 'Not xlsx file']);
+        }
+
+        Translate::truncate();
+        Excel::import(new TranslateImport(), $file);
+
+        return response()->json(['success' => true]);
     }
 
     public function create()

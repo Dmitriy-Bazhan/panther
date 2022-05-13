@@ -12,4 +12,8 @@ class Translate extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+
+    protected $fillable = [
+        'id', 'name', 'lang', 'data'
+    ];
 }

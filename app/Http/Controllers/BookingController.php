@@ -185,7 +185,6 @@ class BookingController extends Controller
         $booking->is_verification = 'yes';
         $booking->save();
 
-        //todo: make tax and agency percent, gateway and currency
         $payment = new Payment();
         $payment->booking_id = $booking->id;
         $payment->client_user_id = $booking->client->id;

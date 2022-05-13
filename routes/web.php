@@ -64,6 +64,9 @@ Route::get('get-translate', [MainPageController::class, 'getTranslate']);
 Route::get('get-translate/{lang}', [MainPageController::class, 'getTranslate']);
 Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->middleware(['auth:sanctum', 'checkAdmin']);
 
+Route::get('export-translate', [AdminDashboardController::class, 'exportTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
+Route::post('import-translate', [AdminDashboardController::class, 'importTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
+
 Route::resource('/feedback', FeedbackController::class)->middleware(['auth:sanctum']);;
 
 Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
