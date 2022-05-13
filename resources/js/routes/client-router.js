@@ -11,7 +11,8 @@ const routes = [
     {
         path: "/dashboard/client",
         name: 'ClientDashboard',
-        component: Overview
+        component: Overview,
+        props: true,
     },
     {
         path: "/dashboard/client/messages",
