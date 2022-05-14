@@ -538,6 +538,11 @@
         border-color: $highlight;
         color: $white;
     }
+
+    input:disabled ~ #{$self}--body{
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 
 .pt-disabled{

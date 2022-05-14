@@ -1496,6 +1496,10 @@
   border-color: #ff9600;
   color: #ffffff;
 }
+.pt-checkbox input:disabled ~ .pt-checkbox--body {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .pt-disabled {
   pointer-events: none;
@@ -13292,20 +13296,10 @@ button {
   width: 14.2857142857%;
   min-width: 120px;
 }
-.pt-finder--form .dp__main {
-  max-width: 500px;
-}
-.pt-finder--form .dp__main .dp__calendar .dp__calendar {
-  max-width: calc(100% - 100px);
-  margin: 0 auto 50px auto;
-}
-.pt-finder--form .dp__main .dp__calendar .dp__cell_inner {
-  height: 55px;
-  width: 55px;
-}
 
 .pt-calendar .dp__main {
   width: 100%;
+  max-width: 500px;
 }
 .pt-calendar .dp__main .dp__menu {
   width: 100%;
@@ -13373,7 +13367,7 @@ button {
   width: 100%;
 }
 .pt-calendar .dp__main .dp__calendar .dp__calendar {
-  max-width: calc(100% - 50px);
+  max-width: calc(100% - 100px);
   margin: 0 auto 50px auto;
 }
 .pt-calendar .dp__main .dp__calendar .dp__calendar_row {
@@ -13381,9 +13375,9 @@ button {
 }
 .pt-calendar .dp__main .dp__calendar .dp__cell_inner {
   margin: 0 auto;
-  height: 80px;
   padding: 5px;
-  width: 80px;
+  height: 55px;
+  width: 55px;
   border-radius: 5px;
   font-weight: 700;
   background-color: #ffffff;
@@ -13415,6 +13409,16 @@ button {
 .pt-calendar .dp__main .dp__calendar .dp__today {
   border: none;
   color: #ff9600;
+}
+.pt-calendar.pt-lg .dp__main {
+  max-width: 100%;
+}
+.pt-calendar.pt-lg .dp__main .dp__calendar .dp__calendar {
+  max-width: calc(100% - 50px);
+}
+.pt-calendar.pt-lg .dp__main .dp__calendar .dp__cell_inner {
+  height: 80px;
+  width: 80px;
 }
 
 .pt-listing {

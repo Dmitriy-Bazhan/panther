@@ -30,7 +30,7 @@
 
             <one_time_booking v-if="activeTab === 0 && clientSearchInfo" :clientSearchInfo="clientSearchInfo" :data="data"></one_time_booking>
 
-            <regular_booking v-if="activeTab === 1" :clientSearchInfo="clientSearchInfo" :data="data"></regular_booking>
+            <regular_booking v-if="activeTab === 1 && clientSearchInfo" :clientSearchInfo="clientSearchInfo" :data="data"></regular_booking>
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@ export default {
     },
     data() {
         return {
-            activeTab: 0,
+            activeTab: 1,
             startBooking: true,
             clientSearchInfo: false,
         }

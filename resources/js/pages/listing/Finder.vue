@@ -148,20 +148,22 @@
 
                             <div class="pt-finder--form-group">
 
-                                <Datepicker v-model="clientSearchInfo.one_time_date"
-                                            inline
-                                            autoApply
-                                            :monthChangeOnScroll="false"
-                                            v-show="showOneTimeCalendar"
-                                            :enableTimePicker="false"/>
+                                <div class="pt-calendar">
+                                    <Datepicker v-model="clientSearchInfo.one_time_date"
+                                                inline
+                                                autoApply
+                                                :monthChangeOnScroll="false"
+                                                v-show="showOneTimeCalendar"
+                                                :enableTimePicker="false"/>
 
-                                <Datepicker v-model="clientSearchInfo.regular_time_range"
-                                            inline
-                                            autoApply
-                                            range
-                                            v-show="showRegularCalendar"
-                                            :monthChangeOnScroll="false"
-                                            :enableTimePicker="false"/>
+                                    <Datepicker v-model="clientSearchInfo.regular_time_range"
+                                                inline
+                                                autoApply
+                                                range
+                                                v-show="showRegularCalendar"
+                                                :monthChangeOnScroll="false"
+                                                :enableTimePicker="false"/>
+                                </div>
 
                             </div>
                         </div>

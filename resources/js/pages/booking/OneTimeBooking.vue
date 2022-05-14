@@ -4,7 +4,7 @@
 
         <div class="pt-row" v-if="info">
             <div class="pt-col-md-6">
-                <div class="pt-calendar">
+                <div class="pt-calendar pt-lg">
                     <Datepicker v-model="booking.date"
                                 inline
                                 autoApply
@@ -166,7 +166,6 @@
 
 <script>
     import NurseInfo from "./NurseInfo";
-    import * as dayjs from 'dayjs'
 
     export default {
         name: "OneTimeBooking",

@@ -137,27 +137,12 @@
             }
         }
     }
-
-    .dp__main{
-        max-width: 500px;
-
-        .dp__calendar{
-            .dp__calendar{
-                max-width: calc(100% - 100px);
-                margin: 0 auto 50px auto;
-            }
-
-            .dp__cell_inner{
-                height: 55px;
-                width: 55px;
-            }
-        }
-    }
 }
 
 .pt-calendar{
     .dp__main{
         width: 100%;
+        max-width: 500px;
 
         .dp__menu{
             width: 100%;
@@ -245,7 +230,7 @@
             width: 100%;
 
             .dp__calendar{
-                max-width: calc(100% - 50px);
+                max-width: calc(100% - 100px);
                 margin: 0 auto 50px auto;
             }
 
@@ -255,9 +240,9 @@
 
             .dp__cell_inner{
                 margin: 0 auto;
-                height: 80px;
                 padding: 5px;
-                width: 80px;
+                height: 55px;
+                width: 55px;
                 border-radius: 5px;
                 font-weight: 700;
                 background-color: $white;
@@ -291,6 +276,23 @@
             .dp__today{
                 border: none;
                 color: $highlight;
+            }
+        }
+    }
+
+    &.pt-lg{
+        .dp__main{
+            max-width: 100%;
+
+            .dp__calendar{
+                .dp__calendar{
+                    max-width: calc(100% - 50px);
+                }
+
+                .dp__cell_inner{
+                    height: 80px;
+                    width: 80px;
+                }
             }
         }
     }
