@@ -245,7 +245,12 @@
                 }
             },
             sendBooking() {
-                axios.post('/booking', {'booking': this.booking, 'nurse_user_id' : this.data.nurse.id , 'one_time_or_regular': 'one'})
+                axios.post('/booking', {
+                    'booking': this.booking,
+                    'nurse_user_id' : this.data.nurse.id,
+                    'one_time_or_regular': 'one',
+                    'client_search_info': this.clientSearchInfo
+                })
                     .then((response) => {
                         if(response.data.success){
                             window.location.href = '/send-booking-message';

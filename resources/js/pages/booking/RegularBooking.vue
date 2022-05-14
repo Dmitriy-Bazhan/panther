@@ -334,7 +334,8 @@ export default {
             axios.post('/booking', {
                 'booking': this.booking,
                 'nurse_user_id': this.data.nurse.id,
-                'one_time_or_regular': 'regular'
+                'one_time_or_regular': 'regular',
+                'client_search_info': this.clientSearchInfo
             })
                 .then((response) => {
                     if (response.data.success) {
@@ -366,24 +367,5 @@ export default {
 </script>
 
 <style scoped>
-.weekdays {
-    display: flex;
-    flex: auto;
-}
 
-.weekday {
-    width: 14.2857%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.4rem 0;
-    color: #aaaaaa;
-    border: 1px solid #aaaaaa;
-    background-color: #eaeaea;
-}
-
-.work-day {
-    cursor: pointer;
-    color: #0a58ca;
-}
 </style>
