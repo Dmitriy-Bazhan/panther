@@ -83,19 +83,19 @@
                 Geben Sie die Anzahl der Stunden ein:
             </div>
             <div class="pt-finder--form-block--inner">
-                <div class="pt-finder--form-group">
-                    <div class="pt-select">
-                        <div class="pt-select--icon">
-                            <pt-icon type="watch"></pt-icon>
-                        </div>
-                        <v-select multiple :closeOnSelect="false" :options="intervals?intervals:[]"
-                                  v-model="booking.time">
-                            <template #open-indicator>
-                                <span class="pt-select--caret"></span>
-                            </template>
-                        </v-select>
-                    </div>
-                </div>
+<!--                <div class="pt-finder&#45;&#45;form-group">-->
+<!--                    <div class="pt-select">-->
+<!--                        <div class="pt-select&#45;&#45;icon">-->
+<!--                            <pt-icon type="watch"></pt-icon>-->
+<!--                        </div>-->
+<!--                        <v-select multiple :closeOnSelect="false" :options="intervals?intervals:[]"-->
+<!--                                  v-model="booking.time">-->
+<!--                            <template #open-indicator>-->
+<!--                                <span class="pt-select&#45;&#45;caret"></span>-->
+<!--                            </template>-->
+<!--                        </v-select>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="pt-finder--form-group">
                     <div class="">
                         <template v-for="item in intervals">
