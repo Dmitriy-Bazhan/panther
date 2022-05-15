@@ -245,11 +245,14 @@
                 }
             },
             sendBooking() {
+                this.booking.fullname = this.$store.state.user.first_name + ' ' + this.$store.state.user.last_name
+                this.booking.client_phone = this.$store.state.user.phone
+                this.booking.total = this.getTotalPrice()
+
                 axios.post('/booking', {
                     'booking': this.booking,
                     'nurse_user_id' : this.data.nurse.id,
                     'one_time_or_regular': 'one',
-                    'client_search_info': this.clientSearchInfo
                 })
                     .then((response) => {
                         if(response.data.success){
