@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Local;
+namespace Database\Seeders;
 
 use App\Models\ProvideSupportAssigned;
 use Illuminate\Database\Seeder;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Local;
+namespace Database\Seeders;
 
 use App\Models\TimeInterval;
 use Illuminate\Database\Seeder;
