@@ -88,16 +88,13 @@ class BookingController extends Controller
             $booking->save();
             $bookingId = $booking->id;
 
-            foreach (request('booking')['time_interval'] as $key => $value) {
+            foreach (request('booking')['time'] as $value) {
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = request('booking')['time'][$key];
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
                 $bookingTime->save();
-
             }
-
-
         }
 
         if (request('one_time_or_regular') == 'regular') {
@@ -135,15 +132,13 @@ class BookingController extends Controller
             $booking->save();
             $bookingId = $booking->id;
 
-            foreach (request('booking')['time_interval'] as $key => $value) {
+            foreach (request('booking')['time'] as $value) {
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = request('booking')['time'][$key];
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
                 $bookingTime->save();
-
             }
-
         }
 
         $nurse = User::find(request('nurse_user_id'));

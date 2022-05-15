@@ -10,7 +10,7 @@ class Booking extends Model
     use HasFactory;
 
     public function time() {
-        return $this->hasOne('App\Models\BookingTime', 'booking_id', 'id');
+        return $this->hasMany('App\Models\BookingTime', 'booking_id', 'id');
     }
 
     public function client() {

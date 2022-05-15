@@ -18,6 +18,14 @@ class AddChangesColumntToBookingsTable extends Migration
             $table->string('client_phone')->nullable();
         });
 
+        Schema::table('booking_times', function (Blueprint $table) {
+            $table->string('time')->change();
+        });
+
+        Schema::table('alternative_booking_times', function (Blueprint $table) {
+            $table->string('alternative_time')->change();
+        });
+
         Schema::table('payments', function (Blueprint $table) {
             $table->dropForeign(['booking_id']);
             $table->dropForeign(['client_user_id']);
@@ -39,6 +47,14 @@ class AddChangesColumntToBookingsTable extends Migration
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropColumn('client_fullname');
             $table->dropColumn('client_phone');
+        });
+
+        Schema::table('booking_times', function (Blueprint $table) {
+            $table->integer('time')->change();
+        });
+
+        Schema::table('alternative_booking_times', function (Blueprint $table) {
+            $table->integer('alternative_time')->change();
         });
     }
 }
