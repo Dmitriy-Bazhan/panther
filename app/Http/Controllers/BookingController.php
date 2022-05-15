@@ -79,20 +79,21 @@ class BookingController extends Controller
             $booking->one_time_or_regular = 'one';
             $booking->days = json_encode([]);
             $booking->weeks = 0;
-            $booking->start_date = request('booking')['date'];
-            $booking->finish_date = request('booking')['date'];
+            $booking->start_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
+            $booking->finish_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
             $booking->additional_email = request('booking')['additional_email'];
             $booking->comment = request('booking')['comment'];
+            $booking->client_fullname = request('booking')['fullname'];
+            $booking->client_phone = request('booking')['client_phone'];
             $booking->save();
             $bookingId = $booking->id;
 
-            foreach (request('booking')['time_interval'] as $key => $value) {
+            foreach (request('booking')['time'] as $value) {
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = request('booking')['time'][$key];
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
                 $bookingTime->save();
-
             }
         }
 
@@ -100,7 +101,7 @@ class BookingController extends Controller
             $rules = [
                 'date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
-                'days.*' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+                'days.*' => 'required|in:0,1,2,3,4,5,6',
                 'weeks' => 'required|min:1',
                 'total' => 'required|numeric|min:10',
                 'time' => 'required',
@@ -122,20 +123,21 @@ class BookingController extends Controller
             $booking->one_time_or_regular = 'regular';
             $booking->days = json_encode(request('booking')['days']);
             $booking->weeks = request('booking')['weeks'];
-            $booking->start_date = request('booking')['date'];
-            $booking->finish_date = Carbon::createFromFormat('Y-m-d', request('booking')['date'])->addRealWeeks(request('booking')['weeks']);
+            $booking->start_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
+            $booking->finish_date = Carbon::createFromDate(request('booking')['date'])->addRealWeeks(request('booking')['weeks'])->format('Y-m-d');
             $booking->additional_email = request('booking')['additional_email'];
             $booking->comment = request('booking')['comment'];
+            $booking->client_fullname = request('booking')['fullname'];
+            $booking->client_phone = request('booking')['client_phone'];
             $booking->save();
             $bookingId = $booking->id;
 
-            foreach (request('booking')['time_interval'] as $key => $value) {
+            foreach (request('booking')['time'] as $value) {
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = request('booking')['time'][$key];
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
                 $bookingTime->save();
-
             }
         }
 
