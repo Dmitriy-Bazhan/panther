@@ -410,24 +410,23 @@ export default {
             }
         },
         sendBooking() {
-            console.log(this.booking)
             this.booking.fullname = this.$store.state.user.first_name + ' ' + this.$store.state.user.last_name
             this.booking.client_phone = this.$store.state.user.phone
             this.booking.total = this.getTotalPrice()
 
-            // axios.post('/booking', {
-            //     'booking': this.booking,
-            //     'nurse_user_id': this.data.nurse.id,
-            //     'one_time_or_regular': 'regular',
-            // })
-            //     .then((response) => {
-            //         if (response.data.success) {
-            //             window.location.href = '/send-booking-message';
-            //         }
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //     });
+            axios.post('/booking', {
+                'booking': this.booking,
+                'nurse_user_id': this.data.nurse.id,
+                'one_time_or_regular': 'regular',
+            })
+                .then((response) => {
+                    if (response.data.success) {
+                        window.location.href = '/send-booking-message';
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         checkWorkWeekDays() {
             if (this.data.nurse.entity.work_time_pref.weekdays_7_11 === "1" ||
