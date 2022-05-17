@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-4" v-if="booking.one_time_or_regular === 'regular'">
-                <div>{{ $t('days') }}: <span v-for="day in booking.days">{{ $t(day) }}&nbsp;</span></div>
+                <div>{{ $t('days') }}: <span v-for="day in booking.days">{{ day }}&nbsp;</span></div>
                 <div>{{ $t('weeks') }}: {{ booking.weeks }}</div>
             </div>
             <div class="col-4" v-if="booking.alternative.alternative_one_time_or_regular === 'regular'">
@@ -69,14 +69,8 @@
         props: ['booking'],
         mounted() {
             console.log(this.booking);
-        },
-        watch: {
-            booking: {
-                handler(newValue, oldValue) {
-
-                }
-            }
         }
+
     }
 </script>
 

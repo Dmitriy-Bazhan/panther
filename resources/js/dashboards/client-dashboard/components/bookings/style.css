@@ -22,6 +22,19 @@
     height: 450px;
 }
 
+.edit-booking-wrapper {
+    position: fixed;
+    z-index: 100;
+    background: #0a53be;
+    border: solid 1px black;
+    border-radius: 10px;
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    height: 650px;
+    overflow: auto;
+}
+
 .remove-confirm-wrapper {
     padding-top: 75px;
     position: fixed;

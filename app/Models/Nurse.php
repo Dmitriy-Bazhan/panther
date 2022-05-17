@@ -9,32 +9,6 @@ class Nurse extends Model
 {
     use HasFactory;
 
-    /*
-    * 0 weekdays_morning
-    * 1 weekdays_afternoon
-    * 2 weekdays_evening
-    * 3 weekdays_overnight
-    * 4 weekends_morning
-    * 5 weekends_afternoon
-    * 6 weekends_evening
-    * 7 weekends_overnight
-     *
-     * "weekdays_morning" : "0",
-        "weekdays_afternoon" : "0",
-        "weekdays_evening" : "0",
-        "weekdays_overnight" : "0",
-        "weekends_morning" : "0",
-        "weekends_afternoon" : "0",
-        "weekends_evening" : "0",
-        "weekends_overnight" : "0"
-    */
-
-    /*
-      7-11 Uhr;
-    • 11-14 Uhr;
-    • 14-17 Uhr;
-    • 17-21 Uhr
-    */
 
     protected $attributes = [
         'work_time_pref' => '{

@@ -33,8 +33,8 @@ class ClientBookingsController extends Controller
 
     public function index()
     {
-        if(request()->filled('client_id') && is_numeric(request('client_id'))){
-            if(!User::find(request('client_id'))){
+        if (request()->filled('client_id') && is_numeric(request('client_id'))) {
+            if (!User::find(request('client_id'))) {
                 //todo: hmmm
                 abort(409);
             }
@@ -78,23 +78,22 @@ class ClientBookingsController extends Controller
 
     public function update(Request $request, $id)
     {
-        if(!is_numeric($id) || !Booking::find($id)){
+        if (!is_numeric($id) || !Booking::find($id)) {
             //todo:hmm
             abort(409);
         }
 
         $data = request('booking');
 
-        if(!in_array($data['one_time_or_regular'], ['one', 'regular'])) {
+        if (!in_array($data['one_time_or_regular'], ['one', 'regular'])) {
             //todo:hmm
             abort(409);
         }
 
-        if($data['one_time_or_regular'] == 'one') {
+        if ($data['one_time_or_regular'] == 'one') {
             $rules = [
                 'start_date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
-                'time' => 'required',
                 'total' => 'required|numeric|min:10',
                 'additional_email' => 'sometimes|nullable|email',
                 'comment' => 'sometimes',
@@ -111,7 +110,7 @@ class ClientBookingsController extends Controller
                 'total' => $data['total'],
                 'one_time_or_regular' => $data['one_time_or_regular'],
                 'days' => json_encode([]),
-                'weeks' => 1,
+                'weeks' => 0,
                 'start_date' => $data['start_date'],
                 'additional_email' => $data['additional_email'],
                 'comment' => $data['comment'],
@@ -119,21 +118,29 @@ class ClientBookingsController extends Controller
 
             BookingTime::where('booking_id', $id)->delete();
 
-            foreach ($data['new_time']['time_interval'] as $key => $value) {
+            foreach ($data['week_days_checked'] as $value) {
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $id;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = $data['new_time']['time'][$key];
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
                 $bookingTime->save();
-
             }
+
+            foreach ($data['week_ends_checked'] as $value) {
+                $bookingTime = new BookingTime();
+                $bookingTime->booking_id = $id;
+                $bookingTime->time_interval = $value['id'];
+                $bookingTime->time = $value['val'];
+                $bookingTime->save();
+            }
+
         }
 
-        if($data['one_time_or_regular'] == 'regular') {
+        if ($data['one_time_or_regular'] == 'regular') {
             $rules = [
                 'start_date' => 'required',
                 'suggested_price_per_hour' => 'required|numeric|min:10',
-                'days.*' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+                'days.*' => 'required|in:0,1,2,3,4,5,6',
                 'weeks' => 'required|min:1',
                 'total' => 'required|numeric|min:10',
                 'time' => 'required',
@@ -158,17 +165,31 @@ class ClientBookingsController extends Controller
             ]);
 
             BookingTime::where('booking_id', $id)->delete();
-            foreach ($data['new_time']['time_interval'] as $key => $value) {
-                $bookingTime = new BookingTime();
-                $bookingTime->booking_id = $id;
-                $bookingTime->time_interval = $key;
-                $bookingTime->time = $data['new_time']['time'][$key];
-                $bookingTime->save();
+            if (in_array(1, $data['days']) || in_array(2, $data['days'])
+                || in_array(3, $data['days']) || in_array(4, $data['days']) || in_array(5, $data['days'])) {
+                foreach ($data['week_days_checked'] as $value) {
+                    $bookingTime = new BookingTime();
+                    $bookingTime->booking_id = $id;
+                    $bookingTime->time_interval = $value['id'];
+                    $bookingTime->time = $value['val'];
+                    $bookingTime->save();
 
+                }
+            }
+
+            if (in_array(0, $data['days']) || in_array(6, $data['days'])) {
+                foreach ($data['week_ends_checked'] as $value) {
+                    $bookingTime = new BookingTime();
+                    $bookingTime->booking_id = $id;
+                    $bookingTime->time_interval = $value['id'];
+                    $bookingTime->time = $value['val'];
+                    $bookingTime->save();
+
+                }
             }
         }
 
-        Payment::where('booking_id' , $id)->update([
+        Payment::where('booking_id', $id)->update([
             'sum' => $data['total']
         ]);
 
@@ -177,26 +198,27 @@ class ClientBookingsController extends Controller
 
     public function destroy($id)
     {
-        if(is_null($id) || !is_numeric($id)){
+        if (is_null($id) || !is_numeric($id)) {
             //todo:hmm
             abort(409);
         }
 
-        if(!Booking::where('id', $id)->delete()){
+        if (!Booking::where('id', $id)->delete()) {
             //todo:hmm
             abort(409);
         }
 
-        if(!Payment::where('booking_id', $id)->update(['status' => 'refuse'])){
+        if (!Payment::where('booking_id', $id)->update(['status' => 'refuse'])) {
             //todo:hmm
             abort(409);
         }
 
-        return response()->json(['success' => true ]);
+        return response()->json(['success' => true]);
     }
 
-    public function sendBookingAgain($id) {
-        if(!is_numeric($id) && !Booking::where('id', $id)->first()){
+    public function sendBookingAgain($id)
+    {
+        if (!is_numeric($id) && !Booking::where('id', $id)->first()) {
             abort(409);
         }
 
@@ -211,14 +233,15 @@ class ClientBookingsController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function agreeWithAlternative($id){
+    public function agreeWithAlternative($id)
+    {
 
-        if(!is_numeric($id) || !Booking::find($id)){
+        if (!is_numeric($id) || !Booking::find($id)) {
             //todo: hmm
             abort(409);
         }
 
-        if(!$alternative = AlternativeBooking::where('booking_id', $id)->with('time')->first()){
+        if (!$alternative = AlternativeBooking::where('booking_id', $id)->with('time')->first()) {
             //todo: hmm
             abort(409);
         }
@@ -237,6 +260,7 @@ class ClientBookingsController extends Controller
         ]);
 
         BookingTime::where('booking_id', $id)->delete();
+
         foreach ($alternative->time as $value) {
             $bookingTime = new BookingTime();
             $bookingTime->booking_id = $id;
@@ -246,7 +270,7 @@ class ClientBookingsController extends Controller
 
         }
 
-        Payment::where('booking_id' , $id)->update([
+        Payment::where('booking_id', $id)->update([
             'sum' => $alternative->total
         ]);
 
@@ -255,14 +279,15 @@ class ClientBookingsController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function getPrivateChat($nurse_id = null){
+    public function getPrivateChat($nurse_id = null)
+    {
 
-        if(is_null($nurse_id) || !is_numeric($nurse_id)){
+        if (is_null($nurse_id) || !is_numeric($nurse_id)) {
             //todo: hmm
             abort(409);
         }
 
         $chat = $this->chatRepo->getClientPrivateChatsWithNurse($nurse_id);
-        return response()->json(['success'=> true, 'chat' => $chat]);
+        return response()->json(['success' => true, 'chat' => $chat]);
     }
 }

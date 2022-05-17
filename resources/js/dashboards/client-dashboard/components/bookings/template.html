@@ -150,7 +150,7 @@
         </tbody>
     </table>
 
-    <div v-if="show_booking_edit" class="show-booking-wrapper">
+    <div v-if="show_booking_edit" class="edit-booking-wrapper">
         <div class="container-fluid">
             <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
             <div class="row">
@@ -161,7 +161,7 @@
             </div>
             <br>
             <div class="row">
-                <booking :booking="booking"></booking>
+                <booking :data="data" :booking="booking"></booking>
             </div>
             <div class="row">
                 <div class="col-2 offset-10">
@@ -182,7 +182,7 @@
             </div>
             <br>
             <div class="row">
-                <show_booking :booking="booking"></show_booking>
+                <show_booking :data="data" :booking="booking"></show_booking>
             </div>
         </div>
     </div>
