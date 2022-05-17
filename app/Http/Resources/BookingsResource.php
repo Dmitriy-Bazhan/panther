@@ -18,6 +18,17 @@ class BookingsResource extends JsonResource
             $this->alternative->alternative_days = json_decode($this->alternative->alternative_days, true);
         }
 
+        $timeInterval = [
+        "weekdays_7_11" => "0",
+        "weekdays_11_14" => "0",
+        "weekdays_14_17" => "0",
+        "weekdays_17_21" => "0",
+        "weekends_7_11" => "0",
+        "weekends_11_14" => "0",
+        "weekends_14_17" => "0",
+        "weekends_17_21" => "0"
+        ];
+
         return [
             'additional_email' => $this->additional_email,
             'alternative' => $this->alternative,
@@ -35,6 +46,7 @@ class BookingsResource extends JsonResource
             'agree_for_alternative' => $this->agree_for_alternative ,
             'nurse_user_id' => $this->nurse_user_id ,
             'one_time_or_regular' => $this->one_time_or_regular ,
+            'time_interval' => $timeInterval,
             'start_date' => $this->start_date ,
             'suggested_price_per_hour' => $this->suggested_price_per_hour ,
             'time' => $this->time ,

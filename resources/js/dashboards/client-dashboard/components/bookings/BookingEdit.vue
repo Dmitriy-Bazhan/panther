@@ -44,17 +44,17 @@
                 <div class="col-8">
                     <label class="form-label col-form-label-sm">{{ $t('days') }}</label>
                     <div class='weekdays'>
-                        <div class='weekday' v-for='weekday in weekdayLabels'>
-                                    <span v-if="checkWorkWeekDays()" class="work-day" v-on:click="addDays(weekday)">
-                                    <span v-if="in_array(weekday, booking.days)">+</span>
+                        <div class='weekday' v-for='(weekday, index) in weekdayLabels'>
+                                    <span v-if="checkWorkWeekDays()" class="work-day" v-on:click="addDays(index)">
+                                    <span v-if="in_array(index, booking.days)">+</span>
                                          {{ weekday }}
                                       </span>
                             <span v-else>{{ weekday }}</span>
                         </div>
 
-                        <div class='weekday' v-for='weekend in weekendLabels'>
-                                  <span v-if="checkWorkweekEnds()" class="work-day" v-on:click="addDays(weekend)">
-                                    <span v-if="in_array(weekend, booking.days)">+</span>
+                        <div class='weekday' v-for='(weekend, index) in weekendLabels'>
+                                  <span v-if="checkWorkweekEnds()" class="work-day" v-on:click="addDays(index)">
+                                    <span v-if="in_array(index, booking.days)">+</span>
                                             {{ weekend }}
                                      </span>
                             <span v-else>{{ weekend }}</span>
@@ -65,151 +65,103 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    {{ $t('total') + ': ' + booking.total}}
+                    {{ $t('total') + ': ' + booking.total }}
                 </div>
 
             </div>
         </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-4 offset-4 justify-content-center">{{ $t('weekdays') }}</div>
-                <div class="col-4 justify-content-center">{{ $t('weekends') }}</div>
-            </div>
-            <div class="row">
-                <div class="col-4 offset-4 justify-content-center">{{ $t('mon_fri') }}</div>
-                <div class="col-4 justify-content-center">{{ $t('sat_sun') }}</div>
-            </div>
 
-            <!--                        7-11 Uhr  -->
-            <div class="row">
-                <div class="col-4">7-11 Uhr</div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekdays_7_11')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekdays_7_11 === '0'"
-                           v-model="time.time_interval['weekdays_7_11']">
-                    &nbsp;<label for="weekdays_morning"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekdays_7_11 === '1'"
-                            v-model="time.time['weekdays_7_11']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                        <option value="4">4 h</option>
-                    </select>
-                </div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekends_7_11')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekends_7_11 === '0'"
-                           v-model="time.time_interval['weekends_7_11']">
-                    &nbsp;<label for="weekends_morning"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekends_7_11 === '1'"
-                            v-model="time.time['weekends_7_11']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                        <option value="4">4 h</option>
-                    </select>
+        <div class="pt-finder--form-block" v-if="show_week_days_interval">
+            <div class="pt-finder--form-label">
+                <div class="pt-finder--form-label--number">3</div>
+                verfügbare Zeit:
+            </div>
+            <div class="pt-finder--form-block--inner">
+                <div class="pt-finder--form-group">
+                    <div class="">
+                        <div class="pt-finder--form-group">
+                            <div class="">
+                                <template v-for="item in data.time_intervals">
+                                    <label class="pt-checkbox" v-if="item.type === 'weekdays'">
+                                        <input type="checkbox" name="work_time_pref"
+                                               true-value="1" false-value="0"
+                                               @change="setIntervals"
+                                               v-model="booking.time_interval[item.id]">
+                                        <span class="pt-checkbox--body">{{ item.interval }}</span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--                        11-14 Uhr  -->
-            <div class="row">
-                <div class="col-4">11-14 Uhr</div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekdays_11_14')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekdays_11_14 === '0'"
-                           v-model="time.time_interval['weekdays_11_14']">
-                    &nbsp;<label for="weekdays_afternoon"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekdays_11_14 === '1'"
-                            v-model="time.time['weekdays_11_14']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                    </select>
-                </div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekends_11_14')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekends_11_14 === '0'"
-                           v-model="time.time_interval['weekends_11_14']">
-                    &nbsp;<label for="weekends_afternoon"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekends_11_14 === '1'"
-                            v-model="time.time['weekends_11_14']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                    </select>
+        </div>
+
+        <div class="pt-finder--form-block" v-if="show_week_days_interval">
+            <div class="pt-finder--form-label">
+                <div class="pt-finder--form-label--number">4</div>
+                Geben Sie die Anzahl der Stunden ein:
+            </div>
+            <div class="pt-finder--form-block--inner">
+                <div class="pt-finder--form-group">
+                    <div class="">
+                        <template v-for="(item, index) in intervals">
+                            <label class="pt-checkbox">
+                                <input type="checkbox" name="work_time_pref"
+                                       :value="item"
+                                       v-model="booking.week_days_checked"
+                                       v-on:change="getTotalPrice()">
+                                <span class="pt-checkbox--body">{{ item.val }}</span>
+                            </label>
+                        </template>
+                    </div>
                 </div>
             </div>
-            <!--                        14-17 Uhr -->
-            <div class="row">
-                <div class="col-4">14-17 Uhr</div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekdays_14_17')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekdays_14_17 === '0'"
-                           v-model="time.time_interval['weekdays_14_17']">
-                    &nbsp;<label for="weekdays_evening"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekdays_14_17 === '1'"
-                            v-model="time.time['weekdays_14_17']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                    </select>
-                </div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekends_14_17')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekends_14_17 === '0'"
-                           v-model="time.time_interval['weekends_14_17']">
-                    &nbsp;<label for="weekends_evening"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekends_14_17 === '1'"
-                            v-model="time.time['weekends_14_17']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                    </select>
+        </div>
+
+        <div class="pt-finder--form-block" v-if="show_week_ends_interval">
+            <div class="pt-finder--form-label">
+                <div class="pt-finder--form-label--number">3</div>
+                verfügbare Zeit: (weekends)
+            </div>
+            <div class="pt-finder--form-block--inner">
+                <div class="pt-finder--form-group">
+                    <div class="">
+                        <div class="pt-finder--form-group">
+                            <div class="">
+                                <template v-for="item in data.time_intervals">
+                                    <label class="pt-checkbox" v-if="item.type === 'weekends'">
+                                        <input type="checkbox" name="work_time_pref"
+                                               true-value="1" false-value="0"
+                                               @change="setIntervals"
+                                               v-model="booking.time_interval[item.id]">
+                                        <span class="pt-checkbox--body">{{ item.interval }}</span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--                        17-21 Uhr -->
-            <div class="row">
-                <div class="col-4">17-21 Uhr</div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekdays_17_21')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekdays_17_21 === '0'"
-                           v-model="time.time_interval['weekdays_17_21']">
-                    &nbsp;<label for="weekdays_overnight"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekdays_17_21 === '1'"
-                            v-model="time.time['weekdays_17_21']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                        <option value="4">4 h</option>
-                    </select>
-                </div>
-                <div class="col-4 justify-content-center">
-                    <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
-                           v-on:change="checkMultySelect('weekends_17_21')"
-                           v-bind:disabled="booking.nurse.entity.work_time_pref.weekends_17_21 === '0'"
-                           v-model="time.time_interval['weekends_17_21']">
-                    &nbsp;<label for="weekends_overnight"></label>
-                    <select class="form-control form-control-sm"
-                            v-if="booking.nurse.entity.work_time_pref.weekends_17_21 === '1'"
-                            v-model="time.time['weekends_17_21']">
-                        <option value="1" selected>1 h</option>
-                        <option value="2">2 h</option>
-                        <option value="3">3 h</option>
-                        <option value="4">4 h</option>
-                    </select>
+        </div>
+
+        <div class="pt-finder--form-block" v-if="show_week_ends_interval">
+            <div class="pt-finder--form-label">
+                <div class="pt-finder--form-label--number">4</div>
+                Geben Sie die Anzahl der Stunden ein: (weekends)
+            </div>
+            <div class="pt-finder--form-block--inner">
+                <div class="pt-finder--form-group">
+                    <div class="">
+                        <template v-for="item in weekends_intervals">
+                            <label class="pt-checkbox">
+                                <input type="checkbox" name="work_time_pref"
+                                       :value="item"
+                                       v-model="booking.week_ends_checked" v-on:change="getTotalPrice()">
+                                <span class="pt-checkbox--body">{{ item.val }}</span>
+                            </label>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,59 +172,185 @@
 <script>
     export default {
         name: "BookingEdit",
-        props: ['booking'],
+        props: ['data', 'booking'],
         data() {
             return {
-                weekdayLabels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                weekendLabels: ['Saturday', 'Sunday'],
+                weekdayLabels: {
+                    1: 'Monday',
+                    2: 'Tuesday',
+                    3: 'Wednesday',
+                    4: 'Thursday',
+                    5: 'Friday'
+                },
+                weekendLabels: {
+                    6: 'Saturday',
+                    0: 'Sunday'
+                },
                 show_for_regular: false,
-                time: {
-                    time_interval: {},
-                    time: {}
-                }
+                intervals: false,
+                weekends_intervals: false,
+                show_week_days_interval: true,
+                show_week_ends_interval: true,
+
             }
         },
         watch: {
             booking: {
                 handler(newValue, oldValue) {
-                    for (let i in this.booking.time) {
-                        this.time.time_interval[this.booking.time[i].time_interval] = '1';
-                        this.time.time[this.booking.time[i].time_interval] = this.booking.time[i].time;
-                    }
                     if (this.booking.one_time_or_regular == 'regular') {
                         this.show_for_regular = true;
                     }
                     if (typeof this.booking.nurse.entity.work_time_pref === 'string') {
                         this.booking.nurse.entity.work_time_pref = JSON.parse(this.booking.nurse.entity.work_time_pref);
                     }
-                    this.booking.new_time = this.time;
                 },
                 immediate: true,
-            },
-            time: {
-                handler(newValue, oldValue) {
-                    this.booking.new_time = this.time;
-                    this.countTotal();
-
-                },
-                deep: true,
             }
         },
         mounted() {
             console.log(this.booking);
-            console.log(this.time);
+
+            this.booking.time_interval = this.booking.nurse.entity.work_time_pref;
+            this.setIntervals();
+
+            console.log(this.intervals);
+            this.booking.week_days_checked = [];
+            this.booking.week_ends_checked = [];
+            for (let i in this.intervals) {
+                let time = this.booking.time.filter(($value) => {
+                    if ($value.time == this.intervals[i].val && $value.time_interval == this.intervals[i].id) {
+                        return true;
+                    }
+                });
+                if (time.length > 0) {
+                    let obj = {
+                        id: this.intervals[i].id,
+                        val: this.intervals[i].val
+                    }
+                    this.booking.week_days_checked.push(obj);
+                }
+            }
+
+            for (let i in this.weekends_intervals) {
+                let time = this.booking.time.filter(($value) => {
+                    if ($value.time == this.weekends_intervals[i].val && $value.time_interval == this.weekends_intervals[i].id) {
+                        return true;
+                    }
+                });
+                let obj = {
+                    id: this.weekends_intervals[i].id,
+                    val: this.weekends_intervals[i].val
+                }
+
+                if (time.length > 0) {
+                    this.booking.week_ends_checked.push(obj);
+                }
+            }
+            if(this.booking.one_time_or_regular == 'regular'){
+                this.checkWeekDaysOrEnds();
+            }
         },
         methods: {
+            setIntervals() {
+                let self = this
+                self.intervals = []
+                self.weekends_intervals = []
+                for (let key in self.booking.time_interval) {
+                    if (self.booking.time_interval[key] === '1') {
+                        let interval = self.data.time_intervals.find(function (int) {
+                            return int.id === key
+                        })
+                        if (interval.type === 'weekdays') {
+                            self.intervals.push(interval)
+                        } else {
+                            self.weekends_intervals.push(interval)
+                        }
+                    }
+                }
+                let timeIntervals = []
+                self.intervals.forEach(function (item) {
+                    for (let i = item.start; i < item.end; i++) {
+                        timeIntervals.push({
+                            id: item.id,
+                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                        })
+                    }
+                })
+                self.intervals = timeIntervals
+
+                timeIntervals = []
+                self.weekends_intervals.forEach(function (item) {
+                    for (let i = item.start; i < item.end; i++) {
+                        timeIntervals.push({
+                            id: item.id,
+                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                        })
+                    }
+                })
+                self.weekends_intervals = timeIntervals;
+            },
+            getTotalPrice() {
+                let self = this;
+                if (self.booking.start_date) {
+                    let year = dayjs(self.booking.start_date).get('year');
+                    let month = dayjs(self.booking.start_date).get('month');
+                    let date = dayjs(self.booking.start_date).get('date');
+                    let workDays = 0;
+                    let workWeekendDays = 0;
+                    for (let i = date; i < (date + (7 * self.booking.weeks)); i++) {
+                        let day = dayjs(year + '-' + (month + 1) + '-' + i).get('day');
+                        if (day === 6 || day === 0) {
+                            if (self.booking.days.indexOf(day) !== -1) {
+                                workWeekendDays++;
+                            }
+                        } else {
+                            if (self.booking.days.indexOf(day) !== -1) {
+                                workDays++;
+                            }
+                        }
+                    }
+
+                    let total = 0;
+                    if(this.booking.one_time_or_regular == 'regular'){
+                        total = self.booking.suggested_price_per_hour * self.booking.week_days_checked.length * workDays
+                        if (workDays) {
+                            total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length * workWeekendDays
+                        }
+
+                        if (self.booking.nurse.entity.price.weekend_surcharge === 'yes') {
+                            //console.log('weekend_surcharge - ' + self.info.nurse.entity.price.weekend_surcharge_payment)
+                        }
+                        if (self.booking.nurse.entity.price.fare_surcharge === 'yes') {
+                            //console.log('fare_surcharge_payment - ' +self.info.nurse.entity.price.fare_surcharge_payment)
+                        }
+                    }else{
+                        total = self.booking.suggested_price_per_hour * self.booking.week_days_checked.length;
+                        if (self.booking.week_days_checked.length === 0) {
+                            total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length;
+                        }
+
+                        if (self.booking.nurse.entity.price.weekend_surcharge === 'yes') {
+                            //console.log('weekend_surcharge - ' + self.info.nurse.entity.price.weekend_surcharge_payment)
+                        }
+                        if (self.booking.nurse.entity.price.fare_surcharge === 'yes') {
+                            //console.log('fare_surcharge_payment - ' +self.info.nurse.entity.price.fare_surcharge_payment)
+                        }
+                    }
+
+                    this.booking.total = total.toFixed(2);
+                    return total.toFixed(2);
+                }
+            },
             changeRegularOrOne() {
                 if (this.booking.one_time_or_regular == 'regular') {
                     this.show_for_regular = true;
                 } else {
                     this.show_for_regular = false;
                 }
-                this.countTotal();
+                this.getTotalPrice();
             },
             changeWeek() {
-                this.countTotal();
+                this.getTotalPrice();
             },
             addDays(day) {
                 if (this.in_array(day, this.booking.days)) {
@@ -282,9 +360,10 @@
                         });
                     this.booking.days = evens;
                 } else {
-                    this.booking.days.push(day);
+                    this.booking.days.push(Number(day));
                 }
-                this.countTotal();
+                this.checkWeekDaysOrEnds();
+                this.getTotalPrice();
             },
             checkWorkWeekDays() {
                 if (this.booking.nurse.entity.work_time_pref.weekdays_7_11 === "1" ||
@@ -332,17 +411,20 @@
                 }
             },
 
-            countTotal() {
-                let hours = 0;
-                for (let index in this.time.time) {
-                    hours = hours + Number(this.time.time[index]);
+            checkWeekDaysOrEnds() {
+                if (this.booking.days.indexOf(1) === -1 && this.booking.days.indexOf(2) === -1 && this.booking.days.indexOf(3) === -1 &&
+                    this.booking.days.indexOf(4) === -1 && this.booking.days.indexOf(5) === -1) {
+                    this.show_week_days_interval = false;
+                    this.booking.week_days_checked = [];
+                }else{
+                    this.show_week_days_interval = true;
                 }
 
-                this.booking.total = hours * this.booking.suggested_price_per_hour;
-
-                if (this.booking.one_time_or_regular == 'regular') {
-                    this.booking.total = this.booking.total * this.booking.days.length;
-                    this.booking.total = this.booking.total * this.booking.weeks;
+                if (this.booking.days.indexOf(0) === -1 && this.booking.days.indexOf(6) === -1) {
+                    this.show_week_ends_interval = false;
+                    this.booking.week_ends_checked = [];
+                }else{
+                    this.show_week_ends_interval = true;
                 }
             }
         }
