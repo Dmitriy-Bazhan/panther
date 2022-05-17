@@ -69,15 +69,15 @@ class NurseBookingController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'alternative_days' => 'sometimes',
-            'alternative_finish_date' => 'sometimes',
-            'alternative_one_time_or_regular' => 'required|in:one,regular',
-            'alternative_start_date' => 'required',
-            'alternative_suggested_price_per_hour' => 'required|numeric',
-            'alternative_time' => 'sometimes',
-            'alternative_weeks' => 'sometimes',
-            'booking_id' => 'required|numeric',
-            'alternative_total' => 'required|numeric',
+            'days' => 'sometimes',
+            'finish_date' => 'sometimes',
+            'one_time_or_regular' => 'required|in:one,regular',
+            'start_date' => 'required',
+            'suggested_price_per_hour' => 'required|numeric',
+            'time' => 'sometimes',
+            'weeks' => 'sometimes',
+            'id' => 'required|numeric',
+            'total' => 'required|numeric',
         ];
 
         $data = request('alternative');
@@ -89,40 +89,96 @@ class NurseBookingController extends Controller
             return response()->json(['success' => false, 'errors' => $errors]);
         }
 
-        Booking::where('id', $data['booking_id'])->update([
+        Booking::where('id', $data['id'])->update([
             'have_alternative' => 'yes',
             'agree_for_alternative' => 'no',
         ]);
 
-        AlternativeBooking::where('booking_id', $data['booking_id'])->delete();
+        AlternativeBooking::where('booking_id', $data['id'])->delete();
 
-        $alternativeBooking = new AlternativeBooking();
-        $alternativeBooking->booking_id = $data['booking_id'];
-        $alternativeBooking->alternative_suggested_price_per_hour = $data['alternative_suggested_price_per_hour'];
-        $alternativeBooking->total = $data['alternative_total'];
-        $alternativeBooking->alternative_one_time_or_regular = $data['alternative_one_time_or_regular'];
-        $alternativeBooking->alternative_start_date = $data['alternative_start_date'];
-        $alternativeBooking->alternative_finish_date = $data['alternative_finish_date'];
-        $alternativeBooking->alternative_weeks = $data['alternative_weeks'];
-        $alternativeBooking->alternative_days = json_encode($data['alternative_days']);
-        $alternativeBooking->comment = $data['comment'];
-        $alternativeBooking->save();
-        $alternativeBookingId = $alternativeBooking->id;
 
-        foreach ($data['alternative_time']['time_interval'] as $key => $value) {
-            $alternativeBookingTime = new AlternativeBookingTime();
-            $alternativeBookingTime->alternative_booking_id = $alternativeBookingId;
-            $alternativeBookingTime->alternative_time_interval = $key;
-            $alternativeBookingTime->alternative_time = $data['alternative_time']['time'][$key];
-            $alternativeBookingTime->save();
+        if($data['one_time_or_regular'] === 'one'){
+            $alternativeBooking = new AlternativeBooking();
+            $alternativeBooking->booking_id = $data['id'];
+            $alternativeBooking->alternative_suggested_price_per_hour = $data['suggested_price_per_hour'];
+            $alternativeBooking->total = $data['total'];
+            $alternativeBooking->alternative_one_time_or_regular = $data['one_time_or_regular'];
+            $alternativeBooking->alternative_start_date = $data['start_date'];
+            $alternativeBooking->alternative_finish_date = $data['start_date'];
+            $alternativeBooking->alternative_weeks = 0;
+            $alternativeBooking->alternative_days = json_encode([]);
+            $alternativeBooking->comment = $data['comment'];
+            $alternativeBooking->save();
+            $alternativeBookingId = $alternativeBooking->id;
+
+            foreach ($data['week_days_checked'] as $value) {
+                $alternativeBookingTime = new AlternativeBookingTime();
+                $alternativeBookingTime->alternative_booking_id = $alternativeBookingId;
+                $alternativeBookingTime->alternative_time_interval = $value['id'];
+                $alternativeBookingTime->alternative_time = $value['val'];
+                $alternativeBookingTime->save();
+            }
+
+            foreach ($data['week_ends_checked'] as $value) {
+                $alternativeBookingTime = new AlternativeBookingTime();
+                $alternativeBookingTime->alternative_booking_id = $alternativeBookingId;
+                $alternativeBookingTime->alternative_time_interval = $value['id'];
+                $alternativeBookingTime->alternative_time = $value['val'];
+                $alternativeBookingTime->save();
+            }
         }
+
+        if($data['one_time_or_regular'] === 'regular'){
+            $alternativeBooking = new AlternativeBooking();
+            $alternativeBooking->booking_id = $data['id'];
+            $alternativeBooking->alternative_suggested_price_per_hour = $data['suggested_price_per_hour'];
+            $alternativeBooking->total = $data['total'];
+            $alternativeBooking->alternative_one_time_or_regular = $data['one_time_or_regular'];
+            $alternativeBooking->alternative_start_date = $data['start_date'];
+            $alternativeBooking->alternative_finish_date = $data['finish_date'];
+            $alternativeBooking->alternative_weeks = $data['weeks'];
+            $alternativeBooking->alternative_days = json_encode($data['days']);
+            $alternativeBooking->comment = $data['comment'];
+            $alternativeBooking->save();
+            $alternativeBookingId = $alternativeBooking->id;
+
+            if (in_array(1, $data['days']) || in_array(2, $data['days'])
+                || in_array(3, $data['days']) || in_array(4, $data['days']) || in_array(5, $data['days'])) {
+                foreach ($data['week_days_checked'] as $value) {
+                    $alternativeBookingTime = new AlternativeBookingTime();
+                    $alternativeBookingTime->alternative_booking_id = $alternativeBookingId;
+                    $alternativeBookingTime->alternative_time_interval = $value['id'];
+                    $alternativeBookingTime->alternative_time = $value['val'];
+                    $alternativeBookingTime->save();
+
+                }
+            }
+
+            if (in_array(0, $data['days']) || in_array(6, $data['days'])) {
+                foreach ($data['week_ends_checked'] as $value) {
+                    $alternativeBookingTime = new AlternativeBookingTime();
+                    $alternativeBookingTime->alternative_booking_id = $alternativeBookingId;
+                    $alternativeBookingTime->alternative_time_interval = $value['id'];
+                    $alternativeBookingTime->alternative_time = $value['val'];
+                    $alternativeBookingTime->save();
+
+                }
+            }
+        }
+
+
 
         return response()->json(['success' => true]);
     }
 
     public function show($id)
     {
-        //
+
+
+        $bookings = $this->bookingRepo->search($id);
+        $booking = BookingsResource::make($bookings->first());
+
+        return response()->json(['success' => true, 'booking' => $booking]);
     }
 
     public function edit($id)
@@ -133,12 +189,12 @@ class NurseBookingController extends Controller
     //nurse approve booking
     public function update(Request $request, $id)
     {
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             //todo: hmm
             return abort(409);
         }
 
-        if(!$booking = Booking::where('id', $id)->with('time', 'client')->first()){
+        if (!$booking = Booking::where('id', $id)->with('time', 'client')->first()) {
             //todo: hmm
             return abort(409);
         }
@@ -157,11 +213,11 @@ class NurseBookingController extends Controller
     {
         $id = request('booking')['id'];
 
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             return response()->json(['success' => false]);
         }
 
-        if(!Booking::find($id)){
+        if (!Booking::find($id)) {
             return response()->json(['success' => false]);
         }
 
@@ -170,17 +226,17 @@ class NurseBookingController extends Controller
                 'nurse_is_refuse_booking' => 'yes',
                 'have_alternative' => 'no',
                 'reason_of_refuse_booking' => request('booking')['reason_of_refuse_booking'],
-        ]);
+            ]);
 
-        if($payment = Payment::where('booking_id', $id)->first()){
+        if ($payment = Payment::where('booking_id', $id)->first()) {
             $payment->status = 'break';
             $payment->save();
         }
 
         AlternativeBooking::where('booking_id', $id)->delete();
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
 
     public function getPrivateChat($client_id = null)
     {

@@ -110,7 +110,7 @@ class ClientBookingsController extends Controller
                 'total' => $data['total'],
                 'one_time_or_regular' => $data['one_time_or_regular'],
                 'days' => json_encode([]),
-                'weeks' => 1,
+                'weeks' => 0,
                 'start_date' => $data['start_date'],
                 'additional_email' => $data['additional_email'],
                 'comment' => $data['comment'],
@@ -260,6 +260,7 @@ class ClientBookingsController extends Controller
         ]);
 
         BookingTime::where('booking_id', $id)->delete();
+
         foreach ($alternative->time as $value) {
             $bookingTime = new BookingTime();
             $bookingTime->booking_id = $id;

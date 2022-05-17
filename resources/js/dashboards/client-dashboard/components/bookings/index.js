@@ -61,6 +61,7 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.closeModal();
+                        this.getBookings();
                     }
                 })
                 .catch((error) => {
