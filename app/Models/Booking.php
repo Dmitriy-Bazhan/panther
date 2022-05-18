@@ -24,4 +24,8 @@ class Booking extends Model
     public function alternative(){
         return $this->hasOne('App\Models\AlternativeBooking', 'booking_id', 'id');
     }
+
+    public function payment(){
+        return $this->hasOne('App\Models\Payment', 'booking_id', 'id');
+    }
 }
