@@ -70,6 +70,7 @@
             <th>{{ $t(booking.have_alternative) }}</th>
             <th>
                 <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showPayPayment(booking)">{{ $t('pay') }}</button>
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
@@ -150,7 +151,7 @@
         </tbody>
     </table>
 
-    <div v-if="show_booking_edit" class="edit-booking-wrapper">
+    <div v-if="show_modal === 'show_booking_edit'" class="edit-booking-wrapper">
         <div class="container-fluid">
             <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
             <div class="row">
@@ -171,7 +172,7 @@
         </div>
     </div>
 
-    <div v-if="show_booking" class="show-booking-wrapper">
+    <div v-if="show_modal === 'show_booking'" class="show-booking-wrapper">
         <div class="container-fluid">
             <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
             <div class="row">
@@ -187,7 +188,7 @@
         </div>
     </div>
 
-    <div v-if="show_chat" class="single-chat-wrapper">
+    <div v-if="show_modal === 'show_chat'" class="single-chat-wrapper">
         <div class="container-fluid">
             <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>
             <div class="row">
@@ -203,7 +204,7 @@
         </div>
     </div>
 
-    <div v-if="show_alternative" class="single-chat-wrapper">
+    <div v-if="show_modal === 'show_alternative'" class="single-chat-wrapper">
         <div class="container-fluid">
             <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
             <div class="row">
@@ -224,7 +225,7 @@
         </div>
     </div>
 
-    <div v-if="show_remove_confirm" class="remove-confirm-wrapper">
+    <div v-if="show_modal === 'show_remove_confirm'" class="remove-confirm-wrapper">
             <div class="row">
                 <div class="col-6" style="text-align: center;">
                     <button class="btn btn-danger btn-sm" v-on:click="deleteBookingConfirm()">{{ $t('remove') }}</button>
@@ -236,7 +237,7 @@
             </div>
     </div>
 
-    <div v-if="show_refused_booking" class="client-refuse-booking-wrapper">
+    <div v-if="show_modal === 'show_refused_booking'" class="client-refuse-booking-wrapper">
 
         <div class="row">
             <div class="col-2 offset-10">
@@ -258,10 +259,17 @@
         </div>
     </div>
 
-    <div v-if="show_feedback" class="feedback-wrapper">
+    <div v-if="show_modal === 'show_feedback'" class="feedback-wrapper">
         <div class="row">
             <feedback :nurse="nurse"></feedback>
         </div>
 
     </div>
+
+    <div v-if="show_modal === 'show_pay_payment'" class="pay-payment-wrapper">
+        <div class="row">
+            <pay_payment :payment="booking.payment"></pay_payment>
+        </div>
+    </div>
+
 </div>

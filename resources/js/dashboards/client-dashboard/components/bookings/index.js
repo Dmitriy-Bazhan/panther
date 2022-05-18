@@ -5,6 +5,7 @@ import Alternative from "./Alternative";
 import SingleChat from "./SingleChat";
 import ShowBooking from "./ShowBooking";
 import FeedBack from "./FeedBack";
+import PayPayment from "./PayPayment";
 
 export default {
     name: "Bookings",
@@ -16,16 +17,11 @@ export default {
         single_chat: SingleChat,
         show_booking: ShowBooking,
         feedback: FeedBack,
+        pay_payment: PayPayment,
     },
     data() {
         return {
-            show_remove_confirm: false,
-            show_booking_edit: false,
-            show_booking: false,
-            show_refused_booking: false,
-            show_alternative: false,
-            show_chat: false,
-            show_feedback: false,
+            show_modal: false,
             booking: null,
             not_approved_bookings: [],
             approved_bookings: [],
@@ -40,6 +36,13 @@ export default {
         this.emitter.on('close-modal', (e) => {
             this.closeModal();
         });
+
+        this.emitter.on('pay-payment', (e) => {
+            this.closeModal();
+            this.getBookings();
+        });
+
+
     },
     methods: {
         getBookings() {
@@ -79,76 +82,44 @@ export default {
             });
         },
         closeModal() {
-            this.show_chat = false;
-            this.show_feedback = false;
-            this.show_booking_edit = false;
-            this.show_booking = false;
-            this.show_alternative = false;
-            this.show_refused_booking = false;
-            this.show_remove_confirm = false;
+            this.show_modal = false;
             this.booking = null;
             this.nurse = null;
         },
-        showFeedback(nurse){
-            this.show_feedback = true;
-            this.show_chat = false;
-            this.show_booking_edit = false;
-            this.show_booking = false;
-            this.show_alternative = false;
-            this.show_refused_booking = false;
-            this.show_remove_confirm = false;
+        showPayPayment(booking){
+            this.show_modal = 'show_pay_payment';
+            this.booking = booking;
+            console.log(this.booking);
+            this.nurse = null;
+        },
+        showFeedback(nurse) {
+            this.show_modal = 'show_feedback';
             this.booking = null;
             this.nurse = nurse;
         },
         showBookingEdit(booking) {
-            this.show_booking_edit = true;
-            this.show_alternative = false;
-            this.show_feedback = false;
-            this.show_refused_booking = false;
-            this.show_booking = false;
-            this.show_chat = false;
+            this.show_modal = 'show_booking_edit';
             this.booking = booking;
         },
         showBooking(booking) {
-            this.show_booking = true;
-            this.show_booking_edit = false;
-            this.show_feedback = false;
-            this.show_alternative = false;
-            this.show_refused_booking = false;
-            this.show_chat = false;
+            this.show_modal = 'show_booking';
             this.booking = booking;
-
-            },
+        },
         showCurrentAlternativeBooking(booking) {
-            this.show_alternative = true;
-            this.show_booking_edit = false;
-            this.show_feedback = false;
-            this.show_booking = false;
-            this.show_refused_booking = false;
-            this.show_chat = false;
+            this.show_modal = 'show_alternative';
             this.booking = booking;
         },
         showChatWithNurse(nurse) {
+            this.show_modal = 'show_chat';
             this.nurse = nurse;
-            this.show_chat = true;
-            this.show_booking_edit = false;
-            this.show_feedback = false;
-            this.show_booking = false;
-            this.show_refused_booking = false;
-            this.show_alternative = false;
         },
         showRefusedBooking(booking) {
-            this.show_refused_booking = true;
-            this.show_chat = false;
-            this.show_booking_edit = false;
-            this.show_feedback = false;
-            this.show_booking = false;
-            this.show_alternative = false;
+            this.show_modal = 'show_refused_booking';
             this.booking = booking;
         },
         deleteBooking(booking) {
+            this.show_modal = 'show_remove_confirm';
             this.booking = booking;
-            this.show_remove_confirm = true;
         },
         sendAgain(id) {
             axios.get('/dashboard/client-bookings/send-booking-again/' + id)

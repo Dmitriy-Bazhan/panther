@@ -44,7 +44,7 @@ class BookingRepository
         }
 
         $bookings->with(
-            ['time', 'client', 'nurse', 'alternative.time']);
+            ['time', 'client', 'nurse', 'alternative.time', 'payment']);
 
         return $bookings->paginate(12);
 

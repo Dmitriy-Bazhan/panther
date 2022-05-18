@@ -56,6 +56,7 @@ class BookingsResource extends JsonResource
             'reason_of_refuse_booking' => $this->reason_of_refuse_booking ,
             'nurse_is_refuse_booking' => $this->nurse_is_refuse_booking ,
             'is_verification' => $this->is_verification ,
+            'payment' => $this->payment ,
         ];
     }
 }

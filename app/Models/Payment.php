@@ -10,6 +10,6 @@ class Payment extends Model
     use HasFactory;
 
     public function booking() {
-        return $this->hasOne('App\Models\Booking', 'id', 'booking_id');
+        return $this->belongsTo('App\Models\Booking', 'booking_id', 'id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -86,6 +87,10 @@ class PaymentsController extends Controller
                 'success' => false,
             ]);
         }
+
+        Booking::where('id', $payment->booking_id)->update([
+            'status' => 'in_process',
+        ]);
 
         $payment->status = 'payed';
         $payment->save();
