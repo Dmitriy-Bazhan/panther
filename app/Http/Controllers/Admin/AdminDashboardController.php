@@ -219,12 +219,6 @@ class AdminDashboardController extends Controller
         return NurseResource::collection($nurses);
     }
 
-    public function getClients()
-    {
-        $clients = $this->clientRepo->search();
-        return ClientResource::collection($clients);
-    }
-
     public function getHearAboutUs()
     {
         $lang = request('lang');
@@ -356,7 +350,6 @@ class AdminDashboardController extends Controller
 
         return response()->json(['success' => true]);
     }
-
 
     public function getSiteSettings()
     {

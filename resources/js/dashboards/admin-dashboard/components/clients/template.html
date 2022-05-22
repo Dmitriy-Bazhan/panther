@@ -18,7 +18,10 @@
                 <th>{{ client.entity.thumbnail_photo }}</th>
                 <th>{{ client.email }}</th>
                 <th>
-
+                    <button class="btn btn-sm btn-success">{{ $t('edit') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="showChats(client)">{{ $t('show_chats') }}</button>
+                    <button class="btn btn-sm btn-success">{{ $t('show_bookings') }}</button>
+                    <button class="btn btn-sm btn-success">{{ $t('show_payments') }}</button>
                 </th>
             </tr>
         </tbody>
@@ -42,4 +45,7 @@
             </div>
         </div>
     </div>
+
+    <show_chats v-if="show_modal === 'show_chats'" :client="client" :data="data"></show_chats>
+
 </div>
