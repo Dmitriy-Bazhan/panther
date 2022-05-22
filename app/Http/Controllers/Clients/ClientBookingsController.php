@@ -45,7 +45,6 @@ class ClientBookingsController extends Controller
         $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
         $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
 
-
         return response()->json([
             'success' => true,
             'notApprovedBookings' => $notApprovedBookings,
@@ -54,26 +53,6 @@ class ClientBookingsController extends Controller
             'endedBookings' => $endedBookings,
 
         ]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
@@ -281,7 +260,6 @@ class ClientBookingsController extends Controller
 
     public function getPrivateChat($nurse_id = null)
     {
-
         if (is_null($nurse_id) || !is_numeric($nurse_id)) {
             //todo: hmm
             abort(409);
@@ -289,5 +267,21 @@ class ClientBookingsController extends Controller
 
         $chat = $this->chatRepo->getClientPrivateChatsWithNurse($nurse_id);
         return response()->json(['success' => true, 'chat' => $chat]);
+    }
+
+    public function create()
+    {
+    }
+
+    public function store(Request $request)
+    {
+    }
+
+    public function show($id)
+    {
+    }
+
+    public function edit($id)
+    {
     }
 }

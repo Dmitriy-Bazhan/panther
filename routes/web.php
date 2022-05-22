@@ -16,6 +16,7 @@ use App\Http\Controllers\ComplaintController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminClientController;
+use App\Http\Controllers\Admin\AdminComplaintController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
@@ -102,6 +103,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/complaints', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/media', [AdminDashboardController::class, 'index']);
         Route::get('/pages', [AdminDashboardController::class, 'index']);
@@ -117,7 +119,6 @@ Route::prefix('dashboard')->group(function () {
 
         //admin dashboard nurses
         Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
-
         Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
 
@@ -127,6 +128,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/remove-hear-about-us/{id}', [AdminDashboardController::class, 'removeHearAboutUs']);
         Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
 
+        //admin dashboard settings
         Route::get('/get-site-settings', [AdminDashboardController::class, 'getSiteSettings']);
         Route::post('/set-site-settings', [AdminDashboardController::class, 'setSiteSettings']);
 
@@ -142,6 +144,9 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-clients-chats/{id}', [AdminClientController::class, 'getClientChats']);
         Route::get('/ban-user/{id}', [AdminClientController::class, 'banNurse']);
         Route::get('/dismiss-ban-user/{id}', [AdminClientController::class, 'dismissBanNurse']);
+
+        //admin dashboard complaints
+        Route::get('/get-complaints', [AdminComplaintController::class, 'index']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 

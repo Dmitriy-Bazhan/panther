@@ -7,6 +7,7 @@ import Pages from '../dashboards/admin-dashboard/components/pages/Pages';
 import EditPage from '../dashboards/admin-dashboard/components/pages/EditPage';
 import TranslationPage from '../dashboards/admin-dashboard/components/translation/Translation';
 import Media from '../dashboards/admin-dashboard/components/pages/Media';
+import Complaint from '../dashboards/admin-dashboard/components/complaint/index';
 
 const routes = [
     {
@@ -31,6 +32,12 @@ const routes = [
         path: "/dashboard/admin/nurses",
         name: 'AdminDashboardNurses',
         component: Nurses,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/complaints",
+        name: 'AdminDashboardComplaints',
+        component: Complaint,
         props: true,
     },
     {
