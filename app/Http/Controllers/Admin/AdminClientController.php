@@ -23,7 +23,7 @@ class AdminClientController extends Controller
 
     public function index()
     {
-        $clients = ClientResource::collection($this->clientRepo->search(100))->response()->getData();
+        $clients = ClientResource::collection($this->clientRepo->search())->response()->getData();
         return response()->json(['clients' => $clients]);
     }
 
