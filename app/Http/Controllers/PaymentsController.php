@@ -24,7 +24,8 @@ class PaymentsController extends Controller
         $user = $request->user();
         $paymentMethodID = $request->get('payment_method');
 
-        if ($user->stripe_id == null) {
+        $stripeId = auth()->user()->stripe_id;
+        if ($stripeId == null) {
             $user->createAsStripeCustomer();
         }
 

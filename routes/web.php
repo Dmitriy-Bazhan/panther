@@ -15,6 +15,7 @@ use App\Http\Controllers\ComplaintController;
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminClientController;
 use App\Http\Controllers\Admin\AdminComplaintController;
 
@@ -142,11 +143,13 @@ Route::prefix('dashboard')->group(function () {
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'index']);
         Route::get('/get-clients-chats/{id}', [AdminClientController::class, 'getClientChats']);
-        Route::get('/ban-user/{id}', [AdminClientController::class, 'banNurse']);
-        Route::get('/dismiss-ban-user/{id}', [AdminClientController::class, 'dismissBanNurse']);
+        Route::get('/ban-user/{id}', [AdminController::class, 'banUser']);
+        Route::get('/dismiss-ban-user/{id}', [AdminController::class, 'dismissBanUser']);
 
         //admin dashboard complaints
         Route::get('/get-complaints', [AdminComplaintController::class, 'index']);
+        Route::get('/change-status-complaint/{id}', [AdminComplaintController::class, 'changeStatusComplaint']);
+        Route::post('/send-message-admin-to-user', [AdminComplaintController::class, 'sendMessageAdminToUser']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 

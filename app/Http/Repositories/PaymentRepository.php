@@ -35,6 +35,6 @@ class PaymentRepository
             'booking.client',
         ]);
 
-        return $payments->paginate(12);
+        return $payments->paginate(config('settings.listing_paginate'));
     }
 }

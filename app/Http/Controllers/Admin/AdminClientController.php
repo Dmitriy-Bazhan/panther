@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Resources\ClientResource;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class AdminClientController extends Controller
 {
@@ -34,29 +32,5 @@ class AdminClientController extends Controller
             'haveNewMessages' => $data['haveNewMessages']]);
     }
 
-    public function banNurse($id)
-    {
-        if (!is_numeric($id)) {
-            return response()->json(['success' => false]);
-        }
 
-        User::where('id', $id)->update([
-            'banned' => 'yes',
-        ]);
-
-        return response()->json(['success' => true]);
-    }
-
-    public function dismissBanNurse($id)
-    {
-        if (!is_numeric($id)) {
-            return response()->json(['success' => false]);
-        }
-
-        User::where('id', $id)->update([
-            'banned' => 'no',
-        ]);
-
-        return response()->json(['success' => true]);
-    }
 }

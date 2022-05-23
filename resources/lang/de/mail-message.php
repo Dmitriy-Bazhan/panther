@@ -22,4 +22,7 @@ return [
     'booking_verification_text_part_two' => 'und bestätigen Sie Ihre Buchungsanfrage',
     'client_verify_booking' => 'Buchung bestätigen',
 
+    'email_warning' => 'E-Mail-Warnung',
+    'user_warning' => 'Benutzerwarnung',
+    'user_ban_message' => 'Sie haben ein Verbot',
 ];

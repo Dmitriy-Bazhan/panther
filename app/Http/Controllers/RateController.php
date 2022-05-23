@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 class RateController extends Controller
 {
     public function index() {
-        $rates = Rate::where('target_user_id', auth()->id())->paginate(12);
+        $rates = Rate::where('target_user_id', auth()->id())->paginate(config('settings.listing_paginate'));
         $responseRates = RateResource::collection($rates)->response()->getData();
         return response()->json(['success' => true, 'rates' => $responseRates]);
     }
