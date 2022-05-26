@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, Billable;
 
-    protected $appends = ['fullName'];
+    protected $appends = ['full_name'];
 
     protected $with = [
         'entity',

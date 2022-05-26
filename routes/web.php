@@ -17,6 +17,7 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminClientController;
+use App\Http\Controllers\Admin\AdminNurseController;
 use App\Http\Controllers\Admin\AdminComplaintController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
@@ -119,9 +120,10 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
 
         //admin dashboard nurses
-        Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
-        Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
-        Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
+        Route::get('/get-nurses', [AdminNurseController::class, 'getNurses']);
+        Route::get('/get-nurse-chats/{id}', [AdminNurseController::class, 'getNurseChats']);
+        Route::post('/approve-nurse', [AdminNurseController::class, 'approveNurse']);
+        Route::post('/dismiss-nurse', [AdminNurseController::class, 'dismissNurse']);
 
         //admin dashboard settings
         Route::get('/get-hear-about-us', [AdminDashboardController::class, 'getHearAboutUs']);

@@ -49,9 +49,15 @@ class ChatRepository
         return false;
     }
 
-    public function getNursePrivateChats()
+    public function getNursePrivateChats($id = null)
     {
-        $chats = PrivateChat::where('nurse_user_id', auth()->id())->orderByDesc('created_at')->get()->groupBy('client_user_id');
+        if(is_null($id)){
+            $nurseId = auth()->id();
+        }else{
+            $nurseId = $id;
+        }
+
+        $chats = PrivateChat::where('nurse_user_id', $nurseId)->orderByDesc('created_at')->get()->groupBy('client_user_id');
         $clients = User::whereIn('id', $chats->keys()->toArray())->get()->groupBy('id');
         $haveNewMessages = [];
         foreach ($chats as $key => $chat) {

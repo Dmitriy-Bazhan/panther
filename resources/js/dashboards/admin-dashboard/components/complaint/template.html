@@ -16,8 +16,8 @@
         <tr v-if="complaints" v-for="complaint in complaints">
             <template v-if="complaint.type == 'nurse'">
                 <td>{{ complaint.id }}</td>
-                <td>{{ 'Nurse ' + complaint.nurse.fullName }}</td>
-                <td>{{ 'Client ' + complaint.client.fullName }}</td>
+                <td>{{ 'Nurse ' + complaint.nurse.full_name }}</td>
+                <td>{{ 'Client ' + complaint.client.full_name }}</td>
                 <td>{{ complaint.complaint }}</td>
                 <td>{{ complaint.status }}</td>
                 <td>
@@ -33,18 +33,18 @@
                     </button>&nbsp;
                     <button class="btn btn-sm btn-success" v-if="complaint.nurse.banned == 'no'"
                             v-on:click="banNurse(complaint.nurse)">
-                        {{ $t('ban_nurse') + ': ' + complaint.nurse.fullName }}
+                        {{ $t('ban_nurse') + ': ' + complaint.nurse.full_name }}
                     </button>
                     <button class="btn btn-sm btn-success" v-if="complaint.nurse.banned == 'yes'"
                             v-on:click="dismissBanNurse(complaint.nurse)">
-                        {{ $t('dismiss_ban_nurse') + ': ' + complaint.nurse.fullName }}
+                        {{ $t('dismiss_ban_nurse') + ': ' + complaint.nurse.full_name }}
                     </button>
                 </td>
             </template>
             <template v-else-if="complaint.type == 'client'">
                 <td>{{ complaint.id }}</td>
-                <td>{{ 'Client ' + complaint.client.fullName }}</td>
-                <td>{{ 'Nurse ' + complaint.nurse.fullName }}</td>
+                <td>{{ 'Client ' + complaint.client.full_name }}</td>
+                <td>{{ 'Nurse ' + complaint.nurse.full_name }}</td>
                 <td>{{ complaint.complaint }}</td>
                 <td>{{ complaint.status }}</td>
                 <td>
@@ -60,11 +60,11 @@
                     </button>&nbsp;
                     <button class="btn btn-sm btn-success" v-if="complaint.client.banned == 'no'"
                             v-on:click="banClient(complaint.client)">
-                        {{ $t('ban_client') + ': ' + complaint.client.fullName }}
+                        {{ $t('ban_client') + ': ' + complaint.client.full_name }}
                     </button>
                     <button class="btn btn-sm btn-success" v-if="complaint.client.banned == 'yes'"
                             v-on:click="dismissBanClient(complaint.client)">
-                        {{ $t('dismiss_ban_client') + ': ' + complaint.client.fullName }}
+                        {{ $t('dismiss_ban_client') + ': ' + complaint.client.full_name }}
                     </button>
                 </td>
             </template>

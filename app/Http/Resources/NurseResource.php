@@ -50,6 +50,7 @@ class NurseResource extends JsonResource
             'updated_at' => $this->updated_at,
             'zip_code' => $this->zip_code,
             'rate' => $this->rate,
+            'banned' => $this->banned,
         ];
 
     }
