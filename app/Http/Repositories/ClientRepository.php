@@ -42,7 +42,7 @@ class ClientRepository
             }
         }
 
-        return $client->paginate(12);
+        return $client->paginate(config('settings.listing_paginate'));
     }
 
     public function update($client)

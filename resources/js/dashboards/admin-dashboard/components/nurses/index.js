@@ -1,12 +1,14 @@
 import template from './template.html';
 import './style.css';
-import NursesCard from '../nurses-card/index'
+import NursesCard from '../nurses-card/index';
+import ShowChats from "./ShowChats";
 
 export default {
     name: "Nurses",
     template: template,
     components: {
-        'nurses-card': NursesCard,
+        nurses_card: NursesCard,
+        show_chats: ShowChats,
     },
     props: ['data'],
     data() {
@@ -18,20 +20,27 @@ export default {
             filterString: '',
             url: 'get-nurses',
             links: [],
+            show_modal: false,
         }
     },
     mounted() {
         this.getNurses();
-        this.emitter.on('close-nurse-card', (e) => {
-            this.nurse = null;
-            this.nurseCardIsVisible = false;
+        this.emitter.on('close-modal', (e) => {
+            this.closeModal();
         });
     },
     methods: {
+        closeModal() {
+            this.show_modal = false;
+            this.nurse = null;
+        },
+        showChats(nurse) {
+            this.show_modal = 'show_chats';
+            this.nurse = nurse;
+        },
         getNurses() {
             axios.get(this.url + this.filterString)
                 .then((response) => {
-                    console.log(response.data);
                     this.nurses = response.data.data;
                     this.links = response.data.meta.links;
                 })
@@ -39,22 +48,21 @@ export default {
                     console.log(error);
                 });
         },
-        newPage(url){
-            console.log(url);
+        newPage(url) {
             if (url !== null) {
                 this.url = url;
                 this.getNurses();
             }
         },
         checkUser(nurse) {
+            this.show_modal = 'nurses_card';
             this.nurse = nurse;
-            this.nurseCardIsVisible = true;
         },
-        approveNurse(id){
+        approveNurse(id) {
             axios.post('approve-nurse', {'id': id})
                 .then((response) => {
-                     this.nurses.filter(function (el, index) {
-                        if(el.entity.id === response.data.id){
+                    this.nurses.filter(function (el, index) {
+                        if (el.entity.id === response.data.id) {
                             el.entity.is_approved = 'yes';
                             el.entity.change_info = 'no';
                         }
@@ -64,11 +72,11 @@ export default {
                     console.log(error);
                 });
         },
-        dismissNurse(id){
+        dismissNurse(id) {
             axios.post('dismiss-nurse', {'id': id})
                 .then((response) => {
                     this.nurses.filter(function (el, index) {
-                        if(el.entity.id === response.data.id){
+                        if (el.entity.id === response.data.id) {
                             el.entity.is_approved = 'no';
                         }
                     });

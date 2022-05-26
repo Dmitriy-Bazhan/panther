@@ -49,9 +49,15 @@ class ChatRepository
         return false;
     }
 
-    public function getNursePrivateChats()
+    public function getNursePrivateChats($id = null)
     {
-        $chats = PrivateChat::where('nurse_user_id', auth()->id())->orderByDesc('created_at')->get()->groupBy('client_user_id');
+        if(is_null($id)){
+            $nurseId = auth()->id();
+        }else{
+            $nurseId = $id;
+        }
+
+        $chats = PrivateChat::where('nurse_user_id', $nurseId)->orderByDesc('created_at')->get()->groupBy('client_user_id');
         $clients = User::whereIn('id', $chats->keys()->toArray())->get()->groupBy('id');
         $haveNewMessages = [];
         foreach ($chats as $key => $chat) {
@@ -65,9 +71,15 @@ class ChatRepository
         return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
     }
 
-    public function getClientPrivateChats()
+    public function getClientPrivateChats($id = null)
     {
-        $chats = PrivateChat::where('client_user_id', auth()->id())->orderByDesc('created_at')->get()->groupBy('nurse_user_id');
+        if(is_null($id)){
+            $clientId = auth()->id();
+        }else{
+            $clientId = $id;
+        }
+
+        $chats = PrivateChat::where('client_user_id', $clientId)->orderByDesc('created_at')->get()->groupBy('nurse_user_id');
         $nurses = User::whereIn('id', $chats->keys()->toArray())->get()->groupBy('id');
         $haveNewMessages = [];
         foreach ($chats as $key => $chat) {

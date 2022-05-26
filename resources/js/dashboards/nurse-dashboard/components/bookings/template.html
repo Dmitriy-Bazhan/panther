@@ -31,7 +31,6 @@
                         v-on:click="showCurrentAlternativeBooking(booking)">
                     {{ $t('alternative') }}
                 </button>&nbsp;
-
                 <button v-else class="btn btn-sm btn-secondary">{{ $t('you-sent-alternative') }}</button>
                 &nbsp
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
@@ -41,6 +40,9 @@
                     }}
                 </button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.client)">
+                    {{ $t('complaint') }}
                 </button>
             </th>
         </tr>
@@ -76,6 +78,9 @@
                     {{ $t('send_message') }}
                 </button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.client)">
+                    {{ $t('complaint') }}
                 </button>
             </th>
         </tr>
@@ -107,23 +112,11 @@
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
                     {{ $t('show') }}
                 </button>&nbsp;
-                <button v-if="booking.agree_for_alternative === 'yes'" class="btn btn-sm btn-secondary">
-                    {{ $t('client-accept-alternative') }}
-                </button>&nbsp;
-                <button v-else-if="booking.have_alternative === 'no'" class="btn btn-sm btn-success"
-                        v-on:click="showCurrentAlternativeBooking(booking)">
-                    {{ $t('alternative') }}
-                </button>&nbsp;
-
-                <button v-else class="btn btn-sm btn-secondary">{{ $t('you-sent-alternative') }}</button>
-                &nbsp
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="showApproveBookingConfirm(booking)">{{ $t('approve')
-                    }}
-                </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.client)">
+                    {{ $t('complaint') }}
                 </button>
             </th>
         </tr>
@@ -155,30 +148,18 @@
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
                     {{ $t('show') }}
                 </button>&nbsp;
-                <button v-if="booking.agree_for_alternative === 'yes'" class="btn btn-sm btn-secondary">
-                    {{ $t('client-accept-alternative') }}
-                </button>&nbsp;
-                <button v-else-if="booking.have_alternative === 'no'" class="btn btn-sm btn-success"
-                        v-on:click="showCurrentAlternativeBooking(booking)">
-                    {{ $t('alternative') }}
-                </button>&nbsp;
-
-                <button v-else class="btn btn-sm btn-secondary">{{ $t('you-sent-alternative') }}</button>
-                &nbsp
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="showApproveBookingConfirm(booking)">{{ $t('approve')
-                    }}
-                </button>&nbsp;
-                <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.client)">
+                    {{ $t('complaint') }}
                 </button>
             </th>
         </tr>
         </tbody>
     </table>
 
-    <div v-if="show_chat" class="single-chat-wrapper">
+    <div v-if="show_modal === 'show_chat'" class="single-chat-wrapper">
         <div class="container-fluid">
             <h2>Single Chat with {{ client.first_name + ' ' + client.last_name}}</h2>
             <div class="row">
@@ -194,7 +175,7 @@
         </div>
     </div>
 
-    <div v-if="show_booking" class="single-chat-wrapper">
+    <div v-if="show_modal === 'show_booking'" class="single-chat-wrapper">
         <div class="container-fluid">
             <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>
             <div class="row">
@@ -219,7 +200,8 @@
                             v-on:click="showApproveBookingConfirm(booking)">{{
                         $t('approve') }}
                     </button>&nbsp;
-                    <button class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
+                    <button v-if="booking.status === 'not_approved' || booking.status === 'approved'"
+                        class="btn btn-sm btn-success" v-on:click="showRefuseBooking(booking)">{{ $t('refuse') }}
                     </button>
 
                 </div>
@@ -227,7 +209,7 @@
         </div>
     </div>
 
-    <div v-if="show_alternative" class="alternative-booking-wrapper">
+    <div v-if="show_modal === 'show_alternative'" class="alternative-booking-wrapper">
         <div class="container-fluid">
             <h2>Booking from {{ booking.client.first_name + ' ' + booking.client.last_name}}</h2>
             <div class="row">
@@ -244,7 +226,7 @@
         </div>
     </div>
 
-    <div v-if="show_refuse" class="refuse-booking-wrapper">
+    <div v-if="show_modal === 'show_refuse'" class="refuse-booking-wrapper">
         <div class="container-fluid">
             <h2> {{ $t('refuse_booking_from') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>
             <div class="row">
@@ -285,7 +267,7 @@
         </div>
     </div>
 
-    <div v-if="show_confirm_approve" class="approve-confirm-wrapper">
+    <div v-if="show_modal === 'show_confirm_approve'" class="approve-confirm-wrapper">
         <div class="container-fluid">
             <h2> {{ $t('approve_booking_with') + ' ' + booking.client.first_name + ' ' + booking.client.last_name}}</h2>
             <div class="row">
@@ -298,6 +280,12 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'complaint'" class="feedback-wrapper">
+        <div class="row">
+            <complaint :client="client"></complaint>
         </div>
     </div>
 

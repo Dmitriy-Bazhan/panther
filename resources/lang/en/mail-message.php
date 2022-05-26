@@ -20,4 +20,8 @@ return [
     'booking_verification_text_part_one' => 'This is PflegePanther! We are pleased to introduce you to',
     'booking_verification_text_part_two' => 'and confirm your booking request',
     'client_verify_booking' => 'Confirm booking',
+
+    'email_warning' => 'Email warning',
+    'user_warning' => 'User warning',
+    'user_ban_message' => 'You have ban',
 ];

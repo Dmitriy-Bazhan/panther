@@ -41,7 +41,10 @@
                         class="btn btn-sm btn-danger" v-on:click="showRefusedBooking(booking)">
                     {{ $t('nurse_refuse_booking') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>&nbsp;
                 <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
             </th>
         </tr>
@@ -74,7 +77,10 @@
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
             </th>
 
         </tr>
@@ -109,11 +115,14 @@
                 <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
             </th>
             <th>
-                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
             </th>
         </tr>
         </tbody>
@@ -141,11 +150,14 @@
             <th>{{ $t(booking.have_alternative) }}</th>
             <th>
                 {{ $t('booking_is_approved') }}
-                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
                     {{ $t('send_message') }}
                 </button>&nbsp;
-                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
             </th>
         </tr>
         </tbody>
@@ -263,7 +275,12 @@
         <div class="row">
             <feedback :nurse="nurse"></feedback>
         </div>
+    </div>
 
+    <div v-if="show_modal === 'complaint'" class="feedback-wrapper">
+        <div class="row">
+            <complaint :nurse="nurse"></complaint>
+        </div>
     </div>
 
     <div v-if="show_modal === 'show_pay_payment'" class="pay-payment-wrapper">

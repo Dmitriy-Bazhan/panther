@@ -58,7 +58,7 @@ export default {
     },
     methods: {
         closeNurseCard() {
-            this.emitter.emit('close-nurse-card');
+            this.emitter.emit('close-modal');
         },
         approveNurse(){
             axios.post('approve-nurse', {'id': this.nurse.entity.id})

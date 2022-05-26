@@ -6,6 +6,7 @@ import SingleChat from "./SingleChat";
 import ShowBooking from "./ShowBooking";
 import FeedBack from "./FeedBack";
 import PayPayment from "./PayPayment";
+import Complaint from "./Complaint";
 
 export default {
     name: "Bookings",
@@ -18,6 +19,7 @@ export default {
         show_booking: ShowBooking,
         feedback: FeedBack,
         pay_payment: PayPayment,
+        complaint: Complaint,
     },
     data() {
         return {
@@ -86,10 +88,14 @@ export default {
             this.booking = null;
             this.nurse = null;
         },
-        showPayPayment(booking){
+        showComplaint(nurse) {
+            this.show_modal = 'complaint';
+            this.nurse = nurse;
+            this.booking = null;
+        },
+        showPayPayment(booking) {
             this.show_modal = 'show_pay_payment';
             this.booking = booking;
-            console.log(this.booking);
             this.nurse = null;
         },
         showFeedback(nurse) {

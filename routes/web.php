@@ -11,9 +11,14 @@ use App\Http\Controllers\FeedbackController;
 
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\ComplaintController;
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminClientController;
+use App\Http\Controllers\Admin\AdminNurseController;
+use App\Http\Controllers\Admin\AdminComplaintController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
@@ -41,15 +46,13 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(function(){
+Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(function () {
     Route::get('get-stripe-api-token', [PaymentsController::class, 'getStripeApiToken']);
     Route::post('method/store', [PaymentsController::class, 'storePaymentMethod'])->name('payment.store');
     Route::post('method/remove', [PaymentsController::class, 'removePaymentMethod']);
     Route::post('payment-pay', [PaymentsController::class, 'paymentPay']);
     Route::get('payment-methods', [PaymentsController::class, 'getPaymentMethods']);
 });
-
-
 
 
 Route::get('/', [MainPageController::class, 'index']);
@@ -78,6 +81,12 @@ Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])
     Route::get('get-private-chats/{nurse_id}', [ListingController::class, 'getPrivateChats']);
 });
 
+//complaints
+Route::prefix('complaint')->middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::post('set-client-complaint-on-nurse', [ComplaintController::class, 'setClientComplaintOnNurse'])->middleware(['checkClient']);
+    Route::post('set-nurse-complaint-on-client', [ComplaintController::class, 'setNurseComplaintOnClient'])->middleware(['checkNurse']);
+});
+
 Route::get('/listing/{id}', [ListingController::class, 'getNursesToListing']);
 Route::get('/listing', [MainPageController::class, 'index']);
 
@@ -95,28 +104,34 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
-        //media
+        Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/complaints', [AdminDashboardController::class, 'index']);
+        Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/media', [AdminDashboardController::class, 'index']);
+        Route::get('/pages', [AdminDashboardController::class, 'index']);
+        Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
+
+        //media
         Route::post('/save-media', [AdminDashboardController::class, 'saveMedia']);
         Route::get('/get-media', [AdminDashboardController::class, 'getMedia']);
         Route::post('/delete-media', [AdminDashboardController::class, 'deleteMedia']);
+
         //pages
-        Route::get('/pages', [AdminDashboardController::class, 'index']);
-        Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
 
-        Route::get('/nurses', [AdminDashboardController::class, 'index']);
-        Route::get('/clients', [AdminDashboardController::class, 'index']);
-        Route::get('/get-nurses', [AdminDashboardController::class, 'getNurses']);
-        Route::get('/get-clients', [AdminDashboardController::class, 'getClients']);
-        Route::post('/approve-nurse', [AdminDashboardController::class, 'approveNurse']);
-        Route::post('/dismiss-nurse', [AdminDashboardController::class, 'dismissNurse']);
-        //settings
+        //admin dashboard nurses
+        Route::get('/get-nurses', [AdminNurseController::class, 'getNurses']);
+        Route::get('/get-nurse-chats/{id}', [AdminNurseController::class, 'getNurseChats']);
+        Route::post('/approve-nurse', [AdminNurseController::class, 'approveNurse']);
+        Route::post('/dismiss-nurse', [AdminNurseController::class, 'dismissNurse']);
+
+        //admin dashboard settings
         Route::get('/get-hear-about-us', [AdminDashboardController::class, 'getHearAboutUs']);
         Route::post('/set-hear-about-us', [AdminDashboardController::class, 'setHearAboutUs']);
         Route::get('/remove-hear-about-us/{id}', [AdminDashboardController::class, 'removeHearAboutUs']);
         Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
 
+        //admin dashboard settings
         Route::get('/get-site-settings', [AdminDashboardController::class, 'getSiteSettings']);
         Route::post('/set-site-settings', [AdminDashboardController::class, 'setSiteSettings']);
 
@@ -127,6 +142,17 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/set-time-intervals', [AdminDashboardController::class, 'setTimeIntervals']);
         Route::get('/set-default-time-intervals', [AdminDashboardController::class, 'setDefaultTimeIntervals']);
 
+        //admin dashboards clients
+        Route::get('/get-clients', [AdminClientController::class, 'index']);
+        Route::get('/get-clients-chats/{id}', [AdminClientController::class, 'getClientChats']);
+        Route::get('/admin-remove-message/{id}', [AdminClientController::class, 'adminRemoveMessage']);
+        Route::get('/ban-user/{id}', [AdminController::class, 'banUser']);
+        Route::get('/dismiss-ban-user/{id}', [AdminController::class, 'dismissBanUser']);
+
+        //admin dashboard complaints
+        Route::get('/get-complaints', [AdminComplaintController::class, 'index']);
+        Route::get('/change-status-complaint/{id}', [AdminComplaintController::class, 'changeStatusComplaint']);
+        Route::post('/send-message-admin-to-user', [AdminComplaintController::class, 'sendMessageAdminToUser']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
 

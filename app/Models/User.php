@@ -20,6 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, Billable;
 
+    protected $appends = ['full_name'];
+
     protected $with = [
         'entity',
         'prefs',
@@ -51,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'info_is_full', //needed only in order
         'change_info',
+        'stripe_id',
     ];
 
     /**
@@ -112,4 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Rate', 'user_id', 'id');
     }
 
+    public function getFullNameAttribute() {
+        return $this->attributes['full_name'] = $this->first_name . ' ' . ucfirst(substr($this->last_name, 0, 1));
+    }
 }

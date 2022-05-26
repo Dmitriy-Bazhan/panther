@@ -53,32 +53,7 @@ class AdminDashboardController extends Controller
         return view('dashboard', $data);
     }
 
-    public function approveNurse()
-    {
-        if (request()->filled('id') && is_numeric(request('id'))) {
-            Nurse::where('id', request('id'))->update([
-                'is_approved' => 'yes',
-                'change_info' => 'no',
-            ]);
-        } else {
-            abort(409);
-        }
 
-        return response()->json(['id' => request('id')]);
-    }
-
-    public function dismissNurse()
-    {
-        if (request()->filled('id') && is_numeric(request('id'))) {
-            Nurse::where('id', request('id'))->update([
-                'is_approved' => 'no',
-            ]);
-        } else {
-            abort(409);
-        }
-
-        return response()->json(['id' => request('id')]);
-    }
 
     public function savePage($page)
     {
@@ -149,7 +124,7 @@ class AdminDashboardController extends Controller
             }
         }
 
-        $media = Media::orderByDesc('id')->where('media_type', 'pages_image')->paginate(12);
+        $media = Media::orderByDesc('id')->where('media_type', 'pages_image')->paginate(config('settings.listing_paginate'));
         return response()->json(['success' => true, 'media' => $media]);
     }
 
@@ -211,18 +186,6 @@ class AdminDashboardController extends Controller
         Media::where('id', $id)->delete();
 
         return response()->json(['success' => true]);
-    }
-
-    public function getNurses()
-    {
-        $nurses = $this->nursesRepo->search();
-        return NurseResource::collection($nurses);
-    }
-
-    public function getClients()
-    {
-        $clients = $this->clientRepo->search();
-        return ClientResource::collection($clients);
     }
 
     public function getHearAboutUs()
@@ -356,7 +319,6 @@ class AdminDashboardController extends Controller
 
         return response()->json(['success' => true]);
     }
-
 
     public function getSiteSettings()
     {

@@ -2,6 +2,7 @@ import template from './template.html';
 import SingleChat from "./SingleChat";
 import Booking from "./Booking";
 import Alternative from "./Alternative";
+import Complaint from "./Complaint";
 import './style.css';
 
 export default {
@@ -12,6 +13,7 @@ export default {
         single_chat: SingleChat,
         booking: Booking,
         alternative: Alternative,
+        complaint: Complaint,
     },
     data() {
         return {
@@ -19,13 +21,9 @@ export default {
             approved_bookings: [],
             in_process_bookings: [],
             ended_bookings: [],
-            show_chat: false,
-            show_refuse: false,
             client: null,
-            show_booking: false,
-            show_alternative: false,
-            show_confirm_approve: false,
             booking: null,
+            show_modal: false,
         }
     },
     mounted() {
@@ -35,56 +33,46 @@ export default {
             this.show_alternative = false;
             this.getNursesBookings();
         });
+
+        this.emitter.on('close-modal', (e) => {
+            this.closeModal();
+        });
     },
     methods: {
         closeModal() {
-            this.show_alternative = false;
-            this.show_chat = false;
-            this.show_booking = false;
-            this.show_refuse = false;
-            this.show_confirm_approve = false;
+            this.show_modal = false;
             this.booking = null;
             this.client = null;
         },
+        showComplaint(client) {
+            this.show_modal = 'complaint';
+            this.client = client;
+            this.booking = null;
+        },
         showCurrentBooking(booking) {
-            this.show_booking = true;
-            this.show_alternative = false;
-            this.show_confirm_approve = false;
-            this.show_chat = false;
-            this.show_refuse = false;
+            this.show_modal = 'show_booking';
             this.booking = booking;
+            this.client = null;
         },
         showCurrentAlternativeBooking(booking) {
-            this.show_alternative = true;
-            this.show_booking = false;
-            this.show_confirm_approve = false;
-            this.show_chat = false;
-            this.show_refuse = false;
+            this.show_modal = 'show_alternative';
             this.booking = booking;
+            this.client = null;
         },
         showChatWithClient(client) {
+            this.show_modal = 'show_chat';
             this.client = client;
-            this.show_chat = true;
-            this.show_booking = false;
-            this.show_alternative = false;
-            this.show_refuse = false;
-            this.show_confirm_approve = false;
+            this.booking = null;
         },
         showRefuseBooking(booking) {
-            this.show_refuse = true;
-            this.show_alternative = false;
-            this.show_booking = false;
-            this.show_chat = false;
-            this.show_confirm_approve = false;
+            this.show_modal = 'show_refuse';
             this.booking = booking;
+            this.client = null;
         },
         showApproveBookingConfirm(booking) {
-            this.show_confirm_approve = true;
-            this.show_refuse = false;
-            this.show_alternative = false;
-            this.show_booking = false;
-            this.show_chat = false;
+            this.show_modal = 'show_confirm_approve';
             this.booking = booking;
+            this.client = null;
         },
         confirmApproveBooking(){
             this.approveBooking();
