@@ -143,6 +143,7 @@ Route::prefix('dashboard')->group(function () {
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'index']);
         Route::get('/get-clients-chats/{id}', [AdminClientController::class, 'getClientChats']);
+        Route::get('/admin-remove-message/{id}', [AdminClientController::class, 'adminRemoveMessage']);
         Route::get('/ban-user/{id}', [AdminController::class, 'banUser']);
         Route::get('/dismiss-ban-user/{id}', [AdminController::class, 'dismissBanUser']);
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Resources\ClientResource;
+use App\Models\PrivateChat;
+use Illuminate\Support\Facades\Log;
 
 class AdminClientController extends Controller
 {
@@ -21,6 +23,7 @@ class AdminClientController extends Controller
 
     public function index()
     {
+//        $clients = ClientResource::collection($this->clientRepo->search(100))->response()->getData();
         $clients = ClientResource::collection($this->clientRepo->search())->response()->getData();
         return response()->json(['clients' => $clients]);
     }
@@ -32,5 +35,25 @@ class AdminClientController extends Controller
             'haveNewMessages' => $data['haveNewMessages']]);
     }
 
+    public function adminRemoveMessage($id) {
+        if(is_null($id) && !is_numeric($id)){
+            Log::error('AdminClientController@adminRemoveMessage comment id is not valid');
+            return response()->json(['success' => false ]);
+        }
 
+        if(!$comment = PrivateChat::find($id)) {
+            Log::error('AdminClientController@adminRemoveMessage comment not exists');
+            return response()->json(['success' => false ]);
+        }
+
+        $comment->message = 'Message is deleted admin';
+        $comment->status = 'removed';
+
+        if(!$comment->save()){
+            Log::error('AdminClientController@adminRemoveMessage comment not possible save');
+            return response()->json(['success' => false ]);
+        }
+
+        return response()->json(['success' => true ]);
+    }
 }

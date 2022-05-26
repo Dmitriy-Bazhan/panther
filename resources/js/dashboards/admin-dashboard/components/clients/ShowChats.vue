@@ -27,12 +27,14 @@
                         </span>
                             <br>
                             <span class="chat-nurse-message">
-                            {{ comment.message }}
+                            <span :style="{ 'color' : comment.status === 'removed' ? 'gray' : '' }">{{ comment.message }}</span>
                         </span>
                             <br>
                             <span class="chat-nurse-date">
-                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
+                            {{ formatDate(comment.created_at) }}
                         </span>
+                            <span v-if="comment.status != 'removed'" class="ti-trash"
+                                  v-on:click="removeComment(comment)"></span>
                         </div>
 
                         <div v-else class="nurse-client-message-wrapper">
@@ -41,13 +43,15 @@
                         </span>
                             <br>
                             <span class="nurse-client-message">
-                            {{ comment.message }}
+                            <span
+                                :style="{ 'color' : comment.status =='removed' ? 'gray' : '' }">{{ comment.message }}</span>
                         </span>
                             <br>
                             <span class="nurse-client-date">
-                            {{ formatDate(comment.created_at) + ' ' + comment.status }}
+                            {{ formatDate(comment.created_at) }}
                         </span>
-
+                            <span v-if="comment.status != 'removed'" class="ti-trash"
+                                  v-on:click="removeComment(comment)"></span>
                         </div>
                     </div>
                 </template>
@@ -55,7 +59,7 @@
 
         </div>
         <br>
-        <div class="row">
+        <div class="row" v-if="chats">
             <div class="col-4" v-if="nurse">
                 <button class="btn btn-sm btn-success" v-if="nurse.banned == 'no'" v-on:click="banNurse()">
                     {{ $t('ban_nurse') + ': ' + nurse.first_name + ' ' + nurse.last_name}}
@@ -93,6 +97,19 @@
             this.getPrivateChats();
         },
         methods: {
+            removeComment(comment) {
+                axios.get('admin-remove-message/' + comment.id)
+                    .then((response) => {
+                        if (response.data.success) {
+                            comment.message = 'Message is deleted admin';
+                            comment.status = 'removed';
+                            this.emitter.emit('response-success-true');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
             closeModal() {
                 this.emitter.emit('close-modal');
             },
@@ -103,7 +120,9 @@
                         this.nurses = response.data.nurses;
                         this.active = Object.keys(this.chats)[0];
                         this.chat_active = Object.keys(this.chats)[0];
-                        this.nurse = this.nurses[this.active][0];
+                        if(this.active !== undefined){
+                            this.nurse = this.nurses[this.active][0];
+                        }
                     })
                     .catch((error) => {
                         console.log(error);
@@ -123,6 +142,7 @@
                     .then((response) => {
                         if (response.data.success) {
                             this.nurse.banned = 'yes';
+                            this.emitter.emit('response-success-true');
                         }
                     })
                     .catch((error) => {
@@ -134,6 +154,7 @@
                     .then((response) => {
                         if (response.data.success) {
                             this.nurse.banned = 'no';
+                            this.emitter.emit('response-success-true');
                         }
                     })
                     .catch((error) => {
@@ -145,6 +166,7 @@
                     .then((response) => {
                         if (response.data.success) {
                             this.client.banned = 'yes';
+                            this.emitter.emit('response-success-true');
                         }
                     })
                     .catch((error) => {
@@ -156,6 +178,7 @@
                     .then((response) => {
                         if (response.data.success) {
                             this.client.banned = 'no';
+                            this.emitter.emit('response-success-true');
                         }
                     })
                     .catch((error) => {
@@ -167,6 +190,10 @@
 </script>
 
 <style scoped>
+    .ti-trash:hover {
+        color: red;
+    }
+
     .show-chats-wrapper {
         position: fixed;
         top: 10%;
