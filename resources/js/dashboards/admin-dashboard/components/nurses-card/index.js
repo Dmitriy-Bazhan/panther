@@ -12,20 +12,24 @@ export default {
     data() {
         return {
             path: location.origin,
-            showAdditionalInfo: false,
             showProviderSupports: false,
             showFilesWindow: false,
             showFileModal: false,
             showWorkTimePrefWindow: false,
             userFile: '',
+            languages: [
+                {
+                    title: 'english',
+                    val: 'English'
+                },
+                {
+                    title: 'german',
+                    val: 'Deutsche'
+                }
+            ]
         }
     },
     watch: {
-        showAdditionalInfo(showAdditionalInfo) {
-            if (showAdditionalInfo) {
-                document.addEventListener('click', this.closeInfoWindows);
-            }
-        },
         showProviderSupports(showProviderSupports) {
             if (showProviderSupports) {
                 document.addEventListener('click', this.closeInfoWindows);
@@ -55,12 +59,25 @@ export default {
             this.showFileModal = false;
         });
         console.log(this.nurse);
+        console.log(this.data);
     },
     methods: {
         closeNurseCard() {
             this.emitter.emit('close-modal');
         },
-        approveNurse(){
+        updateNurse() {
+            axios.post('/dashboard/admin/update-nurse/' + this.nurse.id, {'user': this.nurse})
+                .then((response) => {
+                    if (response.data.success) {
+                        this.emitter.emit('response-success-true');
+                        this.emitter.emit('close-modal');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        approveNurse() {
             axios.post('approve-nurse', {'id': this.nurse.entity.id})
                 .then((response) => {
                     this.nurse.entity.is_approved = 'yes';
@@ -71,11 +88,18 @@ export default {
                     console.log(error);
                 });
         },
-        showHideAdditionalInfo() {
-            this.showAdditionalInfo === true ? this.showAdditionalInfo = false : this.showAdditionalInfo = true;
-            this.showProviderSupports = false;
-            this.showFilesWindow = false;
-            this.showWorkTimePrefWindow = false;
+        addLanguage() {
+            if(this.nurse.entity.languages.length < this.languages.length){
+                this.nurse.entity.languages.push({
+                    lang: '',
+                    level: '',
+                })
+            }
+        },
+        removeLang(index){
+            if(this.nurse.entity.languages.length > 1){
+                this.nurse.entity.languages.splice(index,1);
+            }
         },
         showHideProviderSupports() {
             this.showProviderSupports === true ? this.showProviderSupports = false : this.showProviderSupports = true;
@@ -89,7 +113,7 @@ export default {
             this.showAdditionalInfo = false;
             this.showWorkTimePrefWindow = false;
         },
-        showHideWorkTimePrefWindow(){
+        showHideWorkTimePrefWindow() {
             this.showWorkTimePrefWindow === true ? this.showWorkTimePrefWindow = false : this.showWorkTimePrefWindow = true;
             this.showProviderSupports = false;
             this.showAdditionalInfo = false;
@@ -124,18 +148,18 @@ export default {
             document.removeEventListener('click', this.closeFileList);
         },
         closeInfoWindows(event) {
-                if (!document.getElementById('provider_supports_arrow').contains(event.target)
-                    && !document.getElementById('additional_info_arrow').contains(event.target)
-                    && !document.getElementById('work_time_arrow_arrow').contains(event.target)
-                    && !document.getElementById('files_arrow').contains(event.target)) {
-                    this.showAdditionalInfo = false;
-                    this.showProviderSupports = false;
-                    this.showWorkTimePrefWindow = false;
-                    document.removeEventListener('click', this.closeInfoWindows);
-                }
+            if (!document.getElementById('provider_supports_arrow').contains(event.target)
+                && !document.getElementById('additional_info_arrow').contains(event.target)
+                && !document.getElementById('work_time_arrow_arrow').contains(event.target)
+                && !document.getElementById('files_arrow').contains(event.target)) {
+                this.showAdditionalInfo = false;
+                this.showProviderSupports = false;
+                this.showWorkTimePrefWindow = false;
+                document.removeEventListener('click', this.closeInfoWindows);
+            }
 
         },
-        closeFileList(event){
+        closeFileList(event) {
             if (!document.getElementById('files_arrow').contains(event.target)) {
                 this.showFilesWindow = false;
                 document.removeEventListener('click', this.closeFileList);

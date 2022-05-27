@@ -32,7 +32,7 @@
                                     Sprachen:
                                 </div>
                                 <div class="pt-card--info-list--item-text">
-                                    <span v-for="lang in nurse.entity.languages">{{lang.lang}}</span>
+                                    <span v-for="(lang) in nurse.entity.languages">{{lang.lang}}</span>
                                 </div>
                             </div>
                         </div>

@@ -8,16 +8,17 @@ use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\NurseResource;
 use App\Models\Nurse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AdminNurseController extends Controller
 {
-    protected $nursesRepo;
+    protected $nurseRepo;
     protected $chatRepo;
 
-    public function __construct(NurseRepository $nursesRepo, ChatRepository $chatRepo)
+    public function __construct(NurseRepository $nurseRepo, ChatRepository $chatRepo)
     {
         parent::__construct();
-        $this->nursesRepo = $nursesRepo;
+        $this->nurseRepo = $nurseRepo;
         $this->chatRepo = $chatRepo;
     }
 
@@ -50,7 +51,7 @@ class AdminNurseController extends Controller
 
     public function getNurses()
     {
-        $nurses = $this->nursesRepo->search();
+        $nurses = $this->nurseRepo->search(101);
         return NurseResource::collection($nurses);
     }
 
@@ -58,5 +59,48 @@ class AdminNurseController extends Controller
         $data = $this->chatRepo->getNursePrivateChats($id);
         return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients'],
             'haveNewMessages' => $data['haveNewMessages']]);
+    }
+
+    public function updateNurse(Request $request, $id) {
+        $rules = [
+            'id' => 'required|numeric',
+            'email' => 'required|email',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required',
+            'zip_code' => 'required',
+            'entity.age' => 'required|numeric|min:18|max:100',
+            'entity.available_care_range' => 'required|numeric|min:0|max:5',
+            'entity.description' => 'required',
+            'entity.gender' => 'required',
+            'entity.experience' => 'required',
+            'entity.multiple_bookings' => 'required',
+            'entity.pref_client_gender' => 'required',
+
+            'entity.languages.*.lang_id' => 'required',
+            'entity.languages.*.level' => 'required',
+
+            'entity.provide_supports' => 'required',
+            'entity.one_or_regular' => 'required|in:one,regular,no_matter',
+            'entity.start_date_ready_to_work' => 'required|date_format:Y-m-d',
+        ];
+
+        $validator = Validator::make($request->post('user'), $rules);
+
+        $errors = [];
+        if ($validator->fails()) {
+            $errors = array_merge($errors, $validator->errors()->toArray());
+        }
+
+        if (count($errors) > 0) {
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        if (!$this->nurseRepo->update($id)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

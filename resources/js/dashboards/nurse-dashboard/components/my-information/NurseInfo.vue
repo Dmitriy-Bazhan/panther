@@ -117,8 +117,8 @@
                             <template v-for="(item, index) in tmpUser.entity.languages">
                                 <div class="col-7">
                                     <select class="form-control form-control-sm"
-                                            v-model="item.lang">
-                                        <option :value="lang.val" v-for="lang in languages">{{ $t(lang.title) }}</option>
+                                            v-model="item.lang_id">
+                                        <option :value="lang.id" v-for="lang in data.languages">{{ $t(lang.name) }}</option>
                                     </select>
                                 </div>
 

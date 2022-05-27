@@ -124,6 +124,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-nurse-chats/{id}', [AdminNurseController::class, 'getNurseChats']);
         Route::post('/approve-nurse', [AdminNurseController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminNurseController::class, 'dismissNurse']);
+        Route::post('/update-nurse/{id}', [AdminNurseController::class, 'updateNurse']);
 
         //admin dashboard settings
         Route::get('/get-hear-about-us', [AdminDashboardController::class, 'getHearAboutUs']);

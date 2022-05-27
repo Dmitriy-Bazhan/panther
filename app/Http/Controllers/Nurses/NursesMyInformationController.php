@@ -65,7 +65,7 @@ class NursesMyInformationController extends Controller
             'entity.multiple_bookings' => 'required',
             'entity.pref_client_gender' => 'required',
 
-            'entity.languages.*.lang' => 'required',
+            'entity.languages.*.lang_id' => 'required',
             'entity.languages.*.level' => 'required',
 
             'entity.provide_supports' => 'required',

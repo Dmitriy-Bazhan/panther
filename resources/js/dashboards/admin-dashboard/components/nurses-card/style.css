@@ -1,8 +1,9 @@
 .nurse-card-wrapper {
     position: fixed;
-    top: 10%;
-    left: 20%;
-    width: 60%;
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    height: 650px;
     border: solid 1px red;
     border-radius: 20px;
     background: #b3b3b3;

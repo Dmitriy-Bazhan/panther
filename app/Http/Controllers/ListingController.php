@@ -165,11 +165,11 @@ class ListingController extends Controller
     private function setFiltersForFindNurse($clientSearchInfo)
     {
 
-        $searchLang['language'] = [];
+        $searchLang['language_ids'] = [];
         $searchLang['language_level'] = [];
 
         foreach (json_decode($clientSearchInfo->languages, true) as $language) {
-            $searchLang['language'][] = $language['val'];
+            $searchLang['language_ids'][] = $language['id'];
             $searchLang['language_level'][] = $language['level'];
         }
 
@@ -177,7 +177,7 @@ class ListingController extends Controller
             'is_approved' => 'yes',
             'provider_supports' => json_decode($clientSearchInfo->provider_supports, true),
             'degree_of_care_available' => $clientSearchInfo->degree_of_care_available,
-            'language' => $searchLang['language'],
+            'language' => $searchLang['language_ids'],
             'language_level' => $searchLang['language_level'],                      //filter
             'preference_for_the_nurse' => $clientSearchInfo->preference_for_the_nurse,
             'one_or_regular' => $clientSearchInfo->one_or_regular,
