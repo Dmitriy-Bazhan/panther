@@ -12,7 +12,7 @@ class SetDefaultLang extends Command
      *
      * @var string
      */
-    protected $signature = 'default:lang_en';
+    protected $signature = 'default:nurse_lang';
 
     /**
      * The console command description.
@@ -40,9 +40,17 @@ class SetDefaultLang extends Command
     {
         $nurseLangs = NurseLang::all()->groupBy('nurse_id');
         foreach ($nurseLangs as $langs){
-            $langs[0]->lang = 'English';
+            $langs[0]->lang_id = 1;
+            $langs[0]->lang = 'english';
             $langs[0]->level = 'A1';
             $langs[0]->save();
+
+            if(isset($langs[1])){
+                $langs[1]->lang_id = 2;
+                $langs[0]->lang = 'german';
+                $langs[1]->level = 'B1';
+                $langs[1]->save();
+            }
         }
 
         return 0;

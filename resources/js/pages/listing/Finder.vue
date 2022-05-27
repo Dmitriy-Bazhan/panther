@@ -348,8 +348,8 @@
                                             </div>
                                             <v-select :options="filteredOption(languageOptions)"
                                                       label="title"
-                                                      v-model="item.val"
-                                                      :reduce="(option) => option.val">
+                                                      v-model="item.id"
+                                                      :reduce="(option) => option.id">
                                                 <template #option="{ title }">
                                                     {{ title }}
                                                 </template>
@@ -966,11 +966,11 @@ export default {
             ],
             languageOptions: [
                 {
-                    val: 'english',
+                    id: 1,
                     title: 'english',
                 },
                 {
-                    val: 'deutsche',
+                    id: 2,
                     title: 'german',
                 },
             ],
@@ -1019,7 +1019,7 @@ export default {
             clientSearchInfo: {
                 languages: [
                     {
-                        val: '',
+                        id: '',
                         level: '',
                     }
                 ],
@@ -1060,8 +1060,9 @@ export default {
     },
     computed: {},
     mounted() {
-        console.log(this.data)
+        console.log(this.data);
         this.getClientSearchInfo();
+
     },
     methods: {
         closePopup(id){
@@ -1084,9 +1085,9 @@ export default {
         },
         filteredOption(options) {
             let self = this
-            let result = self.languageOptions.filter(function (item){
+            let result = self.data.languages.filter(function (item){
                 let tmp = self.clientSearchInfo.languages.find(function (el){
-                    return el.val === item.val
+                    return el.id === item.id
                 })
                 return !tmp
             })
@@ -1096,13 +1097,13 @@ export default {
             if(
                 this.clientSearchInfo.languages &&
                 this.clientSearchInfo.languages.length === 0 ||
-                (this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].val &&
+                (this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].id &&
                     this.clientSearchInfo.languages[this.clientSearchInfo.languages.length-1].level) &&
                 this.clientSearchInfo.languages.length < this.languageOptions.length
             ){
                 this.clientSearchInfo.languages.push(
                     {
-                        val: '',
+                        id: '',
                         level: '',
                     }
                 )
@@ -1112,7 +1113,7 @@ export default {
             if(!this.clientSearchInfo.languages){
                 this.clientSearchInfo.languages = [
                     {
-                        val: '',
+                        id: '',
                         level: '',
                     }
                 ]
@@ -1151,7 +1152,6 @@ export default {
             axios.post(this.url, {'clientSearchInfo': this.clientSearchInfo})
                 .then((response) => {
                     if (response.data.success) {
-                        console.log('test')
                         this.$router.push({ name: 'Listing' })
                     } else {
                         this.errors = response.data.errors;

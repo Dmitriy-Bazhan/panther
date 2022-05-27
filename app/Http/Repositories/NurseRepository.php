@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\AdditionalInfoAssigned;
+use App\Models\Lang;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\NurseLang;
@@ -78,10 +79,10 @@ class NurseRepository
         }
 
         //filter language
-        if (request()->filled('language')) {
+        if (request()->filled('language_ids')) {
             $nurse->whereHas('nurse', function ($query) {
                 return $query->whereHas('languages', function ($query) {
-                    return $query->whereIn('lang', request('language'));
+                    return $query->whereIn('lang_id', request('language_ids'));
                 });
             });
         }
@@ -142,10 +143,10 @@ class NurseRepository
 //                    $nurse->whereHas('nurse', function ($query) use ($key) {
 //                        return $query->whereJsonContains('work_time_pref->' . $key, request('work_time_pref')[$key]);
 //                    });
-                    $string .= $key . '": "'. $value . '%';
+                    $string .= $key . '": "' . $value . '%';
                 }
             }
-            $nurse->orderByRaw("work_time_pref like '%". $string ."%' DESC");
+            $nurse->orderByRaw("work_time_pref like '%" . $string . "%' DESC");
         }
 
         //filter price
@@ -197,6 +198,10 @@ class NurseRepository
         $change_info = 'yes';
         $info_is_full = 'yes';
 
+        if(auth()->user()->is_admin){
+            $change_info = 'no';
+        }
+
         Nurse::where('id', $data['entity_id'])->update([
             'info_is_full' => $info_is_full,
             'change_info' => $change_info,
@@ -216,10 +221,12 @@ class NurseRepository
 
         //update lang (remake to foreach, then in future will use some languages)
         NurseLang::where('nurse_id', $data['entity_id'])->delete();
+        $langs = Lang::all();
         foreach ($data['entity']['languages'] as $lang) {
             $newLang = new NurseLang();
             $newLang->nurse_id = $data['entity_id'];
-            $newLang->lang = $lang['lang'];
+            $newLang->lang_id = $lang['lang_id'];
+            $newLang->lang = $langs->where('id', $lang['lang_id'])->first()->name;
             $newLang->level = $lang['level'];
             $newLang->save();
         }
