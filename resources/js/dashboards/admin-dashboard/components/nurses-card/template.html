@@ -161,6 +161,11 @@
                 <div class="col-4">
 
                     <!--                additional info-->
+                    <div class="col-4">
+                        <label class="form-label col-form-label-sm">{{ $t('additional_info')
+                            }}</label>
+                    </div>
+
                     <v-select :options="data.additional_info" multiple
                               label="alias"
                               v-model="nurse.entity.additional_info"
