@@ -1,5 +1,4 @@
 import template from "./template.html";
-import FileModal from "./FileModal";
 import './style.css';
 
 export default {
@@ -12,11 +11,10 @@ export default {
     data() {
         return {
             path: location.origin,
-            showProviderSupports: false,
             showFilesWindow: false,
             showFileModal: false,
+            show_modal: false,
             showWorkTimePrefWindow: false,
-            userFile: '',
             languages: [
                 {
                     title: 'english',
@@ -30,11 +28,6 @@ export default {
         }
     },
     watch: {
-        showProviderSupports(showProviderSupports) {
-            if (showProviderSupports) {
-                document.addEventListener('click', this.closeInfoWindows);
-            }
-        },
         showWorkTimePrefWindow(showWorkTimePrefWindow) {
             if (showWorkTimePrefWindow) {
                 document.addEventListener('click', this.closeInfoWindows);
@@ -58,12 +51,13 @@ export default {
         this.emitter.on('close-file-modal', (e) => {
             this.showFileModal = false;
         });
-        console.log(this.nurse);
-        console.log(this.data);
     },
     methods: {
         closeNurseCard() {
             this.emitter.emit('close-modal');
+        },
+        closeModal(){
+            this.show_modal = false;
         },
         updateNurse() {
             axios.post('/dashboard/admin/update-nurse/' + this.nurse.id, {'user': this.nurse})
@@ -101,23 +95,12 @@ export default {
                 this.nurse.entity.languages.splice(index,1);
             }
         },
-        showHideProviderSupports() {
-            this.showProviderSupports === true ? this.showProviderSupports = false : this.showProviderSupports = true;
-            this.showAdditionalInfo = false;
-            this.showFilesWindow = false;
-            this.showWorkTimePrefWindow = false;
-        },
         showHideFilesWindow() {
             this.showFilesWindow === true ? this.showFilesWindow = false : this.showFilesWindow = true;
-            this.showProviderSupports = false;
-            this.showAdditionalInfo = false;
             this.showWorkTimePrefWindow = false;
         },
         showHideWorkTimePrefWindow() {
-            this.showWorkTimePrefWindow === true ? this.showWorkTimePrefWindow = false : this.showWorkTimePrefWindow = true;
-            this.showProviderSupports = false;
-            this.showAdditionalInfo = false;
-            this.showFilesWindow = false;
+            this.show_modal = 'work_time_pref';
         },
         filterAdditionalInfo(id) {
             let info = this.data.additional_info.filter(function (value) {
@@ -142,11 +125,7 @@ export default {
                 }
             })
         },
-        showContent(item) {
-            this.userFile = item;
-            this.showFileModal = true;
-            document.removeEventListener('click', this.closeFileList);
-        },
+
         closeInfoWindows(event) {
             if (!document.getElementById('provider_supports_arrow').contains(event.target)
                 && !document.getElementById('additional_info_arrow').contains(event.target)
@@ -164,6 +143,13 @@ export default {
                 this.showFilesWindow = false;
                 document.removeEventListener('click', this.closeFileList);
             }
-        }
+        },
+        translateOptions(options) {
+            let self = this
+            options.forEach(function (item) {
+                item.title = self.$t(item.name)
+            })
+            return options
+        },
     }
 }

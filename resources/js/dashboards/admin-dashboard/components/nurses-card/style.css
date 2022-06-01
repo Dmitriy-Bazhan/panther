@@ -8,6 +8,8 @@
     background: #b3b3b3;
     z-index: 100;
     padding: 10px;
+    height: 650px;
+    overflow: auto;
 }
 .showAdditionalInfo, .showProviderSupports, .showFilesWindow, .showHideWorkTimePrefWindow {
     position: absolute;

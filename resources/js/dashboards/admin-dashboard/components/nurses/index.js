@@ -2,6 +2,7 @@ import template from './template.html';
 import './style.css';
 import NursesCard from '../nurses-card/index';
 import ShowChats from "./ShowChats";
+import CheckFiles from "./CheckFiles";
 
 export default {
     name: "Nurses",
@@ -9,6 +10,7 @@ export default {
     components: {
         nurses_card: NursesCard,
         show_chats: ShowChats,
+        check_files: CheckFiles,
     },
     props: ['data'],
     data() {
@@ -36,6 +38,10 @@ export default {
         },
         showChats(nurse) {
             this.show_modal = 'show_chats';
+            this.nurse = nurse;
+        },
+        checkFiles(nurse){
+            this.show_modal = 'check_files';
             this.nurse = nurse;
         },
         getNurses() {

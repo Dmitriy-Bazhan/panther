@@ -25,7 +25,8 @@
             <td>{{ nurse.entity.info_is_full }}</td>
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
-                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">{{ $t('check') }}</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkFiles(nurse)">{{ $t('check_files') }}</button>
                 <button class="btn btn-sm btn-success" v-on:click="showChats(nurse)">{{ $t('show_chats') }}</button>
                 <button v-if="nurse.entity.info_is_full === 'no'" class="btn btn-secondary btn-sm">Approve</button>&nbsp;
                 <button v-else-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
@@ -57,6 +58,8 @@
     <nurses_card v-if="show_modal === 'nurses_card'" :nurse="nurse" :data="data"></nurses_card>
 
     <show_chats v-if="show_modal === 'show_chats'" :nurse="nurse" :data="data"></show_chats>
+
+    <check_files v-if="show_modal === 'check_files'" :nurse="nurse" :data="data"></check_files>
 
 </div>
 
