@@ -187,10 +187,11 @@ class ClientBookingsController extends Controller
             abort(409);
         }
 
-        if (!Payment::where('booking_id', $id)->update(['status' => 'refuse'])) {
-            //todo:hmm
-            abort(409);
-        }
+        Payment::where('booking_id', $id)->update(['status' => 'refuse']);
+//        if (!Payment::where('booking_id', $id)->update(['status' => 'refuse'])) {
+//            //todo:hmm
+//            abort(409);
+//        }
 
         return response()->json(['success' => true]);
     }
