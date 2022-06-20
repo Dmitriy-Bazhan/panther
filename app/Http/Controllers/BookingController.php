@@ -85,7 +85,7 @@ class BookingController extends Controller
             $booking->comment = request('booking')['comment'];
             $booking->client_fullname = request('booking')['fullname'];
             $booking->client_phone = request('booking')['client_phone'];
-            $booking->save();
+//            $booking->save();
             $bookingId = $booking->id;
 
             foreach (request('booking')['time'] as $value) {
@@ -93,7 +93,7 @@ class BookingController extends Controller
                 $bookingTime->booking_id = $bookingId;
                 $bookingTime->time_interval = $value['id'];
                 $bookingTime->time = $value['val'];
-                $bookingTime->save();
+//                $bookingTime->save();
             }
         }
 
@@ -129,7 +129,7 @@ class BookingController extends Controller
             $booking->comment = request('booking')['comment'];
             $booking->client_fullname = request('booking')['fullname'];
             $booking->client_phone = request('booking')['client_phone'];
-            $booking->save();
+//            $booking->save();
             $bookingId = $booking->id;
 
             foreach (request('booking')['time'] as $value) {
@@ -137,22 +137,22 @@ class BookingController extends Controller
                 $bookingTime->booking_id = $bookingId;
                 $bookingTime->time_interval = $value['id'];
                 $bookingTime->time = $value['val'];
-                $bookingTime->save();
+//                $bookingTime->save();
             }
         }
 
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
 
-        if (env('MAIL_USE_QUEUE')) {
-            Mail::mailer('smtp')->to($client->email)
-                ->queue(new ClientVerificationBookingMail($booking, $nurse, $client));
-        } else {
-            Mail::mailer('smtp')->to($client->email)
-                ->send(new ClientVerificationBookingMail($booking, $nurse, $client));
-        }
-
-        return response()->json(['success' => true]);
+//        if (env('MAIL_USE_QUEUE')) {
+//            Mail::mailer('smtp')->to($client->email)
+//                ->queue(new ClientVerificationBookingMail($booking, $nurse, $client));
+//        } else {
+//            Mail::mailer('smtp')->to($client->email)
+//                ->send(new ClientVerificationBookingMail($booking, $nurse, $client));
+//        }
+//
+//        return response()->json(['success' => true]);
     }
 
     public function show($id)

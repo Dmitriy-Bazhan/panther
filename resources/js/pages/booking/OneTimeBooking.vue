@@ -58,7 +58,7 @@
                                                        true-value="1" false-value="0"
                                                        @change="setIntervals"
                                                        v-model="booking.time_interval[item.id]">
-                                                <span class="pt-checkbox--body">{{item.interval}}</span>
+                                                <span class="pt-checkbox--body">{{ item.interval }}</span>
                                             </label>
                                         </template>
                                     </div>
@@ -74,19 +74,19 @@
                         Geben Sie die Anzahl der Stunden ein:
                     </div>
                     <div class="pt-finder--form-block--inner">
-<!--                        <div class="pt-finder&#45;&#45;form-group">-->
-<!--                            <div class="pt-select">-->
-<!--                                <div class="pt-select&#45;&#45;icon">-->
-<!--                                    <pt-icon type="watch"></pt-icon>-->
-<!--                                </div>-->
-<!--                                <v-select multiple :closeOnSelect="false" :options="intervals?intervals:[]"-->
-<!--                                          v-model="booking.time">-->
-<!--                                    <template #open-indicator>-->
-<!--                                        <span class="pt-select&#45;&#45;caret"></span>-->
-<!--                                    </template>-->
-<!--                                </v-select>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                <div class="pt-finder&#45;&#45;form-group">-->
+                        <!--                    <div class="pt-select">-->
+                        <!--                        <div class="pt-select&#45;&#45;icon">-->
+                        <!--                            <pt-icon type="watch"></pt-icon>-->
+                        <!--                        </div>-->
+                        <!--                        <v-select multiple :closeOnSelect="false" :options="intervals?intervals:[]"-->
+                        <!--                                  v-model="booking.time">-->
+                        <!--                            <template #open-indicator>-->
+                        <!--                                <span class="pt-select&#45;&#45;caret"></span>-->
+                        <!--                            </template>-->
+                        <!--                        </v-select>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
                         <div class="pt-finder--form-group">
                             <div class="">
                                 <template v-for="item in intervals">
@@ -94,7 +94,67 @@
                                         <input type="checkbox" name="work_time_pref"
                                                :value="item"
                                                v-model="booking.time">
-                                        <span class="pt-checkbox--body">{{item}}</span>
+                                        <span class="pt-checkbox--body">{{ item.val }}</span>
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-finder--form-block">
+                    <div class="pt-finder--form-label">
+                        <div class="pt-finder--form-label--number">3</div>
+                        verfügbare Zeit: (weekends)
+                    </div>
+                    <div class="pt-finder--form-block--inner">
+                        <div class="pt-finder--form-group">
+                            <div class="">
+                                <div class="pt-finder--form-group">
+                                    <div class="">
+                                        <template v-for="item in data.time_intervals">
+                                            <label class="pt-checkbox" v-if="item.type === 'weekends'">
+                                                <input type="checkbox" name="work_time_pref"
+                                                       true-value="1" false-value="0"
+                                                       @change="setIntervals"
+                                                       v-model="booking.time_interval[item.id]">
+                                                <span class="pt-checkbox--body">{{ item.interval }}</span>
+                                            </label>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-finder--form-block">
+                    <div class="pt-finder--form-label">
+                        <div class="pt-finder--form-label--number">4</div>
+                        Geben Sie die Anzahl der Stunden ein: (weekends)
+                    </div>
+                    <div class="pt-finder--form-block--inner">
+                        <!--                <div class="pt-finder&#45;&#45;form-group">-->
+                        <!--                    <div class="pt-select">-->
+                        <!--                        <div class="pt-select&#45;&#45;icon">-->
+                        <!--                            <pt-icon type="watch"></pt-icon>-->
+                        <!--                        </div>-->
+                        <!--                        <v-select multiple :closeOnSelect="false" :options="intervals?intervals:[]"-->
+                        <!--                                  v-model="booking.time">-->
+                        <!--                            <template #open-indicator>-->
+                        <!--                                <span class="pt-select&#45;&#45;caret"></span>-->
+                        <!--                            </template>-->
+                        <!--                        </v-select>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
+                        <div class="pt-finder--form-group">
+                            <div class="">
+                                <template v-for="item in weekends_intervals">
+                                    <label class="pt-checkbox">
+                                        <input type="checkbox" name="work_time_pref"
+                                               :value="item"
+                                               v-model="booking.time">
+                                        <span class="pt-checkbox--body">{{ item.val }}</span>
                                     </label>
                                 </template>
                             </div>
@@ -175,6 +235,7 @@
                 info: false,
                 checkDate: null,
                 intervals: false,
+                weekends_intervals: false,
                 booking: {
                     total: 0,
                     suggested_price_per_hour: 0,
@@ -204,24 +265,43 @@
             }
         },
         methods: {
-            setIntervals(){
+            setIntervals() {
                 let self = this
                 self.intervals = []
-                for (let key in self.booking.time_interval){
-                    if(self.booking.time_interval[key] === '1'){
-                        let interval = self.data.time_intervals.find(function (int){
+                self.weekends_intervals = []
+                for (let key in self.booking.time_interval) {
+                    if (self.booking.time_interval[key] === '1') {
+                        let interval = self.data.time_intervals.find(function (int) {
                             return int.id === key
                         })
-                        self.intervals.push(interval)
+                        if (interval.type === 'weekdays') {
+                            self.intervals.push(interval)
+                        } else {
+                            self.weekends_intervals.push(interval)
+                        }
                     }
                 }
                 let timeIntervals = []
-                self.intervals.forEach(function (item){
-                    for (let i = item.start; i < item.end; i++){
-                        timeIntervals.push(i + ':00 - ' +Number(i+1) + ':00')
+                self.intervals.forEach(function (item) {
+                    for (let i = item.start; i < item.end; i++) {
+                        timeIntervals.push({
+                            id: item.id,
+                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                        })
                     }
                 })
-                return self.intervals = timeIntervals
+                self.intervals = timeIntervals
+
+                timeIntervals = []
+                self.weekends_intervals.forEach(function (item) {
+                    for (let i = item.start; i < item.end; i++) {
+                        timeIntervals.push({
+                            id: item.id,
+                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                        })
+                    }
+                })
+                self.weekends_intervals = timeIntervals
             },
             getTotalPrice(){
                 let self = this
