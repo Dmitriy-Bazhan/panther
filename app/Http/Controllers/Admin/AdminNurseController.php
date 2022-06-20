@@ -51,7 +51,6 @@ class AdminNurseController extends Controller
 
     public function getNurses()
     {
-//        $nurses = $this->nurseRepo->search(101);
         $nurses = $this->nurseRepo->search();
         return NurseResource::collection($nurses);
     }
