@@ -161,23 +161,26 @@
                 <div class="col-4">
 
                     <!--                additional info-->
-                    <div class="col-4">
-                        <label class="form-label col-form-label-sm">{{ $t('additional_info')
-                            }}</label>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="additional_info" class="form-label col-form-label-sm">{{ $t('additional_info')
+                                }}</label>
+                        </div>
+                        <div class="col-8">
+                            <v-select :options="data.additional_info" multiple id="additional_info"
+                                      label="alias"
+                                      v-model="nurse.entity.additional_info"
+                                      :reduce="(option) => option">
+                                <template #option="{ data }">
+                                    {{ data.data }}
+                                </template>
+
+                                <template #open-indicator>
+                                    <span class="pt-select--caret"></span>
+                                </template>
+                            </v-select>
+                        </div>
                     </div>
-
-                    <v-select :options="data.additional_info" multiple
-                              label="alias"
-                              v-model="nurse.entity.additional_info"
-                              :reduce="(option) => option">
-                        <template #option="{ data }">
-                            {{ data.data }}
-                        </template>
-
-                        <template #open-indicator>
-                            <span class="pt-select--caret"></span>
-                        </template>
-                    </v-select>
 
                     <!-- provide supports -->
                     <div class="row">
@@ -187,128 +190,53 @@
                         </div>
 
                         <div class="col-8">
-                            <select class="form-control form-control-sm" v-model="nurse.entity.provide_supports"
-                                    id="provide_supports" multiple>
-                                <option v-for="support in data.provider_supports"
-                                        :value="support">
-                                    {{ $t(support.name) }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
 
+                            <v-select multiple :options="translateOptions(data.provider_supports)" id="provide_supports"
+                                      label="name"
+                                      v-model="nurse.entity.provide_supports"
+                                      :reduce="(option) => option">
+                                <template #option="{ name }">
+                                    {{ name }}
+                                </template>
 
-                    <!--                    Files-->
-                    <p>Files <span style="cursor: pointer;"
-                                   id="files_arrow"
-                                   v-on:click="showHideFilesWindow()">&#8964;</span></p>
-                    <div v-if="showFilesWindow" class="showFilesWindow" id="files_wrapper">
-                        <div>
-                            criminal record
-                            <p class="nurse_file_name"
-                               v-for="item in filterFiles(nurse.entity.files, 'criminal_record')"
-                               v-on:click="showContent(item)">
-                                {{ item.original_name }}
-                            </p>
-                            <br>
-                        </div>
+                                <template #open-indicator>
+                                    <span class="pt-select--caret"></span>
+                                </template>
+                            </v-select>
 
-                        <div>
-                            documentation of training
-                            <p class="nurse_file_name"
-                               v-for="item in filterFiles(nurse.entity.files, 'documentation_of_training')"
-                               v-on:click="showContent(item)">
-                                {{ item.original_name }}</p>
-                        </div>
-
-                        <div>
-                            CPR course
-                            <p class="nurse_file_name" v-for="item in filterFiles(nurse.entity.files, 'CPR_course')"
-                               v-on:click="showContent(item)">
-                                {{ item.original_name }}</p>
-                        </div>
-
-                        <div>
-                            references
-                            <p class="nurse_file_name" v-for="item in filterFiles(nurse.entity.files, 'references')"
-                               v-on:click="showContent(item)">
-                                {{ item.original_name }}
-                            </p>
                         </div>
                     </div>
 
 
                     <!--                Work time pref-->
-                    <p>Work time pref <span style="cursor: pointer;"
-                                            id="work_time_arrow_arrow"
-                                            v-on:click="showHideWorkTimePrefWindow()">&#8964;</span></p>
-                    <div v-if="showWorkTimePrefWindow" class="showHideWorkTimePrefWindow" id="work_time_arrow_wrapper">
-                        <div class="row">
-                            <div class="col-8 offset-2">
-                                <div class="row">
-                                    <div class="col-4 offset-4 justify-content-center">Weekdays</div>
-                                    <div class="col-4 justify-content-center">Weekends</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 offset-4 justify-content-center">Mon-Fri</div>
-                                    <div class="col-4 justify-content-center">Sat-Sun</div>
-                                </div>
+                    <p v-if="show_modal !='work_time_pref'">{{ $t('work_time_pref') }} <span style="cursor: pointer;"
+                                   v-on:click="showHideWorkTimePrefWindow()">&#8964;</span></p>
+                    <p v-else>{{ $t('work_time_pref') }} <span style="cursor: pointer;"
+                                                        v-on:click="closeModal()">&#8964;</span></p>
+
+                    <div class="row" v-if="show_modal =='work_time_pref'">
+                        <div class="col-6">
+                            <h5>{{ $t('weekdays') }}</h5>
+                            <div v-for="(item,index) in data.time_intervals">
+                                <template v-if="item.type ==='weekdays'">
+                                    <h6>{{ item.interval }}</h6>
+                                    <input type="checkbox" true-value="1" false-value="0"
+                                           v-model="nurse.entity.work_time_pref[item.id]">
+
+                                    <hr>
+                                </template>
                             </div>
                         </div>
-                        <!--                        7_11-->
-                        <div class="row">
-                            <div class="col-4">7_11</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_morning" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekdays_7_11">
-                                &nbsp;<label for="weekdays_morning">Morning</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_morning" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekends_7_11">
-                                &nbsp;<label for="weekends_morning">Morning</label>
-                            </div>
-                        </div>
-                        <!--                        11_14-->
-                        <div class="row">
-                            <div class="col-4">11_14</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_afternoon" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekdays_11_14">
-                                &nbsp;<label for="weekdays_afternoon">Afternoon</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_afternoon" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekends_11_14">
-                                &nbsp;<label for="weekends_afternoon">Afternoon</label>
-                            </div>
-                        </div>
-                        <!--                        14_17-->
-                        <div class="row">
-                            <div class="col-4">14_17</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_evening" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekdays_14_17">
-                                &nbsp;<label for="weekdays_evening">Evening</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_evening" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekends_14_17">
-                                &nbsp;<label for="weekends_evening">Evening</label>
-                            </div>
-                        </div>
-                        <!--                        17_21t-->
-                        <div class="row">
-                            <div class="col-4">17_21</div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekdays_overnight" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekdays_17_21">
-                                &nbsp;<label for="weekdays_overnight">Overnight</label>
-                            </div>
-                            <div class="col-4 justify-content-center">
-                                <input type="checkbox" id="weekends_overnight" true-value="1" false-value="0"
-                                       v-model="nurse.entity.work_time_pref.weekends_17_21">
-                                &nbsp;<label for="weekends_overnight">Overnight</label>
+                        <div class="col-6">
+                            <h5>{{ $t('weekends') }}</h5>
+                            <div v-for="(item,index) in data.time_intervals">
+                                <template v-if="item.type ==='weekends'">
+                                    <h6>{{ item.interval }}</h6>
+                                    <input type="checkbox" true-value="1" false-value="0"
+                                           v-model="nurse.entity.work_time_pref[item.id]">
+
+                                    <hr>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -419,7 +347,5 @@
         </div>
 
     </div>
-
-    <file_modal v-if="showFileModal" :userFile="userFile"></file_modal>
 
 </div>
