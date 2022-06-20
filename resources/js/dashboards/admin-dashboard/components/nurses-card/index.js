@@ -5,7 +5,6 @@ export default {
     name: "NursesCard",
     template: template,
     components: {
-        'file_modal': FileModal,
     },
     props: ['nurse', 'data'],
     data() {
