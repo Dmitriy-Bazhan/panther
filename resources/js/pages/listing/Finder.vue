@@ -349,7 +349,7 @@
                                             <v-select :options="data.languages"
                                                       label="name"
                                                       v-model="item.id"
-                                                      :reduce="name => option.id">
+                                                      :reduce="(option) => option.id">
                                                 <template #option="{ name }">
                                                     {{ name }}
                                                 </template>
