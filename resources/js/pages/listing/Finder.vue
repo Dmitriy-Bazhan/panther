@@ -346,12 +346,12 @@
                                             <div class="pt-select--icon">
                                                 <pt-icon type="globe"></pt-icon>
                                             </div>
-                                            <v-select :options="filteredOption(languageOptions)"
-                                                      label="title"
+                                            <v-select :options="data.languages"
+                                                      label="name"
                                                       v-model="item.id"
-                                                      :reduce="(option) => option.id">
-                                                <template #option="{ title }">
-                                                    {{ title }}
+                                                      :reduce="name => option.id">
+                                                <template #option="{ name }">
+                                                    {{ name }}
                                                 </template>
 
                                                 <template #open-indicator>
