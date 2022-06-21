@@ -187,14 +187,16 @@ class BookingController extends Controller
         $booking->is_verification = 'yes';
         $booking->save();
 
-        $payment = new Payment();
-        $payment->booking_id = $booking->id;
-        $payment->client_user_id = $booking->client->id;
-        $payment->nurse_user_id = $booking->nurse->id;
-        $payment->date = $booking->start_date;
-        $payment->sum = $booking->total;
-        $payment->status = 'wait';
-        $payment->save();
+        if(!$payment = Payment::where('booking_id', $booking->id)->first()){
+            $payment = new Payment();
+            $payment->booking_id = $booking->id;
+            $payment->client_user_id = $booking->client->id;
+            $payment->nurse_user_id = $booking->nurse->id;
+            $payment->date = $booking->start_date;
+            $payment->sum = $booking->total;
+            $payment->status = 'wait';
+            $payment->save();
+        }
 
         app()->setLocale($nurse->prefs->pref_lang);
 
