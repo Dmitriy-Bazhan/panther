@@ -114,6 +114,7 @@ export default {
         showCurrentAlternativeBooking(booking) {
             this.show_modal = 'show_alternative';
             this.booking = booking;
+            console.log(booking);
         },
         showChatWithNurse(nurse) {
             this.show_modal = 'show_chat';
