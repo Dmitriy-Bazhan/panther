@@ -32,6 +32,7 @@ use App\Http\Controllers\Nurses\NursesMyInformationController;
 use App\Http\Controllers\Nurses\NursesPaymentsController;
 use App\Http\Controllers\Nurses\NursesMessageController;
 use App\Http\Controllers\Nurses\NurseBookingController;
+use App\Http\Controllers\Nurses\NurseRateController;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -217,8 +218,12 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('nurse-bookings')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
         Route::post('nurse-refuse-booking', [NurseBookingController::class, 'nurseRefuseBooking']);
     });
-
     Route::resource('nurse-bookings', NurseBookingController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
+
+    //nurse ratings
+    Route::prefix('nurse-ratings')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+        Route::get('get-feedback-and-ratings', [NurseRateController::class, 'getFeedbackAndRatings']);
+    });
 
     //nurse my information
     Route::prefix('nurse-my-information')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
