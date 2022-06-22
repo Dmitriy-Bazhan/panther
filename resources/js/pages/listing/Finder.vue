@@ -179,7 +179,7 @@
                                 <div class="">
                                     <template v-for="item in data.time_intervals">
                                         <label class="pt-checkbox" v-if="item.type === 'weekdays'">
-                                            <input type="checkbox" name="work_time_pref"
+                                            <input type="checkbox"
                                                    true-value="1" false-value="0"
                                                    v-model="clientSearchInfo.work_time_pref[item.id]">
                                             <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
@@ -200,7 +200,7 @@
                                 <div class="">
                                     <template v-for="item in data.time_intervals">
                                         <label class="pt-checkbox" v-if="item.type === 'weekends'">
-                                            <input type="checkbox" name="work_time_pref"
+                                            <input type="checkbox"
                                                    true-value="1" false-value="0"
                                                    v-model="clientSearchInfo.work_time_pref[item.id]">
                                             <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
@@ -1047,7 +1047,16 @@ export default {
                 one_time_date: null,
                 regular_time_start_date: null,
                 regular_time_finish_date: null,
-                work_time_pref: [],
+                work_time_pref: {
+                    "weekdays_7_11": "0",
+                    "weekdays_11_14": "0",
+                    "weekdays_14_17": "0",
+                    "weekdays_17_21": "0",
+                    "weekends_7_11": "0",
+                    "weekends_11_14": "0",
+                    "weekends_14_17": "0",
+                    "weekends_17_21": "0"
+                },
             }
         }
     },
@@ -1060,7 +1069,6 @@ export default {
     },
     computed: {},
     mounted() {
-        console.log(this.data);
         this.getClientSearchInfo();
 
     },
@@ -1134,7 +1142,6 @@ export default {
             axios.get('finder/get-client-search-info')
                 .then((response) => {
                     if (response.data.success) {
-                        console.log(response.data.clientSearchInfo)
                         this.clientSearchInfo = response.data.clientSearchInfo;
                         this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
                         this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);

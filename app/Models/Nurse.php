@@ -9,7 +9,6 @@ class Nurse extends Model
 {
     use HasFactory;
 
-
     protected $attributes = [
         'work_time_pref' => '{
         "weekdays_7_11" : "0",
@@ -22,7 +21,6 @@ class Nurse extends Model
         "weekends_17_21" : "0"
         }',
     ];
-
 
     protected $with = [
         'provideSupports',
