@@ -12,4 +12,8 @@ class Rate extends Model
     protected $fillable = [
         'rate', 'user_id', 'creator_id',
     ];
+
+    public function creator(){
+        return $this->belongsTo('App\Models\User','creator_id', 'id')->without('prefs');
+    }
 }
