@@ -7,6 +7,7 @@ use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
+use App\Http\Resources\ClientSearchInfoResource;
 use App\Http\Resources\NurseResource;
 use App\Models\ClientSearchInfo;
 use Carbon\Carbon;
@@ -29,11 +30,15 @@ class ListingController extends Controller
 
     public function getClientSearchInfo()
     {
+        if(!request()->ajax()){
+            return abort(404);
+        }
+
         if (!$clientSearchInfo = ClientSearchInfo::where('client_id', auth()->user()->entity->id)->first()) {
             return response()->json(['success' => false]);
         }
 
-        return response()->json(['success' => true, 'clientSearchInfo' => $clientSearchInfo]);
+        return response()->json(['success' => true, 'clientSearchInfo' => new ClientSearchInfoResource($clientSearchInfo)]);
     }
 
     public function getPrivateChats($nurse_id = null)

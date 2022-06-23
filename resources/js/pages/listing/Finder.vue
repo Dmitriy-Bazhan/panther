@@ -129,7 +129,7 @@
                         <div class="pt-finder--form-block--inner">
                             <div class="pt-finder--form-group">
                                 <label class="pt-box">
-                                    <input type="radio" name="age-range" value="one"
+                                    <input type="radio" name="one-time" value="one"
                                            v-on:click="OneOrRegularCalendar('one')"
                                            v-model="clientSearchInfo.one_or_regular">
                                     <span class="pt-box--body"></span>
@@ -138,7 +138,7 @@
                             </div>
                             <div class="pt-finder--form-group">
                                 <label class="pt-box">
-                                    <input type="radio" name="age-range" value="regular"
+                                    <input type="radio" name="regular-time" value="regular"
                                            v-on:click="OneOrRegularCalendar('regular')"
                                            v-model="clientSearchInfo.one_or_regular">
                                     <span class="pt-box--body"></span>
@@ -1143,10 +1143,6 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.clientSearchInfo = response.data.clientSearchInfo;
-                        this.clientSearchInfo.provider_supports = JSON.parse(this.clientSearchInfo.provider_supports);
-                        this.clientSearchInfo.work_time_pref = JSON.parse(this.clientSearchInfo.work_time_pref);
-                        this.clientSearchInfo.languages = JSON.parse(this.clientSearchInfo.languages);
-                        this.clientSearchInfo.disease = JSON.parse(this.clientSearchInfo.disease);
                     }
                 })
                 .catch((error) => {
