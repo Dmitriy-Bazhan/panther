@@ -44,12 +44,13 @@ class FeedbackController extends Controller
             return response()->json(['success' => true]);
         }
 
-        $feedback = new Feedback();
-        $feedback->creator_id = auth()->id();
-        $feedback->target_user_id = $data['id'];
-        $feedback->type = $data['type'];
-        $feedback->description = $data['feedback'];
-        if(!$feedback->save()){
+        $feedback = Feedback::create([
+            'creator_id' => auth()->id(),
+            'target_user_id' => $data['id'],
+            'type' => $data['type'],
+            'description' => $data['feedback'],
+        ]);
+        if(!$feedback){
             //todo::hmm
             Log::error('Cant save feedback in store method in FeedbackController');
             return response()->json(['success' => false]);

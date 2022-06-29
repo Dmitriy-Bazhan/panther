@@ -67,7 +67,6 @@ class ChatRepository
             }
         }
 
-
         return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
     }
 

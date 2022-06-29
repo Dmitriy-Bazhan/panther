@@ -71,29 +71,29 @@ class BookingController extends Controller
                 return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
             }
 
-            $booking = new Booking();
-            $booking->nurse_user_id = request('nurse_user_id');
-            $booking->client_user_id = auth()->id();
-            $booking->suggested_price_per_hour = request('booking')['suggested_price_per_hour'];
-            $booking->total = request('booking')['total'];
-            $booking->one_time_or_regular = 'one';
-            $booking->days = json_encode([]);
-            $booking->weeks = 0;
-            $booking->start_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
-            $booking->finish_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
-            $booking->additional_email = request('booking')['additional_email'];
-            $booking->comment = request('booking')['comment'];
-            $booking->client_fullname = request('booking')['fullname'];
-            $booking->client_phone = request('booking')['client_phone'];
-            $booking->save();
+            $booking = Booking::create([
+                'nurse_user_id' => request('nurse_user_id'),
+                'client_user_id' => auth()->id(),
+                'suggested_price_per_hour' => request('booking')['suggested_price_per_hour'],
+                'total' => request('booking')['total'],
+                'one_time_or_regular' => 'one',
+                'days' => json_encode([]),
+                'weeks' => 0,
+                'start_date' => Carbon::createFromDate(request('booking')['date'])->format('Y-m-d'),
+                'finish_date' => Carbon::createFromDate(request('booking')['date'])->format('Y-m-d'),
+                'additional_email' => request('booking')['additional_email'],
+                'comment' => request('booking')['comment'],
+                'client_fullname' => request('booking')['fullname'],
+                'client_phone' => request('booking')['client_phone'],
+            ]);
             $bookingId = $booking->id;
 
             foreach (request('booking')['time'] as $value) {
-                $bookingTime = new BookingTime();
-                $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $value['id'];
-                $bookingTime->time = $value['val'];
-                $bookingTime->save();
+                BookingTime::create([
+                    'booking_id' => $bookingId,
+                    'time_interval' => $value['id'],
+                    'time' => $value['val'],
+                ]);
             }
         }
 
@@ -115,29 +115,29 @@ class BookingController extends Controller
                 return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
             }
 
-            $booking = new Booking();
-            $booking->nurse_user_id = request('nurse_user_id');
-            $booking->client_user_id = auth()->id();
-            $booking->suggested_price_per_hour = request('booking')['suggested_price_per_hour'];
-            $booking->total = request('booking')['total'];
-            $booking->one_time_or_regular = 'regular';
-            $booking->days = json_encode(request('booking')['days']);
-            $booking->weeks = request('booking')['weeks'];
-            $booking->start_date = Carbon::createFromDate(request('booking')['date'])->format('Y-m-d');
-            $booking->finish_date = Carbon::createFromDate(request('booking')['date'])->addRealWeeks(request('booking')['weeks'])->format('Y-m-d');
-            $booking->additional_email = request('booking')['additional_email'];
-            $booking->comment = request('booking')['comment'];
-            $booking->client_fullname = request('booking')['fullname'];
-            $booking->client_phone = request('booking')['client_phone'];
-            $booking->save();
+            $booking = Booking::create([
+                'nurse_user_id' => request('nurse_user_id'),
+                'client_user_id' => auth()->id(),
+                'suggested_price_per_hour' => request('booking')['suggested_price_per_hour'],
+                'total' => request('booking')['total'],
+                'one_time_or_regular' => 'regular',
+                'days' => json_encode(request('booking')['days']),
+                'weeks' => request('booking')['weeks'],
+                'start_date' => Carbon::createFromDate(request('booking')['date'])->format('Y-m-d'),
+                'finish_date' => Carbon::createFromDate(request('booking')['date'])->addRealWeeks(request('booking')['weeks'])->format('Y-m-d'),
+                'additional_email' => request('booking')['additional_email'],
+                'comment' => request('booking')['comment'],
+                'client_fullname' => request('booking')['fullname'],
+                'client_phone' => request('booking')['client_phone'],
+            ]);
             $bookingId = $booking->id;
 
             foreach (request('booking')['time'] as $value) {
-                $bookingTime = new BookingTime();
-                $bookingTime->booking_id = $bookingId;
-                $bookingTime->time_interval = $value['id'];
-                $bookingTime->time = $value['val'];
-                $bookingTime->save();
+                BookingTime::create([
+                    'booking_id' => $bookingId,
+                    'time_interval' => $value['id'],
+                    'time' => $value['val'],
+                ]);
             }
         }
 
@@ -187,15 +187,15 @@ class BookingController extends Controller
         $booking->is_verification = 'yes';
         $booking->save();
 
-        if(!$payment = Payment::where('booking_id', $booking->id)->first()){
-            $payment = new Payment();
-            $payment->booking_id = $booking->id;
-            $payment->client_user_id = $booking->client->id;
-            $payment->nurse_user_id = $booking->nurse->id;
-            $payment->date = $booking->start_date;
-            $payment->sum = $booking->total;
-            $payment->status = 'wait';
-            $payment->save();
+        if (!$payment = Payment::where('booking_id', $booking->id)->first()) {
+            Payment::create([
+                'booking_id' => $booking->id,
+                'client_user_id' => $booking->client->id,
+                'nurse_user_id' => $booking->nurse->id,
+                'date' => $booking->start_date,
+                'sum' => $booking->total,
+                'status' => 'wait',
+            ]);
         }
 
         app()->setLocale($nurse->prefs->pref_lang);

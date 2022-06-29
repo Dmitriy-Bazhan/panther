@@ -25,11 +25,6 @@ class ConfigSystemServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (auth()->check()) {
-            app()->setLocale(auth()->user()->prefs->pref_lang);
-        } else if (isset(request()->post('data')['locale'])) {
-            app()->setLocale(request()->post('data')['locale']);
-        }
 
         $settings = [];
         if(Schema::hasTable('settings')){

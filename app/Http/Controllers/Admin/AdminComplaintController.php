@@ -41,7 +41,6 @@ class AdminComplaintController extends Controller
 
     public function sendMessageAdminToUser() {
 
-
         $userId = request()->post('user_id');
         $message = request()->post('message');
 

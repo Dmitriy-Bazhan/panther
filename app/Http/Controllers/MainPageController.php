@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdditionalInfo;
-use App\Models\AdditionalInfoData;
 use App\Models\Lang;
-use App\Models\ProvideSupport;
-use App\Models\Rate;
 use App\Models\Translate;
+use App\Models\UserPref;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
@@ -60,7 +57,7 @@ class MainPageController extends Controller
             return redirect()->to('404');
         }
 
-        \App\Models\UserPref::where('user_id', auth()->id())->update([
+        UserPref::where('user_id', auth()->id())->update([
             'pref_lang' => $lang
         ]);
 
@@ -99,11 +96,11 @@ class MainPageController extends Controller
         $langs = request('langs');
         foreach ($langs as $lang => $items) {
             foreach ($items as $name => $data) {
-                $newTranslate = new Translate();
-                $newTranslate->name = $name;
-                $newTranslate->lang = $lang;
-                $newTranslate->data = $data;
-                $newTranslate->save();
+                Translate::create([
+                    'name' => $name,
+                    'lang' => $lang,
+                    'data' => $data
+                ]);
             }
         }
 
