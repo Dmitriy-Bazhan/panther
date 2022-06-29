@@ -145,7 +145,10 @@ class NurseDashboardController extends Controller
 
     public function show($id)
     {
-        //
+        $nurses = $this->nurseRepo->search($id);
+        $nurse = $nurses->first();
+
+        return response()->json(['success' => true, 'user' => $nurse]);
     }
 
     public function edit($id)

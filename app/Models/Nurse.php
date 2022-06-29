@@ -23,12 +23,12 @@ class Nurse extends Model
     ];
 
     protected $with = [
-        'provideSupports',
-        'languages',
-        'files',
-        'additionalInfo',
-        'price',
-        'typeOfLearning'
+//        'provideSupports',
+//        'languages',
+//        'files',
+//        'additionalInfo',
+//        'price',
+//        'typeOfLearning'
     ];
 
     public function users()

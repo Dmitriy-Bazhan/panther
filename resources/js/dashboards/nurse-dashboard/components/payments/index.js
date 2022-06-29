@@ -7,13 +7,26 @@ export default {
     props: ['user', 'data'],
     data() {
         return  {
+            authUser: false,
             price : {}
         }
     },
     mounted() {
-        this.price = this.user.entity.price;
+        this.getNurse();
     },
     methods: {
+        getNurse() {
+            axios.get('/dashboard/nurse/' + this.user.id)
+                .then((response) => {
+                    if (response.data.success) {
+                        this.authUser = response.data.user;
+                        this.price = this.authUser.entity.price;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         storePrices() {
             this.user.entity.price = this.price;
             axios.put('/dashboard/nurse-payments/' + this.user.entity.id, {'price' : this.user.entity.price})

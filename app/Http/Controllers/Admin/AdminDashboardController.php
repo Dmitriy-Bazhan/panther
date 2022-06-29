@@ -53,14 +53,8 @@ class AdminDashboardController extends Controller
         return view('dashboard', $data);
     }
 
-
-
     public function savePage($page)
     {
-//        if (!in_array($page, ['home'])) {
-//            //todo:hmm
-//            abort(409);
-//        }
 
         $pageData = request('pageData');
         $lang = request('lang');
@@ -68,11 +62,11 @@ class AdminDashboardController extends Controller
         Page::where('lang', $lang)->where('page', $pageData['page'])->delete();
 
         if ($pageData['page'] != '') {
-            $newBlock = new Page();
-            $newBlock->page = $pageData['page'];
-            $newBlock->lang = $lang;
-            $newBlock->data = json_encode($pageData['data']);
-            $newBlock->save();
+            Page::create([
+                'page' => $pageData['page'],
+                'lang' => $lang,
+                'data' => json_encode($pageData['data']),
+            ]);
         }
 
         return response()->json(['success' => true]);
@@ -80,11 +74,6 @@ class AdminDashboardController extends Controller
 
     public function getPage($page)
     {
-//        if (!in_array($page, ['home'])) {
-//            //todo:hmm
-//            abort(409);
-//        }
-
         $lang = request('lang');
 
         $page = Page::where('lang', $lang)->where('page', $page)->first();
@@ -113,14 +102,14 @@ class AdminDashboardController extends Controller
                 $directory_name = 'media';
                 $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
 
-                $media = new Media();
-                $media->path = '/storage/' . $original_path;
-                $media->file_name = $file_name;
-                $media->size = $fileSize / 1000;
-                $media->extension = $extension;
-                $media->type = $fileType;
-                $media->media_type = 'pages_image';
-                $media->save();
+                Media::create([
+                    'path' => '/storage/' . $original_path,
+                    'file_name' => $file_name,
+                    'size' => $fileSize / 1000,
+                    'extension' => $extension,
+                    'type' => $fileType,
+                    'media_type' => 'pages_image',
+                ]);
             }
         }
 
@@ -156,14 +145,14 @@ class AdminDashboardController extends Controller
 //
 //            $img->save();
 
-            $media = new Media();
-            $media->path = '/storage/' . $original_path;
-            $media->file_name = $file_name;
-            $media->size = $fileSize / 1000;
-            $media->extension = $extension;
-            $media->type = $fileType;
-            $media->media_type = 'pages_image';
-            $media->save();
+            Media::create([
+                'path' => '/storage/' . $original_path,
+                'file_name' => $file_name,
+                'size' => $fileSize / 1000,
+                'extension' => $extension,
+                'type' => $fileType,
+                'media_type' => 'pages_image',
+            ]);
         }
 
         return response()->json(['success' => true]);

@@ -9,7 +9,17 @@ class Payment extends Model
 {
     use HasFactory;
 
-    public function booking() {
+    protected $fillable = [
+        'booking_id',
+        'client_user_id',
+        'nurse_user_id',
+        'date',
+        'sum',
+        'status',
+    ];
+
+    public function booking()
+    {
         return $this->belongsTo('App\Models\Booking', 'booking_id', 'id');
     }
 }

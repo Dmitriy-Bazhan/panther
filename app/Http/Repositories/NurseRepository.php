@@ -26,12 +26,8 @@ class NurseRepository
 
     public function search($id = null)
     {
-//        return Nurse::query()
-////            ->when(!is_null($id), function ($query) use ($id) {
-////                return $query->where('id', $id);
-////            })->paginate(12);
-
         $nurse = $this->nurse->newQuery();
+
         //only nurses
         $nurse->where('entity_type', 'nurse');
 
@@ -174,7 +170,15 @@ class NurseRepository
             }
         }
 
-        $nurse->with('rate');
+        $nurse->with([
+            'rate',
+            'entity.provideSupports',
+            'entity.languages',
+            'entity.files',
+            'entity.additionalInfo',
+            'entity.price',
+            'entity.typeOfLearning'
+        ]);
 
         $SendNurse = $nurse->paginate(config('settings.listing_paginate'));
         $SendNurse->min_price = NursePrice::min('hourly_payment');
@@ -198,7 +202,7 @@ class NurseRepository
         $change_info = 'yes';
         $info_is_full = 'yes';
 
-        if(auth()->user()->is_admin){
+        if (auth()->user()->is_admin) {
             $change_info = 'no';
         }
 

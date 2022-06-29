@@ -13,7 +13,15 @@ class Feedback extends Model
         'updated_at'
     ];
 
-    public function creator(){
-        return $this->belongsTo('App\Models\User','creator_id', 'id')->without('prefs');
+    protected $fillable = [
+        'creator_id',
+        'target_user_id',
+        'type',
+        'description',
+    ];
+
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'creator_id', 'id')->without('prefs');
     }
 }

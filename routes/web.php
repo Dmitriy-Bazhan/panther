@@ -210,7 +210,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
         Route::post('get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar']);
-
+//        Route::get('/{id}', [NurseDashboardController::class, 'getThisNurse']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 

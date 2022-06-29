@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class BookingTime extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'booking_id', 'time_interval', 'time',
+    ];
 }
