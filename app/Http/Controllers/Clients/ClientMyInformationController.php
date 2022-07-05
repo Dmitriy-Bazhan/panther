@@ -53,7 +53,7 @@ class ClientMyInformationController extends Controller
             'last_name' => 'required',
             'phone' => 'required',
             'zip_code' => 'required',
-            'entity.description' => 'required',
+//            'entity.description' => 'required',
             'entity.gender' => 'required',
         ];
 
@@ -67,16 +67,16 @@ class ClientMyInformationController extends Controller
         $clients = $this->clientRepo->search($id);
         $client = $clients->first();
 
-        $rules = [
-            'file' => 'required|file|mimes:jpeg,bmp,png'
-        ];
-
-        if ($request->file('file') || is_null($client->entity->original_photo)) {
-            $validator = Validator::make($request->allFiles(), $rules);
-            if ($validator->fails()) {
-                $errors = array_merge($errors, $validator->errors()->toArray());
-            }
-        }
+//        $rules = [
+//            'file' => 'required|file|mimes:jpeg,bmp,png'
+//        ];
+//
+//        if ($request->file('file') || is_null($client->entity->original_photo)) {
+//            $validator = Validator::make($request->allFiles(), $rules);
+//            if ($validator->fails()) {
+//                $errors = array_merge($errors, $validator->errors()->toArray());
+//            }
+//        }
 
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
