@@ -14,7 +14,6 @@ class ClientMyInformationController extends Controller
     public function __construct(ClientRepository $clientRepo)
     {
         parent::__construct();
-
         $this->clientRepo = $clientRepo;
     }
 
@@ -45,15 +44,14 @@ class ClientMyInformationController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $rules = [
             'id' => 'required|numeric',
             'email' => 'required|email',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required',
-            'zip_code' => 'required',
-//            'entity.description' => 'required',
+            'first_name' => 'required|max:250',
+            'last_name' => 'required|max:250',
+            'phone' => 'required|max:250',
+            'zip_code' => 'required|max:250',
+            'entity.description' => 'sometimes',
             'entity.gender' => 'required',
         ];
 
@@ -67,16 +65,16 @@ class ClientMyInformationController extends Controller
         $clients = $this->clientRepo->search($id);
         $client = $clients->first();
 
-//        $rules = [
-//            'file' => 'required|file|mimes:jpeg,bmp,png'
-//        ];
-//
-//        if ($request->file('file') || is_null($client->entity->original_photo)) {
-//            $validator = Validator::make($request->allFiles(), $rules);
-//            if ($validator->fails()) {
-//                $errors = array_merge($errors, $validator->errors()->toArray());
-//            }
-//        }
+        $rules = [
+            'file' => 'sometimes|file|mimes:jpeg,bmp,png',
+        ];
+
+        if ($request->file('file') || is_null($client->entity->original_photo)) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
 
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
