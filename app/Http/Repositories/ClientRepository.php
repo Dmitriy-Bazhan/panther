@@ -97,6 +97,16 @@ class ClientRepository
         return true;
     }
 
+    public function removePhoto($id)
+    {
+        $directory_name = 'user_' . $id . '/photo';
+        $existedPhotos = Storage::disk('public')->files($directory_name);
+        if (count($existedPhotos) > 0) {
+            Storage::disk('public')->deleteDirectory($directory_name);
+        }
+        return true;
+    }
+
     public function store($clientSearchInfo)
     {
 
