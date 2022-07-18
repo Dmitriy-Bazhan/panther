@@ -14,7 +14,7 @@ class TypesOfLearning extends Model
     ];
 
     public function data() {
-        return $this->hasMany('App\Models\TypesOfLearningData', 'type_of_learning_id', 'id');
+        return $this->hasOne('App\Models\TypesOfLearningData', 'type_of_learning_id', 'id');
     }
 
 }
