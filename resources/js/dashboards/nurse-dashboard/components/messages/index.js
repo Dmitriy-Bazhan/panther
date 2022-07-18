@@ -14,7 +14,6 @@ export default {
     },
     data() {
         return {
-            chats: false,
             clients: false,
             client_id: null,
             haveNewMessages: [],
@@ -39,7 +38,7 @@ export default {
             window.Echo.private('nurse-have-new-message.' + this.user.id)
                 .listen('PrivateChat.NurseHaveNewMessage', (response) => {
                     this.emitter.emit('chat-have-unread-message', response.result.client_user_id);
-                    if(this.chats.length === 0) {
+                    if(this.clients.length === 0) {
                         this.getPrivateChats();
                     }
                 }).error((error) => {
@@ -53,11 +52,10 @@ export default {
         getPrivateChats() {
             axios.get('/dashboard/nurse-private-chats')
                 .then((response) => {
-                    this.chats = response.data.chats;
-                    console.log(this.chats);
                     this.clients = response.data.clients;
+                    console.log(this.clients);
                     this.haveNewMessages = response.data.haveNewMessages;
-                    this.client_id = Object.keys(this.chats)[0];
+                    this.client_id = Object.keys(this.clients)[0];
                     this.firstChat = this.client_id;
                     let e = {
                         client_id: this.client_id,
