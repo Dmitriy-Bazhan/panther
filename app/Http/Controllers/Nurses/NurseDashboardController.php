@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
 use App\Models\Booking;
@@ -148,7 +149,7 @@ class NurseDashboardController extends Controller
         $nurses = $this->nurseRepo->search($id);
         $nurse = $nurses->first();
 
-        return response()->json(['success' => true, 'user' => $nurse]);
+        return response()->json(['success' => true, 'user' => NurseResource::make($nurse)]);
     }
 
     public function edit($id)

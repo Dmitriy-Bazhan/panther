@@ -37,7 +37,7 @@ class NurseResource extends JsonResource
             'created_at' => $this->created_at,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
-            'entity' => $this->entity,
+            'entity' => NurseEntityResource::make($this->entity),
             'entity_id' => $this->entity_id,
             'entity_type' => $this->entity_type,
             'first_name' => $this->first_name,
