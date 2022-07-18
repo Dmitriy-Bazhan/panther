@@ -42,6 +42,11 @@ class NurseDashboardController extends Controller
             ->where('status', 'unread')
             ->where('client_sent', 'yes')
             ->orderByDesc('created_at')->get()->groupBy('client_user_id');
+        $data['data']['count_of_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('client_sent', 'yes')
+            ->count();
+
         return view('dashboard', $data);
     }
 

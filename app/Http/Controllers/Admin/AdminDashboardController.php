@@ -200,8 +200,8 @@ class AdminDashboardController extends Controller
         $typeOfLearning = request('type_of_learning');
 
         foreach ($typeOfLearning as $item) {
-            TypesOfLearningData::where('id', $item['data'][0]['id'])->update([
-                'data' => $item['data'][0]['data']
+            TypesOfLearningData::where('id', $item['data']['id'])->update([
+                'data' => $item['data']['data']
             ]);
         }
 

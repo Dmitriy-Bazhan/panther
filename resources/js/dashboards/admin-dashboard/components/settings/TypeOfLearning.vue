@@ -12,7 +12,7 @@
         <tr v-if="type_of_learning.length > 0" v-for="item in type_of_learning">
             <td>{{ item.id }}</td>
             <td>
-                <input type="text" v-model="item.data[0].data">
+                <input type="text" v-model="item.data.data" style="cursor: pointer;">
             </td>
             <td>
                 <button v-if="item.id !== 1" class="btn btn-sm btn-danger"
