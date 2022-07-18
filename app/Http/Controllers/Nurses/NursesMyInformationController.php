@@ -70,7 +70,7 @@ class NursesMyInformationController extends Controller
 
             'entity.provide_supports' => 'required',
             'entity.one_or_regular' => 'required|in:one,regular,no_matter',
-            'entity.start_date_ready_to_work' => 'required',
+            'entity.start_date_ready_to_work' => 'required|date',
         ];
 
         $validator = Validator::make($request->post('user'), $rules);

@@ -55,6 +55,7 @@ export default {
         }
     },
     mounted() {
+
         window.Echo.private('chat')
             .listen('TestChatMessage', (response) => {
                 console.log(response);
