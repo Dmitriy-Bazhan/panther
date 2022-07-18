@@ -10,6 +10,7 @@ use App\Models\NurseLang;
 use App\Models\NursePrice;
 use App\Models\ProvideSupportAssigned;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -220,7 +221,7 @@ class NurseRepository
             'work_time_pref' => json_encode($data['entity']['work_time_pref']),
             'one_or_regular' => $data['entity']['one_or_regular'],
             'ready_to_work' => $data['entity']['ready_to_work'],
-            'start_date_ready_to_work' => $data['entity']['start_date_ready_to_work'],
+            'start_date_ready_to_work' => Carbon::createFromDate($data['entity']['start_date_ready_to_work'])->format('Y-m-d'),
             'type_of_learning' => $data['entity']['type_of_learning']['id'],
         ]);
 
