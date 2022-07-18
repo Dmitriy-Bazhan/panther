@@ -33,36 +33,6 @@
                     </div>
                 </div>
 
-                <div v-if="comments > 0" v-for="comment in comments">
-                    <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
-                        <span class="chat-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="chat-client-message">
-                            {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="chat-client-date">
-                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
-                        </span>
-                    </div>
-
-                    <div v-else class="nurse-client-message-wrapper">
-                        <span class="nurse-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-message">
-                            {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-date">
-                            {{ formatDate(comment.created_at) }}
-                        </span>
-
-                    </div>
-                </div>
             </div>
 
         </div>
