@@ -1,5 +1,8 @@
 <template>
-    <span v-on:click="logOut">{{ $t('log_out') }}</span>
+  <button class="pt-btn" v-on:click="logOut">
+    <pt-icon type="log_in"></pt-icon>
+    {{ $t('log_out') }}
+  </button>
 </template>
 
 <script>
@@ -22,9 +25,9 @@ export default {
 </script>
 
 <style scoped>
-.menu-item-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: black;
-}
+    .menu-item-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: black;
+    }
 </style>

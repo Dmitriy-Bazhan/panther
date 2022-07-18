@@ -1,5 +1,7 @@
 import Icon from './Icon/Icon';
+import Dropdown from './Dropdown/Dropdown';
 import Input from './Input/Input';
+import Textarea from './Textarea/Textarea';
 import Accordeon from './Accordeon/Accordeon';
 import Preloader from './Preloader/Preloader';
 
@@ -52,7 +54,11 @@ if (window.dashboard === 'dashboard') {
             Vue.use(i18n);
             Vue.component('media-popup', MediaPopup);
             Vue.component('pt-icon', Icon);
+            Vue.component('pt-input', Input);
+            Vue.component('pt-textarea', Textarea);
+            Vue.component('pt-dropdown', Dropdown);
             Vue.component("v-select", vSelect);
+            Vue.component('Datepicker', Datepicker);
 
             Vue.use(VueUniversalModal, {
                 teleportTarget: '#modals'

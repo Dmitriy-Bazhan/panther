@@ -1,5 +1,5 @@
 import template from './wrapper.html';
-import NurseHeader from "../nurse-dashboard/Header";
+import Header from "../components/Header";
 import LeftPanel from "../nurse-dashboard/LeftPanel";
 import Notification from "./Notification";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
@@ -10,7 +10,7 @@ export default {
     props: ['user', 'data'],
     template: template,
     components: {
-        'nurse-header': NurseHeader,
+        'pt-header': Header,
         'left-panel': LeftPanel,
         'notification': Notification,
         'response-success-true': ResponseSuccessTrue,

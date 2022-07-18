@@ -1,55 +1,59 @@
 <template>
-    <div class="nurse-dashboard-left-panel">
-        <h5>
-            Left Panel
-        </h5>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboard' }">{{ $t('overview') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardMessages' }">{{ $t('messages') }}</router-link>
+    <ul class="pt-dashboard--menu">
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboard' }">
+                <pt-icon type="overview"></pt-icon>
+                {{ $t('overview') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardMessages' }">
+                <pt-icon type="messages"></pt-icon>
+                {{ $t('messages') }}
                 <span v-if="showAlarmNewMessage" class="alarm-signal blink"></span>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardRatings' }">{{ $t('ratings') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardBookings' }">{{ $t('bookings') }}</router-link>
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardRatings' }">
+                <pt-icon type="star"></pt-icon>
+                {{ $t('ratings') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardBookings' }">
+                <pt-icon type="calendar"></pt-icon>
+                {{ $t('bookings') }}
                 <span v-if="showAlarmHaveNotApproved" class="alarm-signal blink"></span>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardPayments' }">{{ $t('payments') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardMyInformation' }">{{ $t('my_information') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'NurseDashboardHelpEndService' }">{{ $t('help_and_service') }}</router-link>
-            </li>
-        </ul>
-    </div>
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardPayments' }">
+                <pt-icon type="card"></pt-icon>
+                {{ $t('payments') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardMyInformation' }">
+                <pt-icon type="user"></pt-icon>
+                {{ $t('my_information') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'NurseDashboardHelpEndService' }">
+                <pt-icon type="help"></pt-icon>
+                {{ $t('help_and_service') }}
+            </router-link>
+        </li>
+    </ul>
 </template>
 
 <script>
 export default {
     name: "LeftPanel",
-    props: ['showAlarmNewMessage', 'showAlarmHaveNotApproved']
+    props: ['showAlarmNewMessage']
 }
 </script>
 
 <style scoped>
-.nurse-dashboard-left-panel {
-    height: 100%;
-    background: #d9d9d9;
-    min-height: calc(100vh - 50px);
-}
 
-.list-group-item {
-    background: #d9d9d9;
-}
-
-.list-group-item:hover {
-    background: #f8f7f7;
-}
 </style>

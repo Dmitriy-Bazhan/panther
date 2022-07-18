@@ -10,7 +10,7 @@
                 {{$route.meta.title}}
             </h3>
             <div class="pt-dashboard--header-block">
-                <pt-dropdown icon="email" href="NurseDashboardMessages">
+                <pt-dropdown icon="email" href="">
                     <template v-slot:counter>54</template>
                 </pt-dropdown>
             </div>
@@ -51,17 +51,17 @@
 </template>
 
 <script>
-import Localization from "../../pages/components/Localization";
-import Logout from "../../pages/components/Logout";
+import Localization from "./Localization";
+import Logout from "./Logout";
 
 export default {
-    name: "Header",
+name: "Header",
     components : {
         'localization-component' : Localization,
         'logout-component' : Logout,
     },
     mounted() {
-
+        console.log(this.$router)
     }
 }
 </script>
