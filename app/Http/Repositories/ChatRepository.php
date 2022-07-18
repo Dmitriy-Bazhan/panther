@@ -92,15 +92,15 @@ class ChatRepository
         $haveNewMessages = [];
         $chats = [];
         foreach ($clients as $key => $chat) {
-            $chats[$key]['count'] = PrivateChat::where('nurse_user_id', $nurseId)
+            $clients[$key]['count'] = PrivateChat::where('nurse_user_id', $nurseId)
                 ->where('client_sent', 'yes')
                 ->where('client_user_id', $key)
                 ->where('status', 'unread')->count();
-            $chats[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
+            $clients[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
                 ->where('client_sent', 'yes')
                 ->where('status', 'unread')->orderByDesc('created_at')->first();
 
-            if($chats[$key]['count'] > 0){
+            if($clients[$key]['count'] > 0){
                 $haveNewMessages[$key] = $key;
             }
 
