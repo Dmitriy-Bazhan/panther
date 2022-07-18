@@ -133,10 +133,9 @@ class TestController extends Controller
 
     public function testSetMessage(Request $request)
     {
+        broadcast(new TestChatMessage($request->input('message'), $request->input('user_id'), $request->input('username')));
 
-        broadcast(new TestChatMessage($request->input('message'), $request->input('user_id'), $request->input('username')))->toOthers();
-
-        return response()->json([], 200);
+        return response()->json(['success' => true], 200);
 
     }
 

@@ -50,7 +50,7 @@
 <script>
 export default {
     name: "LeftPanel",
-    props: ['showAlarmNewMessage']
+    props: ['showAlarmNewMessage', 'showAlarmHaveNotApproved']
 }
 </script>
 
