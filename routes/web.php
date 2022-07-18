@@ -239,6 +239,7 @@ Route::prefix('dashboard')->group(function () {
 
     //nurse message
     Route::prefix('nurse-private-chats')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
+        Route::get('get-current-chat/{nurse_is}/{client_id}', [NursesMessageController::class, 'getCurrentChat']);
         Route::post('mark-as-read', [NursesMessageController::class, 'markAsRead']);
     });
 

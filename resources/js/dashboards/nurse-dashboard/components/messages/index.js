@@ -1,5 +1,7 @@
-import template from './template.html';
-import Chat from './Chat';
+// import template from './template.html';
+import template from './template_new.html';
+// import Chat from './Chat';
+import Chat from './ChatNew';
 import Client from "./Client";
 
 export default {
@@ -14,12 +16,24 @@ export default {
         return {
             chats: false,
             clients: false,
-            firstChat: null,
+            client_id: null,
             haveNewMessages: [],
+            comments: [],
+            firstChat: null,
         }
     },
     mounted() {
         this.getPrivateChats();
+
+        this.emitter.on('show-chat', e => {
+            if(e !== this.index){
+                let push = {
+                    client_id: e,
+                    haveNewMessages: this.haveNewMessages
+                }
+                this.emitter.emit('get-message', push);
+            }
+        });
 
         try {
             window.Echo.private('nurse-have-new-message.' + this.user.id)
@@ -40,9 +54,16 @@ export default {
             axios.get('/dashboard/nurse-private-chats')
                 .then((response) => {
                     this.chats = response.data.chats;
+                    console.log(this.chats);
                     this.clients = response.data.clients;
                     this.haveNewMessages = response.data.haveNewMessages;
-                    this.firstChat = Object.keys(this.chats)[0];
+                    this.client_id = Object.keys(this.chats)[0];
+                    this.firstChat = this.client_id;
+                    let e = {
+                        client_id: this.client_id,
+                        haveNewMessages: this.haveNewMessages
+                    }
+                    this.emitter.emit('get-message', e);
                 })
                 .catch((error) => {
                     console.log(error);

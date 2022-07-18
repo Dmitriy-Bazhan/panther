@@ -21,7 +21,7 @@ class NursesMessageController extends Controller
 
     public function index()
     {
-        $data = $this->chatRepo->getNursePrivateChats();
+        $data = $this->chatRepo->getNurseLastPrivateChats();
         return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients']
             , 'haveNewMessages' => $data['haveNewMessages']]);
     }
@@ -53,6 +53,13 @@ class NursesMessageController extends Controller
         broadcast(new ClientNurseSentMessage($result));
         broadcast(new ClientHaveNewMessage($result))->toOthers();
         return response()->json(['success' => true]);
+    }
+
+    public function getCurrentChat($nurse_id, $client_id){
+
+        $messages = $this->chatRepo->getNurseCurrentPrivateChat($nurse_id, $client_id);
+//        dashboard/nurse-private-chats/get-current-chat/$nurse_user_id/$client_user_id
+        return response()->json(['success' => true, 'messages' => $messages]);
     }
 
     public function show($id)

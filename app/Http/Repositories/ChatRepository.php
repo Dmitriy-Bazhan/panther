@@ -51,20 +51,59 @@ class ChatRepository
 
     public function getNursePrivateChats($id = null)
     {
-        if(is_null($id)){
+        if (is_null($id)) {
             $nurseId = auth()->id();
-        }else{
+        } else {
+            $nurseId = $id;
+        }
+        $chats = PrivateChat::where('nurse_user_id', $nurseId)
+            ->where('client_sent', 'yes')
+            ->orderByDesc('created_at')
+            ->get()->groupBy('client_user_id');
+
+        $haveNewMessages = [];
+        $clientsIds = PrivateChat::where('nurse_user_id', $nurseId)->select('client_user_id')->get()->groupBy('client_user_id');
+        $clients = User::whereIn('id', $clientsIds->keys())->without('prefs')->get()->groupBy('id');
+
+        return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
+    }
+
+    public function getNurseCurrentPrivateChat($nurse_id = null, $client_id = null)
+    {
+        $messages = PrivateChat::where('nurse_user_id', $nurse_id)
+            ->where('client_user_id', $client_id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return $messages;
+    }
+
+    public function getNurseLastPrivateChats($id = null)
+    {
+        if (is_null($id)) {
+            $nurseId = auth()->id();
+        } else {
             $nurseId = $id;
         }
 
-        $chats = PrivateChat::where('nurse_user_id', $nurseId)->orderByDesc('created_at')->get()->groupBy('client_user_id');
-        $clients = User::whereIn('id', $chats->keys()->toArray())->get()->groupBy('id');
+        $clientsIds = PrivateChat::where('nurse_user_id', $nurseId)->select('client_user_id')->get()->groupBy('client_user_id');
+        $clients = User::whereIn('id', $clientsIds->keys())->without('prefs')->get()->groupBy('id');
+
         $haveNewMessages = [];
-        foreach ($chats as $key => $chat) {
-            if ($chat->where('status' , 'unread')->where('client_sent', 'yes')->first()) {
+        $chats = [];
+        foreach ($clients as $key => $chat) {
+            $chats[$key]['count'] = PrivateChat::where('nurse_user_id', $nurseId)
+                ->where('client_sent', 'yes')
+                ->where('client_user_id', $key)
+                ->where('status', 'unread')->count();
+            $chats[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
+                ->where('client_sent', 'yes')
+                ->where('status', 'unread')->orderByDesc('created_at')->first();
+
+            if($chats[$key]['count'] > 0){
                 $haveNewMessages[$key] = $key;
-                continue;
             }
+
         }
 
         return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
@@ -72,9 +111,9 @@ class ChatRepository
 
     public function getClientPrivateChats($id = null)
     {
-        if(is_null($id)){
+        if (is_null($id)) {
             $clientId = auth()->id();
-        }else{
+        } else {
             $clientId = $id;
         }
 
@@ -82,7 +121,7 @@ class ChatRepository
         $nurses = User::whereIn('id', $chats->keys()->toArray())->get()->groupBy('id');
         $haveNewMessages = [];
         foreach ($chats as $key => $chat) {
-            if ($chat->where('status' , 'unread')->where('nurse_sent', 'yes')->first()) {
+            if ($chat->where('status', 'unread')->where('nurse_sent', 'yes')->first()) {
                 $haveNewMessages[$key] = $key;
                 continue;
             }
@@ -117,11 +156,11 @@ class ChatRepository
             ]);
 
         $haveNewMessage = 'yes';
-        if($success){
-           $haveNewMessage = PrivateChat::where('client_user_id', $client_id)
+        if ($success) {
+            $haveNewMessage = PrivateChat::where('client_user_id', $client_id)
                 ->where('status', 'unread')
                 ->whereNotNull('nurse_sent')
-                ->first() !== null ? 'no' : 'yes' ;
+                ->first() !== null ? 'no' : 'yes';
         }
 
         return $haveNewMessage;
@@ -142,11 +181,11 @@ class ChatRepository
             ]);
 
         $haveNewMessage = 'yes';
-        if($success){
+        if ($success) {
             $haveNewMessage = PrivateChat::where('nurse_user_id', $client_id)
                 ->where('status', 'unread')
                 ->whereNotNull('client_sent')
-                ->first() !== null ? 'no' : 'yes' ;
+                ->first() !== null ? 'no' : 'yes';
         }
 
         return $haveNewMessage;
