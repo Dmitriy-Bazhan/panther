@@ -115,6 +115,15 @@
     }
 }
 
+.pt-link{
+    color: $highlight-primary;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+}
+
 .pt-simple-input{
     width: 100%;
     height: 56px;
@@ -934,6 +943,246 @@
             border-color: $highlight-primary;
             background-color: $highlight-primary;
             color: $white;
+        }
+    }
+}
+
+.pt-dropdown{
+    $self: &;
+    height: 100%;
+    transition: 0.3s;
+    position: relative;
+
+    &.active,
+    &:hover{
+        background-color: $highlight;
+        color: $white;
+    }
+
+    &--btn{
+        color: inherit;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 30px;
+
+        .pt-icon{
+            width: 22px;
+            height: 22px;
+        }
+
+        &-wrapper{
+            position: relative;
+        }
+
+        &-counter{
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: $highlight;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+    }
+
+    &--menu{
+        position: absolute;
+        top: 100%;
+        right: 0;
+        box-shadow: 0 5px 25px rgba(35, 55, 72, 0.35);
+        background-color: $white;
+        z-index: 1;
+        padding: 10px 0;
+        min-width: 100%;
+
+        &-item{
+            transition: 0.3s;
+            width: 100%;
+            font-size: 14px;
+            color: $black;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            &.active,
+            &:hover{
+                background-color: $light-blue;
+            }
+        }
+    }
+}
+
+.pt-notification{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &--number{
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        background-color: $highlight;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $white;
+        font-size: 13px;
+        font-weight: 700;
+        margin-right: 20px;
+    }
+
+    &--body{
+        width: 300px;
+    }
+
+    &--date{
+        color: $gray;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.2;
+    }
+
+    &--title{
+        color: $black;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    &--close{
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        margin: 0 0 0 auto;
+
+        .pt-icon{
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+.pt-drop-file{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 150px;
+    background-color: $light-blue;
+    position: relative;
+    color: $highlight-primary;
+    text-align: center;
+    margin: 15px 0 0 0;
+
+    input{
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    &--title{
+        color: $black;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .pt-icon{
+        width: 28px;
+        height: 28px;
+        margin: 12px 0;
+    }
+
+    &--btn{
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: underline;
+    }
+
+    &--preview{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        object-fit: contain;
+    }
+
+    &--remove{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        opacity: 0.1;
+        background-color: rgba(0,0,0,0.2);
+        transition: 0.3s;
+
+        &:hover{
+            opacity: 1;
+        }
+
+        .pt-icon{
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+.pt-upload{
+    &--ctrl{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &--progress{
+        margin-top: 20px;
+
+        &-head{
+            color: $black;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        &-body{
+            width: 100%;
+            height: 5px;
+            background-color: $light-blue;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        &-line{
+            background-color: $highlight;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+
         }
     }
 }

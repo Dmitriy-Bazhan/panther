@@ -1,5 +1,5 @@
 import template from './wrapper.html';
-import ClientHeader from "../client-dashboard/Header";
+import Header from "../components/Header";
 import LeftPanel from "../client-dashboard/LeftPanel";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
 
@@ -8,7 +8,7 @@ export default {
     props: ['user', 'data'],
     template: template,
     components: {
-        'client-header' : ClientHeader,
+        'pt-header' : Header,
         'left-panel' : LeftPanel,
         'response-success-true': ResponseSuccessTrue,
     },data() {

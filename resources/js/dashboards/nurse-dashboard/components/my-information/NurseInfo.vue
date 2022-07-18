@@ -326,6 +326,7 @@
             }
         },
         mounted() {
+            console.log(this.user)
             this.tmpUser = this.user;
             this.emitter.on('update-information', e => {
                 this.updateInformation();

@@ -1,34 +1,49 @@
 <template>
-    <div class="client-dashboard-left-panel">
-        <h5>
-            Left Panel
-        </h5>
-
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboard' }">{{ $t('overview') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardMessages' }">{{ $t('messages') }}</router-link>
+    <ul class="pt-dashboard--menu">
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboard' }">
+                <pt-icon type="overview"></pt-icon>
+                {{ $t('overview') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardMessages' }">
+                <pt-icon type="messages"></pt-icon>
+                {{ $t('messages') }}
                 <span v-if="showAlarmNewMessage" class="alarm-signal blink"></span>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardRatings' }">{{ $t('ratings') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardBookings' }">{{ $t('bookings') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardPayments' }">{{ $t('payments') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardMyInformation' }">{{ $t('my_information') }}</router-link>
-            </li>
-            <li class="list-group-item">
-                <router-link :to="{ name: 'ClientDashboardHelpEndService' }">{{ $t('help_and_service') }}</router-link>
-            </li>
-        </ul>
-    </div>
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardRatings' }">
+                <pt-icon type="star"></pt-icon>
+                {{ $t('ratings') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardBookings' }">
+                <pt-icon type="calendar"></pt-icon>
+                {{ $t('bookings') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardPayments' }">
+                <pt-icon type="card"></pt-icon>
+                {{ $t('payments') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardMyInformation' }">
+                <pt-icon type="user"></pt-icon>
+                {{ $t('my_information') }}
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'ClientDashboardHelpEndService' }">
+                <pt-icon type="help"></pt-icon>
+                {{ $t('help_and_service') }}
+            </router-link>
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -39,17 +54,5 @@ export default {
 </script>
 
 <style scoped>
-.client-dashboard-left-panel {
-    height: 100%;
-    background: #d9d9d9;
-    min-height: calc(100vh - 50px);
-}
 
-.list-group-item {
-    background: #d9d9d9;
-}
-
-.list-group-item:hover {
-    background: #f8f7f7;
-}
 </style>

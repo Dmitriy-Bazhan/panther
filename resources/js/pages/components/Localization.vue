@@ -6,73 +6,73 @@
 </template>
 
 <script>
-    export default {
-        name: "Localization",
-        data(){
-            return {
-                locale: 'en'
+export default {
+    name: "Localization",
+    data(){
+        return {
+            locale: 'en'
+        }
+    },
+    mounted() {
+        this.locale = window.locale;
+    },
+    methods: {
+        changeLangOnDe() {
+            if (window.guard !== 'guest') {
+                axios.get('/change-lang/de')
+                    .then((response) => {
+                        if (response.data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                window.localStorage.setItem('locale', 'de');
+                location.reload();
             }
         },
-        mounted() {
-            this.locale = window.locale;
+        changeLangOnEng() {
+            if (window.guard !== 'guest') {
+                axios.get('/change-lang/en')
+                    .then((response) => {
+                        if (response.data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                window.localStorage.setItem('locale', 'en');
+                location.reload();
+            }
         },
-        methods: {
-            changeLangOnDe() {
-                if (window.guard !== 'guest') {
-                    axios.get('/change-lang/de')
-                        .then((response) => {
-                            if (response.data.success) {
-                                location.reload();
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                } else {
+
+        changeLang() {
+            if (window.guard !== 'guest') {
+                axios.get('/change-lang')
+                    .then((response) => {
+                        if (response.data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                let locale = window.localStorage.getItem('locale');
+                if (locale === 'en') {
                     window.localStorage.setItem('locale', 'de');
-                    location.reload();
-                }
-            },
-            changeLangOnEng() {
-                if (window.guard !== 'guest') {
-                    axios.get('/change-lang/en')
-                        .then((response) => {
-                            if (response.data.success) {
-                                location.reload();
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
                 } else {
                     window.localStorage.setItem('locale', 'en');
-                    location.reload();
                 }
-            },
-
-            changeLang() {
-                if (window.guard !== 'guest') {
-                    axios.get('/change-lang')
-                        .then((response) => {
-                            if (response.data.success) {
-                                location.reload();
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                } else {
-                    let locale = window.localStorage.getItem('locale');
-                    if (locale === 'en') {
-                        window.localStorage.setItem('locale', 'de');
-                    } else {
-                        window.localStorage.setItem('locale', 'en');
-                    }
-                    location.reload();
-                }
+                location.reload();
             }
         }
     }
+}
 </script>
 
 <style scoped>

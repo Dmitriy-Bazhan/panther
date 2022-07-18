@@ -348,8 +348,8 @@
                                             </div>
                                             <v-select :options="data.languages"
                                                       label="name"
-                                                      v-model="item.id"
-                                                      :reduce="(option) => option.id">
+                                                      v-model="item.val"
+                                                      :reduce="(option) => option.val">
                                                 <template #option="{ name }">
                                                     {{ name }}
                                                 </template>
@@ -1143,6 +1143,7 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.clientSearchInfo = response.data.clientSearchInfo;
+                        console.log(this.clientSearchInfo)
                     }
                 })
                 .catch((error) => {

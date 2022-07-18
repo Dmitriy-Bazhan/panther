@@ -12,40 +12,47 @@ const routes = [
         path: "/dashboard/nurse",
         name: 'NurseDashboard',
         component: Overview,
+        meta: {title: 'Overview'},
         props: true,
     },
     {
         path: "/dashboard/nurse/messages",
         name: 'NurseDashboardMessages',
         component: Messages,
+        meta: {title: 'Messages'},
         props: true,
     },
     {
         path: "/dashboard/nurse/ratings",
         name: 'NurseDashboardRatings',
-        component: Ratings
+        component: Ratings,
+        meta: {title: 'Ratings'},
     },
     {
         path: "/dashboard/nurse/bookings",
         name: 'NurseDashboardBookings',
-        component: Bookings
+        component: Bookings,
+        meta: {title: 'Bookings'},
     },
     {
         path: "/dashboard/nurse/payments",
         name: 'NurseDashboardPayments',
         component: Payments,
+        meta: {title: 'Payments'},
         props: true,
     },
     {
         path: "/dashboard/nurse/my-information/",
         name: 'NurseDashboardMyInformation',
         component: MyInformation,
+        meta: {title: 'My information'},
         props: true,
     },
     {
         path: "/dashboard/nurse/help-end-service",
         name: 'NurseDashboardHelpEndService',
-        component: HelpAndService
+        component: HelpAndService,
+        meta: {title: 'Help and service'},
     },
 
 ];
