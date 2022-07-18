@@ -176,6 +176,7 @@ class NurseRepository
             'entity.languages',
             'entity.files',
             'entity.additionalInfo',
+            'entity.additionalInfo.data',
             'entity.price',
             'entity.typeOfLearning'
         ]);
