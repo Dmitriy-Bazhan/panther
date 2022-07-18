@@ -78,7 +78,6 @@ class Nurse extends Model
     }
 
     public function typeOfLearning() {
-        return $this->hasOne('App\Models\TypesOfLearning', 'id', 'type_of_learning')
-            ->with('data');
+        return $this->hasOne('App\Models\TypesOfLearning', 'id', 'type_of_learning');
     }
 }
