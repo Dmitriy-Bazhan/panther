@@ -100,7 +100,7 @@
                                 <img :src="path + '/' + item.file_path" alt="pic" class="pt-profile--file-preview">
                                 <div class="pt-profile--file-inner">
                                     <div class="pt-profile--file-title">
-                                        {{item.title}}
+                                        {{ item.title }}
                                         <span>2020 - 2021</span>
                                     </div>
                                     <button class="pt-btn--light pt-lg"
@@ -139,7 +139,7 @@
                         </div>
                         <div class="pt-upload--progress">
                             <div class="pt-upload--progress-head">
-                                <span>{{upload.file.name}}</span>
+                                <span>{{ upload.file.name }}</span>
                                 <span>54%</span>
                             </div>
                             <div class="pt-upload--progress-body">
@@ -161,7 +161,7 @@
                                     </p>
                                     <div class="pt-select">
                                         <div class="pt-select--icon">
-                                            <pt-icon type="globe"></pt-icon>
+                                            <pt-icon type="paper"></pt-icon>
                                         </div>
                                         <v-select :options="docTypes"
                                                   label="title"
@@ -198,7 +198,7 @@
                                         Title:
                                     </p>
                                     <pt-input type="number" :modelValue="upload.title"
-                                              icon="user"
+                                              icon="paper"
                                               @update:modelValue="newValue => upload.title = newValue"
                                     ></pt-input>
                                 </div>
@@ -209,7 +209,7 @@
                                         Place of receipt:
                                     </p>
                                     <pt-input type="number" :modelValue="upload.place"
-                                              icon="user"
+                                              icon="breifcase"
                                               @update:modelValue="newValue => upload.place = newValue"
                                     ></pt-input>
                                 </div>
@@ -218,11 +218,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
 
 
         </div>
@@ -247,8 +242,8 @@
                                 </div>
                                 <v-select :options="data.languages"
                                           label="name"
-                                          v-model="item.lang"
-                                          :reduce="(option) => option.lang">
+                                          v-model="item.lang_id"
+                                          :reduce="(option) => option.id">
                                     <template #option="{ name }">
                                         {{ name }}
                                     </template>
@@ -356,7 +351,7 @@
                     <div class="pt-finder--form-grad">
                         <div class="pt-finder--form-grad--item" v-for="n in 5">
                             <div class="pt-finder--form-grad--item-level"></div>
-                            <div class="pt-finder--form-grad--item-val">{{n}}</div>
+                            <div class="pt-finder--form-grad--item-val">{{ n }}</div>
                             <label class="pt-box">
                                 <input type="radio" name="available_care_range" :value="n"
                                        v-model="authUser.entity.available_care_range">
@@ -379,9 +374,8 @@
                         <pt-icon type="help"></pt-icon>
                     </div>
                     <v-select multiple :options="additionalOptions(data.additional_info)"
-                              label="title"
-                              v-model="authUser.entity.additional_info"
-                              :reduce="(option) => option.id">
+                              label="alias"
+                              v-model="authUser.entity.additional_info">
                         <template #option="{ data }">
                             {{ data.data }}
                         </template>
@@ -426,12 +420,12 @@
                     <div class="pt-select--icon">
                         <pt-icon type="help"></pt-icon>
                     </div>
-                    <v-select multiple :options="data.type_of_learning"
+                    <v-select :options="data.type_of_learning"
                               label="title"
-                              v-model="authUser.entity.type_of_learning.id"
-                              :reduce="(option) => option.id">
+                              v-model="authUser.entity.type_of_learning"
+                              :reduce="(option) => option">
                         <template #option="{ data }">
-                            {{ data[0].data }}
+                            {{ data.data }}
                         </template>
 
                         <template #open-indicator>
@@ -455,7 +449,7 @@
                     <v-select multiple :options="translateOptions(data.provider_supports)"
                               label="title"
                               v-model="authUser.entity.provide_supports"
-                              :reduce="(option) => option.id">
+                              :reduce="(option) => option">
 
                         <template #open-indicator>
                             <span class="pt-select--caret"></span>
@@ -464,9 +458,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
@@ -523,7 +514,8 @@
                         <div class="pt-select--icon">
                             <pt-icon type="calendar"></pt-icon>
                         </div>
-                        <Datepicker v-model="authUser.entity.start_date_ready_to_work" autoApply></Datepicker>
+                        <Datepicker format="MM/dd/yyyy" v-model="authUser.entity.start_date_ready_to_work"
+                                    autoApply></Datepicker>
                         <span class="pt-select--caret"></span>
                     </div>
                 </div>
@@ -537,8 +529,8 @@
                             <label class="pt-checkbox" v-if="item.type === 'weekdays'">
                                 <input type="checkbox"
                                        true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref[item.id]">
-                                <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
+                                       v-model="authUser.entity.work_time_pref[item.id]">
+                                <span class="pt-checkbox--body">{{ item.interval }} Uhr</span>
                             </label>
                         </template>
                     </div>
@@ -553,15 +545,14 @@
                             <label class="pt-checkbox" v-if="item.type === 'weekends'">
                                 <input type="checkbox"
                                        true-value="1" false-value="0"
-                                       v-model="user.entity.work_time_pref[item.id]">
-                                <span class="pt-checkbox--body">{{item.interval}} Uhr</span>
+                                       v-model="authUser.entity.work_time_pref[item.id]">
+                                <span class="pt-checkbox--body">{{ item.interval }} Uhr</span>
                             </label>
                         </template>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <span class="register-form-error" v-if="errors !== null">{{
                 errors
@@ -591,9 +582,9 @@
                             <p class="pt-form--label">
                                 {{ $t('name') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.first_name"
+                            <pt-input type="text" :modelValue="authUser.first_name"
                                       icon="user"
-                                      @update:modelValue="newValue => user.first_name = newValue"
+                                      @update:modelValue="newValue => authUser.first_name = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -607,9 +598,9 @@
                             <p class="pt-form--label">
                                 {{ $t('last_name') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.last_name"
+                            <pt-input type="text" :modelValue="authUser.last_name"
                                       icon="user"
-                                      @update:modelValue="newValue => user.last_name = newValue"
+                                      @update:modelValue="newValue => authUser.last_name = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -623,9 +614,9 @@
                             <p class="pt-form--label">
                                 {{ $t('email') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.email"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.email = newValue"
+                            <pt-input type="text" :modelValue="authUser.email"
+                                      icon="email"
+                                      @update:modelValue="newValue => authUser.email = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -639,9 +630,9 @@
                             <p class="pt-form--label">
                                 {{ $t('phone') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.phone"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.phone = newValue"
+                            <pt-input type="text" :modelValue="authUser.phone"
+                                      icon="phone"
+                                      @update:modelValue="newValue => authUser.phone = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -655,9 +646,9 @@
                             <p class="pt-form--label">
                                 {{ $t('zip_code') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.zip_code"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.zip_code = newValue"
+                            <pt-input type="text" :modelValue="authUser.zip_code"
+                                      icon="pin"
+                                      @update:modelValue="newValue => authUser.zip_code = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -670,18 +661,16 @@
 
                         <div class="pt-finder--form-group">
                             <p class="pt-form--label">
-                                {{ $t('gender') }} {{ user.entity.gender }}
+                                {{ $t('gender') }}
                             </p>
                             <div class="pt-select">
                                 <div class="pt-select--icon">
-                                    <pt-icon type="help"></pt-icon>
+                                    <pt-icon type="users"></pt-icon>
                                 </div>
                                 <v-select label="title"
-                                          :options="['male', 'female']"
-                                          :reduce="selectGender">
-                                    <template #option="{ title }">
-                                        {{ title }}
-                                    </template>
+                                          :options="['Male', 'Female']"
+                                          v-model="authUser.entity.gender"
+                                >
 
                                     <template #open-indicator>
                                         <span class="pt-select--caret"></span>
@@ -694,25 +683,6 @@
                             >
                                             {{ errors['entity.gender'][0] }}
                                         </span>
-                        </div>
-
-
-                        <!-- gender -->
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="gender" class="form-label col-form-label-sm">{{ $t('gender') }}</label>
-                            </div>
-
-                            <div class="col-8">
-                                <select class="form-control form-control-sm" v-model="user.entity.gender" id="gender">
-                                    <option value="male">{{ $t('male') }}</option>
-                                    <option value="female">{{ $t('female') }}</option>
-                                </select>
-                            </div>
-                            <span class="register-form-error"
-                                  v-if="errors !== null && errors['entity.gender'] !== undefined">{{
-                                    errors['entity.gender'][0]
-                                }}</span>
                         </div>
                     </div>
 
@@ -850,7 +820,17 @@ export default {
     },
     mounted() {
         console.log(this.data)
+        let self = this
         this.time_intervals = this.data['time_intervals'];
+
+        self.data.provider_supports.forEach(function (item) {
+            item.title = item.title = self.$t(item.name)
+        })
+
+        self.data.type_of_learning.forEach(function (item) {
+            item.title = item.data.data
+        })
+
         this.getNurse();
         this.emitter.on('errors', e => {
             this.errors = e;
@@ -898,7 +878,7 @@ export default {
 
             reader.readAsDataURL(self.upload.file);
 
-            reader.onload = function() {
+            reader.onload = function () {
                 self.upload.preview = reader.result
             };
         },
@@ -970,14 +950,22 @@ export default {
         openPopup(id) {
             this.isOpen = true
         },
-        selectGender(option) {
-            this.user.entity.gender = option
-        },
         getNurse() {
+            let self = this
             axios.get('/dashboard/nurse/' + this.user.id)
                 .then((response) => {
                     if (response.data.success) {
                         this.authUser = response.data.user;
+                        self.authUser.entity.provide_supports.forEach(function (item) {
+                            item.title = item.title = self.$t(item.name)
+                        })
+
+                        self.data.type_of_learning.forEach(function (item) {
+                            if(item.id === self.authUser.entity.type_of_learning.id){
+                                self.authUser.entity.type_of_learning = item
+                            }
+                        })
+
                         console.log(this.authUser)
                     }
                 })

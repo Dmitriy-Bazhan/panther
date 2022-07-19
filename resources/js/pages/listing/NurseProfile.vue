@@ -208,7 +208,7 @@
                 </div>
             </div>
 
-            <div class="row" v-show="false">
+            <div class="row" v-show="true">
                 <div class="col-7">
                     <div>
 
