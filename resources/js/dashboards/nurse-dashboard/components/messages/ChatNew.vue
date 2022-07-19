@@ -51,7 +51,8 @@
                 {{ $t('message') }}:
             </div>
             <div class="col-8">
-                <input type="text" class="form-control form-control-sm" v-model="privateMessage">
+                <input type="text" class="form-control form-control-sm" v-model="privateMessage"><br>
+                <input type="file" id="file" ref="file"><br>
             </div>
             <div class="col-2">
                 <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}</button>
@@ -141,13 +142,27 @@
                 });
             },
             sendPrivateMessage() {
-                axios.post('/dashboard/nurse-private-chats', {
-                    'client_id': this.client_id,
-                    'nurse_id': this.user.id,
-                    'privateMessage': this.privateMessage
+                let message = new FormData();
+                let file = null;
+                if(this.$refs.file.files[0] !== undefined){
+                    file = this.$refs.file.files[0]
+                }
+
+                message.append('file', file);
+                message.append('client_id',this.client_id,);
+                message.append('nurse_id', this.user.id,);
+                message.append('privateMessage', this.privateMessage,);
+
+                axios.post('/dashboard/nurse-private-chats', message ,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
                 }).then((response) => {
                     if (response.data.success) {
                         this.privateMessage = '';
+                        document.getElementById('file').value = null;
+                    }else{
+                        console.log(response.data.errors);
                     }
 
                 }).catch((error) => {

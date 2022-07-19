@@ -17,5 +17,8 @@ class PrivateChat extends Model
         'client_sent',
         'nurse_sent',
         'status',
+        'have_file',
+        'original_file',
+        'thumbnail_file',
     ];
 }
