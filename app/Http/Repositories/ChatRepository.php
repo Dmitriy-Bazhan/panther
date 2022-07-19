@@ -244,7 +244,7 @@ class ChatRepository
         $thumbnail_file = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
 
         //make thumbnail or avatar
-        $img = Image::make('storage/' . $thumbnail_file)->resize(40, 40, function ($constraint) {
+        $img = Image::make('storage/' . $thumbnail_file)->resize(150, 150, function ($constraint) {
             $constraint->aspectRatio();
         });
 
