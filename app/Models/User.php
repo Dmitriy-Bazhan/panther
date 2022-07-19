@@ -118,4 +118,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFullNameAttribute() {
         return $this->attributes['full_name'] = $this->first_name . ' ' . ucfirst(substr($this->last_name, 0, 1));
     }
+
+    public function canJoinRoom($roomID) {
+        return true;
+    }
 }
