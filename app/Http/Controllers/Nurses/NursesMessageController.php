@@ -7,6 +7,8 @@ use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class NursesMessageController extends Controller
 {
@@ -36,11 +38,29 @@ class NursesMessageController extends Controller
         $client_id = null;
         if (request()->filled('client_id') && is_numeric(request('client_id'))) {
             $client_id = request('client_id');
+        }else{
+            Log::error('NursesMessageController@store Client Id not exists');
+            return abort(409);
         }
 
         $privateMessage = null;
         if (request()->filled('privateMessage') && request('privateMessage') !== '') {
             $privateMessage = request('privateMessage');
+        }
+
+        if (count(request()->allFiles()) > 0) {
+            $rules = [
+                'file' => 'sometimes|file|mimes:jpeg,bmp,png'
+            ];
+
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+            }
+        }
+
+        if(is_null($privateMessage) && is_null(request()->file('file'))){
+            return response()->json(['success' => false]);
         }
 
         $nurse_id = auth()->id();
@@ -58,7 +78,6 @@ class NursesMessageController extends Controller
     public function getCurrentChat($nurse_id, $client_id){
 
         $messages = $this->chatRepo->getNurseCurrentPrivateChat($nurse_id, $client_id);
-//        dashboard/nurse-private-chats/get-current-chat/$nurse_user_id/$client_user_id
         return response()->json(['success' => true, 'messages' => $messages]);
     }
 

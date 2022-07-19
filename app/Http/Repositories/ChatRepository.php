@@ -2,24 +2,43 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Nurse;
+use App\Models\NurseFile;
 use App\Models\PrivateChat;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Image;
 
 class ChatRepository
 {
     public function saveMessageNurseToClient($nurse_id, $client_id = null, $privateMessage = null, $user_name)
     {
-        if (is_null($client_id) || is_null($privateMessage)) {
+        if (is_null($client_id)) {
             //todo: log
             return abort(409);
+        }
+
+        $have_file = 'no';
+        $original_file = null;
+        $thumbnail_file = null;
+
+        if (count(request()->allFiles()) > 0) {
+            $result = $this->savePrivateChatFile();
+            $have_file = 'yes';
+            $original_file = $result['original_file'];
+            $thumbnail_file = $result['thumbnail_file'];
         }
 
         $success = PrivateChat::create([
             'client_user_id' => $client_id,
             'nurse_user_id' => $nurse_id,
-            'message' => $privateMessage,
+            'message' => is_null($privateMessage) ? '' : $privateMessage,
             'user_name' => $user_name,
             'nurse_sent' => 'yes',
+            'have_file' => $have_file,
+            'original_file' => $original_file,
+            'thumbnail_file' => $thumbnail_file,
         ]);
 
         if ($success) {
@@ -100,7 +119,7 @@ class ChatRepository
                 ->where('client_sent', 'yes')
                 ->where('status', 'unread')->orderByDesc('created_at')->first();
 
-            if($clients[$key]['count'] > 0){
+            if ($clients[$key]['count'] > 0) {
                 $haveNewMessages[$key] = $key;
             }
 
@@ -189,5 +208,29 @@ class ChatRepository
         }
 
         return $haveNewMessage;
+    }
+
+    public function savePrivateChatFile()
+    {
+        $file = request()->file('file');
+        $original_name = $file->getClientOriginalName();
+        $file_name = auth()->id() . '_' . Str::random(10) . '_' . $original_name;
+        $thumbnail_name = 'thumbnail_' . $file_name;
+        $directory_name = 'user_' . auth()->id() . '/private_chats';
+        $original_file = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+        $thumbnail_file = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+
+        //make thumbnail or avatar
+        $img = Image::make('storage/' . $thumbnail_file)->resize(40, 40, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $img->save();
+
+        return [
+            'original_file' => $original_file,
+            'thumbnail_file' => $thumbnail_file,
+        ];
+
     }
 }
