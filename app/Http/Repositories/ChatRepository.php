@@ -138,7 +138,7 @@ class ChatRepository
             $clients[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
                 ->where('client_user_id', $key)
                 ->where('client_sent', 'yes')
-                ->where('status', 'unread')->orderByDesc('created_at')->first();
+                ->orderByDesc('created_at')->first();
             $clients[$key]['chat'] = Chat::where('client_user_id', $key)
                 ->where('nurse_user_id', $nurseId)->first();
 
