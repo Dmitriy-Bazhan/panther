@@ -67,6 +67,7 @@ Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class,
 
 //chat
 Route::post('/set-chat-on-delete-status', [ChatController::class, 'setChatOnDeleteStatus'])->middleware(['auth:sanctum', 'verified']);
+Route::post('/set-chat-on-active-status', [ChatController::class, 'setChatOnActiveStatus'])->middleware(['auth:sanctum', 'verified']);
 Route::post('/remove-chat-at-all', [ChatController::class, 'removeChatAtAll'])->middleware(['auth:sanctum', 'verified']);
 
 Route::get('get-translate', [MainPageController::class, 'getTranslate']);
