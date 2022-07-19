@@ -116,6 +116,7 @@ class ChatRepository
                 ->where('client_user_id', $key)
                 ->where('status', 'unread')->count();
             $clients[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
+                ->where('client_user_id', $key)
                 ->where('client_sent', 'yes')
                 ->where('status', 'unread')->orderByDesc('created_at')->first();
 
