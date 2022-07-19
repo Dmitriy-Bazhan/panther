@@ -54,3 +54,9 @@ Broadcast::channel('client-have-new-message.{client_id}', function ($user, $clie
     }
     return false;
 });
+
+Broadcast::channel('presence-chat.{roomId}', function ($user, $roomId) {
+    if ($user->canJoinRoom($roomId)) {
+        return ['id' => $user->id];
+    }
+});

@@ -29,6 +29,23 @@ export default {
             },2000);
         });
 
+        window.Echo.join('presence-chat.presence')
+            .here((users) => {
+                console.log('in online');
+                console.log(users);
+            })
+            .joining((user) => {
+                console.log('join to online');
+                console.log(user);
+            })
+            .leaving((user) => {
+                console.log('go to offline');
+                console.log(user);
+            })
+            .error((error) => {
+                console.error(error);
+            });
+
 
 
         this.emitter.on('disable-show-alarm-new-message', e => {
