@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Chat;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\PrivateChat;
@@ -41,6 +42,8 @@ class ChatRepository
             'thumbnail_file' => $thumbnail_file,
         ]);
 
+        $this->checkOrCreateChat($client_id, $nurse_id);
+
         if ($success) {
             return $success;
         }
@@ -49,9 +52,20 @@ class ChatRepository
 
     public function saveMessageClientToNurse($nurse_id = null, $client_id, $privateMessage = null, $user_name)
     {
-        if (is_null($nurse_id) || is_null($privateMessage)) {
+        if (is_null($nurse_id)) {
             //todo: log
             return abort(409);
+        }
+
+        $have_file = 'no';
+        $original_file = null;
+        $thumbnail_file = null;
+
+        if (count(request()->allFiles()) > 0) {
+            $result = $this->savePrivateChatFile();
+            $have_file = 'yes';
+            $original_file = $result['original_file'];
+            $thumbnail_file = $result['thumbnail_file'];
         }
 
         $success = PrivateChat::create([
@@ -60,7 +74,12 @@ class ChatRepository
             'message' => $privateMessage,
             'user_name' => $user_name,
             'client_sent' => 'yes',
+            'have_file' => $have_file,
+            'original_file' => $original_file,
+            'thumbnail_file' => $thumbnail_file,
         ]);
+
+        $this->checkOrCreateChat($client_id, $nurse_id);
 
         if ($success) {
             return $success;
@@ -119,6 +138,8 @@ class ChatRepository
                 ->where('client_user_id', $key)
                 ->where('client_sent', 'yes')
                 ->where('status', 'unread')->orderByDesc('created_at')->first();
+            $clients[$key]['chat'] = Chat::where('client_user_id', $key)
+                ->where('nurse_user_id', $nurseId)->first();
 
             if ($clients[$key]['count'] > 0) {
                 $haveNewMessages[$key] = $key;
@@ -233,5 +254,16 @@ class ChatRepository
             'thumbnail_file' => $thumbnail_file,
         ];
 
+    }
+
+    public function checkOrCreateChat($client_id, $nurse_id)
+    {
+
+        if (!Chat::where('client_user_id', $client_id)->where('nurse_user_id', $nurse_id)->first()) {
+            Chat::create([
+                'client_user_id' => $client_id,
+                'nurse_user_id' => $nurse_id,
+            ]);
+        }
     }
 }
