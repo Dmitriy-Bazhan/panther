@@ -5,21 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PrivateChat extends Model
+class Chat extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'client_user_id',
         'nurse_user_id',
-        'message',
-        'user_name',
-        'client_sent',
-        'nurse_sent',
         'status',
-        'have_file',
-        'original_file',
-        'thumbnail_file',
+        'delete_date',
     ];
 
     protected $hidden = [
