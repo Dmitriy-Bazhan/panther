@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+//        '/set-chat-on-delete-status',
+//        '/remove-chat-at-all'
     ];
 }

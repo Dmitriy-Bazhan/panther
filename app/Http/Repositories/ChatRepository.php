@@ -7,6 +7,7 @@ use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\PrivateChat;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
@@ -265,5 +266,35 @@ class ChatRepository
                 'nurse_user_id' => $nurse_id,
             ]);
         }
+    }
+
+    public function removeChatAndAllThatRelationWithHim(Chat $chat)
+    {
+        $client_user_id = $chat->client_user_id;
+        $nurse_user_id = $chat->nurse_user_id;
+        $success = true;
+
+        if (!Chat::where('id', $chat->id)->delete()) {
+            Log::error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove chat');
+            $success = false;
+        }
+
+        $messages = PrivateChat::where('client_user_id', $client_user_id)
+            ->where('nurse_user_id', $nurse_user_id)->get();
+
+        $result = PrivateChat::where('client_user_id', $client_user_id)
+            ->where('nurse_user_id', $nurse_user_id)->delete();
+
+        if (!$result) {
+            Log::error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove messages from private_chats table');
+            $success = false;
+        }
+
+        foreach ($messages as $message) {
+            Storage::disk('public')->delete($message->original_file);
+            Storage::disk('public')->delete($message->thumbnail_file);
+        }
+
+        return $success;
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\ChatController;
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -63,6 +64,10 @@ Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['au
 Route::post('/set-user-rate', [RateController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+
+//chat
+Route::post('/set-chat-on-delete-status', [ChatController::class, 'setChatOnDeleteStatus'])->middleware(['auth:sanctum', 'verified']);
+Route::post('/remove-chat-at-all', [ChatController::class, 'removeChatAtAll'])->middleware(['auth:sanctum', 'verified']);
 
 Route::get('get-translate', [MainPageController::class, 'getTranslate']);
 Route::get('get-translate/{lang}', [MainPageController::class, 'getTranslate']);
