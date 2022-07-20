@@ -65,6 +65,8 @@ export default {
                     haveNewMessages: this.haveNewMessages
                 }
                 this.emitter.emit('get-message', push);
+                window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.client_id)
+                    .stopListening('PrivateChat.ClientNurseSentMessage')
             }
             this.client_id = e
         });

@@ -841,6 +841,9 @@ export default {
         });
     },
     methods: {
+        photoUpload() {
+
+        },
         updateInformation() {
             axios.put('/dashboard/nurse-my-information/' + this.authUser.id, {'user': this.authUser})
                 .then((response) => {

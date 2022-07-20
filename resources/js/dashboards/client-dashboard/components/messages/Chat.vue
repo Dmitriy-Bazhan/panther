@@ -20,7 +20,7 @@
     </div>
 
     <div class="pt-chat">
-        <template v-if="comments.length > 0" v-for="comment in comments">
+        <template v-if="commentsClone.length > 0" v-for="comment in commentsClone">
             <div v-if="comment.client_sent === 'yes'" class="pt-chat--message pt-chat--message__inner" :class="{'pt-chat--group': comment.tmpDate}">
                 <div class="pt-chat--message-avatar--wrapper">
                     <div class="pt-chat--message-avatar" v-if="comment.tmpDate">
@@ -111,6 +111,7 @@
                 privateMessage: '',
                 showMarkIsReadBlock: false,
                 comments: [],
+                commentsClone: [],
                 nurse_id: null,
                 haveNewMessages: null
             }
@@ -137,10 +138,13 @@
                 handler(newValue, oldValue) {
                     let self = this;
                     let tmpDate
-                    self.comments.forEach(function (item){
+                    let isInner
+                    let deep = _.cloneDeep(self.comments);
+
+                    deep.reverse().forEach(function (item){
                         if(tmpDate){
                             if(dayjs(tmpDate).isSame(item.created_at, 'day')){
-                                if(dayjs(item.created_at).format('HH:mm') === dayjs(tmpDate).format('HH:mm')){
+                                if(isInner === item.client_sent && dayjs(item.created_at).format('HH:mm') === dayjs(tmpDate).format('HH:mm')){
                                     item.tmpDate = false
                                 }
                                 else{
@@ -172,7 +176,10 @@
                                 item.tmpDate = dayjs(item.created_at).format('DD.MM.YY - HH:mm')
                             }
                         }
+                        isInner = item.client_sent
                     })
+
+                    self.commentsClone = deep.reverse()
                 },
                 deep: true
             }
@@ -214,7 +221,7 @@
                 }).then((response) => {
                     if (response.data.success) {
                         this.privateMessage = '';
-                        document.getElementById('file').value = null;
+                        this.$refs.file.value = null;
                     }else{
                         console.log(response.data.errors);
                     }
@@ -285,6 +292,7 @@
                 try {
                     window.Echo.private('client-between-nurse.' + this.nurse_id + '.' + this.user.id)
                         .listen('PrivateChat.ClientNurseSentMessage', (response) => {
+                            console.log('start listen')
                             if(Number(response.result.nurse_user_id) === Number(self.nurse_id)){
                                 let message = {
                                     'user_name': response.result.user_name,
