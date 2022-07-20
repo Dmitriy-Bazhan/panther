@@ -292,7 +292,6 @@
                 try {
                     window.Echo.private('client-between-nurse.' + this.nurse_id + '.' + this.user.id)
                         .listen('PrivateChat.ClientNurseSentMessage', (response) => {
-                            console.log('start listen')
                             if(Number(response.result.nurse_user_id) === Number(self.nurse_id)){
                                 let message = {
                                     'user_name': response.result.user_name,

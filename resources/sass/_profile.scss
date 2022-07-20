@@ -179,6 +179,14 @@
             justify-content: space-between;
         }
 
+        &-ctrl{
+            display: flex;
+
+            .pt-link{
+                margin-left: 15px;
+            }
+        }
+
         &-title{
             font-size: 18px;
             font-weight: 700;

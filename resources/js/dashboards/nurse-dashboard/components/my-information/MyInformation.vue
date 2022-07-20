@@ -103,11 +103,14 @@
                                         {{ item.title }}
                                         <span>2020 - 2021</span>
                                     </div>
-                                    <button class="pt-btn--light pt-lg"
-                                            @click="openPopup(path + '/images/fake/fake-calendar.png')">
-                                        <i class="fa-solid fa-magnifying-glass-plus"></i>
-                                        Uhrenzertifikat
-                                    </button>
+                                    <div class="pt-profile--file-ctrl">
+                                        <button class="pt-btn--light pt-lg"
+                                                @click="openPopup(path + '/images/fake/fake-calendar.png')">
+                                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                            Uhrenzertifikat
+                                        </button>
+                                        <button class="pt-link" @click.prevent="deleteFile(item)">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -147,8 +150,7 @@
                             </div>
                         </div>
                         <div class="pt-upload--ctrl">
-                            <button class="pt-btn pt-sm" @click.prevent="updateFilesAndPhoto">upload</button>
-                            <button class="pt-link">Delete</button>
+                            <button class="pt-btn pt-sm" @click.prevent="updateFiles">upload</button>
                         </div>
                     </div>
 
@@ -187,7 +189,7 @@
                                         <div class="pt-select--icon">
                                             <pt-icon type="calendar"></pt-icon>
                                         </div>
-                                        <Datepicker v-model="upload.date" autoApply></Datepicker>
+                                        <Datepicker  format="MM/dd/yyyy" v-model="upload.date" autoApply></Datepicker>
                                         <span class="pt-select--caret"></span>
                                     </div>
                                 </div>
@@ -197,7 +199,7 @@
                                     <p class="pt-form--label">
                                         Title:
                                     </p>
-                                    <pt-input type="number" :modelValue="upload.title"
+                                    <pt-input type="text" :modelValue="upload.title"
                                               icon="paper"
                                               @update:modelValue="newValue => upload.title = newValue"
                                     ></pt-input>
@@ -208,7 +210,7 @@
                                     <p class="pt-form--label">
                                         Place of receipt:
                                     </p>
-                                    <pt-input type="number" :modelValue="upload.place"
+                                    <pt-input type="text" :modelValue="upload.place"
                                               icon="breifcase"
                                               @update:modelValue="newValue => upload.place = newValue"
                                     ></pt-input>
@@ -819,7 +821,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.data)
         let self = this
         this.time_intervals = this.data['time_intervals'];
 
@@ -841,6 +842,27 @@ export default {
         });
     },
     methods: {
+        deleteFile(item) {
+            axios.post('/dashboard/nurse-my-information/remove-file/' + this.user.id,
+                {
+                    file_id: item.id
+                },
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+                .then((response) => {
+                    if (response.data.success) {
+                        console.log(response.data);
+                    } else {
+                        this.errors = response.data.errors;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         photoUpload() {
 
         },
@@ -890,43 +912,21 @@ export default {
             self.upload.file = false
             self.upload.preview = ''
         },
-        updateFilesAndPhoto() {
-            this.criminal_record = this.$refs.criminal_record.files;
-            this.documentation_of_training = this.$refs.documentation_of_training.files;
-            this.CPR_course = this.$refs.CPR_course.files;
-            this.references = this.$refs.references.files;
-            this.file = this.$refs.file.files[0];
+        updateFiles() {
+            let self = this
+
+            let info = {
+                title: self.upload.title,
+                date: self.upload.date,
+                place: self.upload.place,
+                type: self.upload.type,
+            }
+
             let formData = new FormData();
-            formData.append('file', this.file);
-            formData.append('certificates', JSON.stringify(this.certificates));
+            formData.append('file', self.upload.file);
+            formData.append('info', JSON.stringify(info));
 
-            for (let i = 0; i < this.certificates.length; i++) {
-                let file = this.certificates[i].file;
-                formData.append('certificates_files[' + i + ']', file);
-            }
-
-            for (let i = 0; i < this.criminal_record.length; i++) {
-                let file = this.criminal_record[i];
-                formData.append('criminal_record[' + i + ']', file);
-            }
-
-
-            for (let i = 0; i < this.documentation_of_training.length; i++) {
-                let file = this.documentation_of_training[i];
-                formData.append('documentation_of_training[' + i + ']', file);
-            }
-
-            for (let i = 0; i < this.CPR_course.length; i++) {
-                let file = this.CPR_course[i];
-                formData.append('CPR_course[' + i + ']', file);
-            }
-
-            for (let i = 0; i < this.references.length; i++) {
-                let file = this.references[i];
-                formData.append('references[' + i + ']', file);
-            }
-
-            axios.post('/dashboard/nurse-my-information/update-files-and-photo/' + this.user.id,
+            axios.post('/dashboard/nurse-my-information/update-file/ ' + this.user.id,
                 formData,
                 {
                     headers: {
