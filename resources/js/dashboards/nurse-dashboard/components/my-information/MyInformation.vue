@@ -877,6 +877,7 @@
                         }
                     })
                     .then((response) => {
+                        console.log(response.data.success);
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
                             this.errors = null;
