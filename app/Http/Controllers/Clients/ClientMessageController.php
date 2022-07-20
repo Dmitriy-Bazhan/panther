@@ -6,6 +6,7 @@ use App\Events\PrivateChat\ClientNurseSentMessage;
 use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
+use App\Models\PrivateChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -38,7 +39,7 @@ class ClientMessageController extends Controller
         $nurse_id = null;
         if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
             $nurse_id = request('nurse_id');
-        }else{
+        } else {
             Log::channel('app_logs')->error('ClientMessageController@store Client Id not exists');
             return abort(409);
         }
@@ -59,7 +60,7 @@ class ClientMessageController extends Controller
             }
         }
 
-        if(is_null($privateMessage) && is_null(request()->file('file'))){
+        if (is_null($privateMessage) && is_null(request()->file('file'))) {
             return response()->json(['success' => false]);
         }
 
@@ -76,7 +77,8 @@ class ClientMessageController extends Controller
         return response()->json(['success' => $result]);
     }
 
-    public function getCurrentChat($client_id, $nurse_id){
+    public function getCurrentChat($client_id, $nurse_id)
+    {
 
         $messages = $this->chatRepo->getClientCurrentPrivateChat($nurse_id, $client_id);
         return response()->json(['success' => true, 'messages' => $messages]);
@@ -102,23 +104,27 @@ class ClientMessageController extends Controller
         //
     }
 
-    public function markAsRead(){
+    public function markAsRead()
+    {
 
         $nurse_id = null;
-        if(request()->filled('nurse_id') && is_numeric(request('nurse_id'))){
+        if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
             $nurse_id = request('nurse_id');
         }
 
         $client_id = null;
-        if(request()->filled('client_id') && is_numeric(request('client_id')) && auth()->id() == request('client_id')){
+        if (request()->filled('client_id') && is_numeric(request('client_id')) && auth()->id() == request('client_id')) {
             $client_id = request('client_id');
         }
 
-        if(!$haveNewMessage = $this->chatRepo->markNursesMessageAsRead($nurse_id, $client_id)){
+        if (!$haveNewMessage = $this->chatRepo->markNursesMessageAsRead($nurse_id, $client_id)) {
             //todo: log
             abort(409);
         }
 
-        return response()->json(['success' => true, 'have_new_message' => $haveNewMessage]);
+        $client_count_unread_message = PrivateChat::where('client_user_id', $client_id)
+            ->where('status', 'unread')->count();
+
+        return response()->json(['success' => true, 'have_new_message' => $haveNewMessage, 'client_count_unread_message' => $client_count_unread_message]);
     }
 }
