@@ -191,7 +191,7 @@ class NurseRepository
 
     public function update($id)
     {
-        $data = request()->post('user');
+        $data = json_decode(request()->post('user'), true);
 
         User::where('id', $id)->update([
             'first_name' => $data['first_name'],

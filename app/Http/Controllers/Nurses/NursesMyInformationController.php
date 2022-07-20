@@ -27,6 +27,9 @@ class NursesMyInformationController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $user = json_decode(request()->post('user'), true);
+
         $rules = [
             'id' => 'required|numeric',
             'email' => 'required|email',
@@ -50,15 +53,31 @@ class NursesMyInformationController extends Controller
             'entity.start_date_ready_to_work' => 'required|date',
         ];
 
-        $validator = Validator::make($request->post('user'), $rules);
+        $validator = Validator::make($user, $rules);
 
         $errors = [];
         if ($validator->fails()) {
             $errors = array_merge($errors, $validator->errors()->toArray());
         }
 
+        $rules = [
+            'file' => 'required|file|mimes:jpeg,bmp,png'
+        ];
+
+        if ($request->file('file') || is_null(User::find($id)->entity->original_photo)) {
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
+
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => 'Cant upload']);
         }
 
         if (!$this->nurseRepo->update($id)) {
@@ -67,7 +86,8 @@ class NursesMyInformationController extends Controller
         }
 
         $this->makeEventSendProfileToAdmin($id);
-        return response()->json(['success' => true]);
+
+        return response()->json(['success' => true, 'nurse' => User::find($id)]);
     }
 
     public function updateFile($nurse_id)
@@ -159,6 +179,18 @@ class NursesMyInformationController extends Controller
         return response()->json(['success' => $success, 'files' => $nurse->entity->files]);
     }
 
+    private function makeEventSendProfileToAdmin($id)
+    {
+        //todo:email later
+
+        //todo:check, are pusher is work?
+        try {
+            broadcast(new NurseAddNewProfile())->toOthers();
+        } catch (\Exception $ex) {
+
+        };
+    }
+
     public function updateFilesAndPhoto(Request $request, $id)
     {
         $rules = [
@@ -183,7 +215,7 @@ class NursesMyInformationController extends Controller
             'file' => 'required|file|mimes:jpeg,bmp,png'
         ];
 
-        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
+        if ($request->file('file') || is_null(User::find($id)->entity->original_photo)) {
             $validator = Validator::make($request->allFiles(), $rules);
             if ($validator->fails()) {
                 $errors = array_merge($errors, $validator->errors()->toArray());
@@ -228,22 +260,5 @@ class NursesMyInformationController extends Controller
         NurseFile::where('id', $id)->delete();
 
         return response()->json(['success' => true]);
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
-
-    private function makeEventSendProfileToAdmin($id)
-    {
-        //todo:email later
-
-        //todo:check, are pusher is work?
-        try {
-            broadcast(new NurseAddNewProfile())->toOthers();
-        } catch (\Exception $ex) {
-
-        };
     }
 }
