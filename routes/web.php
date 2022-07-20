@@ -234,7 +234,7 @@ Route::prefix('dashboard')->group(function () {
 
     //nurse my information
     Route::prefix('nurse-my-information')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
-        Route::post('{id}', [ClientMyInformationController::class, 'update']);
+        Route::post('{id}', [NursesMyInformationController::class, 'update']);
         Route::post('update-files-and-photo/{id}', [NursesMyInformationController::class, 'updateFilesAndPhoto']);
         Route::post('update-file/{nurse_id}', [NursesMyInformationController::class, 'updateFile']);
         Route::post('remove-file/{nurse_id}', [NursesMyInformationController::class, 'removeFile']);
