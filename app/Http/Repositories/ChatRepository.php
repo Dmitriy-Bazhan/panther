@@ -182,7 +182,7 @@ class ChatRepository
 
         }
 
-        return ['nurses' => $nurses, 'haveNewMessages' => $haveNewMessages];
+        return ['chats' => $chats, 'nurses' => $nurses, 'haveNewMessages' => $haveNewMessages];
     }
 
     public function getClientPrivateChats($id = null)

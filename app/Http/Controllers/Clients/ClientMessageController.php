@@ -24,7 +24,7 @@ class ClientMessageController extends Controller
     public function index()
     {
         $data = $this->chatRepo->getClientLastPrivateChats();
-        return response()->json(['success' => true, 'nurses' => $data['nurses'],
+        return response()->json(['success' => true, 'chats' => $data['chats'], 'nurses' => $data['nurses'],
             'haveNewMessages' => $data['haveNewMessages']]);
     }
 
