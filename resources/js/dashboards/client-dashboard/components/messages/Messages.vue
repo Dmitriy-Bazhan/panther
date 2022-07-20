@@ -26,7 +26,7 @@
             </h3>
         </div>
         <div class="pt-messages--body">
-            <chat :user="user" :clients="nurses" :chat="chat"></chat>
+            <chat :user="user" :nurses="nurses" :chat="chat"></chat>
         </div>
     </div>
 </template>
@@ -48,7 +48,7 @@ export default {
             nurses: false,
             filteredNurses: false,
             activeTab: 'active',
-            client_id: null,
+            nurse_id: null,
             haveNewMessages: [],
             comments: [],
             chat: false,
@@ -59,14 +59,14 @@ export default {
         this.getPrivateChats();
 
         this.emitter.on('show-chat', e => {
-            if(e !== this.client_id){
+            if(e !== this.nurse_id){
                 let push = {
-                    client_id: e,
+                    nurse_id: e,
                     haveNewMessages: this.haveNewMessages
                 }
                 this.emitter.emit('get-message', push);
             }
-            this.client_id = e
+            this.nurse_id = e
         });
 
         this.emitter.on('change-message-status', e => {
@@ -74,7 +74,7 @@ export default {
         });
 
         try {
-            window.Echo.private('nurse-have-new-message.' + this.user.id)
+            window.Echo.private('client-have-new-message.' + this.user.id)
                 .listen('PrivateChat.NurseHaveNewMessage', (response) => {
                     this.emitter.emit('chat-have-unread-message', response.result.client_user_id);
                     this.getPrivateChats();
@@ -144,13 +144,13 @@ export default {
 
                     this.filteredNurses = response.data.nurses;
                     this.haveNewMessages = response.data.haveNewMessages;
-                    if(!this.client_id){
-                        this.client_id = Object.keys(this.nurses)[0];
+                    if(!this.nurse_id){
+                        this.nurse_id = Object.keys(this.nurses)[0];
                     }
-                    this.chat = response.data.nurses[this.client_id].chat;
-                    this.firstChat = this.client_id;
+                    this.chat = response.data.nurses[this.nurse_id].chat;
+                    this.firstChat = this.nurse_id;
                     let e = {
-                        client_id: this.client_id,
+                        nurse_id: this.nurse_id,
                         haveNewMessages: this.haveNewMessages
                     }
                     this.emitter.emit('get-message', e);

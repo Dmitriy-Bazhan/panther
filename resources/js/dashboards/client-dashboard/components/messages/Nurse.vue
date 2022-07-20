@@ -1,6 +1,6 @@
 <template>
     <div class="pt-client" v-on:click="showChat()"
-         v-bind:class="{'pt-client__active': index === $parent.client_id}">
+         v-bind:class="{'pt-client__active': index === $parent.nurse_id}">
         <div class="pt-client--avatar">
             <img :src="path + '/storage/' + nurse[0].entity.thumbnail_photo" alt="pic" v-if="nurse[0].entity.thumbnail_photo">
             <div class="pt-client--avatar-no-photo" v-else>
@@ -41,8 +41,8 @@
         },
         mounted() {
             this.emitter.on('disable-show-alarm-new-message', e => {
-                if(Number(this.client[0].id) === Number(e)){
-                    this.client.count = 0
+                if(Number(this.nurse[0].id) === Number(e)){
+                    this.nurse.count = 0
                 }
             });
 
