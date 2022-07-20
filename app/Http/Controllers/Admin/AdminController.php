@@ -13,12 +13,12 @@ class AdminController extends Controller
     public function banUser($id)
     {
         if (!is_numeric($id)) {
-            Log::error('AdminController@banUser user id is not valid');
+            Log::channel('app_logs')->error('AdminController@banUser user id is not valid');
             return response()->json(['success' => false]);
         }
 
         if(!User::find($id)){
-            Log::error('AdminController@banUser user not exists');
+            Log::channel('app_logs')->error('AdminController@banUser user not exists');
             return response()->json(['success' => false]);
         }
 
@@ -32,12 +32,12 @@ class AdminController extends Controller
     public function dismissBanUser($id)
     {
         if (!is_numeric($id)) {
-            Log::error('AdminController@dismissBanUser user id is not valid');
+            Log::channel('app_logs')->error('AdminController@dismissBanUser user id is not valid');
             return response()->json(['success' => false]);
         }
 
         if(!User::find($id)){
-            Log::error('AdminController@dismissBanUser user not exists');
+            Log::channel('app_logs')->error('AdminController@dismissBanUser user not exists');
             return response()->json(['success' => false]);
         }
 

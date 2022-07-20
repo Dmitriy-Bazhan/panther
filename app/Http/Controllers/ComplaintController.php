@@ -18,12 +18,12 @@ class ComplaintController extends Controller
         }
 
         if (is_null($nurseId) || !is_numeric($nurseId)) {
-            Log::error('ComplaintController@setClientComplaintOnNurse nurse id not valid');
+            Log::channel('app_logs')->error('ComplaintController@setClientComplaintOnNurse nurse id not valid');
             return response()->json(['success' => false]);
         }
 
         if (!User::find($nurseId)) {
-            Log::error('ComplaintController@setClientComplaintOnNurse nurse not exists');
+            Log::channel('app_logs')->error('ComplaintController@setClientComplaintOnNurse nurse not exists');
             return response()->json(['success' => false]);
         }
 
@@ -47,12 +47,12 @@ class ComplaintController extends Controller
         }
 
         if (is_null($clientId) || !is_numeric($clientId)) {
-            Log::error('ComplaintController@setClientComplaintOnNurse client id not valid');
+            Log::channel('app_logs')->error('ComplaintController@setClientComplaintOnNurse client id not valid');
             return response()->json(['success' => false]);
         }
 
         if (!User::find($clientId)) {
-            Log::error('ComplaintController@setClientComplaintOnNurse client not exists');
+            Log::channel('app_logs')->error('ComplaintController@setClientComplaintOnNurse client not exists');
             return response()->json(['success' => false]);
         }
 

@@ -29,7 +29,7 @@ class RateController extends Controller
 
         if(!$result){
             //todo::hmm
-            Log::error('Cant create/update Rate');
+            Log::channel('app_logs')->error('RateController@setUserRate cant create/update Rate');
         }
 
         $newRate = new \stdClass();

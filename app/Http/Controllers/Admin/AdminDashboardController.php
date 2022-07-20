@@ -382,7 +382,7 @@ class AdminDashboardController extends Controller
             $timeIntervals = request('time_intervals');
         } else {
             //todo::hmm
-            Log::error('AdminDashboardController@setTimeInterval not validate request time_intervals');
+            Log::channel('app_logs')->error('AdminDashboardController@setTimeInterval not validate request time_intervals');
             return response()->json(['success' => false]);
         }
 
