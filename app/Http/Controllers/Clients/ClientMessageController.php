@@ -76,7 +76,7 @@ class ClientMessageController extends Controller
         return response()->json(['success' => $result]);
     }
 
-    public function getCurrentChat($nurse_id, $client_id){
+    public function getCurrentChat($client_id, $nurse_id){
 
         $messages = $this->chatRepo->getClientCurrentPrivateChat($nurse_id, $client_id);
         return response()->json(['success' => true, 'messages' => $messages]);

@@ -199,7 +199,7 @@ Route::prefix('dashboard')->group(function () {
 
     //client messages
     Route::prefix('client-private-chats')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
-        Route::get('get-current-chat/{nurse_is}/{client_id}', [ClientMessageController::class, 'getCurrentChat']);
+        Route::get('get-current-chat/{client_id}/{nurse_id}', [ClientMessageController::class, 'getCurrentChat']);
         Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
     });
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
