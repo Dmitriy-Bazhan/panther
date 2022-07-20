@@ -862,14 +862,27 @@
 
             },
             updateInformation() {
-                axios.put('/dashboard/nurse-my-information/' + this.authUser.id, {'user': this.authUser})
+                this.file = this.$refs.file.files[0];
+                let formData = new FormData();
+
+                formData.append('file', this.file);
+
+                let user = JSON.stringify(this.authUser);
+                formData.append('user', user);
+                axios.post('/dashboard/nurse-my-information/' + this.authUser.id,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        }
+                    })
                     .then((response) => {
                         if (response.data.success) {
                             this.emitter.emit('response-success-true');
-                            this.emitter.emit('no-errors', response.data.errors);
-                            this.emitter.emit('user-finished-fill-info');
+                            this.errors = null;
                         } else {
                             this.errors = response.data.errors;
+                            console.log(response.data.errors);
                         }
                     })
                     .catch((error) => {
