@@ -1,17 +1,17 @@
 <template>
-    <div class="pt-chat--head" v-if="clients[client_id]">
+    <div class="pt-chat--head" v-if="nurses[nurse_id]">
         <div class="pt-chat--head-avatar">
-            <img :src="path + '/storage/' + clients[client_id][0].entity.thumbnail_photo" alt="pic" v-if="clients[client_id][0].entity.thumbnail_photo">
+            <img :src="path + '/storage/' + nurses[nurse_id][0].entity.thumbnail_photo" alt="pic" v-if="nurses[nurse_id][0].entity.thumbnail_photo">
             <div class="pt-chat--head-avatar-no-photo" v-else>
-                <span>{{ clients[client_id][0].first_name }}</span>
-                <span>{{ clients[client_id][0].last_name }}</span>
+                <span>{{ nurses[nurse_id][0].first_name }}</span>
+                <span>{{ nurses[nurse_id][0].last_name }}</span>
             </div>
         </div>
 
         <div class="pt-chat--head-name">
-            {{clients[client_id][0].full_name}}
+            {{nurses[nurse_id][0].full_name}}
         </div>
-        <button class="pt-link" @click.prevent="deleteChat" v-if="clients[client_id].chat.status === 'active'">
+        <button class="pt-link" @click.prevent="deleteChat" v-if="nurses[nurse_id].chat.status === 'active'">
             Delete Chat
         </button>
         <button class="pt-link" @click.prevent="activateChat" v-else>
@@ -24,10 +24,10 @@
             <div v-if="comment.client_sent === 'yes'" class="pt-chat--message pt-chat--message__inner" :class="{'pt-chat--group': comment.tmpDate}">
                 <div class="pt-chat--message-avatar--wrapper">
                     <div class="pt-chat--message-avatar" v-if="comment.tmpDate">
-                        <img :src="path + '/storage/' + clients[client_id][0].entity.thumbnail_photo" alt="pic" v-if="clients[client_id][0].entity.thumbnail_photo">
+                        <img :src="path + '/storage/' + nurses[nurse_id][0].entity.thumbnail_photo" alt="pic" v-if="nurses[nurse_id][0].entity.thumbnail_photo">
                         <div class="pt-chat--message-avatar--no-photo" v-else>
-                            <span>{{ clients[client_id][0].first_name }}</span>
-                            <span>{{ clients[client_id][0].last_name }}</span>
+                            <span>{{ nurses[nurse_id][0].first_name }}</span>
+                            <span>{{ nurses[nurse_id][0].last_name }}</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
 <script>
     export default {
         name: "Chat",
-        props: ['user', 'clients', 'chat'],
+        props: ['user', 'nurses', 'chat'],
         data() {
             return {
                 path: location.origin,
@@ -111,13 +111,13 @@
                 privateMessage: '',
                 showMarkIsReadBlock: false,
                 comments: [],
-                client_id: null,
+                nurse_id: null,
                 haveNewMessages: null
             }
         },
         mounted() {
             this.emitter.on('get-message', e => {
-                this.client_id = e.client_id;
+                this.nurse_id = e.nurse_id;
                 this.haveNewMessages = e.haveNewMessages;
                 this.showMarkIsReadBlock = false;
                 this.checkChatsHaveUnreadMessages();
@@ -127,7 +127,7 @@
             });
 
             this.emitter.on('chat-have-unread-message', e => {
-                if (e == this.client_id) {
+                if (e == this.nurse_id) {
                     this.showMarkIsReadBlock = true;
                 }
             });
@@ -182,13 +182,13 @@
                 let self = this
                 axios.post('/dashboard/client-private-chats/mark-as-read', {
                     'client_id' :this.user.id,
-                    'nurse_id': this.index,
+                    'nurse_id': this.nurse_id,
                 }).then((response) => {
                     if(response.data.success === true){
                         this.showMarkIsReadBlock = false;
-                        this.emitter.emit('disable-alert-on-nurse-name', this.index);
+                        this.emitter.emit('disable-alert-on-nurse-name', this.nurse_id);
                         if(response.data.have_new_message === 'yes'){
-                            this.emitter.emit('disable-show-alarm-new-message', this.client_id);
+                            this.emitter.emit('disable-show-alarm-new-message', this.nurse_id);
                         }
                     }
                 }).catch((error) => {
@@ -204,7 +204,7 @@
 
                 message.append('file', file);
                 message.append('client_id',this.user.id,);
-                message.append('nurse_id', this.index,);
+                message.append('nurse_id', this.nurse_id,);
                 message.append('privateMessage', this.privateMessage,);
 
                 axios.post('/dashboard/client-private-chats', message ,{
@@ -229,14 +229,12 @@
             },
             checkChatsHaveUnreadMessages(){
                 for(let el in this.haveNewMessages){
-                    if(this.haveNewMessages[el] == this.index){
-                        this.emitter.emit('chat-have-unread-message', this.index);
+                    if(this.haveNewMessages[el] == this.nurse_id){
+                        this.emitter.emit('chat-have-unread-message', this.nurse_id);
                         this.showMarkIsReadBlock = true;
                     }
                 }
             },
-
-
             deleteChat(){
                 let self = this
                 axios.post( '/set-chat-on-delete-status', {
@@ -244,7 +242,7 @@
                 })
                     .then((response) => {
                         if(response.data.success){
-                            self.clients[self.client_id].chat.status = 'deleted'
+                            self.nurses[self.nurse_id].chat.status = 'deleted'
                             self.emitter.emit('change-message-status', 'deleted');
                         }
                     })
@@ -259,7 +257,7 @@
                 })
                     .then((response) => {
                         if(response.data.success){
-                            self.clients[self.client_id].chat.status = 'active'
+                            self.nurses[self.nurse_id].chat.status = 'active'
                             self.emitter.emit('change-message-status', 'active');
                         }
                     })
@@ -285,9 +283,9 @@
             listenBroadcast(){
                 let self = this
                 try {
-                    window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.client_id)
+                    window.Echo.private('client-between-nurse.' + this.nurse_id + '.' + this.user.id)
                         .listen('PrivateChat.ClientNurseSentMessage', (response) => {
-                            if(Number(response.result.client_user_id) === Number(self.client_id)){
+                            if(Number(response.result.nurse_user_id) === Number(self.nurse_id)){
                                 let message = {
                                     'user_name': response.result.user_name,
                                     'message': response.result.message,
@@ -308,7 +306,7 @@
                 }
             },
             getComments(){
-                axios.get('/dashboard/client-private-chats/get-current-chat/'+ this.user.id + '/' + this.client_id)
+                axios.get('/dashboard/client-private-chats/get-current-chat/'+ this.user.id + '/' + this.nurse_id)
                     .then((response) => {
                         if(response.data.success){
                             this.comments = response.data.messages;
