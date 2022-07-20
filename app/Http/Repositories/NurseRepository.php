@@ -260,6 +260,43 @@ class NurseRepository
         return true;
     }
 
+    public function uploadFile(User $nurse, $post)
+    {
+        $success = true;
+        $file = request()->file('file');
+
+        $directory_name = 'user_' . $nurse->id . '/' . 'certificates';
+        $original_name = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $file_name = 'certificate' . '_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
+        $thumbnail_name = 'thumbnail_certificate_user_' . $nurse->id . '_' . Str::random(40) . '.' . $extension;
+
+
+        $file_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+        $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+
+        $img = Image::make('storage/' . $thumbnail_path)->resize(150, 150, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $img->save();
+
+        $success = NurseFile::create(
+            [
+                'nurse_id' => $nurse->entity_id,
+                'original_name' => $original_name,
+                'file_path' => $file_path,
+                'file_type' => $post['type'],
+                'date' => Carbon::createFromDate($post['date'])->format('Y-m-d'),
+                'place_of_receipt' => $post['place'],
+                'other_info' => null,
+                'title' => $post['title'],
+                'thumbnail_path' => $thumbnail_path,
+            ]);
+
+        return $success;
+    }
+
     public function uploadDocuments(Request $request, $nurse)
     {
 
