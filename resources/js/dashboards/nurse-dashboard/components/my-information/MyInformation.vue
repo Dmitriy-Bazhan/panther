@@ -701,325 +701,325 @@
 </template>
 
 <script>
-import NurseInfo from "./NurseInfo";
-import NurseFilesAndPhoto from "./NurseFilesAndPhoto";
-import NurseTimeCalendar from "./NurseTimeCalendar";
+    import NurseInfo from "./NurseInfo";
+    import NurseFilesAndPhoto from "./NurseFilesAndPhoto";
+    import NurseTimeCalendar from "./NurseTimeCalendar";
 
-export default {
-    name: "MyInformation",
-    components: {
-        nurse_info: NurseInfo,
-        nurse_files_and_photo: NurseFilesAndPhoto,
-        nurse_time_calendar: NurseTimeCalendar,
-    },
-    props: ['user', 'data'],
-    data() {
-        return {
-            time_intervals: [],
-            readyToWorkOptions: [
-                {
-                    val: 'yes',
-                    name: 'yes',
-                },
-                {
-                    val: 'no',
-                    name: 'no',
-                },
-            ],
-            oneOrRegularOptions: [
-                {
-                    val: 'one',
-                    name: 'one',
-                },
-                {
-                    val: 'regular',
-                    name: 'regular',
-                },
-                {
-                    val: 'no_matter',
-                    name: 'no_matter',
-                },
-            ],
-            docTypes: [
-                {
-                    title: 'Criminal record',
-                    val: 'criminal_record',
-                },
-                {
-                    title: 'Documentation of training',
-                    val: 'documentation_of_training',
-                },
-                {
-                    title: 'CPR course',
-                    val: 'CPR_course',
-                },
-                {
-                    title: 'References',
-                    val: 'references',
-                },
-                {
-                    title: 'Certificate file',
-                    val: 'certificate_file',
-                },
-            ],
-            upload: {
-                file: false,
-                preview: false,
-                title: '',
-                date: '',
-                place: '',
-                type: '',
-            },
-            isOpen: false,
-            authUser: false,
-            info_active: true,
-            file_active: false,
-            calendar_active: false,
-            path: location.origin,
-            errors: null,
-            languageOptions: [
-                {
-                    id: 1,
-                    title: 'english',
-                },
-                {
-                    id: 2,
-                    title: 'german',
-                },
-            ],
-            languageLevelOptions: [
-                {
-                    val: 'A1',
-                    title: 'A1',
-                },
-                {
-                    val: 'A2',
-                    title: 'A2',
-                },
-                {
-                    val: 'B1',
-                    title: 'B1',
-                },
-                {
-                    val: 'B2',
-                    title: 'B2',
-                },
-                {
-                    val: 'C1',
-                    title: 'C1',
-                },
-                {
-                    val: 'C2',
-                    title: 'C2',
-                },
-                {
-                    val: 'no_matter',
-                    title: 'no_matter',
-                },
-            ],
-            activelanguage: 0,
-        }
-    },
-    mounted() {
-        let self = this
-        this.time_intervals = this.data['time_intervals'];
-
-        self.data.provider_supports.forEach(function (item) {
-            item.title = item.title = self.$t(item.name)
-        })
-
-        self.data.type_of_learning.forEach(function (item) {
-            item.title = item.data.data
-        })
-
-        this.getNurse();
-        this.emitter.on('errors', e => {
-            this.errors = e;
-        });
-
-        this.emitter.on('no-errors', e => {
-            this.errors = null;
-        });
-    },
-    methods: {
-        deleteFile(item) {
-            axios.post('/dashboard/nurse-my-information/remove-file/' + this.user.id,
-                {
-                    file_id: item.id
-                },
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
-                .then((response) => {
-                    if (response.data.success) {
-                        console.log(response.data);
-                    } else {
-                        this.errors = response.data.errors;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+    export default {
+        name: "MyInformation",
+        components: {
+            nurse_info: NurseInfo,
+            nurse_files_and_photo: NurseFilesAndPhoto,
+            nurse_time_calendar: NurseTimeCalendar,
         },
-        photoUpload() {
-
+        props: ['user', 'data'],
+        data() {
+            return {
+                time_intervals: [],
+                readyToWorkOptions: [
+                    {
+                        val: 'yes',
+                        name: 'yes',
+                    },
+                    {
+                        val: 'no',
+                        name: 'no',
+                    },
+                ],
+                oneOrRegularOptions: [
+                    {
+                        val: 'one',
+                        name: 'one',
+                    },
+                    {
+                        val: 'regular',
+                        name: 'regular',
+                    },
+                    {
+                        val: 'no_matter',
+                        name: 'no_matter',
+                    },
+                ],
+                docTypes: [
+                    {
+                        title: 'Criminal record',
+                        val: 'criminal_record',
+                    },
+                    {
+                        title: 'Documentation of training',
+                        val: 'documentation_of_training',
+                    },
+                    {
+                        title: 'CPR course',
+                        val: 'CPR_course',
+                    },
+                    {
+                        title: 'References',
+                        val: 'references',
+                    },
+                    {
+                        title: 'Certificate file',
+                        val: 'certificate_file',
+                    },
+                ],
+                upload: {
+                    file: false,
+                    preview: false,
+                    title: '',
+                    date: '',
+                    place: '',
+                    type: '',
+                },
+                isOpen: false,
+                authUser: false,
+                info_active: true,
+                file_active: false,
+                calendar_active: false,
+                path: location.origin,
+                errors: null,
+                languageOptions: [
+                    {
+                        id: 1,
+                        title: 'english',
+                    },
+                    {
+                        id: 2,
+                        title: 'german',
+                    },
+                ],
+                languageLevelOptions: [
+                    {
+                        val: 'A1',
+                        title: 'A1',
+                    },
+                    {
+                        val: 'A2',
+                        title: 'A2',
+                    },
+                    {
+                        val: 'B1',
+                        title: 'B1',
+                    },
+                    {
+                        val: 'B2',
+                        title: 'B2',
+                    },
+                    {
+                        val: 'C1',
+                        title: 'C1',
+                    },
+                    {
+                        val: 'C2',
+                        title: 'C2',
+                    },
+                    {
+                        val: 'no_matter',
+                        title: 'no_matter',
+                    },
+                ],
+                activelanguage: 0,
+            }
         },
-        updateInformation() {
-            axios.put('/dashboard/nurse-my-information/' + this.authUser.id, {'user': this.authUser})
-                .then((response) => {
-                    if (response.data.success) {
-                        this.emitter.emit('response-success-true');
-                        this.emitter.emit('no-errors', response.data.errors);
-                        this.emitter.emit('user-finished-fill-info');
-                    } else {
-                        this.errors = response.data.errors;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        translateOptions(options) {
+        mounted() {
             let self = this
-            options.forEach(function (item) {
-                item.title = self.$t(item.name)
+            this.time_intervals = this.data['time_intervals'];
+
+            self.data.provider_supports.forEach(function (item) {
+                item.title = item.title = self.$t(item.name)
             })
-            return options
-        },
-        additionalOptions(options) {
-            let self = this
-            options.forEach(function (item) {
+
+            self.data.type_of_learning.forEach(function (item) {
                 item.title = item.data.data
             })
-            return options
-        },
-        dropFile(e) {
-            let self = this
-            let reader = new FileReader();
 
-            self.upload.file = e.target.files[0]
+            this.getNurse();
+            this.emitter.on('errors', e => {
+                this.errors = e;
+            });
 
-            reader.readAsDataURL(self.upload.file);
-
-            reader.onload = function () {
-                self.upload.preview = reader.result
-            };
+            this.emitter.on('no-errors', e => {
+                this.errors = null;
+            });
         },
-        removeUpload(id) {
-            let self = this
-            self.upload.file = false
-            self.upload.preview = ''
-        },
-        updateFiles() {
-            let self = this
-
-            let info = {
-                title: self.upload.title,
-                date: self.upload.date,
-                place: self.upload.place,
-                type: self.upload.type,
-            }
-
-            let formData = new FormData();
-            formData.append('file', self.upload.file);
-            formData.append('info', JSON.stringify(info));
-
-            axios.post('/dashboard/nurse-my-information/update-file/ ' + this.user.id,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                })
-                .then((response) => {
-                    if (response.data.success) {
-                        console.log(response.data);
-                        this.emitter.emit('response-success-true');
-                        this.errors = null;
-                        this.emitter.emit('photo-exist');
-                    } else {
-                        this.errors = response.data.errors;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        closePopup(id) {
-            this.isOpen = false
-        },
-        openPopup(id) {
-            this.isOpen = true
-        },
-        getNurse() {
-            let self = this
-            axios.get('/dashboard/nurse/' + this.user.id)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.authUser = response.data.user;
-                        self.authUser.entity.provide_supports.forEach(function (item) {
-                            item.title = item.title = self.$t(item.name)
-                        })
-
-                        self.data.type_of_learning.forEach(function (item) {
-                            if(item.id === self.authUser.entity.type_of_learning.id){
-                                self.authUser.entity.type_of_learning = item
-                            }
-                        })
-
-                        console.log(this.authUser)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        showInfo() {
-            this.info_active = true;
-            this.file_active = false;
-            this.calendar_active = false;
-        },
-        showFilesAndPhoto() {
-            this.info_active = false;
-            this.file_active = true;
-            this.calendar_active = false;
-        },
-        showCalendar() {
-            this.calendar_active = true;
-            this.info_active = false;
-            this.file_active = false;
-        },
-        addLanguage() {
-            if (
-                this.authUser.entity.languages &&
-                this.authUser.entity.languages.length === 0 ||
-                (this.authUser.entity.languages[this.authUser.entity.languages.length - 1].id &&
-                    this.authUser.entity.languages[this.authUser.entity.languages.length - 1].level) &&
-                this.authUser.entity.languages.length < this.languageOptions.length
-            ) {
-                this.authUser.entity.languages.push(
+        methods: {
+            deleteFile(item) {
+                axios.post('/dashboard/nurse-my-information/remove-file/' + this.user.id,
                     {
-                        id: '',
-                        level: '',
-                    }
-                )
-                this.activelanguage = this.authUser.entity.languages.length - 1
-            }
-
-            if (!this.authUser.entity.languages) {
-                this.authUser.entity.languages = [
+                        file_id: item.id
+                    },
                     {
-                        id: '',
-                        level: '',
-                    }
-                ]
-                this.activelanguage = this.authUser.entity.languages.length - 1
-            }
-        },
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        }
+                    })
+                    .then((response) => {
+                        if (response.data.success) {
+                            console.log(response.data);
+                        } else {
+                            this.errors = response.data.errors;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            photoUpload() {
+
+            },
+            updateInformation() {
+                axios.put('/dashboard/nurse-my-information/' + this.authUser.id, {'user': this.authUser})
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.emitter.emit('response-success-true');
+                            this.emitter.emit('no-errors', response.data.errors);
+                            this.emitter.emit('user-finished-fill-info');
+                        } else {
+                            this.errors = response.data.errors;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            translateOptions(options) {
+                let self = this
+                options.forEach(function (item) {
+                    item.title = self.$t(item.name)
+                })
+                return options
+            },
+            additionalOptions(options) {
+                let self = this
+                options.forEach(function (item) {
+                    item.title = item.data.data
+                })
+                return options
+            },
+            dropFile(e) {
+                let self = this
+                let reader = new FileReader();
+
+                self.upload.file = e.target.files[0]
+
+                reader.readAsDataURL(self.upload.file);
+
+                reader.onload = function () {
+                    self.upload.preview = reader.result
+                };
+            },
+            removeUpload(id) {
+                let self = this
+                self.upload.file = false
+                self.upload.preview = ''
+            },
+            updateFiles() {
+                let self = this
+
+                let info = {
+                    title: self.upload.title,
+                    date: self.upload.date,
+                    place: self.upload.place,
+                    type: self.upload.type,
+                }
+
+                let formData = new FormData();
+                formData.append('file', self.upload.file);
+                formData.append('info', JSON.stringify(info));
+
+                axios.post('/dashboard/nurse-my-information/update-file/ ' + this.user.id,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        }
+                    })
+                    .then((response) => {
+                        if (response.data.success) {
+                            console.log(response.data);
+                            this.emitter.emit('response-success-true');
+                            this.errors = null;
+                            this.emitter.emit('photo-exist');
+                        } else {
+                            this.errors = response.data.errors;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            closePopup(id) {
+                this.isOpen = false
+            },
+            openPopup(id) {
+                this.isOpen = true
+            },
+            getNurse() {
+                let self = this
+                axios.get('/dashboard/nurse/' + this.user.id)
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.authUser = response.data.user;
+                            self.authUser.entity.provide_supports.forEach(function (item) {
+                                item.title = item.title = self.$t(item.name)
+                            })
+
+                            self.data.type_of_learning.forEach(function (item) {
+                                if(item.id === self.authUser.entity.type_of_learning.id){
+                                    self.authUser.entity.type_of_learning = item
+                                }
+                            })
+
+                            console.log(this.authUser)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            showInfo() {
+                this.info_active = true;
+                this.file_active = false;
+                this.calendar_active = false;
+            },
+            showFilesAndPhoto() {
+                this.info_active = false;
+                this.file_active = true;
+                this.calendar_active = false;
+            },
+            showCalendar() {
+                this.calendar_active = true;
+                this.info_active = false;
+                this.file_active = false;
+            },
+            addLanguage() {
+                if (
+                    this.authUser.entity.languages &&
+                    this.authUser.entity.languages.length === 0 ||
+                    (this.authUser.entity.languages[this.authUser.entity.languages.length - 1].id &&
+                        this.authUser.entity.languages[this.authUser.entity.languages.length - 1].level) &&
+                    this.authUser.entity.languages.length < this.languageOptions.length
+                ) {
+                    this.authUser.entity.languages.push(
+                        {
+                            id: '',
+                            level: '',
+                        }
+                    )
+                    this.activelanguage = this.authUser.entity.languages.length - 1
+                }
+
+                if (!this.authUser.entity.languages) {
+                    this.authUser.entity.languages = [
+                        {
+                            id: '',
+                            level: '',
+                        }
+                    ]
+                    this.activelanguage = this.authUser.entity.languages.length - 1
+                }
+            },
+        }
     }
-}
 
 </script>
 
