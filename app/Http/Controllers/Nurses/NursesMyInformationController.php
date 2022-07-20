@@ -123,7 +123,12 @@ class NursesMyInformationController extends Controller
         }
 
         $success = $this->nurseRepo->uploadFile($nurse, $post);
-        return response()->json(['success' => $success]);
+
+        if($success){
+            $nurse = User::find($nurse_id);
+        }
+
+        return response()->json(['success' => $success, 'files' => $nurse->entity->files]);
     }
 
     public function removeFile($nurse_id)
@@ -147,7 +152,11 @@ class NursesMyInformationController extends Controller
 
         $success = NurseFile::where('id', $file_id)->where('nurse_id', $nurse->entity->id)->delete();
 
-        return response()->json(['success' => $success]);
+        if($success){
+            $nurse = User::find($nurse_id);
+        }
+
+        return response()->json(['success' => $success, 'files' => $nurse->entity->files]);
     }
 
     public function updateFilesAndPhoto(Request $request, $id)
