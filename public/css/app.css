@@ -13927,6 +13927,12 @@ button {
   flex-direction: column;
   justify-content: space-between;
 }
+.pt-profile--file-ctrl {
+  display: flex;
+}
+.pt-profile--file-ctrl .pt-link {
+  margin-left: 15px;
+}
 .pt-profile--file-title {
   font-size: 18px;
   font-weight: 700;

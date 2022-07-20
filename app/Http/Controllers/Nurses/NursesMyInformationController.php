@@ -7,7 +7,9 @@ use App\Http\Repositories\NurseRepository;
 use App\Models\Nurse;
 use App\Models\NurseFile;
 use App\Models\User;
+use App\Models\UserPref;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -21,31 +23,6 @@ class NursesMyInformationController extends Controller
         parent::__construct();
 
         $this->nurseRepo = $nurseRepo;
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
@@ -91,6 +68,86 @@ class NursesMyInformationController extends Controller
 
         $this->makeEventSendProfileToAdmin($id);
         return response()->json(['success' => true]);
+    }
+
+    public function updateFile($nurse_id)
+    {
+        if (!$nurse = User::find($nurse_id)) {
+            Log::channel('app_logs')->error('NursesMyInformationController@updateFile User not exists');
+            return response()->json(['success' => false, 'errors' => 'User not exists']);
+        }
+
+        $errors = [];
+        $post = [];
+        if (request()->filled('info')) {
+            $post = json_decode(request()->post('info'), true);
+        } else {
+            Log::channel('app_logs')->error('NursesMyInformationController@updateFile File info not exists');
+            $errors = array_merge($errors, ['info' => 'File info not exists']);
+        }
+
+        if (count(request()->allFiles()) > 0) {
+            $rules = [
+                'file' => 'required|file|mimes:jpeg,bmp,png'
+            ];
+
+            $validator = Validator::make(request()->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        } else {
+            Log::channel('app_logs')->error('NursesMyInformationController@updateFile File not come');
+            $errors = array_merge($errors, ['file' => 'File not come']);
+        }
+
+        if (!is_null($post) && count($post) > 0) {
+            $rules = [
+                'title' => 'required',
+                'date' => 'required|date',
+                'place' => 'required',
+                'type' => 'required',
+            ];
+
+            $validator = Validator::make($post, $rules);
+
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        } else {
+            Log::channel('app_logs')->error('NursesMyInformationController@updateFile Info not come');
+            $errors = array_merge($errors, ['file' => 'Info not come']);
+        }
+
+        if (count($errors) > 0) {
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        $success = $this->nurseRepo->uploadFile($nurse, $post);
+        return response()->json(['success' => $success]);
+    }
+
+    public function removeFile($nurse_id)
+    {
+        $success = true;
+        $file_id = request()->post('file_id');
+        if(!is_numeric($nurse_id) || !is_numeric($file_id)){
+            $success = false;
+            Log::channel('app_logs')->error('NursesMyInformationController@removeFile nurse_id or file_id is not numeric');
+        }
+
+        if (!$nurse = User::find($nurse_id)) {
+            Log::channel('app_logs')->error('NursesMyInformationController@updateFile User not exists');
+            return response()->json(['success' => false, 'errors' => 'User not exists']);
+        }
+
+        $file = $nurse->entity->files->where('id', $file_id)->first();
+
+        Storage::disk('public')->delete($file->file_path);
+        Storage::disk('public')->delete($file->thumbnail_path);
+
+        $success = NurseFile::where('id', $file_id)->where('nurse_id', $nurse->entity->id)->delete();
+
+        return response()->json(['success' => $success]);
     }
 
     public function updateFilesAndPhoto(Request $request, $id)
@@ -143,15 +200,16 @@ class NursesMyInformationController extends Controller
         return response()->json(['success' => true, 'files' => $files, 'certificates' => $certificates]);
     }
 
-    public function removeCertificate() {
+    public function removeCertificate()
+    {
         $id = request()->post('id');
 
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             //todo:: hmm
             return response()->json(['success' => false]);
         }
 
-        if(!$nurseFile = NurseFile::where('id', $id)->first()){
+        if (!$nurseFile = NurseFile::where('id', $id)->first()) {
             //todo:: hmm
             return response()->json(['success' => false]);
         }
