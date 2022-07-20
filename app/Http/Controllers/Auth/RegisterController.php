@@ -112,7 +112,7 @@ class RegisterController extends Controller
                 return response()->json(['success' => true]);
             }
         } else {
-            Log::error('Can\'t create client in Register Controller');
+            Log::channel('app_logs')->error('Can\'t create client in Register Controller');
             return response()->json(['success' => false]);
         }
     }

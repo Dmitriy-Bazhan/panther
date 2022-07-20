@@ -19,12 +19,12 @@ class AdminComplaintController extends Controller
 
     public function changeStatusComplaint($id) {
         if(is_null($id) || !is_numeric($id)){
-            Log::error('AdminComplaintController@changeStatusComplaint complaint id is not valid');
+            Log::channel('app_logs')->error('AdminComplaintController@changeStatusComplaint complaint id is not valid');
             return response()->json(['success' => false]);
         }
 
         if(!$complaint = Complaint::find($id)){
-            Log::error('AdminComplaintController@changeStatusComplaint complaint not exists');
+            Log::channel('app_logs')->error('AdminComplaintController@changeStatusComplaint complaint not exists');
             return response()->json(['success' => false]);
         }
 

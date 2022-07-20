@@ -39,7 +39,7 @@ class NursesMessageController extends Controller
         if (request()->filled('client_id') && is_numeric(request('client_id'))) {
             $client_id = request('client_id');
         }else{
-            Log::error('NursesMessageController@store Client Id not exists');
+            Log::channel('app_logs')->error('NursesMessageController@store Client Id not exists');
             return abort(409);
         }
 

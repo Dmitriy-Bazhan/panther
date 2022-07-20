@@ -37,12 +37,12 @@ class AdminClientController extends Controller
 
     public function adminRemoveMessage($id) {
         if(is_null($id) && !is_numeric($id)){
-            Log::error('AdminClientController@adminRemoveMessage comment id is not valid');
+            Log::channel('app_logs')->error('AdminClientController@adminRemoveMessage comment id is not valid');
             return response()->json(['success' => false ]);
         }
 
         if(!$comment = PrivateChat::find($id)) {
-            Log::error('AdminClientController@adminRemoveMessage comment not exists');
+            Log::channel('app_logs')->error('AdminClientController@adminRemoveMessage comment not exists');
             return response()->json(['success' => false ]);
         }
 
@@ -50,7 +50,7 @@ class AdminClientController extends Controller
         $comment->status = 'removed';
 
         if(!$comment->save()){
-            Log::error('AdminClientController@adminRemoveMessage comment not possible save');
+            Log::channel('app_logs')->error('AdminClientController@adminRemoveMessage comment not possible save');
             return response()->json(['success' => false ]);
         }
 

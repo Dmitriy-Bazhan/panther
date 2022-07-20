@@ -36,8 +36,8 @@ class TestController extends Controller
 //
 //        dd('FFFFF');
 
-        $this->getNurseWorkCalendar();
 
+        Log::channel('app_logs')->error('Test message');
         dd('stop');
         $id = null;
         request()->merge([

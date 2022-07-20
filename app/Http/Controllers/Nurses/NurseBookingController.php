@@ -38,7 +38,7 @@ class NurseBookingController extends Controller
 
         if (!User::find($nurseId)) {
             //todo: hmmm
-            Log::error('Nurse with this id not exists in NurseBookingController::index');
+            Log::channel('app_logs')->error('Nurse with this id not exists in NurseBookingController::index');
             abort(409, 'Nurse with this id not exists');
         }
 

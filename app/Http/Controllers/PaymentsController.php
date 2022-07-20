@@ -82,7 +82,7 @@ class PaymentsController extends Controller
         try {
             $cashier->charge($payment->sum * 100, $paymentMethodId);
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+            Log::channel('app_logs')->error($exception->getMessage());
 //            return back()->with('error', $exception->getMessage());
             return response()->json([
                 'success' => false,

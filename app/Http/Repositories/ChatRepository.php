@@ -151,6 +151,40 @@ class ChatRepository
         return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
     }
 
+    public function getClientLastPrivateChats($id = null)
+    {
+        if (is_null($id)) {
+            $clientId = auth()->id();
+        } else {
+            $clientId = $id;
+        }
+
+        $nursesIds = PrivateChat::where('client_user_id', $clientId)->select('nurse_user_id')->get()->groupBy('nurse_user_id');
+        $nurses = User::whereIn('id', $nursesIds->keys())->without('prefs')->get()->groupBy('id');
+
+        $haveNewMessages = [];
+        $chats = [];
+        foreach ($nurses as $key => $chat) {
+            $nurses[$key]['count'] = PrivateChat::where('client_user_id', $clientId)
+                ->where('nurse_sent', 'yes')
+                ->where('nurse_user_id', $key)
+                ->where('status', 'unread')->count();
+            $nurses[$key]['last_message'] = PrivateChat::where('client_user_id', $clientId)
+                ->where('nurse_user_id', $key)
+                ->where('nurse_sent', 'yes')
+                ->orderByDesc('created_at')->first();
+            $nurses[$key]['chat'] = Chat::where('nurse_user_id', $key)
+                ->where('client_user_id', $clientId)->first();
+
+            if ($nurses[$key]['count'] > 0) {
+                $haveNewMessages[$key] = $key;
+            }
+
+        }
+
+        return ['nurses' => $nurses, 'haveNewMessages' => $haveNewMessages];
+    }
+
     public function getClientPrivateChats($id = null)
     {
         if (is_null($id)) {
@@ -169,6 +203,16 @@ class ChatRepository
             }
         }
         return ['chats' => $chats, 'nurses' => $nurses, 'haveNewMessages' => $haveNewMessages];
+    }
+
+    public function getClientCurrentPrivateChat($nurse_id = null, $client_id = null)
+    {
+        $messages = PrivateChat::where('nurse_user_id', $nurse_id)
+            ->where('client_user_id', $client_id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return $messages;
     }
 
     public function getClientPrivateChatsWithNurse($nurse_id)
@@ -275,7 +319,7 @@ class ChatRepository
         $success = true;
 
         if (!Chat::where('id', $chat->id)->delete()) {
-            Log::error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove chat');
+            Log::channel('app_logs')->error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove chat');
             $success = false;
         }
 
@@ -286,7 +330,7 @@ class ChatRepository
             ->where('nurse_user_id', $nurse_user_id)->delete();
 
         if (!$result) {
-            Log::error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove messages from private_chats table');
+            Log::channel('app_logs')->error('ChatRepository@removeChatAndAllThatRelationWithHim can\'t remove messages from private_chats table');
             $success = false;
         }
 
@@ -297,4 +341,6 @@ class ChatRepository
 
         return $success;
     }
+
+
 }

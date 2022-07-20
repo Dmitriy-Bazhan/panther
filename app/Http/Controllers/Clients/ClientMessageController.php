@@ -7,6 +7,8 @@ use App\Events\PrivateChat\NurseHaveNewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\ChatRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ClientMessageController extends Controller
 {
@@ -21,8 +23,8 @@ class ClientMessageController extends Controller
 
     public function index()
     {
-        $data = $this->chatRepo->getClientPrivateChats();
-        return response()->json(['success' => true,  'chats' => $data['chats'], 'nurses' => $data['nurses'],
+        $data = $this->chatRepo->getClientLastPrivateChats();
+        return response()->json(['success' => true, 'nurses' => $data['nurses'],
             'haveNewMessages' => $data['haveNewMessages']]);
     }
 
@@ -36,11 +38,29 @@ class ClientMessageController extends Controller
         $nurse_id = null;
         if (request()->filled('nurse_id') && is_numeric(request('nurse_id'))) {
             $nurse_id = request('nurse_id');
+        }else{
+            Log::channel('app_logs')->error('ClientMessageController@store Client Id not exists');
+            return abort(409);
         }
 
         $privateMessage = null;
         if (request()->filled('privateMessage') && request('privateMessage') !== '') {
             $privateMessage = request('privateMessage');
+        }
+
+        if (count(request()->allFiles()) > 0) {
+            $rules = [
+                'file' => 'sometimes|file|mimes:jpeg,bmp,png'
+            ];
+
+            $validator = Validator::make($request->allFiles(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+            }
+        }
+
+        if(is_null($privateMessage) && is_null(request()->file('file'))){
+            return response()->json(['success' => false]);
         }
 
         $client_id = auth()->id();
@@ -54,6 +74,12 @@ class ClientMessageController extends Controller
         broadcast(new ClientNurseSentMessage($result));
         broadcast(new NurseHaveNewMessage($result))->toOthers();
         return response()->json(['success' => $result]);
+    }
+
+    public function getCurrentChat($nurse_id, $client_id){
+
+        $messages = $this->chatRepo->getClientCurrentPrivateChat($nurse_id, $client_id);
+        return response()->json(['success' => true, 'messages' => $messages]);
     }
 
     public function show($id)

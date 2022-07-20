@@ -28,7 +28,7 @@ class ChatController extends Controller
         ]);
 
         if (!$result) {
-            Log::error('ChatController@setChatOnDeleteStatus some problems with update chat status');
+            Log::channel('app_logs')->error('ChatController@setChatOnDeleteStatus some problems with update chat status');
             return response()->json(['success' => false]);
         }
 
@@ -44,7 +44,7 @@ class ChatController extends Controller
         ]);
 
         if (!$result) {
-            Log::error('ChatController@setChatOnActiveStatus some problems with update chat status');
+            Log::channel('app_logs')->error('ChatController@setChatOnActiveStatus some problems with update chat status');
             return response()->json(['success' => false]);
         }
 
@@ -56,7 +56,7 @@ class ChatController extends Controller
         $chat_id = request('chat_id');
 
         if (!$chat = Chat::find($chat_id)) {
-            Log::error('ChatController@removeChatAtAll chat with this chat_id not exists');
+            Log::channel('app_logs')->error('ChatController@removeChatAtAll chat with this chat_id not exists');
             return response()->json(['success' => false]);
         }
 
