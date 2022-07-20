@@ -1,0 +1,463 @@
+.pt-messages{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+    padding: 0 20px 0 0;
+
+    &--panel{
+        width: 280px;
+        min-width: 280px;
+        margin-right: 30px;
+        height: 100%;
+        overflow: auto;
+    }
+
+    &--body{
+        width: 100%;
+        height: 100%;
+    }
+
+    &--tabs{
+        width: 280px;
+        min-width: 280px;
+        height: 50px;
+        background-color: $light-blue;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        padding: 5px 8px;
+        margin-bottom: 30px;
+
+        &-btn{
+            cursor: pointer;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.3s;
+            width: 100%;
+            color: $black;
+
+            &.active,
+            &:hover{
+                color: $white;
+                background-color: $highlight-primary;
+            }
+        }
+    }
+}
+
+.pt-client{
+    $self: &;
+    border: 2px solid $light-gray;
+    background-color: $white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &--name,
+    &--date,
+    &--msg{
+        transition: 0.3s;
+    }
+
+    &:hover{
+        background-color: $highlight;
+        border-color: $highlight;
+
+        #{$self}--name,
+        #{$self}--date,
+        #{$self}--msg{
+            color: $white;
+        }
+    }
+
+    &__active{
+        background-color: $highlight-primary;
+        border-color: $highlight-primary;
+
+        #{$self}--name,
+        #{$self}--date,
+        #{$self}--msg{
+            color: $white;
+        }
+    }
+
+    &--avatar{
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        background-color: #f1fcff;
+        border-radius: 50%;
+        position: relative;
+        margin-right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img{
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        &-no-photo{
+            color: $highlight-primary;
+            font-size: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span{
+                display: block;
+
+                &:first-letter{
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    &--signal{
+        width: 8px;
+        height: 8px;
+        background-color: #5ac809;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    &--info{
+        width: calc(100% - 115px);
+    }
+
+    &--name{
+        color: $black;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    &--msg{
+        color: $gray;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: 400;
+    }
+
+    &--meta{
+        width: 55px;
+        min-width: 55px;
+        text-align: right;
+    }
+
+    &--date{
+        color: $highlight-primary;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    &--count{
+        width: 20px;
+        height: 20px;
+        background-color: $highlight;
+        border-radius: 50%;
+        color: $white;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 0 0 auto;
+    }
+}
+
+.pt-chat{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    max-height: calc(100% - 190px);
+    overflow: auto;
+
+    &--head{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        border-bottom: 2px solid $light-gray;
+        padding-bottom: 15px;
+        height: 80px;
+
+        &-avatar{
+            width: 65px;
+            min-width:65px;
+            height: 65px;
+            background-color: #f1fcff;
+            border-radius: 50%;
+            position: relative;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+
+            &-no-photo{
+                color: $highlight-primary;
+                font-size: 0;
+                font-weight: 700;
+                text-transform: uppercase;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span{
+                    display: block;
+
+                    &:first-letter{
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+
+        &-name{
+            color: $highlight-primary;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .pt-link{
+            margin: 0 0 0 auto;
+        }
+    }
+
+    &--group{
+        margin-top: 30px;
+    }
+
+    &--message{
+        $self: &;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 5px 0;
+
+        &-avatar{
+            width: 40px;
+            min-width: 40px;
+            height: 40px;
+            background-color: $light-blue;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0;
+
+            &--wrapper{
+                width: 40px;
+                min-width: 40px;
+                margin-right: 30px;
+            }
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+
+            &--no-photo{
+                color: $highlight-primary;
+                font-size: 0;
+                font-weight: 700;
+                text-transform: uppercase;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span{
+                    display: block;
+
+                    &:first-letter{
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+
+        &-block{
+            width: 100%;
+        }
+
+        &-date{
+            color: $highlight-primary;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        &-body{
+            background-color: $light-blue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: top;
+            color: $gray;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        &__outer{
+            text-align: right;
+
+            #{$self}-avatar--wrapper{
+                margin-right: 0;
+                margin-left: 30px;
+            }
+
+            #{$self}-date{
+
+            }
+
+            #{$self}-body{
+                background-color: $highlight-primary;
+                color: $white;
+            }
+        }
+    }
+
+    &--ctrl{
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+        border: 2px solid $light-gray;
+        background-color: $white;
+        margin-top: 20px;
+        height: 90px;
+
+        &-attach{
+            width: 90px;
+            min-width: 90px;
+            border-right: 2px solid $light-gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+
+            input{
+                display: none;
+            }
+
+            .pt-icon{
+                width: 22px;
+                height: 24px;
+                color: $highlight-primary;
+            }
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                padding: 10px;
+            }
+
+            &--remove{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: 0.3s;
+
+                &:hover{
+                    opacity: 1;
+                }
+
+                .fa-solid{
+                    color: $white;
+                    font-size: 26px;
+                }
+                .pt-icon{
+                    width: 40px;
+                    height: 40px;
+                    color: $white;
+                }
+            }
+        }
+
+        &-input{
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 30px 0 0;
+
+            input{
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 0 30px;
+            }
+
+            .pt-btn{
+                width: 120px;
+            }
+        }
+    }
+}
+
+.pt-search{
+    height: 60px;
+    border: 2px solid $light-gray;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &--input{
+        padding: 0 20px;
+        width: 100%;
+        height: 100%;
+        color: $gray;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    &--btn{
+        padding: 0 20px;
+        line-height: 1;
+
+        .fa-solid{
+            font-size: 20px;
+            color: $highlight;
+        }
+    }
+}

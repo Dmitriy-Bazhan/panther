@@ -1,8 +1,30 @@
 <template>
-    <div v-on:click="showChat()"
-         v-bind:class="[active ? 'client-chat-wrapper-active container-fluid' : 'client-chat-wrapper container-fluid']">
-        <span class="client-name">{{ client[0].first_name + ' ' + client[0].last_name}}</span>
-        &nbsp;<span v-if="haveUnreadMessages" class="alarm-signal blink"></span>
+    <div class="pt-client" v-on:click="showChat()"
+         v-bind:class="{'pt-client__active': index === $parent.client_id}">
+        <div class="pt-client--avatar">
+            <img :src="path + '/storage/' + client[0].entity.thumbnail_photo" alt="pic" v-if="client[0].entity.thumbnail_photo">
+            <div class="pt-client--avatar-no-photo" v-else>
+                <span>{{ client[0].first_name }}</span>
+                <span>{{ client[0].last_name }}</span>
+            </div>
+            <span v-if="haveUnreadMessages" class="pt-client--signal"></span>
+        </div>
+        <div class="pt-client--info">
+            <div class="pt-client--name">
+                {{ client[0].first_name + ' ' + client[0].last_name}}
+            </div>
+            <div class="pt-client--msg" v-if="client.last_message">
+                {{ client.last_message.message}}
+            </div>
+        </div>
+        <div class="pt-client--meta" v-if="client.last_message">
+            <div class="pt-client--date">
+                {{formatDate(client.last_message.created_at)}}
+            </div>
+            <div class="pt-client--count" v-show="client.count > 0">
+                {{client.count}}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -12,11 +34,18 @@
         props: ['index', 'client', 'firstChat'],
         data() {
             return {
+                path: location.origin,
                 active: false,
                 haveUnreadMessages: false,
             }
         },
         mounted() {
+            this.emitter.on('disable-show-alarm-new-message', e => {
+                if(Number(this.client[0].id) === Number(e)){
+                    this.client.count = 0
+                }
+            });
+
             if(this.firstChat === this.index){
                 this.active = true;
             }
@@ -42,6 +71,9 @@
             });
         },
         methods: {
+            formatDate(date) {
+                return dayjs(date).format('DD.MM.YY')
+            },
             showChat() {
                 this.emitter.emit('show-chat', this.index);
                 this.emitter.emit('active-client', this.index);
@@ -51,26 +83,4 @@
 </script>
 
 <style scoped>
-    .client-chat-wrapper {
-        background: #78886c;
-        padding: 10px;
-        border: solid 1px white;
-        cursor: pointer;
-    }
-
-    .client-chat-wrapper:hover {
-        background: #abbf9b;
-    }
-
-    .client-name {
-        font-size: 14px;
-        font-weight: 600;
-        color: white;
-    }
-
-    .client-chat-wrapper-active {
-        background: #36e64e;
-        padding: 10px;
-        border: solid 1px #14991b;
-    }
 </style>

@@ -55,13 +55,13 @@ import Localization from "./Localization";
 import Logout from "./Logout";
 
 export default {
-name: "Header",
+    name: "Header",
     components : {
         'localization-component' : Localization,
         'logout-component' : Logout,
     },
     mounted() {
-        console.log(this.$router)
+
     }
 }
 </script>

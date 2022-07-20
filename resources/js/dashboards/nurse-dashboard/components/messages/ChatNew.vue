@@ -1,41 +1,42 @@
 <template>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 chat-wrapper">
-                <div v-if="comments.length > 0" v-for="comment in comments">
-                    <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
-                        <span class="chat-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="chat-client-message">
-                            {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="chat-client-date">
-                            {{ formatDate(comment.created_at)  + ' ' + comment.status }}
-                        </span>
-                    </div>
-
-                    <div v-else class="nurse-client-message-wrapper">
-                        <span class="nurse-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-message">
-                            {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-date">
-                            {{ formatDate(comment.created_at) }}
-                        </span>
-
+        <div class="pt-chat" v-if="comments.length > 0" v-for="comment in comments">
+            <div v-if="comment.client_sent === 'yes'" class="pt-chat--message pt-chat--message__inner">
+                <div class="pt-chat--message-avatar">
+                    <div class="pt-chat--message-avatar--no-photo">
+                        <span>{{ comment.user_name }}</span>
                     </div>
                 </div>
-
+                <div class="pt-chat--message-block">
+                    <div class="pt-chat--message-date">
+                        {{ formatDate(comment.created_at)  + ' ' + comment.status }}
+                    </div>
+                    <div class="pt-chat--message-body">
+                        {{ comment.message }}
+                    </div>
+                </div>
             </div>
 
+            <div v-else class="pt-chat--message pt-chat--message__outer">
+                <div class="pt-chat--message-block">
+                    <div class="pt-chat--message-date">
+                        {{ formatDate(comment.created_at)  + ' ' + comment.status }}
+                    </div>
+                    <div class="pt-chat--message-body">
+                        {{ comment.message }}
+                    </div>
+                </div>
+                <div class="pt-chat--message-avatar">
+                    <div class="pt-chat--message-avatar--no-photo">
+                        <span>{{ comment.user_name }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+
+
         <br>
         <div class="row" v-if="showMarkIsReadBlock">
             <div class="col-4">
