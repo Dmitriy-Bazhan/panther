@@ -97,7 +97,7 @@
                     <div class="pt-row">
                         <div class="pt-col-md-6" v-for="(item, index) in authUser.entity.files">
                             <div class="pt-profile--file">
-                                <img :src="path + '/' + item.file_path" alt="pic" class="pt-profile--file-preview">
+                                <img :src="path + '/storage/' + item.file_path" alt="pic" class="pt-profile--file-preview">
                                 <div class="pt-profile--file-inner">
                                     <div class="pt-profile--file-title">
                                         {{ item.title }}
@@ -846,11 +846,6 @@
                 axios.post('/dashboard/nurse-my-information/remove-file/' + this.user.id,
                     {
                         file_id: item.id
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        }
                     })
                     .then((response) => {
                         if (response.data.success) {
