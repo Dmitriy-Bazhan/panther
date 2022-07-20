@@ -12,41 +12,41 @@
     </div>
     <div class="pt-messages">
         <div class="pt-messages--panel">
-            <form action="" @submit.prevent="filterClients" class="pt-search">
+            <form action="" @submit.prevent="filterUsers" class="pt-search">
                 <input type="text" class="pt-search--input" v-model="search" placeholder="Suchen">
                 <button class="pt-search--btn">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
-            <div v-if="clients" v-for="(client, index) in filteredClients">
-                <client :index="index" :client="client" :firstChat="firstChat"></client>
+            <div v-if="nurses" v-for="(nurse, index) in filteredNurses">
+                <nurse :index="index" :nurse="nurse" :firstChat="firstChat"></nurse>
             </div>
-            <h3 class="pt-mt-5" v-show="Object.keys(filteredClients).length === 0">
+            <h3 class="pt-mt-5" v-show="Object.keys(filteredNurses).length === 0">
                 Empty
             </h3>
         </div>
         <div class="pt-messages--body">
-            <chat :user="user" :clients="clients" :chat="chat"></chat>
+            <chat :user="user" :clients="nurses" :chat="chat"></chat>
         </div>
     </div>
 </template>
 
 <script>
 import Chat from './Chat';
-import Client from "./Client";
+import Nurse from './Nurse'
 
 export default {
     name: "MessagesClient",
     props: ['user', 'data'],
     components: {
         'chat': Chat,
-        'client': Client,
+        'nurse': Nurse,
     },
     data() {
         return {
             search: '',
-            clients: false,
-            filteredClients: false,
+            nurses: false,
+            filteredNurses: false,
             activeTab: 'active',
             client_id: null,
             haveNewMessages: [],
@@ -98,21 +98,21 @@ export default {
             }
 
             if(self.activeTab === 'active'){
-                _.forEach(self.clients, function (e, key){
+                _.forEach(self.nurses, function (e, key){
                     if(e.chat.status === 'active'){
                         result[key] = e
                     }
                 })
             }
             if(self.activeTab === 'deleted'){
-                _.forEach(self.clients, function (e, key){
+                _.forEach(self.nurses, function (e, key){
                     if(e.chat.status === 'deleted'){
                         result[key] = e
                     }
                 })
             }
             else{
-                _.forEach(self.clients, function (e, key){
+                _.forEach(self.nurses, function (e, key){
                     //let res2 = e[0].last_name.toLowerCase().indexOf(self.search.toLowerCase()) !== -1
                     if(e.count > 0){
                         result[key] = e
@@ -120,12 +120,12 @@ export default {
                 })
             }
 
-            this.filteredClients = result
+            this.filteredNurses = result
         },
-        filterClients() {
+        filterUsers() {
             let self = this
             let result = {}
-            _.forEach(self.clients, function (e, key){
+            _.forEach(self.nurses, function (e, key){
                 let res1 = e[0].first_name.toLowerCase().indexOf(self.search.toLowerCase()) !== -1
                 let res2 = e[0].last_name.toLowerCase().indexOf(self.search.toLowerCase()) !== -1
 
@@ -133,19 +133,21 @@ export default {
                     result[key] = e
                 }
             })
-            this.filteredClients = result
+            this.filteredNurses = result
         },
         getPrivateChats() {
-            axios.get('/dashboard/nurse-private-chats')
+            axios.get('/dashboard/client-private-chats')
                 .then((response) => {
                     console.log(response)
-                    this.clients = response.data.clients;
-                    this.filteredClients = response.data.clients;
+                    this.nurses = response.data.nurses;
+                    this.haveNewMessages = response.data.haveNewMessages;
+
+                    this.filteredNurses = response.data.nurses;
                     this.haveNewMessages = response.data.haveNewMessages;
                     if(!this.client_id){
-                        this.client_id = Object.keys(this.clients)[0];
+                        this.client_id = Object.keys(this.nurses)[0];
                     }
-                    this.chat = response.data.clients[this.client_id].chat;
+                    this.chat = response.data.nurses[this.client_id].chat;
                     this.firstChat = this.client_id;
                     let e = {
                         client_id: this.client_id,

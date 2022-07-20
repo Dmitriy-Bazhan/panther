@@ -11,9 +11,11 @@
         <div class="pt-chat--head-name">
             {{clients[client_id][0].full_name}}
         </div>
-
-        <button class="pt-link" @click.prevent="deleteChat">
+        <button class="pt-link" @click.prevent="deleteChat" v-if="clients[client_id].chat.status === 'active'">
             Delete Chat
+        </button>
+        <button class="pt-link" @click.prevent="activateChat" v-else>
+            Activate Chat
         </button>
     </div>
 
@@ -177,11 +179,30 @@ export default {
     },
     methods: {
         deleteChat(){
+            let self = this
             axios.post( '/set-chat-on-delete-status', {
                 'chat_id': this.chat.id,
             })
                 .then((response) => {
-                    console.log(response)
+                    if(response.data.success){
+                        self.clients[self.client_id].chat.status = 'deleted'
+                        self.emitter.emit('change-message-status', 'deleted');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        activateChat(){
+            let self = this
+            axios.post( '/set-chat-on-active-status', {
+                'chat_id': this.chat.id,
+            })
+                .then((response) => {
+                    if(response.data.success){
+                        self.clients[self.client_id].chat.status = 'active'
+                        self.emitter.emit('change-message-status', 'active');
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -238,7 +259,6 @@ export default {
                     console.log(error);
                 });
         },
-
         markAsReadThisChat(){
             let self = this
             axios.post('/dashboard/nurse-private-chats/mark-as-read', {

@@ -1,11 +1,30 @@
 <template>
-    <div v-on:click="showChat()"
-         v-bind:class="[active ? 'nurse-chat-wrapper-active container-fluid' : 'nurse-chat-wrapper container-fluid']">
-        <span class="nurse-name">{{ nurse[0].first_name + ' ' + nurse[0].last_name}}</span>
-        &nbsp;<span v-if="haveUnreadMessages" class="alarm-signal blink"></span>
-    </div>
-    <div>
-        <button class="btn btn-dark btn-sm" v-on:click="sendToBookings()">{{ $t('send_to_bookings') }}</button>
+    <div class="pt-client" v-on:click="showChat()"
+         v-bind:class="{'pt-client__active': index === $parent.client_id}">
+        <div class="pt-client--avatar">
+            <img :src="path + '/storage/' + nurse[0].entity.thumbnail_photo" alt="pic" v-if="nurse[0].entity.thumbnail_photo">
+            <div class="pt-client--avatar-no-photo" v-else>
+                <span>{{ nurse[0].first_name }}</span>
+                <span>{{ nurse[0].last_name }}</span>
+            </div>
+            <span v-if="haveUnreadMessages" class="pt-client--signal"></span>
+        </div>
+        <div class="pt-client--info">
+            <div class="pt-client--name">
+                {{ nurse[0].first_name + ' ' + nurse[0].last_name}}
+            </div>
+            <div class="pt-client--msg" v-if="nurse.last_message">
+                {{ nurse.last_message.message}}
+            </div>
+        </div>
+        <div class="pt-client--meta" v-if="nurse.last_message">
+            <div class="pt-client--date">
+                {{formatDate(nurse.last_message.created_at)}}
+            </div>
+            <div class="pt-client--count" v-show="nurse.count > 0">
+                {{nurse.count}}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -15,18 +34,26 @@
         props: ['index', 'nurse', 'firstChat'],
         data() {
             return {
+                path: location.origin,
                 active: false,
                 haveUnreadMessages: false,
             }
         },
         mounted() {
-            if (this.firstChat === this.index) {
+            this.emitter.on('disable-show-alarm-new-message', e => {
+                if(Number(this.client[0].id) === Number(e)){
+                    this.client.count = 0
+                }
+            });
+
+            if(this.firstChat === this.index){
                 this.active = true;
             }
+
             this.emitter.on('active-nurse', e => {
-                if (e === this.index) {
+                if(e === this.index){
                     this.active = true;
-                } else {
+                }else {
                     this.active = false;
                 }
             });
@@ -50,6 +77,10 @@
             },
             sendToBookings() {
                 window.open('/booking/' + this.index);
+            },
+
+            formatDate(date) {
+                return dayjs(date).format('DD.MM.YY')
             },
         }
     }
