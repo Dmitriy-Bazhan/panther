@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
                 $text = __('mail-message.email_verification_for_nurses');
                 $user = auth()->user();
 
-                if (env('MAIL_USE_QUEUE')) {
+                if (config('mail_use_queue')) {
                     Mail::mailer('smtp')->to(auth()->user()->email)->
                     queue(new VerificationMail($url, $text, $user));
                 } else {
@@ -52,7 +52,7 @@ class AuthServiceProvider extends ServiceProvider
                 $text = __('mail-message.email_verification_for_clents');
                 $user = auth()->user();
 
-                if (env('MAIL_USE_QUEUE')) {
+                if (config('mail_use_queue')) {
                     Mail::mailer('smtp')->to(auth()->user()->email)->
                     queue(new VerificationMail($url, $text, $user));
                 } else {

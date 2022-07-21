@@ -144,7 +144,7 @@ class BookingController extends Controller
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
 
-        if (env('MAIL_USE_QUEUE')) {
+        if (config('mail_use_queue')) {
             Mail::mailer('smtp')->to($client->email)
                 ->queue(new ClientVerificationBookingMail($booking, $nurse, $client));
         } else {
@@ -200,7 +200,7 @@ class BookingController extends Controller
 
         app()->setLocale($nurse->prefs->pref_lang);
 
-        if (env('MAIL_USE_QUEUE')) {
+        if (config('mail_use_queue')) {
             Mail::mailer('smtp')->to($nurse->email)
                 ->queue(new SendNurseNewBookingMail($nurse, $client));
         } else {

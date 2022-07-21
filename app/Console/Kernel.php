@@ -21,6 +21,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(new RemoveTaskAfterThirtyDays())->daily();
 
         $schedule->command('auth:clear-resets')->everySixHours();
+
+        $schedule->command('debugbar:clear')->days(30);
+
+
     }
 
     /**
