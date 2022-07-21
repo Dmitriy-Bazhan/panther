@@ -1,0 +1,92 @@
+<div>
+    <h5>Complaints</h5>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Who wrote</th>
+            <th>About who</th>
+            <th>Complaint</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="complaints" v-for="complaint in complaints">
+            <template v-if="complaint.type == 'nurse'">
+                <td>{{ complaint.id }}</td>
+                <td>{{ 'Nurse ' + complaint.nurse.full_name }}</td>
+                <td>{{ 'Client ' + complaint.client.full_name }}</td>
+                <td>{{ complaint.complaint }}</td>
+                <td>{{ complaint.status }}</td>
+                <td>
+                    <button class="btn btn-sm btn-success"
+                            v-on:click="changeStatus(complaint)">
+                        {{ $t('change_status') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-on:click="writeMessageToUser(complaint.nurse)">{{
+                        $t('send_message_to_nurse') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-on:click="writeMessageToUser(complaint.client)">{{
+                        $t('send_message_to_client') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-if="complaint.nurse.banned == 'no'"
+                            v-on:click="banNurse(complaint.nurse)">
+                        {{ $t('ban_nurse') + ': ' + complaint.nurse.full_name }}
+                    </button>
+                    <button class="btn btn-sm btn-success" v-if="complaint.nurse.banned == 'yes'"
+                            v-on:click="dismissBanNurse(complaint.nurse)">
+                        {{ $t('dismiss_ban_nurse') + ': ' + complaint.nurse.full_name }}
+                    </button>
+                </td>
+            </template>
+            <template v-else-if="complaint.type == 'client'">
+                <td>{{ complaint.id }}</td>
+                <td>{{ 'Client ' + complaint.client.full_name }}</td>
+                <td>{{ 'Nurse ' + complaint.nurse.full_name }}</td>
+                <td>{{ complaint.complaint }}</td>
+                <td>{{ complaint.status }}</td>
+                <td>
+                    <button class="btn btn-sm btn-success"
+                            v-on:click="changeStatus(complaint)">
+                        {{ $t('change_status') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-on:click="writeMessageToUser(complaint.nurse)">{{
+                        $t('send_message_to_nurse') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-on:click="writeMessageToUser(complaint.client)">{{
+                        $t('send_message_to_client') }}
+                    </button>&nbsp;
+                    <button class="btn btn-sm btn-success" v-if="complaint.client.banned == 'no'"
+                            v-on:click="banClient(complaint.client)">
+                        {{ $t('ban_client') + ': ' + complaint.client.full_name }}
+                    </button>
+                    <button class="btn btn-sm btn-success" v-if="complaint.client.banned == 'yes'"
+                            v-on:click="dismissBanClient(complaint.client)">
+                        {{ $t('dismiss_ban_client') + ': ' + complaint.client.full_name }}
+                    </button>
+                </td>
+            </template>
+        </tr>
+        </tbody>
+    </table>
+    <template v-if="links">
+        <div class="row">
+            <div>
+                <template v-for="(link,index) in links">
+                    <span class="paginate-link" v-if="index == 0" v-on:click="goToPage(link.url)">Prev</span>
+                    <span class="paginate-link" v-else-if="index == (links.length - 1)" v-on:click="goToPage(link.url)">Next</span>
+                    <span :style="{'background-color': link.active ? 'lightblue' : ''}"
+                          class="paginate-link"
+                          v-else
+                          v-on:click="goToPage(link.url)">{{ link.label }}</span>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <template v-if="show_modal == 'send_message'">
+        <send_message :temp_user="temp_user"></send_message>
+    </template>
+</div>

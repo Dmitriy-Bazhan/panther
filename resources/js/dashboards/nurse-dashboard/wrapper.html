@@ -1,30 +1,18 @@
 <div>
-    <nurse-header :user="user"></nurse-header>
+    <pt-header :data="data"></pt-header>
 
-<!--    <test-chat :user="user"></test-chat>-->
-
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <div class="col-2" style="padding: unset;">
-
-                <left-panel></left-panel>
-
-            </div>
-
-            <div class="col-10">
-
-                <notification :user="user"></notification>
-
-                <router-view :user="user" :data="data"></router-view>
-
-            </div>
-
+    <div class="pt-dashboard--wrapper">
+        <div class="pt-dashboard--panel">
+            <left-panel :showAlarmNewMessage="showAlarmNewMessage" :showAlarmHaveNotApproved="showAlarmHaveNotApproved"></left-panel>
         </div>
+        <div class="pt-dashboard--body">
+            <notification :user="user"></notification>
 
+            <router-view :user="user" :data="data"></router-view>
+        </div>
     </div>
 
-
+    <response-success-true v-if="response_success_true"></response-success-true>
 
 </div>
+

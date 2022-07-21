@@ -1,39 +1,62 @@
 <template>
-    <div class="container-fluild">
-        <div class="row">
+    <div class="pt-section-default">
+        <div class="wrapper">
+            <p class="pt-subtitle">
+                <span>{{$t('login_subtitle')}}</span>
+            </p>
+            <h2 class="pt-title">
+                {{$t('login_title')}}
+            </h2>
 
-            <div class="col-4 offset-4">
-                <h1>Login</h1>
+            <form class="pt-form">
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{$t('email')}} :
+                    </p>
+                    <pt-input type="email" :modelValue="email" icon="email"
+                              @update:modelValue="newValue => email = newValue"
+                    ></pt-input>
+                </div>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{$t('password')}} :
+                    </p>
+                    <pt-input type="password" :modelValue="password" icon="password"
+                              @update:modelValue="newValue => password = newValue"
+                    ></pt-input>
+                </div>
 
-                <form>
-                    <div class="mb-3">
-                        <label for="input_email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="input_email" aria-describedby="emailHelp" v-model="email">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <div class="pt-form--group">
+                    <div class="pt-form--info">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
+                            {{$t('remember_me')}}
+                        </label>
+                        <p>
+                            <a href="">
+                                {{$t('password_forgot')}}
+                            </a>
+                        </p>
                     </div>
-                    <div class="mb-3">
-                        <label for="input_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="input_password" v-model="password">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="check" v-model="checkbox">
-                        <label class="form-check-label" for="check">Check me out</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <button class="btn btn-primary" v-on:click="SendLogin">Send</button>
-                        </div>
-                        <div class="col-2 offset-8">
-                            <button class="btn btn-primary" v-on:click="backToHome">Back</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
 
-                <p v-if="errors !== null" v-for="error in errors">{{ error }}</p>
-            </div>
+                <div class="pt-form--group">
+                    <button class="pt-btn pt-md" v-on:click="SendLogin">{{$t('login_btn')}}</button>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--text">
+                        {{$t('register_text')}} <a href="register">{{$t('register_link')}}</a>
+                    </p>
+                </div>
+<!--                <button class="btn btn-primary" v-on:click="backToHome">Back</button>-->
+            </form>
+
+            <p v-if="errors !== null" v-for="error in errors">{{ error }}</p>
+
+
 
         </div>
-
     </div>
 </template>
 
@@ -47,6 +70,8 @@ export default {
             errors : null,
             checkbox: false,
         };
+    },
+    mounted() {
     },
     methods: {
         SendLogin(event){
@@ -62,7 +87,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    // console.log(error.response.data.errors);
+                    console.log(error.response.data.errors);
 
                 });
         },

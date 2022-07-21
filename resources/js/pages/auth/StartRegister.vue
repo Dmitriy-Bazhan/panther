@@ -1,41 +1,45 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4 offset-4 btn-group-vertical">
-
-                <button v-on:click="toClientRegister" class="btn btn-lg btn-primary">Client</button>
-
-                <br>
-
-                <button v-on:click="toNurseRegister" class="btn btn-lg btn-primary">Nurse</button>
-
-                <br>
-
-                <button v-on:click="backToHome" class="btn btn-lg btn-primary">Back</button>
-
-            </div>
+    <div class="pt-section-default">
+        <div class="pt-tabs">
+            <button v-on:click="activeTab = 1" class="pt-tabs--btn" :class="{active: activeTab === 1}">
+                {{$t('i_am_client')}}
+            </button>
+            <button v-on:click="activeTab = 2" class="pt-tabs--btn" :class="{active: activeTab === 2}">
+                {{$t('i_am_nurse')}}
+            </button>
         </div>
 
+        <client_register v-if="activeTab === 1" :data="data"></client_register>
+        <nurse_register v-if="activeTab === 2" :data="data"></nurse_register>
     </div>
 </template>
 
 <script>
-export default {
-    name: "StartRegister",
-    methods: {
-        toClientRegister() {
-            location.href = '/client-register';
+    import NurseRegister from "./NurseRegister";
+    import ClientRegister from "./ClientRegister";
+
+    export default {
+        name: "StartRegister",
+        props: ['data'],
+        components: {
+            nurse_register: NurseRegister,
+            client_register: ClientRegister,
         },
-        toNurseRegister() {
-            location.href = '/nurse-register';
+        data() {
+            return {
+                activeTab: 1,
+            }
         },
-        backToHome(){
-            location.href = '/';
+        mounted() {
+
+        },
+        methods: {
         }
     }
-}
 </script>
 
 <style scoped>
-
+    .center {
+        text-align: center;
+    }
 </style>

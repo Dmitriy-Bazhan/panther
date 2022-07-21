@@ -1,0 +1,165 @@
+<div>
+    <h5>Card</h5>
+
+    <div class="row">
+        <div class="col-8">
+           <add_card :user="user" :data="data"></add_card>
+        </div>
+
+    </div>
+
+
+    <h3>{{ $t('payment_wait') }}</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sum</th>
+            <th>Nurse</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr v-if="waiting_payments.length > 0" v-for="payment in waiting_payments">
+                <td>{{ payment.id }}</td>
+                <td>{{ payment.sum }}</td>
+                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
+                <td>{{ payment.date }}</td>
+                <td>
+                    <button class="btn btn-sm btn-success" v-on:click="showPaymentTemporary(payment)">{{ $t('pay') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>{{ $t('payment_payed') }}</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sum</th>
+            <th>Nurse</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="payed_payments.length > 0" v-for="payment in payed_payments">
+            <td>{{ payment.id }}</td>
+            <td>{{ payment.sum }}</td>
+            <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
+            <td>{{ payment.date }}</td>
+            <td>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>{{ $t('break_payments') }}<span class="dev-temporary-notification">Payment, when client payed, but nurse refuse booking or cant execute booking</span></h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sum</th>
+            <th>Nurse</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="break_payments.length > 0" v-for="payment in break_payments">
+            <td>{{ payment.id }}</td>
+            <td>{{ payment.sum }}</td>
+            <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
+            <td>{{ payment.date }}</td>
+            <td>
+                <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>{{ $t('refuse_payments') }}<span class="dev-temporary-notification">Payments, when client refuse payment( temporary)</span></h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sum</th>
+            <th>Nurse</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="break_payments.length > 0" v-for="payment in break_payments">
+            <td>{{ payment.id }}</td>
+            <td>{{ payment.sum }}</td>
+            <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
+            <td>{{ payment.date }}</td>
+            <td>
+                <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div v-if="show_booking" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <show_booking :booking="booking"></show_booking>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_payment" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('booking_from_nurse') + ': ' + payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <show_payment :payment="payment"></show_payment>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_pay_temporary" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <pay_payment :payment="payment"></pay_payment>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdditionalInfo;
+use App\Models\AdditionalInfoData;
+use App\Models\Lang;
+use App\Models\PrivateChat;
+use App\Models\ProvideSupport;
 use Illuminate\Http\Request;
 
 class ClientDashboardController extends Controller
@@ -14,7 +19,22 @@ class ClientDashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $data = siteData();
+
+        $data['data']['have_new_message'] = PrivateChat::where('client_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->whereNotNull('nurse_sent')
+            ->first() !== null ? true : false;
+        $data['data']['last_unread_messages'] = PrivateChat::where('client_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('nurse_sent', 'yes')
+            ->orderByDesc('created_at')->get()->groupBy('nurse_user_id');
+        $data['data']['count_of_unread_messages'] = PrivateChat::where('client_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('nurse_sent', 'yes')
+            ->count();
+
+        return view('dashboard', $data);
     }
 
     /**
@@ -82,4 +102,6 @@ class ClientDashboardController extends Controller
     {
         //
     }
+
+
 }

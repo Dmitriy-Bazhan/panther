@@ -8,6 +8,7 @@
     <title>Panther</title>
 
     <!--BOOTSTRAP-->
+    <link href="{{asset('css/themify-icons/themify-icons.css')}}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
@@ -35,8 +36,10 @@
 
     </dashboard>
 </div>
+<div id="modals"></div>
 
 <script src="{{asset('js/app.js')}}"></script>
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </body>
 
 </html>

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Laravel\Cashier\Billable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 Relation::morphMap([
     'admin' => 'App\Models\Admin',
@@ -17,7 +19,9 @@ Relation::morphMap([
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable, CanResetPassword;
+
+    protected $appends = ['full_name'];
 
     protected $with = [
         'entity',
@@ -50,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'info_is_full', //needed only in order
         'change_info',
+        'stripe_id',
     ];
 
     /**
@@ -107,5 +112,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\UserPref', 'user_id', 'id');
     }
 
+    public function rate() {
+        return $this->hasMany('App\Models\Rate', 'user_id', 'id');
+    }
 
+    public function getFullNameAttribute() {
+        return $this->attributes['full_name'] = $this->first_name . ' ' . ucfirst(substr($this->last_name, 0, 1));
+    }
+
+    public function canJoinRoom($roomID) {
+        return true;
+    }
 }

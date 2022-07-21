@@ -1,0 +1,48 @@
+
+// Typography
+$font-family-sans-serif: "Cerebri Sans", sans-serif;
+
+// Colors
+$white: #ffffff;
+$highlight: #ff9600;
+$highlight-primary: #005eaf;
+$light-gray: #edf6f8;
+$gray: #6a6a6a;
+$light-blue: #f1fcff;
+$red: #fb2515;
+
+
+$red-h: #f7524e;
+$white-h: #ffebeb;
+$black: #293335;
+$blue: #30a1b6;
+$blue-h: #268b9e;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$orange: #ff9600;
+$yellow: #ffed4a;
+$green: #00b350;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+:root {
+    --slider-height: 4px;
+    --slider-handle-width: 20px;
+    --slider-handle-height: 20px;
+}
+
+// sizes
+$width-max: 1500px;
+$width-lg: 1300px;
+$width-md: 1024px;
+$width-sm: 768px;
+$width-mobile: 480px;
+$width-xs: 420px;
+$width-min: 319px;
+
+$width-lg-min: $width-lg + 1;
+$width-md-min: $width-md + 1;
+$width-sm-min: $width-sm + 1;
+$width-xs-min: $width-xs + 1;
+$width-min-min: $width-min + 1;

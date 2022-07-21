@@ -1,0 +1,17 @@
+<div>
+    <h1>{{ $t('settings') }}</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <menu_settings></menu_settings>
+            </div>
+            <div class="col-10">
+                <hear_about_us v-if="active_menu === 'hear_about_us'" :user="user"></hear_about_us>
+                <site_settings v-if="active_menu === 'site_settings'" :user="user"></site_settings>
+                <type_of_learning v-if="active_menu === 'type_of_learning'" :user="user"></type_of_learning>
+                <time_intervals v-if="active_menu === 'time_intervals'" :data="data"></time_intervals>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,9 @@
             <div v-if="not_filled_info" class="col-2">
                 <span class="alarm-signal blink"></span>&nbsp;<span class="alarm">You must filled info</span>
             </div>
+            <div v-if="photo_not_exists" class="col-2">
+                <span class="alarm-signal blink"></span>&nbsp;<span class="alarm">Photo not exists</span>
+            </div>
             <div v-if="profile_not_approved" class="col-3">
                 <span class="alarm-signal blink"></span>&nbsp;<span class="alarm">Your profile is not aprroved. Wait, please</span>
             </div>
@@ -20,6 +23,7 @@ export default {
        return {
            not_filled_info : true,
            profile_not_approved: true,
+           photo_not_exists: true,
        }
     },
     mounted() {
@@ -41,6 +45,10 @@ export default {
 
         this.emitter.on('user-finished-fill-info', e => {
             this.not_filled_info = false;
+        });
+
+        this.emitter.on('photo-exist', e => {
+            this.photo_not_exists = false;
         });
     }
 }

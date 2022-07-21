@@ -1,7 +1,6 @@
 .header-wrapper {
-    padding: 10px;
-    background: #e8e8e8;
-    margin-bottom: 10px;
+    background: transparent;
+    border-bottom: solid 2px #b4b4b4;
 }
 
 .register-form-error {
@@ -11,6 +10,14 @@
 
 .my-information-photo {
     width: 100%;
+}
+
+.certificate-thumbnail-photo-wrapper {
+
+}
+
+.certificate-thumbnail-photo {
+    width: 70%;
 }
 
 .nurse-card-photo {
@@ -35,7 +42,7 @@
     height: 8px;
     border-radius: 8px;
     display: inline-block;
-    background-color: #fd6060;
+    background-color: #fd080a;
     color: #fff;
     letter-spacing: 2px;
 }
@@ -49,6 +56,12 @@
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: cubic-bezier(1.0, 2.0, 0, 1.0);
     -webkit-animation-duration: 3s;
+}
+
+.dev-temporary-notification {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0a53be;
 }
 
 @keyframes blinker {

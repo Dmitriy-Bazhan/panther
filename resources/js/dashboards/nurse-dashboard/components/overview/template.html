@@ -1,0 +1,82 @@
+<div>
+    <h1>Overview</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {{ $t('welcome') }} : {{ user.first_name + ' ' + user.last_name}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                {{ $t('calendar') }}
+            </div>
+            <div class="col-10">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class='calendar'>
+                                <div class='header'>
+                                    <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+                                    <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+                                    <span class='title' @click='moveThisMonth'>{{ header.label }}</span>
+                                    <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+                                    <a class='arrow' @click='moveNextYear'>&raquo;</a>
+                                </div>
+                                <div class='weekdays'>
+                                    <div class='weekday' v-for='weekday in weekdays'>
+                                        {{ weekday.label }}
+                                    </div>
+                                </div>
+                                <div class='week' v-for='week in weeks'>
+                                    <div class='day'
+                                         :class='{ today: day.isToday, checkday: checkDate === year + "-" + month + "-" + day.number }'
+                                         v-for='day in week'>
+                                        <span class="day-content"
+                                              v-on:click="selectDate(day)">{{ day.label }}</span><br>
+                                        <div class="calendar-marker"
+                                             v-for="(item, index) in time_calendar[day.neededDate]">
+                                            <span class="calendar-marker-busy" v-if="item === '0'">
+                                                {{ index.split('_')[1] + '-' + index.split('_')[2] }}
+                                            </span>
+                                            <span class="calendar-marker-not-busy" v-else>
+                                                {{ index.split('_')[1] + '-' + index.split('_')[2] }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                {{ $t('unread_messages') }}
+            </div>
+            <div v-if="data['last_unread_messages']" class="col-9 offset-1 chat-wrapper">
+                <div class="row" v-for="messages in data['last_unread_messages']">
+
+                    <div v-for="message in messages" class="chat-client-message-wrapper">
+                        <span class="chat-client-name">
+                            {{ message.user_name }}
+                        </span>
+                        <br>
+                        <span class="chat-client-message">
+                            {{ message.message }}
+                        </span>
+                        <br>
+                        <span class="chat-client-date">
+                            {{ formatDate(message.created_at)  + ' ' + message.status }}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

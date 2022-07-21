@@ -28,3 +28,35 @@ Broadcast::channel('admin', function ($user) {
     }
     return false;
 });
+
+Broadcast::channel('client-between-nurse.{nurse_id}.{client_id}', function ($user, $nurse_id, $client_id) {
+    if ($user->is_client) {
+        return true;
+    }
+
+    if ($user->is_nurse) {
+        return true;
+    }
+
+    return false;
+});
+
+Broadcast::channel('nurse-have-new-message.{nurse_id}', function ($user, $nurse_id){
+    if($user->is_nurse){
+        return true;
+    }
+    return false;
+});
+
+Broadcast::channel('client-have-new-message.{client_id}', function ($user, $client_id){
+    if($user->is_client){
+        return true;
+    }
+    return false;
+});
+
+Broadcast::channel('presence-chat.{roomId}', function ($user, $roomId) {
+    if ($user->canJoinRoom($roomId)) {
+        return ['id' => $user->id];
+    }
+});

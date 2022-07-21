@@ -1,0 +1,292 @@
+<div>
+    <h1>{{ $t('not_approved_bookings') }}<span class="dev-temporary-notification">this bookings not approved by nurse</span></h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="not_approved_bookings.length > 0" v-for="booking in not_approved_bookings">
+            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th v-if="booking.is_verification ==='no'">
+                {{ $t('booking_not_verification') }}
+                <button class="btn btn-sm btn-success" v-on:click="showBookingEdit(booking)">
+                    {{ $t('show_and_edit') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+            </th>
+            <th v-else>
+                <button class="btn btn-sm btn-success" v-on:click="showBookingEdit(booking)">
+                    {{ $t('show_and_edit') }}
+                </button>&nbsp;
+                <button v-if="booking.have_alternative === 'yes'" class="btn btn-sm btn-success" v-on:click="showCurrentAlternativeBooking(booking)">
+                    {{ $t('show_alternative') }}
+                </button>&nbsp;
+                <button v-else class="btn btn-sm btn-secondary">{{ $t('show_alternative') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button v-if="booking.nurse_is_refuse_booking === 'yes'"
+                        class="btn btn-sm btn-danger" v-on:click="showRefusedBooking(booking)">
+                    {{ $t('nurse_refuse_booking') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>{{ $t('approved_bookings') }}<span class="dev-temporary-notification">this bookings is approved by nurse</span></h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="approved_bookings.length > 0" v-for="booking in approved_bookings">
+            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showPayPayment(booking)">{{ $t('pay') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
+            </th>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>{{ $t('in_process_bookings') }}<span class="dev-temporary-notification">this bookings in process. After client pay from them</span></h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="in_process_bookings.length > 0" v-for="booking in in_process_bookings">
+            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th v-if="booking.is_verification ==='no'">
+                {{ $t('booking_not_verification') }}
+                <button class="btn btn-sm btn-success" v-on:click="showBookingEdit(booking)">
+                    {{ $t('show_and_edit') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+            </th>
+            <th>
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>{{ $t('ended_bookings') }}</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Client</th>
+            <th>One time or regular</th>
+            <th>Start Data</th>
+            <th>Create Date</th>
+            <th>Is set alternative</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-if="ended_bookings.length > 0" v-for="booking in ended_bookings">
+            <th>{{ booking.nurse.first_name + ' ' + booking.nurse.last_name}}</th>
+            <th>{{ $t(booking.one_time_or_regular) }}</th>
+            <th>{{ booking.start_date }}</th>
+            <th>{{ booking.created_at.split('T')[0] }}</th>
+            <th>{{ $t(booking.have_alternative) }}</th>
+            <th>
+                {{ $t('booking_is_approved') }}
+                <button class="btn btn-sm btn-success" v-on:click="showBooking(booking)">{{ $t('show') }}</button>&nbsp;
+                <button class="btn btn-sm btn-success" v-on:click="showChatWithNurse(booking.nurse)">
+                    {{ $t('send_message') }}
+                </button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showFeedback(booking.nurse)">{{ $t('feedback') }}</button>&nbsp;
+                <button class="btn btn-sm btn-danger" v-on:click="showComplaint(booking.nurse)">
+                    {{ $t('complaint') }}
+                </button>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <div v-if="show_modal === 'show_booking_edit'" class="edit-booking-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <booking :data="data" :booking="booking"></booking>
+            </div>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="updateBooking()">{{ $t('update') }}</button>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_booking'" class="show-booking-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <show_booking :data="data" :booking="booking"></show_booking>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_chat'" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>Single Chat with {{ nurse.first_name + ' ' + nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <single_chat :nurse="nurse" :data="data" :client="user"></single_chat>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_alternative'" class="single-chat-wrapper">
+        <div class="container-fluid">
+            <h2>{{ $t('alternative_booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <alternative :booking="booking"></alternative>
+            </div>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button class="btn btn-sm btn-success" v-on:click="agreeWithAlternativeBooking()">{{ $t('agree') }}</button>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_remove_confirm'" class="remove-confirm-wrapper">
+            <div class="row">
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-danger btn-sm" v-on:click="deleteBookingConfirm()">{{ $t('remove') }}</button>
+                </div>
+                <div class="col-6" style="text-align: center;">
+                    <button class="btn btn-success btn-sm" v-on:click="closeModal()">{{ $t('close') }}</button>
+                </div>
+
+            </div>
+    </div>
+
+    <div v-if="show_modal === 'show_refused_booking'" class="client-refuse-booking-wrapper">
+
+        <div class="row">
+            <div class="col-2 offset-10">
+                <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+            </div>
+
+        </div>
+        <h5>{{ $t('nurse') + ' ' + booking.nurse.first_name + ' ' + booking.nurse.last_name + ' ' + $t('refuse_this_booking_your_action')}}</h5>
+
+
+        <div class="row">
+            <div class="col-2 offset-3">
+                <button class="btn btn-sm btn-success" v-on:click="sendAgain(booking.id)">{{ $t('send_again') }}</button>
+
+            </div>
+            <div class="col-2 offset-2">
+                <button class="btn btn-sm btn-danger" v-on:click="deleteBooking(booking)">{{ $t('remove') }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_feedback'" class="feedback-wrapper">
+        <div class="row">
+            <feedback :nurse="nurse"></feedback>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'complaint'" class="feedback-wrapper">
+        <div class="row">
+            <complaint :nurse="nurse"></complaint>
+        </div>
+    </div>
+
+    <div v-if="show_modal === 'show_pay_payment'" class="pay-payment-wrapper">
+        <div class="row">
+            <pay_payment :payment="booking.payment"></pay_payment>
+        </div>
+    </div>
+
+</div>

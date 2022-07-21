@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Nurses;
 
-use App\Events\Admin\NurseAddNewProfile;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
-use App\Models\Nurse;
-use App\Models\NurseFile;
+use App\Models\Booking;
+use App\Models\Lang;
+use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Repositories\NurseRepository;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class NurseDashboardController extends Controller
 {
@@ -27,10 +28,115 @@ class NurseDashboardController extends Controller
 
     public function index()
     {
-        $data['data']['provider_supports'] = ProvideSupport::all();
-        $data['data']['additional_info'] = AdditionalInfo::all();
-        $data['data']['additional_info_data'] = AdditionalInfoData::where('lang', auth()->user()->prefs->pref_lang)->get();
+        $data = siteData();
+
+        $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
+            ->where('status', 'not_approved')
+            ->where('is_verification', 'yes')
+            ->first() !== null ? true : false;
+        $data['data']['have_new_message'] = PrivateChat::where('nurse_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->whereNotNull('client_sent')
+            ->first() !== null ? true : false;
+        $data['data']['last_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('client_sent', 'yes')
+            ->orderByDesc('created_at')->get()->groupBy('client_user_id');
+        $data['data']['count_of_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
+            ->where('status', 'unread')
+            ->where('client_sent', 'yes')
+            ->count();
+
         return view('dashboard', $data);
+    }
+
+    public function getTimeCalendar()
+    {
+        $nurseId = request()->post('nurse_id');
+        $neededDate = request()->post('needed_date');
+
+        $nurse = User::where('id', $nurseId)->first();
+        $bookings = Booking::where('nurse_user_id', $nurseId)->whereIn('status', ['approved', 'in_process'])->with('time')->get();
+
+        $workTimePref = json_decode($nurse->entity->work_time_pref, true);
+
+        if (is_null($neededDate)) {
+            $searchDate = Carbon::now()->format('Y-m-d');
+        } else {
+            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m-d');
+        }
+        $firstDay = Carbon::createFromFormat('Y-m-d', $searchDate)
+            ->firstOfMonth()
+            ->format('Y-m-d');
+        $lastDay = Carbon::createFromFormat('Y-m-d', $searchDate)
+            ->endOfMonth()
+            ->format('Y-m-d');
+
+        $monthLength = Carbon::create($searchDate)->daysInMonth;
+        $timeCalendar = [];
+        for ($i = 0; $i < $monthLength; $i++){
+            $current = Carbon::createFromFormat('Y-m-d', $firstDay)->addDays($i)->format('Y-m-d');
+            $day = Carbon::createFromFormat('Y-m-d', $current)->dayName;
+            $timeCalendar[$current] = [];
+//            $timeCalendar[$current]['day'] = $day;
+            if(in_array($day, ['Saturday', 'Sunday'])){
+                $timeCalendar[$current]['weekends_7_11'] = $workTimePref['weekends_7_11'];
+                $timeCalendar[$current]['weekends_11_14'] = $workTimePref['weekends_11_14'];
+                $timeCalendar[$current]['weekends_14_17'] = $workTimePref['weekends_14_17'];
+                $timeCalendar[$current]['weekends_17_21'] = $workTimePref['weekends_17_21'];
+            }else{
+                $timeCalendar[$current]['weekdays_7_11'] = $workTimePref['weekdays_7_11'];
+                $timeCalendar[$current]['weekdays_11_14'] = $workTimePref['weekdays_11_14'];
+                $timeCalendar[$current]['weekdays_14_17'] = $workTimePref['weekdays_14_17'];
+                $timeCalendar[$current]['weekdays_17_21'] = $workTimePref['weekdays_17_21'];
+            }
+        }
+
+        if($bookings->count() > 0) {
+            foreach ($bookings as $booking){
+                if($booking->one_time_or_regular == 'one') {
+                    if(key_exists($booking->start_date, $timeCalendar)){
+                        $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                        foreach ($times as $time){
+                            $timeCalendar[$booking->start_date][$time] = "0";
+                        }
+                    }
+                }
+
+                if($booking->one_time_or_regular == 'regular'){
+                    $weekWorkDays = json_decode($booking->days, true);
+                    if($booking->weeks > 0) {
+                        for($i = 0; $i <= $booking->weeks; $i++) {
+                            $startWeekDate = Carbon::createFromFormat('Y-m-d', $booking->start_date)
+                                ->addWeeks($i)->startOfWeek()->format('Y-m-d');
+                            for ($d = 0; $d <=6; $d++){
+                                $weekDay = Carbon::createFromFormat('Y-m-d', $startWeekDate)
+                                    ->addDays($d)->format('Y-m-d');
+
+                                $weekDayName = Carbon::createFromFormat('Y-m-d', $startWeekDate)
+                                    ->addDays($d)->dayName;
+                                if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
+                                    $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                                    foreach ($times as $time){
+                                        $timeCalendar[$weekDay][$time] = "0";
+                                    }
+                                }
+                                if($weekDay >= $lastDay){
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'id' => $nurseId,
+            'date' => $neededDate,
+            'time_calendar' => $timeCalendar
+        ]);
     }
 
     public function create()
@@ -45,7 +151,10 @@ class NurseDashboardController extends Controller
 
     public function show($id)
     {
-        //
+        $nurses = $this->nurseRepo->search($id);
+        $nurse = $nurses->first();
+
+        return response()->json(['success' => true, 'user' => NurseResource::make($nurse)]);
     }
 
     public function edit($id)
@@ -55,101 +164,11 @@ class NurseDashboardController extends Controller
 
     public function update(Request $request, $id)
     {
-//        return response()->json(['success' => true, 'request' => $request->allFiles()]);
-        $rules = [
-            'id' => 'required|numeric',
-            'email' => 'required|email',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required',
-            'zip_code' => 'required',
-            'entity.age' => 'required|numeric|min:18|max:100',
-            'entity.available_care_range' => 'required|numeric|min:1|max:5',
-            'entity.description' => 'required',
-            'entity.gender' => 'required',
-            'entity.experience' => 'required',
-            'entity.multiple_bookings' => 'required',
-            'entity.pref_client_gender' => 'required',
-
-            'entity.languages.*.lang' => 'required',
-            'entity.languages.*.level' => 'required',
-
-            'entity.provide_supports' => 'required',
-        ];
-
-        $validator = Validator::make(json_decode($request->all('user')['user'], true), $rules);
-
-        $errors = [];
-        if ($validator->fails()) {
-            $errors = array_merge($errors, $validator->errors()->toArray());
-        }
-
-        $rules = [
-            'criminal_record' => 'required',
-            'documentation_of_training' => 'required',
-            'file' => 'required|file|mimes:jpeg,bmp,png'
-        ];
-
-        $nurses = $this->nurseRepo->search($id);
-        $nurse = $nurses->first();
-
-        if ($nurse->entity->files->where('file_type', 'criminal_record')->count() == 0
-                && $nurse->entity->files->where('file_type', 'documentation_of_training')->count() == 0) {
-            $validator = Validator::make($request->allFiles(), $rules);
-            if ($validator->fails()) {
-                $errors = array_merge($errors, $validator->errors()->toArray());
-            }
-        }
-
-        $rules = [
-            'file' => 'required|file|mimes:jpeg,bmp,png'
-        ];
-
-        if ($request->file('file') || is_null($nurse->entity->original_photo)) {
-            $validator = Validator::make($request->allFiles(), $rules);
-            if ($validator->fails()) {
-                $errors = array_merge($errors, $validator->errors()->toArray());
-            }
-        }
-
-        if (count($errors) > 0) {
-            return response()->json(['success' => false, 'errors' => $errors]);
-        }
-
-        if (!$this->nurseRepo->update($nurse)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => []]);
-        }
-
-        if (!$this->nurseRepo->uploadDocuments($request, $nurse)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => []]);
-        }
-
-        if (!$this->nurseRepo->uploadPhoto($request, $id)) {
-            //todo:: hmm
-            return response()->json(['success' => false, 'errors' => 'Cant upload']);
-        }
-
-        $this->makeEventSendProfileToAdmin($id);
-        return response()->json(['success' => true]);
+        //
     }
 
     public function destroy($id)
     {
         //
-    }
-
-    private function makeEventSendProfileToAdmin($id)
-    {
-        //todo:email later
-
-        //todo:check, are pusher is work?
-        try{
-            broadcast(new NurseAddNewProfile())->toOthers();
-        }catch (\Exception $ex){
-
-        };
-
     }
 }

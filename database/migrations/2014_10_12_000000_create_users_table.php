@@ -24,6 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->bigInteger( 'entity_id' )->unsigned();
             $table->string('entity_type')->comment('Add get class');
+            $table->integer('hear_about_us')->nullable();
+            $table->string('hear_about_us_other')->nullable();
+            $table->string('status')->default('active')->comment('active|banned|stopped');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,116 +1,218 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="pt-section-default">
+        <div class="wrapper">
+            <p class="pt-subtitle">
+                <span>{{ $t('client_register') }}</span>
+            </p>
+            <h2 class="pt-title">
+                {{ $t('client_register_title') }}
+            </h2>
 
-            <div class="col-4 offset-4">
-                <h1>Client register</h1>
+            <form class="pt-form pt-form--big">
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('name') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="client.first_name"
+                              icon="user"
+                              @update:modelValue="newValue => client.first_name = newValue"
+                    ></pt-input>
 
-                <form>
-                    <!-- first name -->
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="first_name" v-model="data.first_name">
-                        <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
-                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors.first_name !== undefined">{{ errors.first_name[0] }}</span>
+                </div>
 
-                    <!-- last name -->
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="last_name" v-model="data.last_name">
-                        <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
-                    </div>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('last_name') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="client.last_name"
+                              icon="user"
+                              @update:modelValue="newValue => client.last_name = newValue"
+                    ></pt-input>
 
-                    <!-- email -->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                               v-model="data.email">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        <span class="register-form-error" v-if="errors !== null && errors.email !== undefined">{{ errors.email[0] }}</span>
-                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors.last_name !== undefined">{{ errors.last_name[0] }}</span>
+                </div>
 
-                    <!-- phone -->
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" v-model="data.phone">
-                        <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
-                    </div>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('phone') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="client.phone"
+                              icon="phone"
+                              @update:modelValue="newValue => client.phone = newValue"
+                    ></pt-input>
 
-                    <!-- zip code -->
-                    <div class="mb-3">
-                        <label for="zip_code" class="form-label">Zip code</label>
-                        <input type="text" class="form-control" id="zip_code" v-model="data.zip_code">
-                        <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
-                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors.phone !== undefined">{{ errors.phone[0] }}</span>
+                </div>
 
-                    <!-- password -->
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" v-model="data.password">
-                        <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
-                    </div>
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('zip_code') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="client.zip_code"
+                              icon="home"
+                              @update:modelValue="newValue => client.zip_code = newValue"
+                    ></pt-input>
 
-                    <!-- password confirm-->
-                    <div class="mb-3">
-                        <label for="password_confirm" class="form-label">Password confirm</label>
-                        <input type="password" class="form-control" id="password_confirm" v-model="data.password_confirmation">
-                    </div>
+                    <span class="register-form-error" v-if="errors !== null && errors.zip_code !== undefined">{{ errors.zip_code[0] }}</span>
+                </div>
 
-                    <div class="row">
-                        <div class="col-2">
-                            <button class="btn btn-primary" v-on:click="sendForm">Send</button>
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('email') }} :
+                    </p>
+                    <pt-input type="email" :modelValue="client.email"
+                              icon="email"
+                              @update:modelValue="newValue => client.email = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.email !== undefined">{{ errors.email[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('password') }} :
+                    </p>
+                    <pt-input type="password" :modelValue="client.password"
+                              icon="password"
+                              @update:modelValue="newValue => client.password = newValue"
+                    ></pt-input>
+
+                    <span class="register-form-error" v-if="errors !== null && errors.password !== undefined">{{ errors.password[0] }}</span>
+                </div>
+
+                <div class="pt-form--group">
+                    <p class="pt-form--label">
+                        {{ $t('password_confirm') }} :
+                    </p>
+                    <pt-input type="password" :modelValue="client.password_confirmation"
+                              icon="password"
+                              @update:modelValue="newValue => client.password_confirmation = newValue"
+                    ></pt-input>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('hear_about_us') }} :
+                    </p>
+
+                    <div class="pt-select">
+                        <div class="pt-select--icon">
+                            <pt-icon type="pin"></pt-icon>
                         </div>
-                        <div class="col-2 offset-8">
-                            <button class="btn btn-primary" v-on:click="backToHome">Back</button>
-                        </div>
+                        <v-select :options="filterOptions()"
+                                  label="title"
+                                  v-model="client.hear_about_us"
+                                  :reduce="(option) => option.id">
+                            <template #open-indicator>
+                                <span class="pt-select--caret"></span>
+                            </template>
+                        </v-select>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--label">
+                        {{ $t('hear_about_us_other') }} :
+                    </p>
+                    <pt-input type="text" :modelValue="client.hear_about_us_other"
+                              @update:modelValue="newValue => client.hear_about_us_other = newValue"
+                    ></pt-input>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <button class="pt-btn" v-on:click="sendForm">
+                        {{ $t('registration_btn') }}
+                    </button>
+                </div>
+
+                <div class="pt-form--group pt-lg">
+                    <p class="pt-form--text">
+                        {{ $t('login_text') }} <a href="/login">{{$t('login_subtitle')}}</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    name: "ClientRegister",
-    data() {
-        return {
-            data : {
-                first_name: null,
-                last_name: null,
-                email: null,
-                phone: null,
-                zip_code: null,
-                password: null,
-                password_confirmation: null,
+    export default {
+        name: "ClientRegister",
+        props: ['data'],
+        data() {
+            return {
+                client: {
+                    first_name: null,
+                    last_name: null,
+                    email: null,
+                    phone: null,
+                    zip_code: null,
+                    password: null,
+                    password_confirmation: null,
+                    hear_about_us: null,
+                    hear_about_us_other: null,
+                },
+                errors: null,
+                locale: window.localStorage.getItem('locale'),
+            };
+        },
+        mounted() {
+        },
+        methods: {
+            sendForm(event) {
+                event.preventDefault();
+                this.client.locale = this.locale;
+                axios.post('/client-register', {'data': this.client})
+                    .then((response) => {
+                        this.errors = null;
+                        console.log(response);
+                        if (response.data.success) {
+                            location.href = '/email/verify';
+                        } else {
+                            this.errors = response.data.errors;
+                        }
+                    })
+                    .catch((error) => {
+                        // console.log(error.response.data.errors);
+
+                    });
             },
-            errors : null
-        };
-    },
-    methods: {
-        sendForm(event){
-            event.preventDefault();
-            axios.post('/client-register', {'data' : this.data })
-                .then((response) => {
-                    this.errors = null;
-                    console.log(response);
-                    if(response.data.success){
-                        location.href = '/email/verify';
-                    }else{
-                        this.errors = response.data.errors;
+            backToHome(event) {
+                event.preventDefault();
+                location.href = '/';
+            },
+            filterHearAboutUs(hear_about_as) {
+                let lang = this.locale;
+                let el = hear_about_as.data.filter(function (value) {
+                    if (value.lang == lang) {
+                        return value;
+                    }
+                });
+                return el[0].data;
+            },
+            filterOptions() {
+                let result = []
+                let lang = this.locale;
+                this.data.hear_about_us.forEach(function (item){
+                    if(item.is_show){
+                        let tmp = {
+                            id: item.id
+                        }
+
+                        item.data.forEach(function (val){
+                            if(val.lang == lang){
+                                tmp.title = val.data
+                            }
+                        })
+
+                        result.push(tmp)
                     }
                 })
-                .catch((error) => {
-                    // console.log(error.response.data.errors);
-
-                });
-        },
-        backToHome(event){
-            event.preventDefault();
-            location.href = '/register';
+                return result
+            },
         }
     }
-}
 </script>
 
 <style scoped>

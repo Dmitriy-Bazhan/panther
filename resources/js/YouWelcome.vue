@@ -20,15 +20,16 @@ export default {
     name: "YouWelcome",
     mounted() {
         this.emitter.emit('not-show-layouts');
+        this.emitter.emit('not-show-left-panel');
     },
     methods: {
         toDashboard() {
             if (window.guard === 'client') {
-                location.href = '/dashboard/client';
+                location.href = '/dashboard/client/my-information/';
             }
 
             if (window.guard === 'nurse') {
-                location.href = '/dashboard/nurse';
+                location.href = '/dashboard/nurse/my-information/';
             }
         },
     }

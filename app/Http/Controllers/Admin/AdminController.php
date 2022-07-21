@@ -3,83 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function banUser($id)
+    {
+        if (!is_numeric($id)) {
+            Log::channel('app_logs')->error('AdminController@banUser user id is not valid');
+            return response()->json(['success' => false]);
+        }
+
+        if(!User::find($id)){
+            Log::channel('app_logs')->error('AdminController@banUser user not exists');
+            return response()->json(['success' => false]);
+        }
+
+        User::where('id', $id)->update([
+            'banned' => 'yes',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function dismissBanUser($id)
+    {
+        if (!is_numeric($id)) {
+            Log::channel('app_logs')->error('AdminController@dismissBanUser user id is not valid');
+            return response()->json(['success' => false]);
+        }
+
+        if(!User::find($id)){
+            Log::channel('app_logs')->error('AdminController@dismissBanUser user not exists');
+            return response()->json(['success' => false]);
+        }
+
+        User::where('id', $id)->update([
+            'banned' => 'no',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function index()
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
     }
 }

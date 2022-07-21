@@ -4,7 +4,7 @@
 
 <!--    <test-chat :user="user"></test-chat>-->
 
-    <div class="container-fluid">
+    <div class="container-fluid" data-test>
 
         <div class="row">
 
@@ -18,12 +18,14 @@
 
                 <notification :user="user" :data="data"></notification>
 
-                <router-view :data="data"></router-view>
+                <router-view :user="user" :data="data"></router-view>
 
             </div>
 
         </div>
 
     </div>
+
+    <response-success-true v-if="response_success_true"></response-success-true>
 
 </div>

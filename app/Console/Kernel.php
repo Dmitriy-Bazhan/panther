@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\CronJob\RemoveTaskAfterThirtyDays;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +17,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->call(new RemoveTaskAfterThirtyDays())->daily();
+
+        $schedule->command('auth:clear-resets')->everySixHours();
+
+        $schedule->command('debugbar:clear')->days(30);
+
+
     }
 
     /**

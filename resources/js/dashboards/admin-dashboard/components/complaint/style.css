@@ -1,0 +1,11 @@
+.paginate-link {
+    border: solid 1px black;
+    padding: 10px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.active-paginate-link {
+    background-color: lightblue;
+}

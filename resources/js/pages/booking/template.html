@@ -1,0 +1,31 @@
+<div>
+    <div class="container-fluid" v-if="startBooking">
+        <div class="row">
+
+            <div class="col-4 offset-4 btn-group-vertical">
+                <br>
+                <button v-on:click="showOneTimeBooking()" class="btn btn-lg btn-primary">
+                    {{ $t('one_time_booking') }}
+                </button>
+
+                <br>
+
+                <button v-on:click="showRegularBooking()" class="btn btn-lg btn-primary">
+                    {{ $t('regular_booking') }}
+                </button>
+
+                <br>
+            </div>
+        </div>
+    </div>
+    <span class="notification-you-have-booking" v-if="data.have_booking && startBooking">
+        {{ $t('you_have_booking_to_this_nurse') }}
+        <span class="link-to-bookings" v-on:click="goToMyBookings()">
+            {{ $t('go_to_my_bookings')}}
+        </span>
+    </span>
+
+    <one_time_booking v-if="showOneTimeBookingContainer" :data="data"></one_time_booking>
+
+    <regular_booking v-if="showRegularBookingContainer" :data="data"></regular_booking>
+</div>

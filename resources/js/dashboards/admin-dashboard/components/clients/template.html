@@ -1,0 +1,51 @@
+<div>
+    <h1>Clients</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Photo</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr v-if="clients.length > 0" v-for="client in clients">
+                <th>{{ client.id }}</th>
+                <th>{{ client.first_name + ' ' + client.last_name }}</th>
+                <th>{{ client.entity.thumbnail_photo }}</th>
+                <th>{{ client.email }}</th>
+                <th>
+                    <button class="btn btn-sm btn-success">{{ $t('edit') }}</button>
+                    <button class="btn btn-sm btn-success" v-on:click="showChats(client)">{{ $t('show_chats') }}</button>
+                    <button class="btn btn-sm btn-success">{{ $t('show_bookings') }}</button>
+                    <button class="btn btn-sm btn-success">{{ $t('show_payments') }}</button>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+    <div v-if="links.length > 0" class="container-fluid">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+            <span v-if="links.length > 3" v-for="link in links" class="nurse-link-wrapper">
+                <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
+                     preview
+                </span>
+                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)" class="nurse-link">
+                    next
+                </span>
+                <span v-else v-on:click="newPage(link.url)"
+                      v-bind:class="link.active ? 'active-link': ''" class="nurse-link">
+                    {{ link.label }}
+                </span>
+            </span>
+            </div>
+        </div>
+    </div>
+
+    <show_chats v-if="show_modal === 'show_chats'" :client="client" :data="data"></show_chats>
+
+</div>

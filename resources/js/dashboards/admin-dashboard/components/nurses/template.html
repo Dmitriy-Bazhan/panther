@@ -8,7 +8,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Photo</th>
-            <th>Is New Info</th>
+            <th>Info is full</th>
             <th>Is Change</th>
             <th>Action</th>
         </tr>
@@ -16,22 +16,51 @@
         <tbody>
         <tr v-if="nurses.length > 0" v-for="nurse in nurses">
 
-            <td>{{ nurse.id }}</td>
+            <td>{{ nurse.entity.id }}</td>
             <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
             <td>{{ nurse.entity.age }}</td>
             <td>
                 <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
             </td>
-            <td><span v-if="nurse.entity.info_is_full === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.info_is_full }}</td>
+            <td>{{ nurse.entity.info_is_full }}</td>
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
-                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">Check</button>&nbsp;
-                <button v-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm">Approve</button>
-                <button v-else class="btn btn-secondary btn-sm">Dismiss</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">{{ $t('check') }}</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkFiles(nurse)">{{ $t('check_files') }}</button>
+                <button class="btn btn-sm btn-success" v-on:click="showChats(nurse)">{{ $t('show_chats') }}</button>
+                <button v-if="nurse.entity.info_is_full === 'no'" class="btn btn-secondary btn-sm">Approve</button>&nbsp;
+                <button v-else-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
+                <button v-else class="btn btn-danger btn-sm" v-on:click="dismissNurse(nurse.entity.id)">Dismiss</button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <nurses-card v-if="nurseCardIsVisible" :nurse="nurse"></nurses-card>
+    <div v-if="links.length > 0" class="container-fluid">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+            <span v-if="links.length > 3" v-for="link in links" class="nurse-link-wrapper">
+                <span v-if="link.label.split(';')[1] === ' Previous'" v-on:click="newPage(link.url)" class="nurse-link">
+                     preview
+                </span>
+                <span v-else-if="link.label.split('&')[0] === 'Next '" v-on:click="newPage(link.url)" class="nurse-link">
+                    next
+                </span>
+                <span v-else v-on:click="newPage(link.url)"
+                      v-bind:class="link.active ? 'active-link': ''" class="nurse-link">
+                    {{ link.label }}
+                </span>
+            </span>
+            </div>
+        </div>
+    </div>
+
+    <nurses_card v-if="show_modal === 'nurses_card'" :nurse="nurse" :data="data"></nurses_card>
+
+    <show_chats v-if="show_modal === 'show_chats'" :nurse="nurse" :data="data"></show_chats>
+
+    <check_files v-if="show_modal === 'check_files'" :nurse="nurse" :data="data"></check_files>
+
 </div>
+
+

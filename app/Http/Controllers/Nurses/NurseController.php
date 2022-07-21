@@ -3,25 +3,27 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\NurseRepository;
+use App\Http\Resources\NurseResource;
 use Illuminate\Http\Request;
 
 class NurseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $nurseRepo;
+
+    public function __construct(NurseRepository $nurseRepo)
+    {
+        parent::__construct();
+
+        $this->nurseRepo = $nurseRepo;
+    }
+
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
@@ -46,7 +48,26 @@ class NurseController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!is_numeric($id)){
+            //todo::hmm
+            abort(409);
+        }
+
+        request()->merge([
+            'is_approved' => 'yes',
+        ]);
+
+        if(!$nurses = $this->nurseRepo->search($id)){
+            return response()->json(['success' => false]);
+        }
+        $nurse = $nurses->first();
+
+        if(request()->ajax()){
+            return response()->json(['success' => true, 'nurse' => new NurseResource($nurse) ]);
+        }else{
+            return response()->json(['success' => true]);
+        }
+
     }
 
     /**

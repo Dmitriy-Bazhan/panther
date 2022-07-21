@@ -1,5 +1,4 @@
 import * as VueRouter from "vue-router";
-import Test from '../pages/test';
 import Home from '../pages/home/Home';
 import Login from '../pages/auth/Login';
 import StartRegister from '../pages/auth/StartRegister';
@@ -7,6 +6,13 @@ import NurseRegister from '../pages/auth/NurseRegister';
 import ClientRegister from '../pages/auth/ClientRegister';
 import EmailVerify from '../WaitVerify';
 import YouWelcome from "../YouWelcome";
+import Finder from '../pages/listing/Finder';
+import Listing from '../pages/listing/Listing';
+import NurseProfile from '../pages/listing/NurseProfile';
+import Booking from '../pages/booking/Booking';
+import SendBooking from "../SendBooking";
+import BookingVerify from "../BookingVerify";
+import BookingNotExists from "../BookingNotExists";
 
 const routes = [
     {
@@ -18,16 +24,19 @@ const routes = [
         component: Login
     },
     {
+        path: "/booking",
+        component: Booking,
+        props: true,
+    },
+    {
+        path: "/booking/:id",
+        component: Booking,
+        props: true,
+    },
+    {
         path: "/register",
-        component: StartRegister
-    },
-    {
-        path: "/nurse-register",
-        component: NurseRegister
-    },
-    {
-        path: "/client-register",
-        component: ClientRegister
+        component: StartRegister,
+        props: true,
     },
     {
         path: "/email/verify",
@@ -38,9 +47,36 @@ const routes = [
         component: YouWelcome
     },
     {
-        path: "/test",
-        component: Test
-    }
+        path: "/booking-verify",
+        component: BookingVerify
+    },
+    {
+        path: "/booking-not-exists",
+        component: BookingNotExists
+    },
+    {
+        path: "/finder",
+        name: 'Finder',
+        component: Finder,
+        props: true,
+    },
+    {
+        path: "/listing",
+        name: 'Listing',
+        component: Listing,
+        props: true,
+    },
+    {
+        path: '/nurse/:id',
+        component: NurseProfile,
+        children: [
+            { path: '', component: NurseProfile },
+        ],
+    },
+    {
+        path: "/send-booking-message",
+        component: SendBooking
+    },
 ];
 
 const router = VueRouter.createRouter({

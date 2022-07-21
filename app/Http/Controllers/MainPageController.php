@@ -2,96 +2,108 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lang;
+use App\Models\Translate;
+use App\Models\UserPref;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('main');
+        $data = [];
+        if (auth()->check()) {
+            $data = siteData();
+        } else {
+            $data['data']['settings'] = config('settings');
+            $data['data']['languages'] = Lang::all();
+        }
+        return view('main', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
     }
 
-    public function changeLang(){
-        if(auth()->user()->prefs->pref_lang == 'en'){
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'de'
-            ]);
-        }else{
-            \App\Models\UserPref::where('user_id', auth()->id())->update([
-                'pref_lang' => 'en'
-            ]);
+    public function changeLang($lang)
+    {
+        if (!in_array($lang, ['en', 'de'])) {
+            return redirect()->to('404');
         }
+
+        UserPref::where('user_id', auth()->id())->update([
+            'pref_lang' => $lang
+        ]);
+
         return response()->json(['success' => true]);
+    }
+
+    public function getTranslate($lang = null)
+    {
+        $translates = [];
+        if (!is_null($lang)) {
+            $langs = Translate::where('lang', $lang)->get();
+            $translates[$lang] = [];
+            foreach ($langs as $item) {
+                $record[$item->name] = $item->data;
+                $translates[$lang] = $record;
+            }
+
+        } else {
+            $langs = Translate::orderBy('name')->get()->groupBy('lang');
+            foreach ($langs as $key => $lang) {
+                $translates[$key] = [];
+                $record = [];
+                foreach ($lang as $item) {
+                    $record[$item->name] = $item->data;
+                    $translates[$key] = $record;
+                }
+            }
+
+        }
+        return response()->json(['success' => true, 'langs' => $translates]);
+    }
+
+    public function saveTranslates()
+    {
+        Translate::truncate();
+        $langs = request('langs');
+        foreach ($langs as $lang => $items) {
+            foreach ($items as $name => $data) {
+                Translate::create([
+                    'name' => $name,
+                    'lang' => $lang,
+                    'data' => $data
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true, 'langs' => $langs]);
     }
 }
