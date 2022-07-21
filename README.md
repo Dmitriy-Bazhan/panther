@@ -4,3 +4,8 @@ Schedule run in cron
 
 Queue run in supervisor
 https://laravel.com/docs/8.x/queues#installing-supervisor
+
+Mail will send with help of queue or at once, set 'mail_use_queue' in config/mail.php 
+    true - in queue
+    false - at once
+
