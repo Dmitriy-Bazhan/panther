@@ -4,18 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\TestChatMessage;
 use App\Http\Repositories\NurseRepository;
-use App\Models\Admin;
 use App\Models\Booking;
-use App\Models\Client;
-use App\Models\Nurse;
-use App\Models\NurseFile;
-use App\Models\Translate;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
@@ -37,7 +29,7 @@ class TestController extends Controller
 //        dd('FFFFF');
 
 
-        Log::channel('app_logs')->error('Test message');
+
         dd('stop');
         $id = null;
         request()->merge([

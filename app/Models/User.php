@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Cashier\Billable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 Relation::morphMap([
     'admin' => 'App\Models\Admin',
@@ -18,7 +19,7 @@ Relation::morphMap([
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable;
+    use HasApiTokens, HasFactory, Notifiable, Billable, CanResetPassword;
 
     protected $appends = ['full_name'];
 
