@@ -14,5 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
 //        '/set-chat-on-delete-status',
 //        '/remove-chat-at-all'
+    'forgot-password',
+        'reset-password'
     ];
 }

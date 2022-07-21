@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\BookingController;
@@ -278,6 +281,12 @@ Route::post('/client-register', [RegisterController::class, 'clientRegistration'
 
 //Log out
 Route::get('/log-out', [LoginController::class, 'logOut']);
+
+//Forgot password
+Route::get('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPasswordSendEmail'])->middleware('guest')->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordToken'])->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'setNewPassword'])->middleware('guest')->name('password.update');
 
 /*
  * 404
