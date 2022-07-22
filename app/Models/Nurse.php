@@ -9,6 +9,29 @@ class Nurse extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'original_photo',
+        'thumbnail_photo',
+        'is_approved',
+        'info_is_full',
+        'change_info',
+        'age',
+        'experience',
+        'available_care_range',
+        'description',
+        'gender',
+        'pref_client_gender',
+        'multiple_bookings',
+        'one_or_regular',
+        'ready_to_work',
+        'start_date_ready_to_work',
+        'finish_date_to_work',
+        'count_completed_booking',
+        'count_uncompleted_booking',
+        'work_time_pref',
+        'type_of_learning'
+    ];
+
     protected $attributes = [
         'work_time_pref' => '{
         "weekdays_7_11" : "0",

@@ -54,25 +54,19 @@
     <div class="logo">
         <img class="logo-image" src="{{ $message->embed(asset('/images/logo.png')) }}" alt="logo">
     </div>
+    <br>
+    <br>
     <div class="mail-title">
-        @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $client->first_name . ' '  . $client->last_name }}
+        @lang('mail-message.hello_dear')&nbsp;{{ ' ' . $user->first_name . ' '  . $user->last_name }}
     </div>
+    <br>
+    <br>
     <div class="text-wrapper">
-        @lang('mail-message.booking_verification_text_part_one')
-        &nbsp;{{ ' ' . $nurse->first_name . ' '  . $nurse->last_name . ' ' }}
-        @lang('mail-message.booking_verification_text_part_two')
-    </div>
-    <div class="logo">
-        @if(\Illuminate\Support\Facades\Storage::disk('public')->exists($nurse->entity->original_photo))
-            <img class="logo-image" src="{{ $message->embed(url('storage/' . $nurse->entity->original_photo)) }}"
-                 alt="logo">
-        @else
-            <img class="logo-image" src="{{ $message->embed(asset('/images/no-photo.jpg')) }}" alt="logo">
-        @endif
+        @lang('mail-message.admin_add_new_user_hello')
     </div>
     <div class="link-button-row">
         <a href="{{ $url }}">
-            <button class="link-button">@lang('mail-message.client_verify_booking')</button>
+            <button class="link-button">{{ \Illuminate\Support\Facades\Config::get('app.name') }}</button>
         </a>
     </div>
 </div>

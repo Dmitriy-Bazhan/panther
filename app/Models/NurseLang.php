@@ -10,6 +10,6 @@ class NurseLang extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nurse_id','lang', 'level'
+        'nurse_id','lang', 'level', 'lang_id'
     ];
 }
