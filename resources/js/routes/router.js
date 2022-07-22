@@ -13,6 +13,8 @@ import Booking from '../pages/booking/Booking';
 import SendBooking from "../SendBooking";
 import BookingVerify from "../BookingVerify";
 import BookingNotExists from "../BookingNotExists";
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 const routes = [
     {
@@ -22,6 +24,15 @@ const routes = [
     {
         path: "/login",
         component: Login
+    },
+    {
+        path: "/forgot-password",
+        component: ForgotPassword
+    },
+    {
+        path: "/reset-password/:token",
+        component: ResetPassword,
+        props: true,
     },
     {
         path: "/booking",
