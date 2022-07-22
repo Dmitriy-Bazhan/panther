@@ -32,6 +32,8 @@ class ChatRepository
             $thumbnail_file = $result['thumbnail_file'];
         }
 
+        $chat_id = $this->checkOrCreateChat($client_id, $nurse_id);
+
         $success = PrivateChat::create([
             'client_user_id' => $client_id,
             'nurse_user_id' => $nurse_id,
@@ -41,9 +43,8 @@ class ChatRepository
             'have_file' => $have_file,
             'original_file' => $original_file,
             'thumbnail_file' => $thumbnail_file,
+            'chat_id' => $chat_id,
         ]);
-
-        $this->checkOrCreateChat($client_id, $nurse_id);
 
         if ($success) {
             return $success;
@@ -69,6 +70,8 @@ class ChatRepository
             $thumbnail_file = $result['thumbnail_file'];
         }
 
+        $chat_id = $this->checkOrCreateChat($client_id, $nurse_id);
+
         $success = PrivateChat::create([
             'client_user_id' => $client_id,
             'nurse_user_id' => $nurse_id,
@@ -78,9 +81,8 @@ class ChatRepository
             'have_file' => $have_file,
             'original_file' => $original_file,
             'thumbnail_file' => $thumbnail_file,
+            'chat_id' => $chat_id,
         ]);
-
-        $this->checkOrCreateChat($client_id, $nurse_id);
 
         if ($success) {
             return $success;
@@ -304,12 +306,14 @@ class ChatRepository
     public function checkOrCreateChat($client_id, $nurse_id)
     {
 
-        if (!Chat::where('client_user_id', $client_id)->where('nurse_user_id', $nurse_id)->first()) {
-            Chat::create([
+        if (!$chat = Chat::where('client_user_id', $client_id)->where('nurse_user_id', $nurse_id)->first()) {
+            $chat = Chat::create([
                 'client_user_id' => $client_id,
                 'nurse_user_id' => $nurse_id,
             ]);
         }
+
+        return $chat->id;
     }
 
     public function removeChatAndAllThatRelationWithHim(Chat $chat)

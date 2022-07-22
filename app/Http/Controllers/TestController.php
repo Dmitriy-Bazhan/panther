@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\TestChatMessage;
 use App\Http\Repositories\NurseRepository;
 use App\Models\Booking;
+use App\Models\Chat;
+use App\Models\PrivateChat;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,6 +30,14 @@ class TestController extends Controller
 //
 //        dd('FFFFF');
 
+        $chatsUsersIds = Chat::select('id','nurse_user_id', 'client_user_id')->get()->toArray();
+        foreach ($chatsUsersIds as $item){
+            PrivateChat::where('nurse_user_id', $item['nurse_user_id'])
+                ->where('client_user_id',  $item['client_user_id'])
+                ->update([
+                    'chat_id' => $item['id']
+                ]);
+        }
 
         dd('stop');
         $id = null;

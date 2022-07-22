@@ -20,6 +20,7 @@ class PrivateChat extends Model
         'have_file',
         'original_file',
         'thumbnail_file',
+        'chat_id',
     ];
 
     protected $hidden = [
