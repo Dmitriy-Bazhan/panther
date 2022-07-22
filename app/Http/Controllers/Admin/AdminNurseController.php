@@ -51,6 +51,12 @@ class AdminNurseController extends Controller
 
     public function getNurses()
     {
+
+        $search = request()->get('search');
+        request()->merge([
+            'search' => $search
+        ]);
+
         $nurses = $this->nurseRepo->search();
         return NurseResource::collection($nurses);
     }

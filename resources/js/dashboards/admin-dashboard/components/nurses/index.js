@@ -20,9 +20,10 @@ export default {
             nurse: null,
             nurseCardIsVisible: false,
             filterString: '',
-            url: 'get-nurses',
+            url: 'get-nurses?page=',
             links: [],
             show_modal: false,
+            search: '',
         }
     },
     mounted() {
@@ -32,6 +33,11 @@ export default {
         });
     },
     methods: {
+        searchNurse(){
+                this.url = 'get-nurses?page=';
+                this.getNurses();
+        },
+
         closeModal() {
             this.show_modal = false;
             this.nurse = null;
@@ -45,8 +51,10 @@ export default {
             this.nurse = nurse;
         },
         getNurses() {
-            axios.get(this.url + this.filterString)
+            console.log(this.url + this.filterString + '&search=' + this.search);
+            axios.get(this.url + this.filterString + '&search=' + this.search)
                 .then((response) => {
+                    console.log(response.data);
                     this.nurses = response.data.data;
                     this.links = response.data.meta.links;
                 })
