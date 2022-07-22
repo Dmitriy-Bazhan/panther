@@ -327,8 +327,8 @@ class ChatRepository
             $success = false;
         }
 
-        $messages = PrivateChat::where('client_user_id', $client_user_id)
-            ->where('nurse_user_id', $nurse_user_id)->get();
+        $messagesWithFile = PrivateChat::where('client_user_id', $client_user_id)
+            ->where('nurse_user_id', $nurse_user_id)->where('have_file', 'yes')->get();
 
         $result = PrivateChat::where('client_user_id', $client_user_id)
             ->where('nurse_user_id', $nurse_user_id)->delete();
@@ -338,7 +338,7 @@ class ChatRepository
             $success = false;
         }
 
-        foreach ($messages as $message) {
+        foreach ($messagesWithFile as $message) {
             Storage::disk('public')->delete($message->original_file);
             Storage::disk('public')->delete($message->thumbnail_file);
         }
