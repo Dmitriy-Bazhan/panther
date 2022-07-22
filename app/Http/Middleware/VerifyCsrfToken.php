@@ -10,11 +10,13 @@ class VerifyCsrfToken extends Middleware
      * The URIs that should be excluded from CSRF verification.
      *
      * @var array<int, string>
+     *
+     * I used these routes for testing with postman
      */
     protected $except = [
 //        '/set-chat-on-delete-status',
 //        '/remove-chat-at-all'
-    'forgot-password',
-        'reset-password'
+//        'forgot-password',
+//        'reset-password'
     ];
 }

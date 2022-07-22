@@ -33,7 +33,7 @@
                             {{$t('remember_me')}}
                         </label>
                         <p>
-                            <a href="">
+                            <a href="forgot-password">
                                 {{$t('password_forgot')}}
                             </a>
                         </p>

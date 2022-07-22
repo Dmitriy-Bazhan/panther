@@ -13,42 +13,43 @@ use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-    public function forgotPassword(){
-        $data = [];
-        if (auth()->check()) {
-            $data = siteData();
-        } else {
-            $data['data']['settings'] = config('settings');
-            $data['data']['languages'] = Lang::all();
-        }
+    public function forgotPassword()
+    {
+        $data['data']['settings'] = config('settings');
+        $data['data']['languages'] = Lang::all();
         return view('main', $data);
     }
 
-    public function forgotPasswordSendEmail(Request $requset){
+    public function forgotPasswordSendEmail(Request $requset)
+    {
         $requset->validate(['email' => 'required|email']);
 
         $status = Password::sendResetLink(
             $requset->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+        if($status === Password::RESET_LINK_SENT){
+            return response()->json(['success' => true]);
+        }else{
+            return response()->json(['success' => false, 'errors' => back()->withErrors(['email' => [__($status)]])]);
+        }
+
+//        return $status === Password::RESET_LINK_SENT
+//            ? back()->with(['status' => __($status)])
+//            : back()->withErrors(['email' => __($status)]);
     }
 
-    public function resetPasswordToken($token){
-        $data = [];
-        if (auth()->check()) {
-            $data = siteData();
-        } else {
+    public function resetPasswordToken($token)
+    {
             $data['data']['settings'] = config('settings');
             $data['data']['languages'] = Lang::all();
             $data['data']['token'] = $token;
-        }
+
         return view('main', $data);
     }
 
-    public function setNewPassword(Request $request){
+    public function setNewPassword(Request $request)
+    {
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
@@ -68,9 +69,14 @@ class ResetPasswordController extends Controller
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        return response()->json(['success' => $status, 'password' => Password::PASSWORD_RESET]);
+
+        if($status === Password::PASSWORD_RESET){
+            return response()->json(['success' => true]);
+        }else{
+            return response()->json(['success' => false, 'errors' => back()->withErrors(['email' => [__($status)]])]);
+        }
+
     }
 
 }
