@@ -283,7 +283,8 @@ class ChatRepository
     {
         $file = request()->file('file');
         $original_name = $file->getClientOriginalName();
-        $file_name = auth()->id() . '_' . Str::random(10) . '_' . $original_name;
+        $extension = $file->getClientOriginalExtension();
+        $file_name = auth()->id() . '_' . Str::random(10) . '_' . substr($original_name, 0, 10) . '.' .$extension;
         $thumbnail_name = 'thumbnail_' . $file_name;
         $directory_name = 'user_' . auth()->id() . '/private_chats';
         $original_file = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);

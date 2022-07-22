@@ -152,6 +152,12 @@ class NurseRepository
                 ->where('hourly_payment', '<=', request('filter_price')[1]);
         }
 
+        //search
+        if (request()->filled('search') && is_string(request('search')) && strlen(request('search')) > 0) {
+            $nurse->where('first_name', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+        }
+
         //order (only for some nurses)
         if (is_null($id)) {
             if (request()->filled('order_by')) {
@@ -191,7 +197,13 @@ class NurseRepository
 
     public function update($id)
     {
-        $data = json_decode(request()->post('user'), true);
+        //temporary
+        if (!auth()->user()->is_admin) {
+            $data = json_decode(request()->post('user'), true);
+        } else {
+            $data = request()->post('user');
+        }
+
 
         User::where('id', $id)->update([
             'first_name' => $data['first_name'],
