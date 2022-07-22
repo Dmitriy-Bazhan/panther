@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\AdminAddNewUserMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -135,6 +137,7 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/approve-nurse', [AdminNurseController::class, 'approveNurse']);
         Route::post('/dismiss-nurse', [AdminNurseController::class, 'dismissNurse']);
         Route::post('/update-nurse/{id}', [AdminNurseController::class, 'updateNurse']);
+        Route::post('/add-new-nurse', [AdminNurseController::class, 'addNewNurse']);
 
         //admin dashboard settings
         Route::get('/get-hear-about-us', [AdminDashboardController::class, 'getHearAboutUs']);
@@ -328,6 +331,16 @@ Route::get('/booking-verify', function () {
 
 Route::get('/booking-not-exists', function () {
     return view('main');
+});
+
+
+//test email router
+Route::get('/test-email', function (){
+//    $user = \App\Models\User::find(108);
+//
+//    $success = Mail::mailer('smtp')->to($user->email)
+//        ->send(new AdminAddNewUserMail($user));
+//    dd($success);
 });
 
 

@@ -3,6 +3,7 @@ import './style.css';
 import NursesCard from '../nurses-card/index';
 import ShowChats from "./ShowChats";
 import CheckFiles from "./CheckFiles";
+import AddNewNurse from "./AddNewNurse";
 
 export default {
     name: "Nurses",
@@ -11,6 +12,7 @@ export default {
         nurses_card: NursesCard,
         show_chats: ShowChats,
         check_files: CheckFiles,
+        add_new_nurse: AddNewNurse,
     },
     props: ['data'],
     data() {
@@ -33,9 +35,9 @@ export default {
         });
     },
     methods: {
-        searchNurse(){
-                this.url = 'get-nurses?page=';
-                this.getNurses();
+        searchNurse() {
+            this.url = 'get-nurses?page=';
+            this.getNurses();
         },
 
         closeModal() {
@@ -46,15 +48,17 @@ export default {
             this.show_modal = 'show_chats';
             this.nurse = nurse;
         },
-        checkFiles(nurse){
+        addNewNurse() {
+            this.show_modal = 'add_new_nurse';
+            this.nurse = null;
+        },
+        checkFiles(nurse) {
             this.show_modal = 'check_files';
             this.nurse = nurse;
         },
         getNurses() {
-            console.log(this.url + this.filterString + '&search=' + this.search);
             axios.get(this.url + this.filterString + '&search=' + this.search)
                 .then((response) => {
-                    console.log(response.data);
                     this.nurses = response.data.data;
                     this.links = response.data.meta.links;
                 })

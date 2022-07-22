@@ -7,7 +7,9 @@ use App\Http\Repositories\ChatRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Http\Resources\NurseResource;
 use App\Models\Nurse;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AdminNurseController extends Controller
@@ -51,7 +53,6 @@ class AdminNurseController extends Controller
 
     public function getNurses()
     {
-
         $search = request()->get('search');
         request()->merge([
             'search' => $search
@@ -61,13 +62,74 @@ class AdminNurseController extends Controller
         return NurseResource::collection($nurses);
     }
 
-    public function getNurseChats($id) {
+    public function addNewNurse()
+    {
+        $nurse = json_decode(request()->post('nurse'), true);
+
+        $rules = [
+            'additional_info' => 'required',
+            'available_care_range' => 'required',
+            'description' => 'required',
+            'email' => 'required|email',
+            'experience' => 'required',
+            'first_name' => 'required',
+            'gender' => 'required',
+            'languages' => 'required',
+            'last_name' => 'required',
+            'multiple_bookings' => 'required',
+            'one_or_regular' => 'required',
+            'phone' => 'required',
+            'pref_client_gender' => 'required',
+            'provide_supports' => 'required',
+            'ready_to_work' => 'required',
+            'start_date_ready_to_work' => 'required',
+            'type_of_learning' => 'required',
+            'work_time_pref' => 'required',
+            'zip_code' => 'required',
+        ];
+
+        $validator = Validator::make($nurse, $rules);
+
+        $errors = [];
+        if ($validator->fails()) {
+            $errors = array_merge($errors, $validator->errors()->toArray());
+        }
+
+//        if (count(request()->allFiles()) > 0) {
+//            $rules = [
+//                'file' => 'required|file|mimes:jpeg,bmp,png'
+//            ];
+//
+//            $validator = Validator::make(request()->allFiles(), $rules);
+//            if ($validator->fails()) {
+//                $errors = array_merge($errors, $validator->errors()->toArray());
+//            }
+//        } else {
+//            Log::channel('app_logs')->error('NursesMyInformationController@updateFile File not come');
+//            $errors = array_merge($errors, ['file' => 'File not come']);
+//        }
+
+        if (count($errors) > 0) {
+            return response()->json(['success' => false, 'errors' => $errors]);
+        }
+
+        if (!$this->nurseRepo->addNewNurse($nurse)) {
+            //todo:: hmm
+            return response()->json(['success' => false, 'errors' => []]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getNurseChats($id)
+    {
         $data = $this->chatRepo->getNursePrivateChats($id);
         return response()->json(['success' => true, 'chats' => $data['chats'], 'clients' => $data['clients'],
             'haveNewMessages' => $data['haveNewMessages']]);
     }
 
-    public function updateNurse(Request $request, $id) {
+    public function updateNurse(Request $request, $id)
+    {
         $rules = [
             'id' => 'required|numeric',
             'email' => 'required|email',

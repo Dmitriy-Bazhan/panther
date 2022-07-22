@@ -2,6 +2,8 @@
 
 namespace App\Http\Repositories;
 
+use App\Mail\AdminAddNewUserMail;
+use App\Mail\VerificationMail;
 use App\Models\AdditionalInfoAssigned;
 use App\Models\Lang;
 use App\Models\Nurse;
@@ -10,8 +12,11 @@ use App\Models\NurseLang;
 use App\Models\NursePrice;
 use App\Models\ProvideSupportAssigned;
 use App\Models\User;
+use App\Models\UserPref;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
@@ -193,6 +198,112 @@ class NurseRepository
         $SendNurse->max_price = NursePrice::max('hourly_payment');
 
         return $SendNurse;
+    }
+
+    public function addNewNurse($nurse)
+    {
+        $success = true;
+
+        $new_nurse = Nurse::create([
+            'age' => 18,
+            'experience' => $nurse['experience'],
+            'available_care_range' => $nurse['available_care_range'],
+            'description' => $nurse['description'],
+            'gender' => $nurse['gender'],
+            'pref_client_gender' => $nurse['pref_client_gender'],
+            'multiple_bookings' => $nurse['multiple_bookings'],
+            'one_or_regular' => $nurse['one_or_regular'],
+            'ready_to_work' => $nurse['ready_to_work'],
+            'start_date_ready_to_work' => Carbon::createFromDate($nurse['start_date_ready_to_work'])->format('Y-m-d'),
+            'work_time_pref' => json_encode($nurse['work_time_pref']),
+            'type_of_learning' => $nurse['type_of_learning']['id']
+        ]);
+
+        $user = User::create([
+            'first_name' => $nurse['first_name'],
+            'last_name' => $nurse['last_name'],
+            'phone' => $nurse['phone'],
+            'zip_code' => $nurse['zip_code'],
+            'entity_id' => $new_nurse->id,
+            'entity_type' => 'nurse',
+            'email' => $nurse['email'],
+            'email_verified_at' => Carbon::now(),
+            'password' => Hash::make('password'),
+        ]);
+
+        //languages
+        if (count($nurse['languages']) > 0) {
+            $langs = Lang::all();
+            foreach ($nurse['languages'] as $lang) {
+                NurseLang::create([
+                    'nurse_id' => $new_nurse->id,
+                    'lang' => $langs->where('id', $lang['lang_id'])->first()->name,
+                    'level' => $lang['level'],
+                    'lang_id' => $lang['lang_id'],
+                ]);
+            }
+        }
+
+        //provide_supports
+        if (count($nurse['provide_supports']) > 0) {
+            foreach ($nurse['provide_supports'] as $item) {
+                ProvideSupportAssigned::create([
+                    'nurse_id' => $new_nurse->id,
+                    'support_id' => $item['id'],
+                ]);
+            }
+        }
+
+        //additional info
+        if (count($nurse['additional_info']) > 0) {
+            foreach ($nurse['additional_info'] as $item) {
+                AdditionalInfoAssigned::create([
+                    'nurse_id' => $new_nurse->id,
+                    'additional_info_id' => $item['id'],
+                ]);
+            }
+        }
+
+        $userPrefs = new UserPref();
+        $userPrefs->user_id = $user->id;
+        $userPrefs->pref_lang = 'de';
+        $userPrefs->save();
+
+        $nursePrice = new NursePrice();
+        $nursePrice->nurse_id = $new_nurse->id;
+        $nursePrice->save();
+
+//        if (request()->file('file')) {
+//            $file = request()->file('file');
+//            $extension = $file->getClientOriginalExtension();
+//            $file_name = 'original_photo_user_' . $user->id . '.' . $extension;
+//            $thumbnail_name = 'thumbnail_photo_user_' . $user->id . '.' . $extension;
+//            $directory_name = 'user_' . $user->id . '/photo';
+//            $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+//            $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+//
+//            //make thumbnail or avatar
+//            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+//                $constraint->aspectRatio();
+//            });
+//
+//            $img->save();
+//
+//            Nurse::where('id', $new_nurse->id)->update([
+//                'original_photo' => $original_path,
+//                'thumbnail_photo' => $thumbnail_path,
+//            ]);
+//        }
+
+        if (config('mail_use_queue')) {
+            Mail::mailer('smtp')->to($user->email)
+                ->queue(new AdminAddNewUserMail($user));
+        } else {
+            Mail::mailer('smtp')->to($user->email)
+                ->send(new AdminAddNewUserMail($user));
+        }
+
+        return $success;
     }
 
     public function update($id)
