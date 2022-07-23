@@ -59,8 +59,8 @@ export default {
         getNurses() {
             axios.get(this.url + this.filterString + '&search=' + this.search)
                 .then((response) => {
-                    this.nurses = response.data.data;
-                    this.links = response.data.meta.links;
+                    this.nurses = response.data.nurses.data;
+                    this.links = response.data.nurses.meta.links;
                 })
                 .catch((error) => {
                     console.log(error);

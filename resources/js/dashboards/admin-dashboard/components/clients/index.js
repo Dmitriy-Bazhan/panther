@@ -35,7 +35,6 @@ export default {
             this.getClients();
         },
         getClients() {
-            console.log(this.url + '&search=' + this.search);
             axios.get(this.url + '&search=' + this.search)
                 .then((response) => {
                     this.clients = response.data.clients.data;

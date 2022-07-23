@@ -58,8 +58,9 @@ class AdminNurseController extends Controller
             'search' => $search
         ]);
 
-        $nurses = $this->nurseRepo->search();
-        return NurseResource::collection($nurses);
+        $nurses = NurseResource::collection($this->nurseRepo->search())->response()->getData();
+        return response()->json(['nurses' => $nurses]);
+//        return NurseResource::collection($nurses);
     }
 
     public function addNewNurse()
