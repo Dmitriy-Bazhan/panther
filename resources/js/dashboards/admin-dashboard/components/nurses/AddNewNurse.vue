@@ -4,15 +4,15 @@
             <div v-if="nurse" class="pt-finder--form">
                 <div class="pt-dashboard--user-info">
                     <div class="pt-finder--form-block">
-<!--                        <div class="pt-dashboard&#45;&#45;user-info&#45;&#45;avatar">-->
-<!--                            <h2>Photo</h2>-->
-<!--                            <label class="pt-dashboard&#45;&#45;user-info&#45;&#45;avatar-btn">-->
-<!--                                <input type="file"-->
-<!--                                       ref="file"-->
-<!--                                >-->
-<!--                                <i class="fa-solid fa-pen-to-square"></i>-->
-<!--                            </label>-->
-<!--                        </div>-->
+                        <div class="pt-dashboard--user-info--avatar">
+                            <h2>Photo</h2>
+                            <label class="pt-dashboard--user-info--avatar-btn">
+                                <input type="file"
+                                       ref="file"
+                                >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </label>
+                        </div>
 
                         <div class="pt-finder--form-group">
                             <p class="pt-form--label">
@@ -92,6 +92,18 @@
                                         </span>
                         </div>
 
+                        <div class="pt-finder--form-group">
+                            <p class="pt-form--label">
+                                {{ $t('age') }}
+                            </p>
+                            <pt-input type="number" :modelValue="nurse.age" min="18" max="200"
+                                      icon="user"
+                                      @update:modelValue="newValue => nurse.age = newValue"
+                            ></pt-input>
+
+                            <span class="register-form-error" v-if="errors !== null && errors['age'] !== undefined"> {{ errors['age'][0] }} </span>
+                        </div>
+
 
                         <div class="pt-finder--form-group">
                             <p class="pt-form--label">
@@ -113,9 +125,9 @@
                             </div>
 
                             <span class="register-form-error"
-                                  v-if="errors !== null && errors['entity.gender'] !== undefined"
+                                  v-if="errors !== null && errors['nurse.gender'] !== undefined"
                             >
-                                            {{ errors['entity.gender'][0] }}
+                                            {{ errors['nurse.gender'][0] }}
                                         </span>
                         </div>
                     </div>
@@ -175,7 +187,7 @@
                     <!--                <div class="pt-finder&#45;&#45;form-block&#45;&#45;inner">-->
                     <!--                    <div class="pt-finder&#45;&#45;form-group">-->
                     <!--                        <div class="pt-row">-->
-                    <!--                            <div class="pt-col-md-6" v-for="(item, index) in authUser.entity.files">-->
+                    <!--                            <div class="pt-col-md-6" v-for="(item, index) in authUser.nurse.files">-->
                     <!--                                <div class="pt-profile&#45;&#45;file">-->
                     <!--                                    <img :src="path + '/storage/' + item.file_path" alt="pic"-->
                     <!--                                         class="pt-profile&#45;&#45;file-preview">-->
@@ -779,7 +791,8 @@
                     email: '',
                     phone: '',
                     zip_code: '',
-                    gender: 'no_matter',
+                    age: 18,
+                    gender: 'male',
                     description: '',
                     experience: '',
                     languages: [],
@@ -846,10 +859,10 @@
                     });
             },
             addNewNurse() {
-                // this.file = this.$refs.file.files[0];
+                this.file = this.$refs.file.files[0];
                 let formData = new FormData();
                 let nurse = JSON.stringify(this.nurse);
-                // formData.append('file', this.file);
+                formData.append('file', this.file);
                 formData.append('nurse', nurse);
 
                 axios.post('/dashboard/admin/add-new-nurse',

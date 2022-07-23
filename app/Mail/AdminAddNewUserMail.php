@@ -14,16 +14,18 @@ class AdminAddNewUserMail extends Mailable
 
     protected $url;
     protected $user;
+    protected $password;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $password)
     {
         $this->url = url('/login');
         $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -37,6 +39,7 @@ class AdminAddNewUserMail extends Mailable
             ->view('mail.admin-add-new-user')->with([
                 'url' => $this->url,
                 'user' => $this->user,
+                'password' => $this->password,
             ]);
     }
 }

@@ -9,6 +9,12 @@ class Client extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'age',
+        'description',
+        'gender',
+    ];
+
     public function users()
     {
         return $this->morphMany(User::class, 'entity');

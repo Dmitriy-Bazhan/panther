@@ -3,7 +3,6 @@
 namespace App\Http\Repositories;
 
 use App\Mail\AdminAddNewUserMail;
-use App\Mail\VerificationMail;
 use App\Models\AdditionalInfoAssigned;
 use App\Models\Lang;
 use App\Models\Nurse;
@@ -205,7 +204,7 @@ class NurseRepository
         $success = true;
 
         $new_nurse = Nurse::create([
-            'age' => 18,
+            'age' => $nurse['age'],
             'experience' => $nurse['experience'],
             'available_care_range' => $nurse['available_care_range'],
             'description' => $nurse['description'],
@@ -219,6 +218,7 @@ class NurseRepository
             'type_of_learning' => $nurse['type_of_learning']['id']
         ]);
 
+        $password = Str::random(20);
         $user = User::create([
             'first_name' => $nurse['first_name'],
             'last_name' => $nurse['last_name'],
@@ -228,7 +228,7 @@ class NurseRepository
             'entity_type' => 'nurse',
             'email' => $nurse['email'],
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('password'),
+            'password' => Hash::make($password),
         ]);
 
         //languages
@@ -264,43 +264,43 @@ class NurseRepository
             }
         }
 
-        $userPrefs = new UserPref();
-        $userPrefs->user_id = $user->id;
-        $userPrefs->pref_lang = 'de';
-        $userPrefs->save();
+        $success = UserPref::create([
+            'user_id' => $user->id,
+            'pref_lang' => 'de',
+        ]);
 
         $nursePrice = new NursePrice();
         $nursePrice->nurse_id = $new_nurse->id;
         $nursePrice->save();
 
-//        if (request()->file('file')) {
-//            $file = request()->file('file');
-//            $extension = $file->getClientOriginalExtension();
-//            $file_name = 'original_photo_user_' . $user->id . '.' . $extension;
-//            $thumbnail_name = 'thumbnail_photo_user_' . $user->id . '.' . $extension;
-//            $directory_name = 'user_' . $user->id . '/photo';
-//            $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
-//            $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
-//
-//            //make thumbnail or avatar
-//            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
-//                $constraint->aspectRatio();
-//            });
-//
-//            $img->save();
-//
-//            Nurse::where('id', $new_nurse->id)->update([
-//                'original_photo' => $original_path,
-//                'thumbnail_photo' => $thumbnail_path,
-//            ]);
-//        }
+        if (count(request()->allFiles()) > 0 && request()->file('file')) {
+            $file = request()->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = 'original_photo_user_' . $user->id . '.' . $extension;
+            $thumbnail_name = 'thumbnail_photo_user_' . $user->id . '.' . $extension;
+            $directory_name = 'user_' . $user->id . '/photo';
+            $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+            $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+
+            //make thumbnail or avatar
+            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save();
+
+            Nurse::where('id', $new_nurse->id)->update([
+                'original_photo' => $original_path,
+                'thumbnail_photo' => $thumbnail_path,
+            ]);
+        }
 
         if (config('mail_use_queue')) {
             Mail::mailer('smtp')->to($user->email)
-                ->queue(new AdminAddNewUserMail($user));
+                ->queue(new AdminAddNewUserMail($user, $password));
         } else {
             Mail::mailer('smtp')->to($user->email)
-                ->send(new AdminAddNewUserMail($user));
+                ->send(new AdminAddNewUserMail($user, $password));
         }
 
         return $success;

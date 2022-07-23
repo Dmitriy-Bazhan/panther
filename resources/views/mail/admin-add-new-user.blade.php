@@ -64,6 +64,9 @@
     <div class="text-wrapper">
         @lang('mail-message.admin_add_new_user_hello')
     </div>
+    <div class="text-wrapper">
+        @lang('mail-message.your_password')  {{': ' . $password}}
+    </div>
     <div class="link-button-row">
         <a href="{{ $url }}">
             <button class="link-button">{{ \Illuminate\Support\Facades\Config::get('app.name') }}</button>

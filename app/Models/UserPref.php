@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserPref extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id', 'pref_lang'
+    ];
 }

@@ -4,12 +4,16 @@
 namespace App\Http\Repositories;
 
 
+use App\Mail\AdminAddNewUserMail;
 use App\Models\Client;
 use App\Models\ClientSearchInfo;
-use App\Models\Nurse;
 use App\Models\User;
+use App\Models\UserPref;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Image;
 
 class ClientRepository
@@ -32,6 +36,12 @@ class ClientRepository
             $client->where('id', $id);
         }
 
+        //search
+        if (request()->filled('search') && is_string(request('search')) && strlen(request('search')) > 0) {
+            $client->where('first_name', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+        }
+
         //order (only for some clients)
         if (is_null($id)) {
             if (request()->filled('order_by')) {
@@ -43,6 +53,66 @@ class ClientRepository
         }
 
         return $client->paginate(config('settings.listing_paginate'));
+    }
+
+    public function addNewClient($client){
+        $success = true;
+
+        $new_client = Client::create([
+            'age' => $client['age'],
+            'description' => $client['description'],
+            'gender' => $client['gender'],
+        ]);
+
+        $password = Str::random(20);
+        $user = User::create([
+            'first_name' => $client['first_name'],
+            'last_name' => $client['last_name'],
+            'phone' => $client['phone'],
+            'zip_code' => $client['zip_code'],
+            'entity_id' => $new_client->id,
+            'entity_type' => 'client',
+            'email' => $client['email'],
+            'email_verified_at' => Carbon::now(),
+            'password' => Hash::make($password),
+        ]);
+
+        $success = UserPref::create([
+            'user_id' => $user->id,
+            'pref_lang' => 'de',
+        ]);
+
+        if (count(request()->allFiles()) > 0 && request()->file('file')) {
+            $file = request()->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = 'original_photo_user_' . $user->id . '.' . $extension;
+            $thumbnail_name = 'thumbnail_photo_user_' . $user->id . '.' . $extension;
+            $directory_name = 'user_' . $user->id . '/photo';
+            $original_path = Storage::disk('public')->putFileAs($directory_name, $file, $file_name);
+            $thumbnail_path = Storage::disk('public')->putFileAs($directory_name, $file, $thumbnail_name);
+
+            //make thumbnail or avatar
+            $img = Image::make('storage/' . $thumbnail_path)->resize(40, 40, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save();
+
+            $success = Client::where('id', $new_client->id)->update([
+                'original_photo' => $original_path,
+                'thumbnail_photo' => $thumbnail_path,
+            ]);
+        }
+
+        if (config('mail_use_queue')) {
+            Mail::mailer('smtp')->to($user->email)
+                ->queue(new AdminAddNewUserMail($user, $password));
+        } else {
+            Mail::mailer('smtp')->to($user->email)
+                ->send(new AdminAddNewUserMail($user, $password));
+        }
+
+        return $success;
     }
 
     public function update($client)
