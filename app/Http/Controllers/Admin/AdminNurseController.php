@@ -68,6 +68,7 @@ class AdminNurseController extends Controller
 
         $rules = [
             'additional_info' => 'required',
+            'age' => 'required|numeric|min:18|max:200',
             'available_care_range' => 'required',
             'description' => 'required',
             'email' => 'required|email',
@@ -95,19 +96,16 @@ class AdminNurseController extends Controller
             $errors = array_merge($errors, $validator->errors()->toArray());
         }
 
-//        if (count(request()->allFiles()) > 0) {
-//            $rules = [
-//                'file' => 'required|file|mimes:jpeg,bmp,png'
-//            ];
-//
-//            $validator = Validator::make(request()->allFiles(), $rules);
-//            if ($validator->fails()) {
-//                $errors = array_merge($errors, $validator->errors()->toArray());
-//            }
-//        } else {
-//            Log::channel('app_logs')->error('NursesMyInformationController@updateFile File not come');
-//            $errors = array_merge($errors, ['file' => 'File not come']);
-//        }
+        if (count(request()->allFiles()) > 0) {
+            $rules = [
+                'file' => 'sometimes|file|mimes:jpeg,bmp,png'
+            ];
+
+            $validator = Validator::make(request()->allFiles(), $rules);
+            if ($validator->fails()) {
+                $errors = array_merge($errors, $validator->errors()->toArray());
+            }
+        }
 
         if (count($errors) > 0) {
             return response()->json(['success' => false, 'errors' => $errors]);

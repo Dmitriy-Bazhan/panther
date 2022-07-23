@@ -144,20 +144,17 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/set-hear-about-us', [AdminDashboardController::class, 'setHearAboutUs']);
         Route::get('/remove-hear-about-us/{id}', [AdminDashboardController::class, 'removeHearAboutUs']);
         Route::get('change-hear-about-us-show/{id}', [AdminDashboardController::class, 'changeHearAboutUsShow']);
-
-        //admin dashboard settings
         Route::get('/get-site-settings', [AdminDashboardController::class, 'getSiteSettings']);
         Route::post('/set-site-settings', [AdminDashboardController::class, 'setSiteSettings']);
-
         Route::get('/get-type-of-learning', [AdminDashboardController::class, 'getTypeOfLearning']);
         Route::post('/set-type-of-learning', [AdminDashboardController::class, 'setTypeOfLearning']);
         Route::get('/remove-type-of-learning/{id}', [AdminDashboardController::class, 'removeTypeOfLearning']);
-
         Route::post('/set-time-intervals', [AdminDashboardController::class, 'setTimeIntervals']);
         Route::get('/set-default-time-intervals', [AdminDashboardController::class, 'setDefaultTimeIntervals']);
 
         //admin dashboards clients
-        Route::get('/get-clients', [AdminClientController::class, 'index']);
+        Route::get('/get-clients', [AdminClientController::class, 'getClients']);
+        Route::post('/add-new-client', [AdminClientController::class, 'addNewClient']);
         Route::get('/get-clients-chats/{id}', [AdminClientController::class, 'getClientChats']);
         Route::get('/admin-remove-message/{id}', [AdminClientController::class, 'adminRemoveMessage']);
         Route::get('/ban-user/{id}', [AdminController::class, 'banUser']);
@@ -336,11 +333,11 @@ Route::get('/booking-not-exists', function () {
 
 //test email router
 Route::get('/test-email', function (){
-//    $user = \App\Models\User::find(108);
-//
-//    $success = Mail::mailer('smtp')->to($user->email)
-//        ->send(new AdminAddNewUserMail($user));
-//    dd($success);
+    $user = \App\Models\User::find(108);
+
+    $success = Mail::mailer('smtp')->to($user->email)
+        ->send(new AdminAddNewUserMail($user));
+    dd($success);
 });
 
 
