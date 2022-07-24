@@ -62,4 +62,23 @@ class NotificationController extends Controller
         return $success;
 
     }
+
+    public function setNotificationStatusRead(){
+        $notification_id = request()->post('notification_id');
+        if(is_null($notification_id)){
+            Log::channel('app_logs')->error('NotificationController@setNotificationStatusRead Notification id is null');
+            return false;
+        }
+
+        $success = Notification::where('id', $notification_id)->update([
+            'status' => 'read'
+        ]);
+
+        if($success){
+            return true;
+        }else{
+            Log::channel('app_logs')->error('NotificationController@setNotificationStatusRead Notification not update');
+            return false;
+        }
+    }
 }

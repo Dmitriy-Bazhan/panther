@@ -73,6 +73,7 @@ Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class,
 
 //notifications
 Route::get('get-notification/{user_id}', [NotificationController::class, 'getNotifications'])->middleware(['auth:sanctum', 'verified']);
+Route::post('set-notification-status-read', [NotificationController::class, 'setNotificationStatusRead'])->middleware(['auth:sanctum', 'verified']);
 
 //chat
 Route::post('/set-chat-on-delete-status', [ChatController::class, 'setChatOnDeleteStatus'])->middleware(['auth:sanctum', 'verified']);
