@@ -29,6 +29,22 @@ Broadcast::channel('admin', function ($user) {
     return false;
 });
 
+Broadcast::channel('notifications', function ($user){
+    if ($user->is_admin) {
+        return true;
+    }
+
+    if ($user->is_client) {
+        return true;
+    }
+
+    if ($user->is_nurse) {
+        return true;
+    }
+
+    return false;
+});
+
 Broadcast::channel('client-between-nurse.{nurse_id}.{client_id}', function ($user, $nurse_id, $client_id) {
     if ($user->is_client) {
         return true;

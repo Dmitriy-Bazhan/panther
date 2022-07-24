@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Events\TestChatMessage;
 use App\Http\Repositories\NurseRepository;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\NurseResource;
 use App\Models\Booking;
 use App\Models\Chat;
+use App\Models\Notification;
 use App\Models\PrivateChat;
 use App\Models\User;
 use Carbon\Carbon;
@@ -29,6 +32,9 @@ class TestController extends Controller
 //        dd($nurse);
 //
 //        dd('FFFFF');
+
+        $notification = NotificationController::createNotification($target_user_id = 1, $type = 'booking', $content = 'TEst Test');
+        dd($notification);
 
         $chatsUsersIds = Chat::select('id','nurse_user_id', 'client_user_id')->get()->toArray();
         foreach ($chatsUsersIds as $item){
