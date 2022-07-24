@@ -38,12 +38,10 @@
             }
 
             try {
-                window.Echo.private('notifications')
+                window.Echo.private('notifications.' + this.user.id)
                     .listen('Notifications.NewNotificationEvent', (response) => {
+                        console.log('This message for me.))');
                         console.log(response);
-                        if (response.target_user_id === this.user.id) {
-                            console.log('I have notification');
-                        }
                     }).error((error) => {
                     console.log('ERROR IN SOCKETS CONNECT : ' + error);
                 });
