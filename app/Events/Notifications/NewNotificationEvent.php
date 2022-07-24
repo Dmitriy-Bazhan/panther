@@ -37,14 +37,13 @@ class NewNotificationEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('notifications');
+        return new PrivateChannel('notifications.' . $this->target_user_id);
     }
 
     public function broadcastWith()
     {
         return [
             'unread_notifications_count' => $this->unread_notifications_count,
-            'target_user_id' => $this->target_user_id,
         ];
     }
 }

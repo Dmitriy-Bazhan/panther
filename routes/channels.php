@@ -29,7 +29,7 @@ Broadcast::channel('admin', function ($user) {
     return false;
 });
 
-Broadcast::channel('notifications', function ($user){
+Broadcast::channel('notifications.{user_id}', function ($user){
     if ($user->is_admin) {
         return true;
     }
