@@ -13,6 +13,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\PaymentsController;
@@ -69,6 +70,9 @@ Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['au
 Route::post('/set-user-rate', [RateController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+
+//notifications
+Route::get('get-notification/{user_id}', [NotificationController::class, 'getNotifications'])->middleware(['auth:sanctum', 'verified']);
 
 //chat
 Route::post('/set-chat-on-delete-status', [ChatController::class, 'setChatOnDeleteStatus'])->middleware(['auth:sanctum', 'verified']);
