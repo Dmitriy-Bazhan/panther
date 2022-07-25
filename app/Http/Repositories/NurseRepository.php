@@ -308,12 +308,7 @@ class NurseRepository
 
     public function update($id)
     {
-        //temporary
-        if (!auth()->user()->is_admin) {
-            $data = json_decode(request()->post('user'), true);
-        } else {
-            $data = request()->post('user');
-        }
+        $data = json_decode(request()->post('user'), true);
 
 
         User::where('id', $id)->update([
