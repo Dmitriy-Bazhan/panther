@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\TestChatMessage;
 use App\Http\Repositories\NurseRepository;
-use App\Http\Resources\NotificationResource;
-use App\Http\Resources\NurseResource;
 use App\Models\Booking;
 use App\Models\Chat;
-use App\Models\Notification;
 use App\Models\PrivateChat;
 use App\Models\User;
 use Carbon\Carbon;
@@ -33,7 +30,10 @@ class TestController extends Controller
 //
 //        dd('FFFFF');
 
-        $this->getNurseWorkCalendar();
+        $user = User::find(110);
+
+        dd(url('dashboard/'. $user->entity_type .'/messages'));
+
         dd('STOP');
 
         $chatsUsersIds = Chat::select('id','nurse_user_id', 'client_user_id')->get()->toArray();

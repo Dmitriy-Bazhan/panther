@@ -19,4 +19,12 @@ class Chat extends Model
     protected $hidden = [
         'updated_at'
     ];
+
+    public function client() {
+        return $this->hasOne('App\Models\User', 'id', 'client_user_id')->without('entity', 'prefs');
+    }
+
+    public function nurse() {
+        return $this->hasOne('App\Models\User', 'id', 'nurse_user_id')->without('entity', 'prefs');
+    }
 }
