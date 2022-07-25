@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\NurseResource;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
@@ -18,12 +19,14 @@ use App\Http\Repositories\NurseRepository;
 class NurseDashboardController extends Controller
 {
     protected $nurseRepo;
+    protected $chatRepo;
 
-    public function __construct(NurseRepository $nurseRepo)
+    public function __construct(NurseRepository $nurseRepo, ChatRepository $chatRepo)
     {
         parent::__construct();
 
         $this->nurseRepo = $nurseRepo;
+        $this->chatRepo = $chatRepo;
     }
 
     public function index()
@@ -52,10 +55,9 @@ class NurseDashboardController extends Controller
             ->where('status', 'unread')
             ->whereNotNull('client_sent')
             ->first() !== null ? true : false;
-        $data['data']['last_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
-            ->where('status', 'unread')
-            ->where('client_sent', 'yes')
-            ->orderByDesc('created_at')->get()->groupBy('client_user_id');
+
+        $data['data']['last_chats'] = $this->chatRepo->getNurseLastPrivateChats(5);
+//        dd($data['data']['last_chats']);
         $data['data']['count_of_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
             ->where('status', 'unread')
             ->where('client_sent', 'yes')

@@ -26,4 +26,8 @@ class PrivateChat extends Model
     protected $hidden = [
         'updated_at'
     ];
+
+    public function chat() {
+        return $this->hasOne('App\Models\Chat', 'id', 'chat_id');
+    }
 }
