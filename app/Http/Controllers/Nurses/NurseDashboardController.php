@@ -31,6 +31,19 @@ class NurseDashboardController extends Controller
         $data = siteData();
         auth()->user()->entity->price;
 
+        $bookings = Booking::where('nurse_user_id', auth()->id())->select('client_user_id','status')->get();
+        auth()->user()->bokkings_count = $bookings->count();
+        auth()->user()->all_clients = $bookings->keyBy('client_user_id')->count();
+        auth()->user()->new_clients = $bookings->groupBy('client_user_id')->filter(function($value){
+            $count_not_approved = $value->where('status', 'not_approved')->count();
+            $count_else = $value->where('status', '!=' ,'not_approved')->count();
+            if($count_not_approved > 0 && $count_else == 0){
+                return true;
+            }
+        })->count();;
+
+        auth()->user()->payments = 0;
+
         $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
             ->where('status', 'not_approved')
             ->where('is_verification', 'yes')
