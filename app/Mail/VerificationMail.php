@@ -16,24 +16,13 @@ class VerificationMail extends Mailable
     protected $template;
     protected $user;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct($url, $user)
     {
-        $reflection = new \ReflectionClass($this);
-        $this->template = MailTemplate::where('name', $reflection->getShortName())->first()->content;
+        $this->template = MailTemplate::where('name', 'Verification Mail')->first()->content;
         $this->url = $url;
         $this->user = $user;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->subject(__('mail-message.email_verification'))

@@ -17,24 +17,13 @@ class MailThatYouHaveNewMessagesMail extends Mailable
     protected $template;
     protected $url;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct($user)
     {
-        $reflection = new \ReflectionClass($this);
-        $this->template = MailTemplate::where('name', $reflection->getShortName() )->first()->content;
+        $this->template = MailTemplate::where('name', 'Mail That You Have New Messages')->first()->content;
         $this->user = $user;
         $this->url = url('dashboard/'. $user->entity_type .'/messages');
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->subject(__('mail-message.sent_new_booking_to_nurse_title'))

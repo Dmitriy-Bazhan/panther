@@ -18,25 +18,14 @@ class AdminAddNewUserMail extends Mailable
     protected $password;
     protected $template;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct($user, $password)
     {
-        $reflection = new \ReflectionClass($this);
         $this->url = url('/login');
         $this->user = $user;
-        $this->template = MailTemplate::where('name', $reflection->getShortName() )->first()->content;
+        $this->template = MailTemplate::where('name', 'Admin Add New User')->first()->content;
         $this->password = $password;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->subject(__('mail-message.you_have_been_added_to_the_site') . ' ' . Config::get('app.name'))

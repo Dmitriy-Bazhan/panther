@@ -19,8 +19,7 @@ class SendNurseNewBookingMail extends Mailable
 
     public function __construct($nurse, $client)
     {
-        $reflection = new \ReflectionClass($this);
-        $this->template = MailTemplate::where('name', $reflection->getShortName())->first()->content;
+        $this->template = MailTemplate::where('name', 'Send Nurse When New Booking')->first()->content;
         $this->nurse = $nurse;
         $this->client = $client;
         $this->url = url('/dashboard/nurse/bookings');

@@ -20,8 +20,7 @@ class ClientVerificationBookingMail extends Mailable
 
     public function __construct($booking,$nurse, $client)
     {
-        $reflection = new \ReflectionClass($this);
-        $this->template = MailTemplate::where('name', $reflection->getShortName() )->first()->content;
+        $this->template = MailTemplate::where('name', 'Client Verification Booking')->first()->content;
         $this->booking = $booking;
         $this->nurse = $nurse;
         $this->client = $client;

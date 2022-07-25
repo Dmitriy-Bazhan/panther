@@ -15,12 +15,12 @@ class MailTemplateSeeder extends Seeder
     public function run()
     {
         $array = [
-            'AdminAddNewUserMail',
-            'ClientVerificationBookingMail',
-            'MailThatYouHaveNewMessagesMail',
-            'SendNurseNewBookingMail',
-            'SendWarningToUser',
-            'VerificationMail',
+            'Admin Add New User',
+            'Client Verification Booking',
+            'Mail That You Have New Messages',
+            'Send Nurse When New Booking',
+            'Send Warning To User',
+            'Verification Mail',
         ];
 
         foreach ($array as $item){

@@ -336,7 +336,6 @@ Route::get('/booking-not-exists', function () {
     return view('main');
 });
 
-
 //test email router
 Route::get('/test-email', function (){
     $user = \App\Models\User::find(108);

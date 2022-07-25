@@ -18,8 +18,7 @@ class SendWarningToUser extends Mailable
 
     public function __construct($user, $customMessage)
     {
-        $reflection = new \ReflectionClass($this);
-        $this->template = MailTemplate::where('name', $reflection->getShortName() )->first()->content;
+        $this->template = MailTemplate::where('name', 'Send Warning To User')->first()->content;
         $this->user = $user;
         $this->customMessage = $customMessage;
     }

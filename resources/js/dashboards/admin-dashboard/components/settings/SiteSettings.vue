@@ -8,6 +8,11 @@
     <input id="listing_paginate" class="form-control form-control-sm" type="number" min="1"
            v-model="site_settings['listing_paginate']">
 
+    <label for="regularity_of_email_about_new_messages" class="col-form-label-sm">{{ $t('regularity_of_email_about_new_messages') }}</label>
+    <input id="regularity_of_email_about_new_messages" class="form-control form-control-sm" type="number" min="1"
+           v-model="site_settings['regularity_of_email_about_new_messages']">
+
+
     <label for="facebook_link" class="col-form-label-sm">{{ $t('facebook_link') }}</label>
     <input id="facebook_link" class="form-control form-control-sm" type="text"
            v-model="site_settings['facebook_link']">
