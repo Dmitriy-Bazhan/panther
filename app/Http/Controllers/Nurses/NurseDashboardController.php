@@ -128,7 +128,7 @@ class NurseDashboardController extends Controller
                                     ->addDays($d)->format('Y-m-d');
 
                                 $weekDayName = Carbon::createFromFormat('Y-m-d', $startWeekDate)
-                                    ->addDays($d)->dayName;
+                                    ->addDays($d)->dayOfWeek;;
                                 if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
                                     $times = $booking->time->keyBy('time_interval')->keys()->toArray();
                                     foreach ($times as $time){

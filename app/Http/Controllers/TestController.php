@@ -33,8 +33,8 @@ class TestController extends Controller
 //
 //        dd('FFFFF');
 
-        $notification = NotificationController::createNotification($target_user_id = 1, $type = 'booking', $content = 'TEst Test');
-        dd($notification);
+        $this->getNurseWorkCalendar();
+        dd('STOP');
 
         $chatsUsersIds = Chat::select('id','nurse_user_id', 'client_user_id')->get()->toArray();
         foreach ($chatsUsersIds as $item){
@@ -56,10 +56,10 @@ class TestController extends Controller
         return view('test', $data);
     }
 
-    public function getNurseWorkCalendar($date = '2022-04-01')
+    public function getNurseWorkCalendar($date = '2022-05-01')
     {
         $nurse = User::where('id', 101)->first();
-        $bookings = Booking::where('nurse_user_id', 101)->whereIn('status', ['approved', 'in_process'])->with('time')->get();
+        $bookings = Booking::where('nurse_user_id', auth()->id())->whereIn('status', ['approved', 'in_process'])->with('time')->get();
         dump($bookings);
 
         $workTimePref = json_decode($nurse->entity->work_time_pref, true);
@@ -82,7 +82,7 @@ class TestController extends Controller
             $current = Carbon::createFromFormat('Y-m-d', $firstDay)->addDays($i)->format('Y-m-d');
             $day = Carbon::createFromFormat('Y-m-d', $current)->dayName;
             $timeCalendar[$current] = [];
-            $timeCalendar[$current]['day'] = $day;
+//            $timeCalendar[$current]['day'] = $day;
             if(in_array($day, ['Saturday', 'Sunday'])){
                 $timeCalendar[$current]['weekends_7_11'] = $workTimePref['weekends_7_11'];
                 $timeCalendar[$current]['weekends_11_14'] = $workTimePref['weekends_11_14'];
@@ -118,7 +118,7 @@ class TestController extends Controller
                                     ->addDays($d)->format('Y-m-d');
 
                                 $weekDayName = Carbon::createFromFormat('Y-m-d', $startWeekDate)
-                                    ->addDays($d)->dayName;
+                                    ->addDays($d)->dayOfWeek;
                                 if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
                                     $times = $booking->time->keyBy('time_interval')->keys()->toArray();
                                     foreach ($times as $time){
