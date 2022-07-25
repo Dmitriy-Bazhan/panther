@@ -43,7 +43,7 @@ class NotificationController extends Controller
 
         $notification = Notification::create([
             'creator_user_id' => auth()->id(),
-            'creator_entity' => auth()->user()->entity,
+            'creator_entity' => auth()->user()->entity_type,
             'target_user_id' => $target_user_id,
             'type' => $type,
             'status' => 'unread',
