@@ -14,6 +14,9 @@ use \Database\Seeders\DefaultTranslateSeeder;
 use \Database\Seeders\LangSeeder;
 use \Database\Seeders\DefaultFeedbackSeeder;
 use \Database\Seeders\TimeIntervalSeeder;
+use Illuminate\Support\Facades\App;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\Output;
 
 
 class DatabaseSeeder extends Seeder
@@ -25,7 +28,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (env('APP_ENV') === 'local') {
+        $output = new ConsoleOutput();
+        if (App::environment('local')) {
+            $output->writeln('Local db seeder');
             $this->call([
                 AdditionalInfoSeeder::class,
                 UserSeeder::class,
@@ -41,7 +46,8 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (env('APP_ENV') === 'production') {
+        if (App::environment('production')) {
+            $output->writeln('Production db seeder');
             $this->call([
                 AdditionalInfoSeeder::class,
                 DefaultTranslateSeeder::class,
