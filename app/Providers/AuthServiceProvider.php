@@ -31,37 +31,15 @@ class AuthServiceProvider extends ServiceProvider
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
 
-            if (auth()->user()->is_nurse) {
-
-                $text = __('mail-message.email_verification_for_nurses');
-                $user = auth()->user();
-
-                if (config('mail_use_queue')) {
-                    Mail::mailer('smtp')->to(auth()->user()->email)->
-                    queue(new VerificationMail($url, $text, $user));
-                } else {
-                    Mail::mailer('smtp')->to(auth()->user()->email)->
-                    send(new VerificationMail($url, $text, $user));
-                }
-
-                return new VerificationMail($url, $text, $user);
+            $user = auth()->user();
+            if (config('mail_use_queue')) {
+                Mail::mailer('smtp')->to(auth()->user()->email)->
+                queue(new VerificationMail($url, $user));
+            } else {
+                Mail::mailer('smtp')->to(auth()->user()->email)->
+                send(new VerificationMail($url, $user));
             }
-
-            if (auth()->user()->is_client) {
-
-                $text = __('mail-message.email_verification_for_clents');
-                $user = auth()->user();
-
-                if (config('mail_use_queue')) {
-                    Mail::mailer('smtp')->to(auth()->user()->email)->
-                    queue(new VerificationMail($url, $text, $user));
-                } else {
-                    Mail::mailer('smtp')->to(auth()->user()->email)->
-                    send(new VerificationMail($url, $text, $user));
-                }
-
-                return new VerificationMail($url, $text, $user);
-            }
+            return new VerificationMail($url, $user);
         });
     }
 }

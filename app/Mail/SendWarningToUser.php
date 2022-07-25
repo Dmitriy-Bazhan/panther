@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,9 +14,12 @@ class SendWarningToUser extends Mailable
 
     protected $user;
     protected $customMessage;
+    protected $template;
 
     public function __construct($user, $customMessage)
     {
+        $reflection = new \ReflectionClass($this);
+        $this->template = MailTemplate::where('name', $reflection->getShortName() )->first()->content;
         $this->user = $user;
         $this->customMessage = $customMessage;
     }
@@ -27,6 +31,7 @@ class SendWarningToUser extends Mailable
                 'url' => url('/'),
                 'user' => $this->user,
                 'customMessage' => $this->customMessage,
+                'template' => $this->template,
             ]);
     }
 }

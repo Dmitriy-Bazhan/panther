@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,9 +15,12 @@ class SendNurseNewBookingMail extends Mailable
     protected $nurse;
     protected $client;
     protected $url;
+    protected $template;
 
     public function __construct($nurse, $client)
     {
+        $reflection = new \ReflectionClass($this);
+        $this->template = MailTemplate::where('name', $reflection->getShortName())->first()->content;
         $this->nurse = $nurse;
         $this->client = $client;
         $this->url = url('/dashboard/nurse/bookings');
@@ -27,9 +31,10 @@ class SendNurseNewBookingMail extends Mailable
 
         return $this->subject(__('mail-message.sent_new_booking_to_nurse_title'))
             ->view('mail.send-nurse-new-booking-mail')->with([
-            'client' => $this->client,
-            'nurse' => $this->nurse,
-            'url' => $this->url,
-        ]);
+                'client' => $this->client,
+                'user' => $this->nurse,
+                'url' => $this->url,
+                'template' => $this->template,
+            ]);
     }
 }

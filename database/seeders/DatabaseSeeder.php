@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
                 LangSeeder::class,
                 DefaultFeedbackSeeder::class,
                 TimeIntervalSeeder::class,
+                MailTemplateSeeder::class,
             ]);
         }
 
@@ -55,6 +56,7 @@ class DatabaseSeeder extends Seeder
                 LangSeeder::class,
                 ProviderSupportSeeder::class,
                 TimeIntervalSeeder::class,
+                MailTemplateSeeder::class,
             ]);
         }
 

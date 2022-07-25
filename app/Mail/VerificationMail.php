@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,17 +13,19 @@ class VerificationMail extends Mailable
     use Queueable, SerializesModels;
 
     protected $url;
-    protected $text;
+    protected $template;
     protected $user;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($url, $text, $user)
+    public function __construct($url, $user)
     {
+        $reflection = new \ReflectionClass($this);
+        $this->template = MailTemplate::where('name', $reflection->getShortName())->first()->content;
         $this->url = $url;
-        $this->text = $text;
         $this->user = $user;
     }
 
@@ -35,9 +38,9 @@ class VerificationMail extends Mailable
     {
         return $this->subject(__('mail-message.email_verification'))
             ->view('mail.verification-mail')->with([
-            'url' => $this->url,
-            'text' => $this->text,
-            'user' => $this->user,
-        ]);
+                'url' => $this->url,
+                'user' => $this->user,
+                'template' => $this->template,
+            ]);
     }
 }

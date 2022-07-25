@@ -57,7 +57,7 @@ class NurseDashboardController extends Controller
             ->first() !== null ? true : false;
 
         $data['data']['last_chats'] = $this->chatRepo->getNurseLastPrivateChats(5);
-//        dd($data['data']['last_chats']);
+
         $data['data']['count_of_unread_messages'] = PrivateChat::where('nurse_user_id', auth()->id())
             ->where('status', 'unread')
             ->where('client_sent', 'yes')
