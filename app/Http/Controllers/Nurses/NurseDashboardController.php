@@ -29,6 +29,7 @@ class NurseDashboardController extends Controller
     public function index()
     {
         $data = siteData();
+        auth()->user()->entity->price;
 
         $data['data']['have_not_approved_bookings'] = Booking::where('nurse_user_id', auth()->id())
             ->where('status', 'not_approved')
