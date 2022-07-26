@@ -1,58 +1,50 @@
 <template>
-    <div>
-        <h5>FEEDBACK</h5>
-        <div class="row">
-            <div class="col-3">Feedback</div>
-            <div class="col-9"><textarea v-model="feedback" cols="50">{{ feedback }}</textarea></div>
-        </div>
+  <div>
+    <h3 class="pt-title">
+      FEEDBACK
+    </h3>
+    <pt-textarea
+        v-model="feedback"
+        @update:modelValue="newValue => feedback = newValue"
+    ></pt-textarea>
 
-        <div class="row">
-
-            <div class="col-6" style="text-align: center;">
-                <button class="btn btn-success btn-sm" v-on:click="saveFeedBack()">{{ $t('save') }}</button>
-            </div>
-
-            <div class="col-6" style="text-align: center;">
-                <button class="btn btn-success btn-sm" v-on:click="closeModal()">{{ $t('close') }}</button>
-            </div>
-
-        </div>
-    </div>
+    <button class="pt-btn pt-lg pt-mt-20 pt-ml-a pt-mr-a" v-on:click="saveFeedBack()">{{ $t('save') }}</button>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "FeedBack",
-        props: ['nurse'],
-        data() {
-            return {
-                feedback: null,
-            }
-        },
-        methods: {
-            closeModal() {
-                this.emitter.emit('close-modal');
-            },
-            saveFeedBack() {
-                let data = {
-                    'feedback': this.feedback,
-                    'id': this.nurse.id,
-                    'type': 'nurse'
-                };
-                axios.post('/feedback', {'data': data})
-                    .then((response) => {
-                        if(response.data.success){
-                            this.emitter.emit('close-modal');
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-
-
-            }
-        }
+export default {
+  name: "FeedBack",
+  props: ['nurse'],
+  data() {
+    return {
+      feedback: null,
     }
+  },
+  methods: {
+    closeModal() {
+      this.emitter.emit('close-modal');
+    },
+    saveFeedBack() {
+      let data = {
+        'feedback': this.feedback,
+        'id': this.nurse.id,
+        'type': 'nurse'
+      };
+      axios.post('/feedback', {'data': data})
+          .then((response) => {
+            if (response.data.success) {
+              this.emitter.emit('close-modal');
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+
+    }
+  }
+}
 </script>
 
 <style scoped>

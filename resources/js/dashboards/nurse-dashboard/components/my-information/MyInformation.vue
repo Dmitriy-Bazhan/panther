@@ -3,15 +3,21 @@
         <div class="pt-dashboard--user-info">
             <div class="pt-dashboard--user-info--avatar">
                 <img
-                    v-if="authUser.entity.original_photo !== null"
-                    v-bind:src="path + '/storage/' + authUser.entity.original_photo" alt="no-photo"
+                    v-if="preview"
+                    :src="preview" alt="no-photo"
                 >
-                <img v-else :src="path + '/images/no-photo.jpg'" alt="no-photo">
+                <template v-else>
+                    <img
+                        v-if="authUser.entity.original_photo !== null"
+                        :src="path + '/storage/' + authUser.entity.original_photo" alt="no-photo"
+                    >
+                    <img v-else :src="path + '/images/no-photo.jpg'" alt="no-photo">
+                </template>
 
                 <label class="pt-dashboard--user-info--avatar-btn">
                     <input type="file"
                            ref="file"
-                           v-on:change="photoUpload()"
+                           v-on:change="photoUpload($event)"
                     >
                     <i class="fa-solid fa-pen-to-square"></i>
                 </label>
@@ -37,7 +43,7 @@
                 </p>
             </div>
 
-            <button class="pt-btn--primary" @click.prevent="openPopup()">
+            <button class="pt-btn--primary" @click.prevent="openPopup('edit')">
                 <i class="fa-solid fa-pen-to-square"></i>
                 {{ $t('edit') }}
             </button>
@@ -105,7 +111,7 @@
                                     </div>
                                     <div class="pt-profile--file-ctrl">
                                         <button class="pt-btn--light pt-lg"
-                                                @click="openPopup(path + '/images/fake/fake-calendar.png')">
+                                                @click="openPopup('gallery', path + '/storage/' + item.file_path)">
                                             <i class="fa-solid fa-magnifying-glass-plus"></i>
                                             Uhrenzertifikat
                                         </button>
@@ -140,13 +146,13 @@
                                 <input type="file" @input="dropFile">
                             </template>
                         </div>
-                        <div class="pt-upload--progress">
+                        <div class="pt-upload--progress" v-show="uploadProgress">
                             <div class="pt-upload--progress-head">
                                 <span>{{ upload.file.name }}</span>
-                                <span>54%</span>
+                                <span>{{uploadProgress}}%</span>
                             </div>
                             <div class="pt-upload--progress-body">
-                                <div class="pt-upload--progress-line" style="width: 40%"></div>
+                                <div class="pt-upload--progress-line" :style="{width: uploadProgress+'%'}"></div>
                             </div>
                         </div>
                         <div class="pt-upload--ctrl">
@@ -220,8 +226,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <div class="pt-finder--form-block">
@@ -560,14 +564,12 @@
                 errors
             }}</span>
 
-        <div class="row">
-            <div class="col-2 offset-10">
-                <button class="btn btn-success btn-sm" v-on:click="updateInformation">{{ $t('update') }}</button>
-            </div>
+        <div class="pt-finder--form-block">
+            <button class="pt-btn--primary pt-sm pt-ml-a" v-on:click="updateInformation">{{ $t('update') }}</button>
         </div>
 
         <Modal
-            v-model="isOpen"
+            v-model="modal.edit"
             :close="closePopup"
         >
             <div class="pt-popup">
@@ -687,12 +689,16 @@
                                         </span>
                         </div>
                     </div>
-
-
-                    <button @click.prevent="closePopup" class="pt-btn--primary pt-sm pt-m-a pt-mt-25">
-                        edit
-                    </button>
                 </div>
+            </div>
+        </Modal>
+
+        <Modal
+            v-model="modal.gallery"
+            :close="closePopup"
+        >
+            <div class="pt-popup--gallery">
+                <img :src="modal.src" alt="">
             </div>
         </Modal>
     </div>
@@ -715,6 +721,7 @@
         props: ['user', 'data'],
         data() {
             return {
+                preview: false,
                 time_intervals: [],
                 readyToWorkOptions: [
                     {
@@ -762,15 +769,20 @@
                         val: 'certificate_file',
                     },
                 ],
+                uploadProgress: false,
                 upload: {
-                    file: false,
-                    preview: false,
+                    file: '',
+                    preview: '',
                     title: '',
                     date: '',
                     place: '',
-                    type: '',
+                    type: null,
                 },
-                isOpen: false,
+                modal: {
+                    edit: false,
+                    gallery: false,
+                    src: false
+                },
                 authUser: false,
                 info_active: true,
                 file_active: false,
@@ -849,7 +861,7 @@
                     })
                     .then((response) => {
                         if (response.data.success) {
-                            console.log(response.data);
+                            this.authUser.entity.files = response.data.files
                         } else {
                             this.errors = response.data.errors;
                         }
@@ -858,8 +870,15 @@
                         console.log(error);
                     });
             },
-            photoUpload() {
+            photoUpload(e) {
+                let self = this
+                let reader = new FileReader();
 
+                reader.readAsDataURL(e.target.files[0]);
+
+                reader.onload = function () {
+                    self.preview = reader.result
+                };
             },
             updateInformation() {
                 this.file = this.$refs.file.files[0];
@@ -940,11 +959,26 @@
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
+                        },
+                        onUploadProgress: function(progressEvent) {
+                            const percentCompleted = Math.round((progressEvent.loaded / progressEvent.total)*100);
+                            self.uploadProgress = percentCompleted
                         }
                     })
                     .then((response) => {
                         if (response.data.success) {
-                            console.log(response.data);
+                            this.authUser.entity.files = response.data.files
+
+                            _.forEach(self.upload, function (item, key){
+                                if(key === 'type'){
+                                    self.upload[key] = null
+                                }
+                                else{
+                                    self.upload[key] = ''
+                                }
+                            })
+
+                            self.uploadProgress = false
                             this.emitter.emit('response-success-true');
                             this.errors = null;
                             this.emitter.emit('photo-exist');
@@ -957,10 +991,16 @@
                     });
             },
             closePopup(id) {
-                this.isOpen = false
+                let self = this
+                _.forEach(self.modal, function (item, key){
+                    self.modal[key] = false
+                })
             },
-            openPopup(id) {
-                this.isOpen = true
+            openPopup(id, src) {
+                this.modal[id] = true
+                if(src){
+                    this.modal.src = src
+                }
             },
             getNurse() {
                 let self = this

@@ -165,21 +165,19 @@
 
 
 
-
                         <div class="pt-finder--form-group">
                             <p class="pt-form--label">
                                 {{ $t('gender') }} {{user.entity.gender}}
                             </p>
                             <div class="pt-select">
                                 <div class="pt-select--icon">
-                                    <pt-icon type="help"></pt-icon>
+                                    <pt-icon type="users"></pt-icon>
                                 </div>
-                                <v-select label="title"
-                                          :options="['male', 'female']"
-                                          :reduce="selectGender">
-                                    <template #option="{ title }">
-                                        {{ title }}
-                                    </template>
+                                <v-select
+                                    :value="'Male'"
+                                    :options="['Male', 'Female']"
+                                    @option:selecting="selectGender($event)"
+                                >
 
                                     <template #open-indicator>
                                         <span class="pt-select--caret"></span>
@@ -193,28 +191,7 @@
                                             {{ errors['entity.gender'][0] }}
                                         </span>
                         </div>
-
-
-                        <!-- gender -->
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="gender" class="form-label col-form-label-sm">{{ $t('gender') }}</label>
-                            </div>
-
-                            <div class="col-8">
-                                <select class="form-control form-control-sm" v-model="user.entity.gender" id="gender">
-                                    <option value="male">{{ $t('male') }}</option>
-                                    <option value="female">{{ $t('female') }}</option>
-                                </select>
-                            </div>
-                            <span class="register-form-error" v-if="errors !== null && errors['entity.gender'] !== undefined">{{ errors['entity.gender'][0] }}</span>
-                        </div>
                     </div>
-
-
-                    <button @click.prevent="closePopup" class="pt-btn--primary pt-sm pt-m-a pt-mt-25">
-                        edit
-                    </button>
                 </div>
             </div>
         </Modal>
@@ -244,6 +221,7 @@ export default {
             this.isOpen = true
         },
         selectGender(option){
+            console.log(option)
             this.user.entity.gender = option
         },
         deleteAvatar(){

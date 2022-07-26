@@ -22,7 +22,7 @@
             <th>{{ $t(booking.have_alternative) }}</th>
             <th>
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
-                    {{ $t('show') }}
+                    {{ $t('show') }} 1
                 </button>&nbsp;
                 <button v-if="booking.agree_for_alternative === 'yes'" class="btn btn-sm btn-secondary">
                     {{ $t('client-accept-alternative') }}
@@ -146,7 +146,7 @@
             <th>{{ $t(booking.have_alternative) }}</th>
             <th>
                 <button class="btn btn-sm btn-success" v-on:click="showCurrentBooking(booking)">
-                    {{ $t('show') }}
+                    {{ $t('show') }} 1
                 </button>&nbsp;
                 <button class="btn btn-sm btn-success" v-on:click="showChatWithClient(booking.client)">
                     {{ $t('send_message') }}

@@ -10,8 +10,8 @@
                 {{$route.meta.title}}
             </h3>
             <div class="pt-dashboard--header-block">
-                <pt-dropdown icon="email" href="">
-                    <template v-slot:counter>54</template>
+                <pt-dropdown icon="email" :href="msgUrl">
+                    <template v-if="data.notifications && data.notifications > 0" v-slot:counter>{{data.notifications}}</template>
                 </pt-dropdown>
             </div>
             <div class="pt-dashboard--header-block">
@@ -56,12 +56,24 @@ import Logout from "./Logout";
 
 export default {
     name: "Header",
+    props: ['user', 'data', 'msgUrl'],
     components : {
         'localization-component' : Localization,
         'logout-component' : Logout,
     },
     mounted() {
-
+        console.log(this.data.notifications)
+        try {
+            window.Echo.private('notifications.' + this.user.id)
+                .listen('Notifications.NewNotificationEvent', (response) => {
+                    console.log('This message for me.))');
+                    console.log(response);
+                }).error((error) => {
+                console.log('ERROR IN SOCKETS CONNECT : ' + error);
+            });
+        } catch {
+            console.log('Websockets not work now');
+        }
     }
 }
 </script>

@@ -138,9 +138,9 @@ export default {
             this.filteredClients = result
         },
         getPrivateChats() {
+            let self = this
             axios.get('/dashboard/nurse-private-chats')
                 .then((response) => {
-                    console.log(response)
                     this.clients = response.data.clients;
                     this.filteredClients = response.data.clients;
                     this.haveNewMessages = response.data.haveNewMessages;
@@ -155,6 +155,9 @@ export default {
                     }
                     this.emitter.emit('get-message', e);
                     this.activateTab()
+                    if(self.$route.params.chatId){
+                        self.emitter.emit('show-chat', self.$route.params.chatId);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);

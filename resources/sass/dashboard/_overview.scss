@@ -1,0 +1,168 @@
+.pt-overview{
+    padding: 0 20px 0 0;
+
+    &--user{
+        text-align: center;
+        background-color: $light-blue;
+        border-radius: 5px;
+        padding: 30px;
+
+        &-avatar{
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            box-shadow: 0 14px 14px rgba(107, 147, 160, 0.1);
+            background-color: $white;
+            margin: 0 auto 0 auto;
+
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+                border: 9px solid $white;
+                border-radius: 50%;
+                overflow: hidden;
+                object-fit: cover;
+            }
+        }
+
+        &-name{
+            color: $black;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        &-rating{
+
+        }
+
+        &-text{
+            color: $gray;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        &-price{
+            text-transform: uppercase;
+            padding: 3px 24px;
+            border-radius: 5px;
+            background-color: $highlight-primary;
+            font-size: 14px;
+            font-weight: 700;
+            color: $white;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 15px;
+        }
+
+        &-divider{
+            display: block;
+            height: 2px;
+            background-color: #d5f0f7;
+            margin: 50px auto;
+        }
+
+        &-clients{
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        &-client{
+            background-color: $highlight;
+            width: calc(50% - 5px);
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: $white;
+            margin-bottom: 10px;
+            text-align: left;
+
+            &--label{
+                font-size: 14px;
+                font-weight: 400;
+            }
+
+            &--count{
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+    }
+
+    &--messages{
+        margin-top: 50px;
+        margin-bottom: 30px;
+
+        &-head{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-radius: 5px;
+            background-color: $highlight-primary;
+            color: $white;
+
+            &--title{
+                font-size: 18px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+            .pt-link{
+                color: $white;
+            }
+        }
+
+        .pt-client{
+            $self: &;
+            align-items: center;
+            margin: 0;
+
+            &:hover{
+                border-color: $light-gray;
+                background-color: $white;
+
+                .pt-client--name{
+                    color: $gray;
+                }
+                .pt-client--date{
+                    color: $highlight-primary;
+                }
+                .pt-client--msg{
+                    color: $black;
+                }
+            }
+
+            .pt-btn--light{
+                color: $highlight-primary;
+                height: 40px;
+
+                .fa-solid{
+                    margin-right: 0;
+                    margin-left: 10px;
+                }
+
+                &:hover{
+                    color: $white;
+                }
+            }
+
+            &--msg{
+                text-align: left;
+                padding: 0 15px 0 0;
+            }
+
+            &--info{
+                width: 100%;
+                max-width: 190px;
+            }
+
+            &--meta{
+                width: 140px;
+                min-width: 140px;
+                margin: 0 0 0 auto;
+            }
+        }
+    }
+}

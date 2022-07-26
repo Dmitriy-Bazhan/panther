@@ -1,5 +1,6 @@
 import Icon from './Icon/Icon';
 import Dropdown from './Dropdown/Dropdown';
+import Menu from './Menu/Menu';
 import Input from './Input/Input';
 import Textarea from './Textarea/Textarea';
 import Accordeon from './Accordeon/Accordeon';
@@ -57,6 +58,7 @@ if (window.dashboard === 'dashboard') {
             Vue.component('pt-input', Input);
             Vue.component('pt-textarea', Textarea);
             Vue.component('pt-dropdown', Dropdown);
+            Vue.component('pt-menu', Menu);
             Vue.component("v-select", vSelect);
             Vue.component('Datepicker', Datepicker);
 

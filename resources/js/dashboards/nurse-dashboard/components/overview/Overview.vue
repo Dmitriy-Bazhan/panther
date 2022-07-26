@@ -4,10 +4,10 @@
             <div class="pt-col-md-8">
                 <div class="pt-calendar">
                     <Datepicker
-                        inline
-                        autoApply
-                        :monthChangeOnScroll="false"
-                        :enableTimePicker="false">
+                                inline
+                                autoApply
+                                :monthChangeOnScroll="false"
+                                :enableTimePicker="false">
                         <template #day="{ day, date }">
                             <div class="pt-calendar--special">
                                 <div class="pt-calendar--special-day">
@@ -46,6 +46,9 @@
                         {{user.entity.age}} Jahre Alt | {{user.zip_code}} <br>
                         etwas Besuche pro Woche
                     </p>
+                    <div class="pt-overview--user-price">
+                        €{{user.entity.price.hourly_payment}}/Stunde
+                    </div>
 
                     <div class="pt-overview--user-divider"></div>
 
@@ -53,13 +56,13 @@
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Kunden:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.all_nurses}}
+                                {{user.all_clients}}
                             </div>
                         </div>
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Neue Kunden:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.new_nurses}}
+                                {{user.new_clients}}
                             </div>
                         </div>
                         <div class="pt-overview--user-client">
@@ -79,20 +82,20 @@
             </div>
         </div>
 
-        <div class="pt-overview--messages" v-if="data.last_chats && data.last_chats.nurses">
+        <div class="pt-overview--messages" v-if="data.last_chats && data.last_chats.clients && data.last_chats.clients.length>0">
             <div class="pt-overview--messages-head">
                 <h3 class="pt-overview--messages-head--title">
                     Messages
                 </h3>
 
                 <router-link
-                    :to="{ name: 'ClientDashboardMessages'}"
+                    :to="{ name: 'NurseDashboardMessages'}"
                     class="pt-link"
                 >
                     Alle Ansehen
                 </router-link>
             </div>
-            <div class="pt-client" v-for="nurse in data.last_chats.nurses">
+            <div class="pt-client" v-for="nurse in data.last_chats.clients">
                 <div class="pt-client--avatar">
                     <img :src="path + '/storage/' + nurse[0].entity.thumbnail_photo" alt="pic" v-if="nurse[0].entity.thumbnail_photo">
                     <div class="pt-client--avatar-no-photo" v-else>
@@ -105,7 +108,7 @@
                     <div class="pt-client--name">
                         {{ nurse[0].full_name}}
                     </div>
-                    <div class="pt-client--date" v-if="nurse.last_message">
+                    <div class="pt-client--date">
                         {{formatDate(nurse.last_message.created_at)}}
                     </div>
                 </div>
@@ -114,7 +117,7 @@
                 </div>
                 <div class="pt-client--meta">
                     <router-link
-                        :to="{ name: 'ClientDashboardMessages', params: { chatId: nurse[0].id }}"
+                        :to="{ name: 'NurseDashboardMessages', params: { chatId: nurse[0].id }}"
                         class="pt-btn--light"
                     >
                         Weiterlesen
@@ -128,52 +131,52 @@
 </template>
 
 <script>
-export default {
-    name: "Overview",
-    props: ['user', 'data'],
-    data() {
-        return {
-            path: location.origin,
-            time_calendar: [],
-            chat: false,
-        }
-    },
-    mounted() {
-        console.log(this.data)
-    },
-    created() {
-
-    },
-    methods: {
-        checkDateForEvent(date) {
-            let tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
-            let arr = []
-            if(tmp){
-                _.forEach(tmp, function (item){
-                    arr.push(item)
-                })
+    export default {
+        name: "Overview",
+        props: ['user', 'data'],
+        data() {
+            return {
+                path: location.origin,
+                time_calendar: [],
+                chat: false,
             }
+        },
+        mounted() {
+            console.log(this.data)
+        },
+        created() {
 
-            return arr
         },
-        formatDate(date) {
-            let a = String(date).split('T');
-            return a[0] + ' ' + String(a[1].split('.')[0]);
-        },
-        getTimeCalendar() {
-            axios.post('/dashboard/nurse/get-time-calendar', {
-                'nurse_id': this.user.id,
-                'needed_date': this.neededDate
-            })
-                .then((response) => {
-                    this.time_calendar = response.data.time_calendar;
+        methods: {
+            checkDateForEvent(date) {
+                let tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
+                let arr = []
+                if(tmp){
+                    _.forEach(tmp, function (item){
+                        arr.push(item)
+                    })
+                }
+
+                return arr
+            },
+            formatDate(date) {
+                let a = String(date).split('T');
+                return a[0] + ' ' + String(a[1].split('.')[0]);
+            },
+            getTimeCalendar() {
+                axios.post('/dashboard/nurse/get-time-calendar', {
+                    'nurse_id': this.user.id,
+                    'needed_date': this.neededDate
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                    .then((response) => {
+                        this.time_calendar = response.data.time_calendar;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     }
-}
 
 </script>
 
