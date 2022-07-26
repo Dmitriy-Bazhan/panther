@@ -12,6 +12,7 @@ use App\Http\Resources\NurseResource;
 use App\Imports\TranslateImport;
 use App\Models\HearAboutUs;
 use App\Models\HearAboutUsData;
+use App\Models\MailTemplate;
 use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
@@ -380,7 +381,6 @@ class AdminDashboardController extends Controller
 
     public function setTimeIntervals()
     {
-
         if (request()->filled('time_intervals') && is_array(request('time_intervals'))) {
             $timeIntervals = request('time_intervals');
         } else {
@@ -400,7 +400,6 @@ class AdminDashboardController extends Controller
             $timeInterval->type = $item['type'];
             $timeInterval->value = json_encode($item['value']);
             $timeInterval->save();
-
         }
 
         return response()->json(['success' => 'true']);
@@ -408,7 +407,6 @@ class AdminDashboardController extends Controller
 
     public function setDefaultTimeIntervals()
     {
-
         $defaultTimeInterval = new SetDefaultTimeInterval();
         $defaultTimeInterval->handle();
 
@@ -427,7 +425,6 @@ class AdminDashboardController extends Controller
 
     public function importTranslate(Request $request)
     {
-
         $file = $request->file('file');
 
         if ($file->getClientOriginalExtension() !== 'xlsx') {
@@ -440,33 +437,24 @@ class AdminDashboardController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function create()
+    public function getTemplates()
     {
-        //
+        $templates = MailTemplate::all();
+        return response()->json(['success' => true, 'templates' => $templates]);
     }
 
-    public function store(Request $request)
+    public function updateTemplate()
     {
-        //
-    }
+        $template = request()->post('template');
 
-    public function show($id)
-    {
-        //
-    }
+        $success = MailTemplate::where('id', $template['id'])->update([
+            'content' => $template['content']
+        ]);
 
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        if ($success) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
     }
 }

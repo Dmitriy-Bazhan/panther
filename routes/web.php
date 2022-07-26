@@ -157,6 +157,8 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/remove-type-of-learning/{id}', [AdminDashboardController::class, 'removeTypeOfLearning']);
         Route::post('/set-time-intervals', [AdminDashboardController::class, 'setTimeIntervals']);
         Route::get('/set-default-time-intervals', [AdminDashboardController::class, 'setDefaultTimeIntervals']);
+        Route::get('/get-templates', [AdminDashboardController::class, 'getTemplates']);
+        Route::post('/update-template', [AdminDashboardController::class, 'updateTemplate']);
 
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'getClients']);

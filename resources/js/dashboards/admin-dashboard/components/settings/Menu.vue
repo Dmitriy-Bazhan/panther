@@ -25,6 +25,11 @@
              v-on:click="showComponent('type_of_learning')">
             <span>{{ $t('type_of_learning') }}</span>
         </div>
+
+        <div v-bind:class="[active === 'mail_template' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('mail_template')">
+            <span>{{ $t('mail_template') }}</span>
+        </div>
     </div>
 </template>
 
@@ -33,7 +38,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'time_intervals',
+                active: 'site_settings',
             }
         },
         methods: {
