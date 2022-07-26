@@ -270,19 +270,4 @@ class ClientBookingsController extends Controller
         return response()->json(['success' => true, 'chat' => $chat]);
     }
 
-    public function create()
-    {
-    }
-
-    public function store(Request $request)
-    {
-    }
-
-    public function show($id)
-    {
-    }
-
-    public function edit($id)
-    {
-    }
 }

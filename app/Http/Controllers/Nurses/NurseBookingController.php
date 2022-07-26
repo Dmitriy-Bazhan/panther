@@ -61,11 +61,6 @@ class NurseBookingController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $rules = [
@@ -201,11 +196,6 @@ class NurseBookingController extends Controller
         $booking->save();
 
         return response()->json(['success' => true]);
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 
     public function nurseRefuseBooking()

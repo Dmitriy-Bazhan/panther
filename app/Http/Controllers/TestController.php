@@ -25,42 +25,7 @@ class TestController extends Controller
     public function index()
     {
 
-//        curl -H "AuthenticationToken:<TOKEN> https://<tenant>.com/webapp/api/v1/customer
-
-        $token = 'e23f1516-925f-4b20-800f-ae7d91ab1e1a';
-        $url = 'https://pelia-demo1.weclapp.com/webapp/view/api/v1/salesOrder';
-
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                "AuthenticationToken: $token",
-                'Content-Type: application/json' ]
-        );
-
-        $result = curl_exec($ch);
-        curl_close ($ch);
-        dump($result);
-
-//        try {
-//            $ch = curl_init($url);
-//            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-////            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-////                    "AuthenticationToken: e23f1516-925f-4b20-800f-ae7d91ab1e1a",
-////                    'Content-Type: application/json']
-////            );
-//
-//            $data = curl_exec($ch);
-//            curl_close($ch);
-//            dump($data);
-//        } catch (Exception $ex) {
-//            dump('Not work');
-//        }
-
-
-        dd('STOP');
+        dd('stop');
 
         $chatsUsersIds = Chat::select('id','nurse_user_id', 'client_user_id')->get()->toArray();
         foreach ($chatsUsersIds as $item){

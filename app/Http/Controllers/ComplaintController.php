@@ -27,13 +27,17 @@ class ComplaintController extends Controller
             return response()->json(['success' => false]);
         }
 
-        Complaint::create([
+        $new_complaint = Complaint::create([
             'client_user_id' => auth()->id(),
             'nurse_user_id' => $nurseId,
             'type' => 'nurse',
             'status' => 'unread',
             'complaint' => $complaint,
         ]);
+
+        if($new_complaint){
+            $this->makeNotification($nurseId);
+        }
 
         return response()->json(['success' => true]);
     }
@@ -56,7 +60,7 @@ class ComplaintController extends Controller
             return response()->json(['success' => false]);
         }
 
-        Complaint::create([
+        $new_complaint = Complaint::create([
             'client_user_id' => $clientId,
             'nurse_user_id' => auth()->id(),
             'type' => 'client',
@@ -64,6 +68,16 @@ class ComplaintController extends Controller
             'complaint' => $complaint,
         ]);
 
+        if($new_complaint){
+            $this->makeNotification($clientId);
+        }
+
         return response()->json(['success' => true]);
+    }
+
+    private function makeNotification($user_id){
+        $content = 'You have received a complaint';
+        NotificationController::createNotification($user_id, 'complaint', $content);
+        return true;
     }
 }
