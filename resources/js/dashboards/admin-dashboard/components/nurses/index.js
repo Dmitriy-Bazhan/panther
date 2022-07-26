@@ -1,8 +1,6 @@
 import template from './template.html';
 import './style.css';
-import NursesCard from '../nurses-card/index';
 import ShowChats from "./ShowChats";
-import CheckFiles from "./CheckFiles";
 import AddNewNurse from "./AddNewNurse";
 import NurseInfo from "./NurseInfo";
 
@@ -10,9 +8,7 @@ export default {
     name: "Nurses",
     template: template,
     components: {
-        nurses_card: NursesCard,
         show_chats: ShowChats,
-        check_files: CheckFiles,
         add_new_nurse: AddNewNurse,
         nurse_info: NurseInfo,
     },
