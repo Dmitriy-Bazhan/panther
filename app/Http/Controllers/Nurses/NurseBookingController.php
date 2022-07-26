@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nurses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Http\Repositories\BookingRepository;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
@@ -91,7 +92,6 @@ class NurseBookingController extends Controller
 
         AlternativeBooking::where('booking_id', $data['id'])->delete();
 
-
         if($data['one_time_or_regular'] === 'one'){
             $alternativeBooking = new AlternativeBooking();
             $alternativeBooking->booking_id = $data['id'];
@@ -161,7 +161,9 @@ class NurseBookingController extends Controller
             }
         }
 
-
+        $booking = Booking::find( $data['id']);
+        $content = 'Nurse make alternative for your booking from ' . $booking->start_date;
+        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
 
         return response()->json(['success' => true]);
     }
@@ -170,13 +172,7 @@ class NurseBookingController extends Controller
     {
         $bookings = $this->bookingRepo->search($id);
         $booking = BookingsResource::make($bookings->first());
-
         return response()->json(['success' => true, 'booking' => $booking]);
-    }
-
-    public function edit($id)
-    {
-        //
     }
 
     //nurse approve booking
@@ -187,13 +183,16 @@ class NurseBookingController extends Controller
             return abort(409);
         }
 
-        if (!$booking = Booking::where('id', $id)->with('time', 'client')->first()) {
+        if (!$booking = Booking::find($id)) {
             //todo: hmm
             return abort(409);
         }
         $booking->status = 'approved';
         $booking->hourly_price = $booking->suggested_price_per_hour;
         $booking->save();
+
+        $content = 'Nurse approve your booking from ' . $booking->start_date;
+        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
 
         return response()->json(['success' => true]);
     }
@@ -206,7 +205,7 @@ class NurseBookingController extends Controller
             return response()->json(['success' => false]);
         }
 
-        if (!Booking::find($id)) {
+        if (!$booking = Booking::find($id)) {
             return response()->json(['success' => false]);
         }
 
@@ -223,6 +222,9 @@ class NurseBookingController extends Controller
         }
 
         AlternativeBooking::where('booking_id', $id)->delete();
+
+        $content = 'Nurse refuse your booking from ' . $booking->start_date;
+        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
 
         return response()->json(['success' => true]);
     }

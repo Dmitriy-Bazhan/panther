@@ -9,17 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
+        public function store(Request $request)
     {
         $data = request()->post('data');
         if(!isset($data['id']) || !is_numeric($data['id'])){
@@ -50,11 +40,15 @@ class FeedbackController extends Controller
             'type' => $data['type'],
             'description' => $data['feedback'],
         ]);
+
         if(!$feedback){
             //todo::hmm
             Log::channel('app_logs')->error('Cant save feedback in store method in FeedbackController');
             return response()->json(['success' => false]);
         }
+
+        $content = 'You have new feedback';
+        NotificationController::createNotification($data['id'], 'feedback', $content);
 
         return response()->json(['success' => true]);
     }
@@ -73,20 +67,5 @@ class FeedbackController extends Controller
             return response()->json(['success' => false]);
         }
 
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }
