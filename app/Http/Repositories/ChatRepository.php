@@ -140,7 +140,6 @@ class ChatRepository
                 ->where('status', 'unread')->count();
             $clients[$key]['last_message'] = PrivateChat::where('nurse_user_id', $nurseId)
                 ->where('client_user_id', $key)
-                ->where('client_sent', 'yes')
                 ->orderByDesc('created_at')->first();
             $clients[$key]['chat'] = Chat::where('client_user_id', $key)
                 ->where('nurse_user_id', $nurseId)->first();
@@ -178,7 +177,6 @@ class ChatRepository
                 ->where('status', 'unread')->count();
             $nurses[$key]['last_message'] = PrivateChat::where('client_user_id', $clientId)
                 ->where('nurse_user_id', $key)
-                ->where('nurse_sent', 'yes')
                 ->orderByDesc('created_at')->first();
             $nurses[$key]['chat'] = Chat::where('nurse_user_id', $key)
                 ->where('client_user_id', $clientId)->first();
