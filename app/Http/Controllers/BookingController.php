@@ -198,8 +198,11 @@ class BookingController extends Controller
         }
 
         $content = 'You have new booking';
-        NotificationController::createNotification($nurse->id, 'booking', $content);
+        try {
+            NotificationController::createNotification($nurse->id, 'booking', $content);
+        } catch (\Exception $exception) {
 
+        }
         return redirect('/booking-verify');
     }
 }

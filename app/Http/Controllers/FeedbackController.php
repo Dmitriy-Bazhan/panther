@@ -9,28 +9,28 @@ use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $data = request()->post('data');
-        if(!isset($data['id']) || !is_numeric($data['id'])){
+        if (!isset($data['id']) || !is_numeric($data['id'])) {
             return response()->json(['success' => false]);
         }
 
-        if(!User::find($data['id'])){
+        if (!User::find($data['id'])) {
             //todo::hmm
             Log::channel('app_logs')->error('User not exists. Store methods in FeedbackController');
             return response()->json(['success' => false]);
         }
 
-        if(!isset($data['type']) || !in_array($data['type'], ['nurse', 'client'])){
+        if (!isset($data['type']) || !in_array($data['type'], ['nurse', 'client'])) {
             return response()->json(['success' => false]);
         }
 
-        If(!isset($data['feedback'])){
+        If (!isset($data['feedback'])) {
             return response()->json(['success' => false]);
         }
 
-        if(is_null($data['feedback'])){
+        if (is_null($data['feedback'])) {
             return response()->json(['success' => true]);
         }
 
@@ -41,29 +41,33 @@ class FeedbackController extends Controller
             'description' => $data['feedback'],
         ]);
 
-        if(!$feedback){
+        if (!$feedback) {
             //todo::hmm
             Log::channel('app_logs')->error('Cant save feedback in store method in FeedbackController');
             return response()->json(['success' => false]);
         }
 
         $content = 'You have new feedback';
-        NotificationController::createNotification($data['id'], 'feedback', $content);
+        try {
+            NotificationController::createNotification($data['id'], 'feedback', $content);
+        } catch (\Exception $exception) {
+
+        }
 
         return response()->json(['success' => true]);
     }
 
     public function show($id)
     {
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             return response()->json(['success' => false]);
         }
 
         $feedbacks = Feedback::where('target_user_id', $id)->with('creator')->get();
 
-        if($feedbacks->count() > 0 && request()->ajax()){
+        if ($feedbacks->count() > 0 && request()->ajax()) {
             return response()->json(['success' => true, 'feedbacks' => $feedbacks]);
-        }else{
+        } else {
             return response()->json(['success' => false]);
         }
 

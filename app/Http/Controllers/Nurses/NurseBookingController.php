@@ -92,7 +92,7 @@ class NurseBookingController extends Controller
 
         AlternativeBooking::where('booking_id', $data['id'])->delete();
 
-        if($data['one_time_or_regular'] === 'one'){
+        if ($data['one_time_or_regular'] === 'one') {
             $alternativeBooking = new AlternativeBooking();
             $alternativeBooking->booking_id = $data['id'];
             $alternativeBooking->alternative_suggested_price_per_hour = $data['suggested_price_per_hour'];
@@ -123,7 +123,7 @@ class NurseBookingController extends Controller
             }
         }
 
-        if($data['one_time_or_regular'] === 'regular'){
+        if ($data['one_time_or_regular'] === 'regular') {
             $alternativeBooking = new AlternativeBooking();
             $alternativeBooking->booking_id = $data['id'];
             $alternativeBooking->alternative_suggested_price_per_hour = $data['suggested_price_per_hour'];
@@ -161,9 +161,13 @@ class NurseBookingController extends Controller
             }
         }
 
-        $booking = Booking::find( $data['id']);
+        $booking = Booking::find($data['id']);
         $content = 'Nurse make alternative for your booking from ' . $booking->start_date;
-        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        try {
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        } catch (\Exception $exception) {
+
+        }
 
         return response()->json(['success' => true]);
     }
@@ -192,7 +196,13 @@ class NurseBookingController extends Controller
         $booking->save();
 
         $content = 'Nurse approve your booking from ' . $booking->start_date;
-        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+
+        try {
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        } catch (\Exception $exception) {
+
+        }
+
 
         return response()->json(['success' => true]);
     }
@@ -224,7 +234,11 @@ class NurseBookingController extends Controller
         AlternativeBooking::where('booking_id', $id)->delete();
 
         $content = 'Nurse refuse your booking from ' . $booking->start_date;
-        NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        try {
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        } catch (\Exception $exception) {
+
+        }
 
         return response()->json(['success' => true]);
     }
