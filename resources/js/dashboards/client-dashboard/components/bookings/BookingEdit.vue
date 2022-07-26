@@ -1,171 +1,178 @@
 <template>
-    <div class="row">
-        <div class="col-8">
-            <div class="row">
-                <div class="col-3">
-                    <label for="suggested_price_per_hour" class="form-label col-form-label-sm">{{
-                        $t('suggested_price_per_hour') }}</label>
-                    <input id="suggested_price_per_hour" class="form-control form-control-sm"
-                           type="number" v-model="booking.suggested_price_per_hour" v-on:change="changeWeek()">
-                </div>
-                <div class="col-3">
-                    <label for="additional_email" class="form-label col-form-label-sm">{{
-                        $t('additional_email') }}</label>
-                    <input type="email" class="form-control form-control-sm"
-                           id="additional_email"
-                           v-model="booking.additional_email">
-                </div>
-                <div class="col-3">
-                    <label for="start_date" class="form-label col-form-label-sm">{{
-                        $t('start_date') }}</label>
-                    <input type="date" class="form-control form-control-sm"
-                           id="start_date"
-                           v-model="booking.start_date">
-                </div>
-                <div class="col-3">
-                    <label for="one_time_or_regular" class="form-label col-form-label-sm">{{ $t('one_time_or_regular')
-                        }}</label>
-                    <select id="one_time_or_regular" class="form-control form-control-sm"
-                            v-model="booking.one_time_or_regular" v-on:change="changeRegularOrOne()">
-                        <option value="one">{{ $t('one') }}</option>
-                        <option value="regular">{{ $t('regular') }}</option>
-                    </select>
-                </div>
+    <div>
+        <div class="pt-finder--form-block">
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('suggested_price_per_hour') }}
+                </p>
+                <pt-input type="number" :modelValue="booking.suggested_price_per_hour"
+                          icon="user"
+                          v-on:change="changeWeek()"
+                          @update:modelValue="newValue => booking.suggested_price_per_hour = newValue"
+                ></pt-input>
             </div>
 
-            <br>
-            <div class="row" v-if="show_for_regular">
-                <div class="col-4">
-                    <label class="form-label col-form-label-sm">{{ $t('weeks') }}</label>
-                    <input type="number" min="1" class="form-control form-control-sm"
-                           v-model="booking.weeks" v-on:change="changeWeek()">
-                </div>
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('additional_email') }}
+                </p>
+                <pt-input type="text" :modelValue="booking.additional_email"
+                          icon="email"
+                          @update:modelValue="newValue => booking.additional_email = newValue"
+                ></pt-input>
+            </div>
 
-                <div class="col-8">
-                    <label class="form-label col-form-label-sm">{{ $t('days') }}</label>
-                    <div class='weekdays'>
-                        <div class='weekday' v-for='(weekday, index) in weekdayLabels'>
-                                    <span v-if="checkWorkWeekDays()" class="work-day" v-on:click="addDays(index)">
-                                    <span v-if="in_array(index, booking.days)">+</span>
-                                         {{ weekday }}
-                                      </span>
-                            <span v-else>{{ weekday }}</span>
-                        </div>
-
-                        <div class='weekday' v-for='(weekend, index) in weekendLabels'>
-                                  <span v-if="checkWorkweekEnds()" class="work-day" v-on:click="addDays(index)">
-                                    <span v-if="in_array(index, booking.days)">+</span>
-                                            {{ weekend }}
-                                     </span>
-                            <span v-else>{{ weekend }}</span>
-                        </div>
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('start_date') }}
+                </p>
+                <div class="pt-select">
+                    <div class="pt-select--icon">
+                        <pt-icon type="calendar"></pt-icon>
                     </div>
+                    <Datepicker  format="dd.MM.yyyy" v-model="booking.start_date" autoApply></Datepicker>
+                    <span class="pt-select--caret"></span>
                 </div>
-
             </div>
-            <div class="row">
-                <div class="col-4">
-                    {{ $t('total') + ': ' + booking.total }}
-                </div>
 
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('gender') }}
+                </p>
+                <div class="pt-select">
+                    <div class="pt-select--icon">
+                        <pt-icon type="users"></pt-icon>
+                    </div>
+                    <v-select label="title"
+                              :options="[$t('one'), $t('regular')]"
+                              v-model="booking.one_time_or_regular"
+                    >
+
+                        <template #open-indicator>
+                            <span class="pt-select--caret"></span>
+                        </template>
+                    </v-select>
+                </div>
             </div>
         </div>
+
+        <template v-if="show_for_regular">
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('weeks') }}
+                </p>
+                <pt-input type="number" :modelValue="booking.weeks"
+                          icon="user"
+                          v-on:change="changeWeek()"
+                          @update:modelValue="newValue => booking.weeks = newValue"
+                ></pt-input>
+            </div>
+
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    {{ $t('days') }}
+                </p>
+                <div class="">
+                    <template v-for="(item, key) in weekdayLabels">
+                        <label class="pt-checkbox" :class="{disabled: !checkWorkWeekDays()}">
+                            <input type="checkbox" name="work_time_pref"
+                                   :value="key"
+                                   @change="addDays(key)">
+                            <span class="pt-checkbox--body">{{ item }}</span>
+                        </label>
+                    </template>
+                    <template v-for="(item, key) in weekendLabels">
+                        <label class="pt-checkbox" :class="{disabled: !checkWorkweekEnds()}">
+                            <input type="checkbox" name="work_time_pref"
+                                   :value="key"
+                                   @change="addDays(key)">
+                            <span class="pt-checkbox--body">{{ item }}</span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <div class="row">
+            <div class="col-4">
+                {{ $t('total') + ': ' + booking.total }}
+            </div>
+
+        </div>
+
+
+
 
         <div class="pt-finder--form-block" v-if="show_week_days_interval">
-            <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">3</div>
-                verfügbare Zeit:
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    verfügbare Zeit:
+                </p>
+                <div class="">
+                    <template v-for="item in data.time_intervals">
+                        <label class="pt-checkbox" v-if="item.type === 'weekdays'">
+                            <input type="checkbox" name="work_time_pref"
+                                   true-value="1" false-value="0"
+                                   @change="setIntervals"
+                                   v-model="booking.time_interval[item.id]">
+                            <span class="pt-checkbox--body">{{ item.interval }}</span>
+                        </label>
+                    </template>
+                </div>
             </div>
-            <div class="pt-finder--form-block--inner">
-                <div class="pt-finder--form-group">
-                    <div class="">
-                        <div class="pt-finder--form-group">
-                            <div class="">
-                                <template v-for="item in data.time_intervals">
-                                    <label class="pt-checkbox" v-if="item.type === 'weekdays'">
-                                        <input type="checkbox" name="work_time_pref"
-                                               true-value="1" false-value="0"
-                                               @change="setIntervals"
-                                               v-model="booking.time_interval[item.id]">
-                                        <span class="pt-checkbox--body">{{ item.interval }}</span>
-                                    </label>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    Geben Sie die Anzahl der Stunden ein:
+                </p>
+                <div class="">
+                    <template v-for="(item, index) in intervals">
+                        <label class="pt-checkbox">
+                            <input type="checkbox" name="work_time_pref"
+                                   :value="item"
+                                   v-model="booking.week_days_checked"
+                                   v-on:change="getTotalPrice()">
+                            <span class="pt-checkbox--body">{{ item.val }}</span>
+                        </label>
+                    </template>
                 </div>
             </div>
         </div>
 
-        <div class="pt-finder--form-block" v-if="show_week_days_interval">
-            <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">4</div>
-                Geben Sie die Anzahl der Stunden ein:
-            </div>
-            <div class="pt-finder--form-block--inner">
-                <div class="pt-finder--form-group">
-                    <div class="">
-                        <template v-for="(item, index) in intervals">
-                            <label class="pt-checkbox">
-                                <input type="checkbox" name="work_time_pref"
-                                       :value="item"
-                                       v-model="booking.week_days_checked"
-                                       v-on:change="getTotalPrice()">
-                                <span class="pt-checkbox--body">{{ item.val }}</span>
-                            </label>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="pt-finder--form-block" v-if="show_week_ends_interval">
-            <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">3</div>
-                verfügbare Zeit: (weekends)
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    verfügbare Zeit: (weekends)
+                </p>
+                <div class="">
+                    <template v-for="item in data.time_intervals">
+                        <label class="pt-checkbox" v-if="item.type === 'weekends'">
+                            <input type="checkbox" name="work_time_pref"
+                                   true-value="1" false-value="0"
+                                   @change="setIntervals"
+                                   v-model="booking.time_interval[item.id]">
+                            <span class="pt-checkbox--body">{{ item.interval }}</span>
+                        </label>
+                    </template>
+                </div>
             </div>
-            <div class="pt-finder--form-block--inner">
-                <div class="pt-finder--form-group">
-                    <div class="">
-                        <div class="pt-finder--form-group">
-                            <div class="">
-                                <template v-for="item in data.time_intervals">
-                                    <label class="pt-checkbox" v-if="item.type === 'weekends'">
-                                        <input type="checkbox" name="work_time_pref"
-                                               true-value="1" false-value="0"
-                                               @change="setIntervals"
-                                               v-model="booking.time_interval[item.id]">
-                                        <span class="pt-checkbox--body">{{ item.interval }}</span>
-                                    </label>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
+            <div class="pt-finder--form-group">
+                <p class="pt-form--label">
+                    Geben Sie die Anzahl der Stunden ein: (weekends)
+                </p>
+                <div class="">
+                    <template v-for="item in weekends_intervals">
+                        <label class="pt-checkbox">
+                            <input type="checkbox" name="work_time_pref"
+                                   :value="item"
+                                   v-model="booking.week_ends_checked" v-on:change="getTotalPrice()">
+                            <span class="pt-checkbox--body">{{ item.val }}</span>
+                        </label>
+                    </template>
                 </div>
             </div>
         </div>
-
-        <div class="pt-finder--form-block" v-if="show_week_ends_interval">
-            <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">4</div>
-                Geben Sie die Anzahl der Stunden ein: (weekends)
-            </div>
-            <div class="pt-finder--form-block--inner">
-                <div class="pt-finder--form-group">
-                    <div class="">
-                        <template v-for="item in weekends_intervals">
-                            <label class="pt-checkbox">
-                                <input type="checkbox" name="work_time_pref"
-                                       :value="item"
-                                       v-model="booking.week_ends_checked" v-on:change="getTotalPrice()">
-                                <span class="pt-checkbox--body">{{ item.val }}</span>
-                            </label>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -291,6 +298,7 @@
             },
             getTotalPrice() {
                 let self = this;
+                console.log(self.booking)
                 if (self.booking.start_date) {
                     let year = dayjs(self.booking.start_date).get('year');
                     let month = dayjs(self.booking.start_date).get('month');
@@ -317,23 +325,10 @@
                             total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length * workWeekendDays
                         }
 
-                        if (self.booking.nurse.entity.price.weekend_surcharge === 'yes') {
-                            //console.log('weekend_surcharge - ' + self.info.nurse.entity.price.weekend_surcharge_payment)
-                        }
-                        if (self.booking.nurse.entity.price.fare_surcharge === 'yes') {
-                            //console.log('fare_surcharge_payment - ' +self.info.nurse.entity.price.fare_surcharge_payment)
-                        }
                     }else{
                         total = self.booking.suggested_price_per_hour * self.booking.week_days_checked.length;
                         if (self.booking.week_days_checked.length === 0) {
                             total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length;
-                        }
-
-                        if (self.booking.nurse.entity.price.weekend_surcharge === 'yes') {
-                            //console.log('weekend_surcharge - ' + self.info.nurse.entity.price.weekend_surcharge_payment)
-                        }
-                        if (self.booking.nurse.entity.price.fare_surcharge === 'yes') {
-                            //console.log('fare_surcharge_payment - ' +self.info.nurse.entity.price.fare_surcharge_payment)
                         }
                     }
 

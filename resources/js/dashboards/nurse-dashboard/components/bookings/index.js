@@ -1,6 +1,6 @@
 import template from './template.html';
 import SingleChat from "./SingleChat";
-import Booking from "./Booking";
+import ShowBooking from "./ShowBooking";
 import Alternative from "./Alternative";
 import Complaint from "./Complaint";
 import './style.css';
@@ -11,7 +11,7 @@ export default {
     props: ['data', 'user'],
     components: {
         single_chat: SingleChat,
-        booking: Booking,
+        booking: ShowBooking,
         alternative: Alternative,
         complaint: Complaint,
     },

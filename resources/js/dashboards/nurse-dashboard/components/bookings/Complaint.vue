@@ -1,24 +1,15 @@
 <template>
-    <div>
-        <h5>{{ $t('complaint') }}</h5>
+  <div>
+    <h3 class="pt-title">
+      {{ $t('complaint') }}
+    </h3>
+    <pt-textarea
+        v-model="complaint"
+        @update:modelValue="newValue => complaint = newValue"
+    ></pt-textarea>
 
-        <div class="row">
-            <div class="col-3">{{ $t('complaint') }}</div>
-            <div class="col-9"><textarea v-model="complaint" cols="50">{{ complaint }}</textarea></div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-6" style="text-align: center;">
-                <button class="btn btn-success btn-sm" v-on:click="saveComplaint()">{{ $t('save') }}</button>
-            </div>
-
-            <div class="col-6" style="text-align: center;">
-                <button class="btn btn-success btn-sm" v-on:click="closeModal()">{{ $t('close') }}</button>
-            </div>
-
-        </div>
-    </div>
+    <button class="pt-btn pt-lg pt-mt-20 pt-ml-a pt-mr-a" v-on:click="saveComplaint()">{{ $t('save') }}</button>
+  </div>
 </template>
 
 <script>

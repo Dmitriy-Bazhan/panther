@@ -1,55 +1,30 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-2">
-                {{ $t('chat') }}:
-            </div>
-            <div class="col-10 chat-wrapper" v-if="comments.length > 0">
-                <div v-for="comment in comments">
-                    <div v-if="comment.client_sent === 'yes'" class="chat-client-message-wrapper">
-                        <span class="chat-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="chat-client-message">
-                            {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="chat-client-date">
+        <div class="pt-chat">
+            <template v-if="comments.length > 0" v-for="comment in comments">
+                <div class="pt-chat--message pt-chat--message__inner">
+                    <div class="pt-chat--message-block">
+                        <div class="pt-chat--message-date">
                             {{ formatDate(comment.created_at) }}
-                        </span>
-                    </div>
-
-                    <div v-else class="nurse-client-message-wrapper">
-                        <span class="nurse-client-name">
-                            {{ comment.user_name }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-message">
+                        </div>
+                        <div class="pt-chat--message-body">
                             {{ comment.message }}
-                        </span>
-                        <br>
-                        <span class="nurse-client-date">
-                            {{ formatDate(comment.created_at) }}
-                        </span>
-
+                        </div>
                     </div>
                 </div>
-            </div>
+            </template>
+        </div>
 
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-2">
-                {{ $t('message') }}:
+
+
+        <form action="" @submit.prevent="sendPrivateMessage()" class="pt-chat--ctrl">
+            <div class="pt-chat--ctrl-input">
+                <input type="text" v-model="privateMessage">
+                <button class="pt-btn">
+                    {{ $t('send') }}
+                </button>
             </div>
-            <div class="col-8">
-                <input type="text" class="form-control form-control-sm" v-model="privateMessage">
-            </div>
-            <div class="col-2">
-                <button class="btn btn-success btn-sm" v-on:click="sendPrivateMessage()">{{ $t('send') }}</button>
-            </div>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -61,6 +36,9 @@
             return {
                 privateMessage: '',
                 comments: [],
+                path: location.origin,
+                filePreview: '',
+                commentsClone: [],
             }
         },
         mounted() {
@@ -129,63 +107,7 @@
 </script>
 
 <style scoped>
-    .chat-wrapper {
-        height: 250px;
-        overflow: auto;
-    }
-
-    .chat-client-message-wrapper {
-        background: #85acff;
-        border: solid 1px #405dff;
-        padding: 10px;
-        border-radius: 10px;
-        width: 75%;
-        margin-bottom: 10px;
-    }
-
-    .chat-client-name {
-        font-size: 14px;
-        font-weight: 700;
-        color: #051dff;
-    }
-
-    .chat-client-message {
-        font-size: 14px;
-        font-weight: 700;
-        color: #6500ff;
-    }
-
-    .chat-client-date {
-        font-size: 10px;
-        font-weight: 700;
-        color: #051dff;
-    }
-
-    .nurse-client-message-wrapper {
-        background: #97ff05;
-        border: solid 1px #1eff14;
-        padding: 10px;
-        border-radius: 10px;
-        width: 75%;
-        margin-left: 25%;
-        margin-bottom: 10px;
-    }
-
-    .nurse-client-name {
-        font-size: 14px;
-        font-weight: 700;
-        color: #029612;
-    }
-
-    .nurse-client-message {
-        font-size: 14px;
-        font-weight: 700;
-        color: #10700a;
-    }
-
-    .nurse-client-date {
-        font-size: 10px;
-        font-weight: 700;
-        color: #0b5716;
-    }
+.pt-chat--message-body{
+    background-color: #ffffff;
+}
 </style>

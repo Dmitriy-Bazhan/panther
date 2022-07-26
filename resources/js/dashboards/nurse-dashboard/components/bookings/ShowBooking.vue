@@ -68,12 +68,21 @@
                 </template>
             </p>
         </div>
+
+        <div class="pt-finder--form-group" v-show="booking.total">
+            <p class="pt-form--label">
+                {{ $t('total') }}
+            </p>
+            <p class="pt-form--text">
+                {{ booking.total }}
+            </p>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ShowBooking",
+        name: "Booking",
         props: ['booking'],
         data(){
             return {
@@ -92,7 +101,7 @@
 </script>
 
 <style scoped>
-    .pt-form--text{
-        text-align: left;
-    }
+.pt-form--text{
+    text-align: left;
+}
 </style>

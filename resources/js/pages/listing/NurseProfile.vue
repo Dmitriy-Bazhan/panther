@@ -42,7 +42,7 @@
                                 <button class="pt-btn pt-sm" @click="sendToBookings">
                                     {{ $t('send_to_bookings') }}
                                 </button>
-                                <button class="pt-btn--border pt-sm">
+                                <button class="pt-btn--border pt-sm" @click="openPopup('show_chat')">
                                     chat
                                 </button>
                             </div>
@@ -153,7 +153,7 @@
                             Medical Degree, University of Berlin
                             <span>2020 - 2021</span>
                         </div>
-                        <button class="pt-btn--light pt-lg" @click="openPopup(path + '/images/fake/fake-calendar.png')">
+                        <button class="pt-btn--light pt-lg" @click="openPopup('gallery',path + '/images/fake/fake-calendar.png')">
                             <i class="fa-solid fa-magnifying-glass-plus"></i>
                             Uhrenzertifikat
                         </button>
@@ -208,7 +208,7 @@
                 </div>
             </div>
 
-            <div class="row" v-show="true">
+            <div class="row" v-show="false">
                 <div class="col-7">
                     <div>
 
@@ -284,8 +284,50 @@
         </div>
     </div>
 
+    <!--        show_chat-->
     <Modal
-        v-model="modal.isOpen"
+        v-model="modal.show_chat"
+        :close="closePopup"
+    >
+        <div class="pt-popup">
+            <button class="pt-popup--close" @click.prevent="closePopup">
+                <pt-icon type="cross"></pt-icon>
+            </button>
+            <div class="pt-popup--inner">
+                <h3 class="pt-title pt-mb-15">
+                    Chat
+                </h3>
+
+
+                <div class="pt-chat">
+                    <template v-if="comments.length > 0" v-for="comment in comments">
+                        <div class="pt-chat--message pt-chat--message__inner">
+                            <div class="pt-chat--message-block">
+                                <div class="pt-chat--message-date">
+                                    {{ formatDate(comment.created_at) }}
+                                </div>
+                                <div class="pt-chat--message-body">
+                                    {{ comment.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <form action="" @submit.prevent="sendPrivateMessage()" class="pt-chat--ctrl">
+                    <div class="pt-chat--ctrl-input">
+                        <input type="text" v-model="privateMessage">
+                        <button class="pt-btn">
+                            {{ $t('send') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </Modal>
+
+    <Modal
+        v-model="modal.gallery"
         :close="closePopup"
     >
         <div class="pt-popup--gallery">
@@ -308,7 +350,8 @@ export default {
     data() {
         return {
             modal: {
-                isOpen: false,
+                show_chat: false,
+                gallery: false,
                 src: false
             },
             nurse: false,
@@ -372,12 +415,15 @@ export default {
             return result;
         },
         closePopup() {
-            this.modal.isOpen = false
-            this.modal.src = false
+            let self = this;
+
+            _.forEach(self.modal, function (item, key) {
+                self.modal[key] = false;
+            });
         },
-        openPopup(src) {
-            this.modal.isOpen = true
-            this.modal.src = src
+        openPopup(id, src) {
+            this.modal[id] = true
+            this.src = src;
         },
         sendToBookings() {
             window.open('/booking/' + this.nurse.id);
@@ -433,79 +479,7 @@ export default {
 </script>
 
 <style scoped>
-.nurse-profile-image-wrapper {
-    padding: 10px;
-    height: 180px;
-}
-
-.nurse-profile-image {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-}
-
-.nurse-profile-item {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.chat-wrapper {
-    height: 250px;
-    overflow: auto;
-}
-
-.chat-client-message-wrapper {
-    background: #85acff;
-    border: solid 1px #405dff;
-    padding: 10px;
-    border-radius: 10px;
-    width: 75%;
-    margin-bottom: 10px;
-}
-
-.chat-client-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: #051dff;
-}
-
-.chat-client-message {
-    font-size: 14px;
-    font-weight: 700;
-    color: #6500ff;
-}
-
-.chat-client-date {
-    font-size: 10px;
-    font-weight: 700;
-    color: #051dff;
-}
-
-.nurse-client-message-wrapper {
-    background: #97ff05;
-    border: solid 1px #1eff14;
-    padding: 10px;
-    border-radius: 10px;
-    width: 75%;
-    margin-left: 25%;
-    margin-bottom: 10px;
-}
-
-.nurse-client-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: #029612;
-}
-
-.nurse-client-message {
-    font-size: 14px;
-    font-weight: 700;
-    color: #10700a;
-}
-
-.nurse-client-date {
-    font-size: 10px;
-    font-weight: 700;
-    color: #0b5716;
+.pt-chat--message-body{
+    background-color: #ffffff;
 }
 </style>

@@ -61,7 +61,7 @@ name: "Header",
         'logout-component' : Logout,
     },
     mounted() {
-        console.log(this.$router)
+        console.log('tetttt')
     }
 }
 </script>
