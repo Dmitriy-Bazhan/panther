@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Http\Repositories\BookingRepository;
 use App\Http\Repositories\ChatRepository;
 use App\Http\Resources\BookingsResource;
@@ -82,7 +83,6 @@ class ClientBookingsController extends Controller
             if ($validator->fails()) {
                 return response()->json(['success' => false, 'errors' => $validator->errors()->toArray()]);
             }
-
 
             Booking::where('id', $id)->update([
                 'suggested_price_per_hour' => $data['suggested_price_per_hour'],
@@ -215,7 +215,6 @@ class ClientBookingsController extends Controller
 
     public function agreeWithAlternative($id)
     {
-
         if (!is_numeric($id) || !Booking::find($id)) {
             //todo: hmm
             abort(409);
@@ -255,6 +254,14 @@ class ClientBookingsController extends Controller
         ]);
 
         AlternativeBooking::where('booking_id', $id)->delete();
+
+        $booking = Booking::find($id);
+        $content = 'Client approve alternative for booking from ' . $booking->start_date;
+        try {
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+        } catch (\Exception $exception) {
+
+        }
 
         return response()->json(['success' => true]);
     }

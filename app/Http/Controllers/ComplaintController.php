@@ -35,14 +35,15 @@ class ComplaintController extends Controller
             'complaint' => $complaint,
         ]);
 
-        if($new_complaint){
+        if ($new_complaint) {
             $this->makeNotification($nurseId);
         }
 
         return response()->json(['success' => true]);
     }
 
-    public function setNurseComplaintOnClient() {
+    public function setNurseComplaintOnClient()
+    {
         $complaint = request()->post('complaint');
         $clientId = request()->post('client_id');
 
@@ -68,16 +69,21 @@ class ComplaintController extends Controller
             'complaint' => $complaint,
         ]);
 
-        if($new_complaint){
+        if ($new_complaint) {
             $this->makeNotification($clientId);
         }
 
         return response()->json(['success' => true]);
     }
 
-    private function makeNotification($user_id){
+    private function makeNotification($user_id)
+    {
         $content = 'You have received a complaint';
-        NotificationController::createNotification($user_id, 'complaint', $content);
+        try {
+            NotificationController::createNotification($user_id, 'complaint', $content);
+        } catch (\Exception $exception) {
+
+        }
         return true;
     }
 }

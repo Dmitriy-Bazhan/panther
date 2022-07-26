@@ -25,17 +25,6 @@ class BookingController extends Controller
     {
         parent::__construct();
 
-        $this->nurseRepo = $nurseRepo;
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -208,18 +197,12 @@ class BookingController extends Controller
                 ->send(new SendNurseNewBookingMail($nurse, $client));
         }
 
+        $content = 'You have new booking';
+        try {
+            NotificationController::createNotification($nurse->id, 'booking', $content);
+        } catch (\Exception $exception) {
+
+        }
         return redirect('/booking-verify');
-    }
-
-    public function edit($id)
-    {
-    }
-
-    public function update(Request $request, $id)
-    {
-    }
-
-    public function destroy($id)
-    {
     }
 }
