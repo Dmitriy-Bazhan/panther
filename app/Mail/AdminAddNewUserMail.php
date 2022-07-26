@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,29 +16,22 @@ class AdminAddNewUserMail extends Mailable
     protected $url;
     protected $user;
     protected $password;
+    protected $template;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct($user, $password)
     {
         $this->url = url('/login');
         $this->user = $user;
+        $this->template = MailTemplate::where('name', 'Admin Add New User')->first()->content;
         $this->password = $password;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->subject(__('mail-message.you_have_been_added_to_the_site') . ' ' . Config::get('app.name'))
             ->view('mail.admin-add-new-user')->with([
                 'url' => $this->url,
+                'template' => $this->template,
                 'user' => $this->user,
                 'password' => $this->password,
             ]);

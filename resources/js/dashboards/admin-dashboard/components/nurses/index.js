@@ -1,18 +1,16 @@
 import template from './template.html';
 import './style.css';
-import NursesCard from '../nurses-card/index';
 import ShowChats from "./ShowChats";
-import CheckFiles from "./CheckFiles";
 import AddNewNurse from "./AddNewNurse";
+import NurseInfo from "./NurseInfo";
 
 export default {
     name: "Nurses",
     template: template,
     components: {
-        nurses_card: NursesCard,
         show_chats: ShowChats,
-        check_files: CheckFiles,
         add_new_nurse: AddNewNurse,
+        nurse_info: NurseInfo,
     },
     props: ['data'],
     data() {
@@ -52,10 +50,11 @@ export default {
             this.show_modal = 'add_new_nurse';
             this.nurse = null;
         },
-        checkFiles(nurse) {
-            this.show_modal = 'check_files';
+        checkNurse(nurse) {
+            this.show_modal = 'nurse_info';
             this.nurse = nurse;
         },
+
         getNurses() {
             axios.get(this.url + this.filterString + '&search=' + this.search)
                 .then((response) => {
@@ -71,10 +70,6 @@ export default {
                 this.url = url;
                 this.getNurses();
             }
-        },
-        checkUser(nurse) {
-            this.show_modal = 'nurses_card';
-            this.nurse = nurse;
         },
         approveNurse(id) {
             axios.post('approve-nurse', {'id': id})

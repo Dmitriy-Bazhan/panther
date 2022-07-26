@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,9 +16,11 @@ class ClientVerificationBookingMail extends Mailable
     protected $nurse;
     protected $client;
     protected $url;
+    protected $template;
 
     public function __construct($booking,$nurse, $client)
     {
+        $this->template = MailTemplate::where('name', 'Client Verification Booking')->first()->content;
         $this->booking = $booking;
         $this->nurse = $nurse;
         $this->client = $client;
@@ -30,9 +33,10 @@ class ClientVerificationBookingMail extends Mailable
         return $this->subject(__('mail-message.client_booking_verification'))
             ->view('mail.client-verification-booking')
             ->with([
+                'template' => $this->template,
                 'booking' => $this->booking,
                 'nurse' => $this->nurse,
-                'client' => $this->client,
+                'user' => $this->client,
                 'url' => $this->url
             ]);
     }

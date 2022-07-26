@@ -34,7 +34,7 @@
         <tr v-if="nurses.length > 0" v-for="nurse in nurses">
 
             <td>{{ nurse.entity.id }}</td>
-            <td>{{ nurse.last_name + ' ' + nurse.first_name }}</td>
+            <td>{{ nurse.first_name + ' ' + nurse.last_name }}</td>
             <td>{{ nurse.entity.age }}</td>
             <td>
                 <img v-bind:src="path + '/storage/' + nurse.entity.thumbnail_photo" alt="no-photo" class="">
@@ -42,8 +42,7 @@
             <td>{{ nurse.entity.info_is_full }}</td>
             <td><span v-if="nurse.entity.change_info === 'yes'" class="alarm-signal blink"></span>{{ nurse.entity.change_info }}</td>
             <td>
-                <button class="btn btn-success btn-sm" v-on:click="checkUser(nurse)">{{ $t('check') }}</button>
-                <button class="btn btn-success btn-sm" v-on:click="checkFiles(nurse)">{{ $t('check_files') }}</button>
+                <button class="btn btn-success btn-sm" v-on:click="checkNurse(nurse)">{{ $t('check') }}</button>
                 <button class="btn btn-sm btn-success" v-on:click="showChats(nurse)">{{ $t('show_chats') }}</button>
                 <button v-if="nurse.entity.info_is_full === 'no'" class="btn btn-secondary btn-sm">Approve</button>&nbsp;
                 <button v-else-if="nurse.entity.is_approved === 'no'" class="btn btn-success btn-sm" v-on:click="approveNurse(nurse.entity.id)">Approve</button>
@@ -72,13 +71,12 @@
         </div>
     </div>
 
-    <nurses_card v-if="show_modal === 'nurses_card'" :nurse="nurse" :data="data"></nurses_card>
 
     <show_chats v-if="show_modal === 'show_chats'" :nurse="nurse" :data="data"></show_chats>
 
-    <check_files v-if="show_modal === 'check_files'" :nurse="nurse" :data="data"></check_files>
-
     <add_new_nurse v-if="show_modal === 'add_new_nurse'" :data="data"></add_new_nurse>
+
+    <nurse_info v-if="show_modal === 'nurse_info'" :nurse="nurse" :data="data"></nurse_info>
 
 </div>
 

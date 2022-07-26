@@ -173,8 +173,6 @@ class NurseBookingController extends Controller
 
     public function show($id)
     {
-
-
         $bookings = $this->bookingRepo->search($id);
         $booking = BookingsResource::make($bookings->first());
 
@@ -199,6 +197,7 @@ class NurseBookingController extends Controller
             return abort(409);
         }
         $booking->status = 'approved';
+        $booking->hourly_price = $booking->suggested_price_per_hour;
         $booking->save();
 
         return response()->json(['success' => true]);

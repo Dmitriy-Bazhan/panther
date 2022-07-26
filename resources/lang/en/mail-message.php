@@ -22,10 +22,11 @@ return [
     'client_verify_booking' => 'Confirm booking',
 
     'email_warning' => 'Email warning',
-    'user_warning' => 'User warning',
     'user_ban_message' => 'You have ban',
 
 
     'admin_add_new_user_hello' => 'Admin register you on site',
     'you_have_been_added_to_the_site' => 'You have been added to the site',
+
+    'your_password' => 'Your password',
 ];

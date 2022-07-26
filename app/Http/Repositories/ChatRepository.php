@@ -157,7 +157,7 @@ class ChatRepository
         return ['chats' => $chats, 'clients' => $clients, 'haveNewMessages' => $haveNewMessages];
     }
 
-    public function getClientLastPrivateChats($id = null)
+    public function getClientLastPrivateChats($count = null, $id = null)
     {
         if (is_null($id)) {
             $clientId = auth()->id();
@@ -170,6 +170,7 @@ class ChatRepository
 
         $haveNewMessages = [];
         $chats = [];
+        $iteration = !is_null($count) ? $count : 100;
         foreach ($nurses as $key => $chat) {
             $nurses[$key]['count'] = PrivateChat::where('client_user_id', $clientId)
                 ->where('nurse_sent', 'yes')
@@ -186,6 +187,10 @@ class ChatRepository
                 $haveNewMessages[$key] = $key;
             }
 
+            $iteration--;
+            if($iteration == 0){
+                break;
+            }
         }
 
         return ['chats' => $chats, 'nurses' => $nurses, 'haveNewMessages' => $haveNewMessages];

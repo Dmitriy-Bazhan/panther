@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\ChatRepository;
 use App\Models\AdditionalInfo;
 use App\Models\AdditionalInfoData;
+use App\Models\Booking;
 use App\Models\Lang;
 use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
@@ -12,14 +14,33 @@ use Illuminate\Http\Request;
 
 class ClientDashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $chatRepo;
+
+    public function __construct(ChatRepository $chatRepo)
+    {
+        parent::__construct();
+
+        $this->chatRepo = $chatRepo;
+    }
+
     public function index()
     {
         $data = siteData();
+
+        $bookings = Booking::where('client_user_id', auth()->id())->select('nurse_user_id','status')->get();
+        auth()->user()->bokkings_count = $bookings->count();
+        auth()->user()->all_nurses = $bookings->keyBy('nurse_user_id')->count();
+        auth()->user()->new_nurses = $bookings->groupBy('nurse_user_id')->filter(function($value){
+            $count_not_approved = $value->where('status', 'not_approved')->count();
+            $count_else = $value->where('status', '!=' ,'not_approved')->count();
+            if($count_not_approved > 0 && $count_else == 0){
+                return true;
+            }
+        })->count();;
+
+        auth()->user()->payments = 0;
+
+        $data['data']['last_chats'] = $this->chatRepo->getClientLastPrivateChats(5);
 
         $data['data']['have_new_message'] = PrivateChat::where('client_user_id', auth()->id())
             ->where('status', 'unread')

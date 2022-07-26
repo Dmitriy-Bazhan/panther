@@ -16,10 +16,9 @@ class CheckNurse
      */
     public function handle(Request $request, Closure $next)
     {
-        //todo: its need to discuss
-//        if(auth()->user()->is_admin){
-//            return $next($request);
-//        }
+        if(auth()->user()->is_admin){
+            return $next($request);
+        }
 
         if(auth()->user()->is_nurse){
             return $next($request);

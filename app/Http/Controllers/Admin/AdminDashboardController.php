@@ -323,6 +323,7 @@ class AdminDashboardController extends Controller
             'facebook_link' => 'required|active_url',
             'twitter_link' => 'required|active_url',
             'instagram_link' => 'required|active_url',
+            'regularity_of_email_about_new_messages' => 'required|numeric|min:1',
         ];
 
         $validator = Validator::make(request()->post('site_settings'), $rules);
@@ -338,14 +339,16 @@ class AdminDashboardController extends Controller
 
         Setting::truncate();
 
-        $settings = new Setting();
-        $settings->listing_paginate = request()->post('site_settings')['listing_paginate'];
-        $settings->site_email = request()->post('site_settings')['site_email'];
-        $settings->facebook_link = request()->post('site_settings')['facebook_link'];
-        $settings->twitter_link = request()->post('site_settings')['twitter_link'];
-        $settings->instagram_link = request()->post('site_settings')['instagram_link'];
+        $settings = Setting::create([
+            'listing_paginate' => request()->post('site_settings')['listing_paginate'],
+            'site_email' => request()->post('site_settings')['site_email'],
+            'facebook_link' => request()->post('site_settings')['facebook_link'],
+            'twitter_link' => request()->post('site_settings')['twitter_link'],
+            'instagram_link' => request()->post('site_settings')['instagram_link'],
+            'regularity_of_email_about_new_messages' => request()->post('site_settings')['regularity_of_email_about_new_messages'],
+        ]);
 
-        if (!$settings->save()) {
+        if (!$settings) {
             return response()->json(['success' => false]);
         }
 

@@ -46,12 +46,13 @@ class ClientNurseSentMessage implements ShouldBroadcastNow
     private function sendEmailAboutNewMessages($result){
         $client = User::where('id', $result->client_user_id)->without('entity', 'prefs')->first();
         $nurse = User::where('id', $result->nurse_user_id)->without('entity', 'prefs')->first();
+        $regularity = config('settings.regularity_of_email_about_new_messages');
 
         $now = Carbon::now();
         $sendEmailToClient = false;
         if(!is_null($client->last_email_about_new_messages)){
             $different = $now->diffInHours($client->last_email_about_new_messages);
-            if($different > 1){
+            if($different > $regularity){
                 $sendEmailToClient = true;
             }
         }else{
@@ -61,7 +62,7 @@ class ClientNurseSentMessage implements ShouldBroadcastNow
         $sendEmailToNurse = false;
         if(!is_null($nurse->last_email_about_new_messages)){
             $different = $now->diffInHours($nurse->last_email_about_new_messages);
-            if($different > 1){
+            if($different > $regularity){
                 $sendEmailToNurse = true;
             }
         }else{

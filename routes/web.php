@@ -336,13 +336,12 @@ Route::get('/booking-not-exists', function () {
     return view('main');
 });
 
-
 //test email router
 Route::get('/test-email', function (){
     $user = \App\Models\User::find(108);
-
+    return new \App\Mail\VerificationMail('url', \App\Models\User::find(101));
     $success = Mail::mailer('smtp')->to($user->email)
-        ->send(new AdminAddNewUserMail($user));
+        ->send( new \App\Mail\VerificationMail('url', \App\Models\User::find(101)));
     dd($success);
 });
 

@@ -23,9 +23,10 @@ return [
     'client_verify_booking' => 'Buchung bestätigen',
 
     'email_warning' => 'E-Mail-Warnung',
-    'user_warning' => 'Benutzerwarnung',
     'user_ban_message' => 'Sie haben ein Verbot',
 
     'admin_add_new_user_hello' => 'Admin registriert Sie vor Ort',
     'you_have_been_added_to_the_site' => 'Sie wurden zur Website hinzugefügt',
+
+    'your_password' => 'Ihr Passwort',
 ];
