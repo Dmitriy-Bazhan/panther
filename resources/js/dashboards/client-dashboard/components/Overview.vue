@@ -139,7 +139,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.data)
+        //this.getTimeCalendar();
     },
     created() {
 
@@ -167,6 +167,7 @@ export default {
             })
                 .then((response) => {
                     this.time_calendar = response.data.time_calendar;
+                    console.log(response)
                 })
                 .catch((error) => {
                     console.log(error);

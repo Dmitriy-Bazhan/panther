@@ -6,6 +6,7 @@
         background-color: $light-blue;
         border-radius: 5px;
         padding: 30px;
+        min-height: 100%;
 
         &-avatar{
             width: 125px;
@@ -162,6 +163,59 @@
                 width: 140px;
                 min-width: 140px;
                 margin: 0 0 0 auto;
+            }
+        }
+    }
+}
+
+.pt-calendar--info{
+    background-color: $light-blue;
+
+
+    &-inner{
+        padding: 20px 0;
+        border-top: 3px solid #d5f0f7;
+        max-width: calc(100% - 100px);
+        margin: 0 auto;
+    }
+
+    &-title{
+        color: $highlight-primary;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    &-list{
+        margin: 15px 0;
+
+        &--item{
+            color: $black;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 8px 0;
+
+            &-type{
+                width: 8px;
+                height: 8px;
+                border-radius: 3px;
+                display: block;
+                background-color: #07d21a;
+                margin-right: 10px;
+
+                &.active{
+                    background-color: $highlight-primary;
+                }
+            }
+
+            &-text{
+                span{
+                    font-size: 12px;
+                    font-weight: 400;
+                    margin-left: 10px;
+                }
             }
         }
     }
