@@ -170,6 +170,7 @@
                 })
                     .then((response) => {
                         this.time_calendar = response.data.time_calendar;
+                        console.log(this.time_calendar);
                     })
                     .catch((error) => {
                         console.log(error);

@@ -2,6 +2,7 @@ import template from './template.html';
 import './style.css';
 import ShowChats from "./ShowChats";
 import AddNewClient from "./AddNewClient";
+import ClientInfo from "./ClientInfo";
 
 export default {
     name: 'Clients',
@@ -10,6 +11,7 @@ export default {
     components: {
         show_chats: ShowChats,
         add_new_client: AddNewClient,
+        client_info: ClientInfo,
     },
     data() {
         return {
@@ -49,10 +51,14 @@ export default {
             this.nurse = null;
         },
         showChats(client) {
-           this.show_modal = 'show_chats';
-           this.client = client;
+            this.show_modal = 'show_chats';
+            this.client = client;
         },
-        newPage(url){
+        editClient(client) {
+            this.show_modal = 'client_info';
+            this.client = client;
+        },
+        newPage(url) {
             if (url !== null) {
                 this.url = url;
                 this.getClients();
