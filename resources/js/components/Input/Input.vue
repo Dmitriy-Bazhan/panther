@@ -3,7 +3,9 @@
         <div class="pt-input--icon" v-show="icon">
             <pt-icon :type="icon"></pt-icon>
         </div>
-        <input :type="type" :placeholder="placeholder" :disabled="disabled" :value="modelValue" @input="update">
+        <input :type="type" :placeholder="placeholder" :disabled="disabled" :value="modelValue" @input="update"
+               :min="min" :max="max" :step="step"
+        >
         <div class="pt-input--box"></div>
         <div class="pt-input--show" v-if="type === 'password'" @click="showPassword" :class="{active: isPasswordShow}">
             <pt-icon type="eye"></pt-icon>
@@ -14,7 +16,7 @@
 <script>
 export default {
     name: "Input",
-    props: ['modelValue', 'type', 'placeholder', 'icon', 'disabled'],
+    props: ['modelValue', 'type', 'placeholder', 'icon', 'disabled', 'min', 'max', 'step'],
     emits: ['update:modelValue'],
     data(){
         return {

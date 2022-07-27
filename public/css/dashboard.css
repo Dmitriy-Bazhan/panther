@@ -13913,6 +13913,7 @@ button {
   background-color: #f1fcff;
   border-radius: 5px;
   padding: 30px;
+  min-height: 100%;
 }
 .pt-overview--user-avatar {
   width: 125px;
@@ -14044,6 +14045,49 @@ button {
   width: 140px;
   min-width: 140px;
   margin: 0 0 0 auto;
+}
+
+.pt-calendar--info {
+  background-color: #f1fcff;
+}
+.pt-calendar--info-inner {
+  padding: 20px 0;
+  border-top: 3px solid #d5f0f7;
+  max-width: calc(100% - 100px);
+  margin: 0 auto;
+}
+.pt-calendar--info-title {
+  color: #005eaf;
+  font-size: 18px;
+  font-weight: 700;
+}
+.pt-calendar--info-list {
+  margin: 15px 0;
+}
+.pt-calendar--info-list--item {
+  color: #293335;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 8px 0;
+}
+.pt-calendar--info-list--item-type {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  display: block;
+  background-color: #07d21a;
+  margin-right: 10px;
+}
+.pt-calendar--info-list--item-type.active {
+  background-color: #005eaf;
+}
+.pt-calendar--info-list--item-text span {
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 10px;
 }
 
 .pt-messages {
