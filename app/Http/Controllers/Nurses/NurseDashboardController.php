@@ -81,6 +81,8 @@ class NurseDashboardController extends Controller
         } else {
             $searchDate = Carbon::createFromDate($neededDate)->format('Y-m-d');
         }
+        $month = Carbon::createFromDate($neededDate)->format('m');
+
         $firstDay = Carbon::createFromFormat('Y-m-d', $searchDate)
             ->firstOfMonth()
             ->format('Y-m-d');
@@ -125,6 +127,11 @@ class NurseDashboardController extends Controller
                         for($i = 0; $i <= $booking->weeks; $i++) {
                             $startWeekDate = Carbon::createFromFormat('Y-m-d', $booking->start_date)
                                 ->addWeeks($i)->startOfWeek()->format('Y-m-d');
+                            $searchMonth =  Carbon::createFromDate($startWeekDate)->format('m');
+                            if($searchMonth !== $month){
+                                break 2;
+                            }
+
                             for ($d = 0; $d <=6; $d++){
                                 $weekDay = Carbon::createFromFormat('Y-m-d', $startWeekDate)
                                     ->addDays($d)->format('Y-m-d');
