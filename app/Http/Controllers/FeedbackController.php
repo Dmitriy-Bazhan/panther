@@ -38,6 +38,7 @@ class FeedbackController extends Controller
             'creator_id' => auth()->id(),
             'target_user_id' => $data['id'],
             'type' => $data['type'],
+            'rate' => $data['rate'],
             'description' => $data['feedback'],
         ]);
 
