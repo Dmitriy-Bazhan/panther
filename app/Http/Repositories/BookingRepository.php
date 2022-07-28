@@ -27,11 +27,11 @@ class BookingRepository
             $bookings->where('is_verification', request('is_verification'));
         }
 
-        if(request()->filled('nurse_id')){
+        if (request()->filled('nurse_id')) {
             $bookings->where('nurse_user_id', request('nurse_id'));
         }
 
-        if(request()->filled('client_id')){
+        if (request()->filled('client_id')) {
             $bookings->where('client_user_id', request('client_id'));
         }
 
@@ -41,6 +41,22 @@ class BookingRepository
 
         if (!is_null($status)) {
             $bookings->where('status', $status);
+        }
+
+        if (request()->filled('search') && request('search') != '') {
+            if(request()->user()->entity_type == 'client'){
+                $bookings->whereHas('nurse', function ($query) {
+                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+                });
+            }
+
+            if(request()->user()->entity_type == 'nurse'){
+                $bookings->whereHas('client', function ($query) {
+                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+                });
+            }
         }
 
         $bookings->with(

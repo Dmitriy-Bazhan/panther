@@ -55,19 +55,10 @@ class NurseBookingController extends Controller
         }else{
             $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
         }
-//        $notApprovedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'not_approved'))->response()->getData();
-//        $approvedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'approved'))->response()->getData();
-//        $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
-//        $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
 
-//        http://pflegepanther/dashboard/nurse-bookings?nurse_id=101&page=2&status=approved
         return response()->json([
             'success' => true,
             'booking' => $bookings,
-//            'notApprovedBookings' => $notApprovedBookings,
-//            'approvedBookings' => $approvedBookings,
-//            'inProcessBookings' => $inProcessBookings,
-//            'endedBookings' => $endedBookings,
         ]);
     }
 
