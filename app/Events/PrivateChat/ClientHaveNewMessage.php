@@ -32,7 +32,8 @@ class ClientHaveNewMessage implements ShouldBroadcastNow
     {
         return [
             'result' => $this->result,
-            'client_count_unread_message' => PrivateChat::where('client_user_id', $this->result['client_user_id'])->where('status', 'unread')->count(),
+            'client_count_unread_message' => PrivateChat::where('client_user_id', $this->result['client_user_id'])
+                ->where('status', 'unread')->where('nurse_sent', 'yes')->count(),
         ];
     }
 }
