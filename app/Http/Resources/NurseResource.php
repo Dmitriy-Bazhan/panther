@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Feedback;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NurseResource extends JsonResource
@@ -33,6 +34,9 @@ class NurseResource extends JsonResource
             $this->rate->real = 0;
         }
 
+        $this->feedback_rates = round(Feedback::where('target_user_id', $this->id)->avg('rate'));
+//        $this->feedback_rates = Feedback::where('target_user_id', $this->id)->avg('rate');
+
         return [
             'created_at' => $this->created_at,
             'email' => $this->email,
@@ -50,6 +54,7 @@ class NurseResource extends JsonResource
             'updated_at' => $this->updated_at,
             'zip_code' => $this->zip_code,
             'rate' => $this->rate,
+            'feedback_rates' => $this->feedback_rates,
             'banned' => $this->banned,
         ];
 

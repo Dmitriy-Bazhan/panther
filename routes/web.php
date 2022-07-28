@@ -88,7 +88,10 @@ Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->m
 Route::get('export-translate', [AdminDashboardController::class, 'exportTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
 Route::post('import-translate', [AdminDashboardController::class, 'importTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
 
-Route::resource('/feedback', FeedbackController::class)->middleware(['auth:sanctum']);;
+Route::prefix('feedback')->middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::post('/update-rate', [FeedbackController::class, 'updateRate']);
+});
+Route::resource('/feedback', FeedbackController::class)->middleware(['auth:sanctum']);
 
 Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
@@ -339,11 +342,11 @@ Route::get('/booking-not-exists', function () {
 });
 
 //test email router
-Route::get('/test-email', function (){
+Route::get('/test-email', function () {
     $user = \App\Models\User::find(108);
     return new \App\Mail\VerificationMail('url', \App\Models\User::find(101));
     $success = Mail::mailer('smtp')->to($user->email)
-        ->send( new \App\Mail\VerificationMail('url', \App\Models\User::find(101)));
+        ->send(new \App\Mail\VerificationMail('url', \App\Models\User::find(101)));
     dd($success);
 });
 
