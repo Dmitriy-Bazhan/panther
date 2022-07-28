@@ -43,7 +43,7 @@ class FeedbackController extends Controller
 
         if (!$feedback) {
             //todo::hmm
-            Log::channel('app_logs')->error('Cant save feedback in store method in FeedbackController');
+            Log::channel('app_logs')->error('FeedbackController@store Cant save feedback');
             return response()->json(['success' => false]);
         }
 
@@ -53,7 +53,6 @@ class FeedbackController extends Controller
         } catch (\Exception $exception) {
 
         }
-
         return response()->json(['success' => true]);
     }
 
@@ -70,6 +69,32 @@ class FeedbackController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
 
+    public function updateRate()
+    {
+        $feedback_id = request()->post('feedback_id');
+        $new_rate = request()->post('new_rate');
+
+        if (!is_numeric($feedback_id)) {
+            Log::channel('app_logs')->error('FeedbackController@updateRate Something wrong with feedback id');
+            return response()->json(['success' => false]);
+        }
+
+        if (!in_array($new_rate, [1, 2, 3, 4, 5])) {
+            Log::channel('app_logs')->error('FeedbackController@updateRate request rate not in array');
+            return response()->json(['success' => false]);
+        }
+
+        $result = Feedback::where('id', $feedback_id)->update([
+            'rate' => $new_rate
+        ]);
+
+        if (!$result) {
+            Log::channel('app_logs')->error('FeedbackController@updateRate update feedback rate not success');
+            return response()->json(['success' => false]);
+        } else {
+            return response()->json(['success' => true]);
+        }
     }
 }

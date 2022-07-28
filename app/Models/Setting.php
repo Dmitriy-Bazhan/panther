@@ -22,8 +22,8 @@ class Setting extends Model
         'regularity_of_email_about_new_messages',
     ];
 
-    public static function __set_state(){
-        //
-    }
+//    public static function __set_state(){
+//        //
+//    }
 
 }

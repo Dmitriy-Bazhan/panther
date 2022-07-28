@@ -18,5 +18,7 @@ class VerifyCsrfToken extends Middleware
 //        '/remove-chat-at-all'
 //        'forgot-password',
 //        'reset-password'
+//        'feedback/update-rate'
+//        'dashboard/nurse-bookings'
     ];
 }
