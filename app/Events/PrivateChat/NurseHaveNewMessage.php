@@ -2,6 +2,7 @@
 
 namespace App\Events\PrivateChat;
 
+use App\Models\PrivateChat;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -31,6 +32,7 @@ class NurseHaveNewMessage implements ShouldBroadcastNow
     {
         return [
             'result' => $this->result,
+            'nurse_count_unread_message' => PrivateChat::where('nurse_user_id', $this->result['nurse_user_id'])->where('status', 'unread')->count(),
         ];
     }
 }
