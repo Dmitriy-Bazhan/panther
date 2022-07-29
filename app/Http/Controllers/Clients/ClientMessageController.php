@@ -123,7 +123,7 @@ class ClientMessageController extends Controller
         }
 
         $client_count_unread_message = PrivateChat::where('client_user_id', $client_id)
-            ->where('status', 'unread')->count();
+            ->where('status', 'unread')->where('nurse_sent', 'yes')->count();
 
         return response()->json(['success' => true, 'have_new_message' => $haveNewMessage, 'client_count_unread_message' => $client_count_unread_message]);
     }
