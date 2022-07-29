@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 
 
 use App\Models\Booking;
+use Illuminate\Support\Facades\DB;
 
 class BookingRepository
 {
@@ -46,15 +47,25 @@ class BookingRepository
         if (request()->filled('search') && request('search') != '') {
             if(request()->user()->entity_type == 'client'){
                 $bookings->whereHas('nurse', function ($query) {
-                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+                    return $query->where(
+                        DB::raw('CONCAT(first_name, " ", last_name)'),
+                        'LIKE',
+                        '%' . request('search') . '%'
+                    );
+//                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
+//                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
                 });
             }
 
             if(request()->user()->entity_type == 'nurse'){
                 $bookings->whereHas('client', function ($query) {
-                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
+                    return $query->where(
+                        DB::raw('CONCAT(first_name, " ", last_name)'),
+                        'LIKE',
+                        '%' . request('search') . '%'
+                    );
+//                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
+//                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
                 });
             }
         }

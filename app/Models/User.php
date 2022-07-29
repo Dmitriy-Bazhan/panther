@@ -28,11 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'prefs',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'first_name',
         'last_name',
