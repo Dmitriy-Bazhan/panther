@@ -6,7 +6,19 @@
 
 <script>
 export default {
-name: "Ratings"
+    name: "Ratings",
+    props: ['user', 'data'],
+    data() {
+        return {
+            path: location.origin,
+        }
+    },
+    mounted() {
+
+    },
+    methods: {
+
+    }
 }
 </script>
 

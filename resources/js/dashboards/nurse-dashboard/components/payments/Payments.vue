@@ -2,7 +2,7 @@
     <div>
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">1</div>
                 {{ $t('hourly_payment') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -41,7 +41,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">3</div>
                 {{ $t('weekend_surcharge_payment') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -58,7 +58,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">4</div>
                 {{ $t('holiday_surcharge') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -80,7 +80,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">5</div>
                 {{ $t('holiday_surcharge_payment') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -97,7 +97,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">6</div>
                 {{ $t('fare_surcharge') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -119,7 +119,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">7</div>
                 {{ $t('fare_surcharge_payment') }}
             </div>
             <div class="pt-finder--form-block--inner">
@@ -136,11 +136,6 @@
     </div>
 
     <button class="pt-btn--primary pt-md pt-mt-15 pt-ml-a pt-mr-a" v-on:click="storePrices()">Store</button>
-
-    <!--<select id="for_whom" class="form-select form-select-sm" v-model="clientSearchInfo.for_whom">-->
-    <!--    <option value="to_me">to_me</option>-->
-    <!--    <option value="for_a_relative">for_a_relative</option>-->
-    <!--</select>-->
 
 </template>
 

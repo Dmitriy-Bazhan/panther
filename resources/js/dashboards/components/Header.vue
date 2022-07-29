@@ -11,7 +11,7 @@
             </h3>
             <div class="pt-dashboard--header-block">
                 <pt-dropdown icon="email" :href="msgUrl">
-                    <template v-if="data.notifications && data.notifications > 0" v-slot:counter>{{data.notifications}}</template>
+                    <template v-if="data.count_of_unread_messages && data.count_of_unread_messages > 0" v-slot:counter>{{data.count_of_unread_messages}}</template>
                 </pt-dropdown>
             </div>
             <div class="pt-dashboard--header-block">
@@ -62,7 +62,7 @@ export default {
         'logout-component' : Logout,
     },
     mounted() {
-        console.log(this.data.notifications)
+        console.log(this.data)
         try {
             window.Echo.private('notifications.' + this.user.id)
                 .listen('Notifications.NewNotificationEvent', (response) => {
@@ -73,6 +73,31 @@ export default {
             });
         } catch {
             console.log('Websockets not work now');
+        }
+
+        if(this.user.entity_type === 'nurse'){
+            try {
+                window.Echo.private('nurse-have-new-message.' + this.user.id)
+                    .listen('PrivateChat.NurseHaveNewMessage', (response) => {
+                        console.log(response)
+                    }).error((error) => {
+                    console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+                });
+            } catch (e) {
+                console.log('Websockets not work');
+            }
+        }
+        else{
+            try {
+                window.Echo.private('client-have-new-message.' + this.user.id)
+                    .listen('PrivateChat.ClientHaveNewMessage', (response) => {
+                        console.log(response)
+                    }).error((error) => {
+                    console.log('ERROR IN SOCKETS CONNTECT : ' + error);
+                });
+            } catch (e) {
+                console.log('Websockets not work');
+            }
         }
     }
 }

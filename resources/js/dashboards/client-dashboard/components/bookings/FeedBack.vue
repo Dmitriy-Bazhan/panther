@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3 class="pt-title">
-      FEEDBACK
+    <h3 class="pt-heading">
+        Bewertung schreiben
     </h3>
     <pt-textarea
         v-model="feedback"

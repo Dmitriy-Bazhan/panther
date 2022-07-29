@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div v-if="authUser">
         <div class="pt-dashboard--user-info">
             <div class="pt-dashboard--user-info--avatar">
                 <img
-                    v-if="user.entity.original_photo !== null"
-                    v-bind:src="path + '/storage/' + user.entity.original_photo" alt="no-photo"
+                    v-if="authUser.entity.original_photo !== null"
+                    v-bind:src="path + '/storage/' + authUser.entity.original_photo" alt="no-photo"
                 >
                 <img v-else :src="path + '/images/no-photo.jpg'" alt="no-photo">
 
@@ -21,19 +21,19 @@
             </div>
             <div class="pt-dashboard--user-info--body">
                 <div class="pt-dashboard--user-info--name">
-                    {{user.first_name}} {{user.last_name}} ({{user.full_name}})
+                    {{authUser.first_name}} {{authUser.last_name}} ({{authUser.full_name}})
                 </div>
                 <p class="pt-dashboard--user-info--text">
-                    {{user.email}}
+                    {{authUser.email}}
                 </p>
                 <p class="pt-dashboard--user-info--text">
-                    {{user.phone}}
+                    {{authUser.phone}}
                 </p>
                 <p class="pt-dashboard--user-info--text">
-                    {{user.zip_code}}
+                    {{authUser.zip_code}}
                 </p>
                 <p class="pt-dashboard--user-info--text">
-                    {{user.email}}
+                    {{authUser.email}}
                 </p>
             </div>
 
@@ -53,8 +53,8 @@
             <div class="pt-finder--form-block--inner">
                 <div class="pt-finder--form-group">
                     <pt-textarea
-                              v-model="user.entity.description"
-                              @update:modelValue="newValue => user.entity.description = newValue"
+                              v-model="authUser.entity.description"
+                              @update:modelValue="newValue => authUser.entity.description = newValue"
                     ></pt-textarea>
 
                     <span class="register-form-error"
@@ -87,9 +87,9 @@
                             <p class="pt-form--label">
                                 {{ $t('name') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.first_name"
+                            <pt-input type="text" :modelValue="authUser.first_name"
                                       icon="user"
-                                      @update:modelValue="newValue => user.first_name = newValue"
+                                      @update:modelValue="newValue => authUser.first_name = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -103,9 +103,9 @@
                             <p class="pt-form--label">
                                 {{ $t('last_name') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.last_name"
+                            <pt-input type="text" :modelValue="authUser.last_name"
                                       icon="user"
-                                      @update:modelValue="newValue => user.last_name = newValue"
+                                      @update:modelValue="newValue => authUser.last_name = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -119,9 +119,9 @@
                             <p class="pt-form--label">
                                 {{ $t('email') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.email"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.email = newValue"
+                            <pt-input type="text" :modelValue="authUser.email"
+                                      icon="email"
+                                      @update:modelValue="newValue => authUser.email = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -135,9 +135,9 @@
                             <p class="pt-form--label">
                                 {{ $t('phone') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.phone"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.phone = newValue"
+                            <pt-input type="text" :modelValue="authUser.phone"
+                                      icon="phone"
+                                      @update:modelValue="newValue => authUser.phone = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -151,9 +151,9 @@
                             <p class="pt-form--label">
                                 {{ $t('zip_code') }}
                             </p>
-                            <pt-input type="text" :modelValue="user.zip_code"
-                                      icon="user"
-                                      @update:modelValue="newValue => user.zip_code = newValue"
+                            <pt-input type="text" :modelValue="authUser.zip_code"
+                                      icon="pin"
+                                      @update:modelValue="newValue => authUser.zip_code = newValue"
                             ></pt-input>
 
                             <span class="register-form-error"
@@ -163,11 +163,9 @@
                                         </span>
                         </div>
 
-
-
                         <div class="pt-finder--form-group">
                             <p class="pt-form--label">
-                                {{ $t('gender') }} {{user.entity.gender}}
+                                {{ $t('gender') }} {{authUser.entity.gender}}
                             </p>
                             <div class="pt-select">
                                 <div class="pt-select--icon">
@@ -176,9 +174,8 @@
                                 <v-select
                                     :value="'Male'"
                                     :options="['Male', 'Female']"
-                                    @option:selecting="selectGender($event)"
+                                    v-model="authUser.entity.gender"
                                 >
-
                                     <template #open-indicator>
                                         <span class="pt-select--caret"></span>
                                     </template>
@@ -190,6 +187,10 @@
                             >
                                             {{ errors['entity.gender'][0] }}
                                         </span>
+                        </div>
+
+                        <div class="pt-finder--form-group">
+                            <button class="pt-btn--primary pt-sm pt-ml-a" v-on:click="updateInformation">{{ $t('update') }}</button>
                         </div>
                     </div>
                 </div>
@@ -206,12 +207,14 @@ export default {
         return {
             isOpen: false,
             path: location.origin,
+            authUser: false,
             errors: null,
             file: '',
         }
     },
     mounted() {
         console.log(this.user);
+        this.authUser = this.user
     },
     methods : {
         closePopup(id){
@@ -221,12 +224,11 @@ export default {
             this.isOpen = true
         },
         selectGender(option){
-            console.log(option)
-            this.user.entity.gender = option
+            this.authUser.entity.gender = option
         },
         deleteAvatar(){
-            this.user.entity.original_photo = ''
-            this.user.entity.thumbnail_photo = ''
+            this.authUser.entity.original_photo = ''
+            this.authUser.entity.thumbnail_photo = ''
         },
         updateInformation() {
             this.file = this.$refs.file.files[0];
@@ -234,9 +236,9 @@ export default {
 
             formData.append('file', this.file);
 
-            let user = JSON.stringify(this.user);
+            let user = JSON.stringify(this.authUser);
             formData.append('user', user);
-            axios.post('/dashboard/client-my-information/' + this.user.id,
+            axios.post('/dashboard/client-my-information/' + this.authUser.id,
                 formData,
                 {
                     headers: {

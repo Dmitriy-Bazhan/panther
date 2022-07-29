@@ -1,27 +1,32 @@
 <template>
-    <div>
-        <h3>Choose pay methods, cards</h3>
-        <div v-show="paymentMethodsLoadStatus === 2 && paymentMethods.length === 0" class="">
-            No payment method on file, please add a payment method.
-        </div>
+  <h3 class="pt-title">Choose pay methods, cards</h3>
+  <p class="pt-subtitle" v-show="paymentMethodsLoadStatus === 2 && paymentMethods.length === 0" >
+    No payment method on file, please add a payment method.
+  </p>
 
-        <div v-show="paymentMethodsLoadStatus === 2 && paymentMethods.length > 0">
-            <div v-for="(method, key) in paymentMethods"
-                 v-bind:key="'method-'+key"
-                 v-on:click="paymentMethodSelected = method.id"
-                 class="border rounded row p-1"
-                 v-bind:class="{'bg-success text-light': paymentMethodSelected === method.id }">
-                <div class="col-2">
-                    {{ method.brand.charAt(0).toUpperCase() }}{{ method.brand.slice(1) }}
-                </div>
-                <div class="col-7">
-                    **** **** **** {{ method.last_four }} Exp: {{ method.exp_month }} / {{ method.exp_year }}
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-sm btn-success" v-on:click="pay()">Pay</button>
-        <button class="btn btn-sm btn-success" v-on:click="close()">Close</button>
+  <div v-show="paymentMethodsLoadStatus === 2 && paymentMethods.length > 0" class="pt-mt-15">
+    <div v-for="(method, key) in paymentMethods"
+         v-bind:key="'method-'+key"
+         v-on:click="paymentMethodSelected = method.id"
+         class="border rounded row p-1"
+         v-bind:class="{'bg-success text-light': paymentMethodSelected === method.id }">
+      <div class="col-2">
+        {{ method.brand.charAt(0).toUpperCase() }}{{ method.brand.slice(1) }}
+      </div>
+      <div class="col-7">
+        **** **** **** {{ method.last_four }} Exp: {{ method.exp_month }} / {{ method.exp_year }}
+      </div>
     </div>
+  </div>
+
+  <div class="pt-row pt-mt-15">
+    <div class="pt-col-md-6">
+      <button class="pt-btn--primary" @click="pay()">{{ $t('Pay') }}</button>
+    </div>
+    <div class="pt-col-md-6">
+      <button class="pt-btn" @click="close()">{{ $t('close') }}</button>
+    </div>
+  </div>
 </template>
 
 <script>

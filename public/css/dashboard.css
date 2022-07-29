@@ -738,8 +738,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .pt-testimonial--container {
   width: calc(100% - 105px);
@@ -812,7 +812,7 @@
   color: #005eaf;
   margin: 0 0 0 15px;
 }
-.pt-pagination--link:hover {
+.pt-pagination--link.active, .pt-pagination--link:hover {
   border-color: #005eaf;
   background-color: #005eaf;
   color: #ffffff;
@@ -1387,6 +1387,13 @@
 .pt-search--btn .fa-solid {
   font-size: 20px;
   color: #ff9600;
+}
+
+.pt-heading {
+  color: #005eaf;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
 }
 
 /*!

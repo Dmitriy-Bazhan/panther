@@ -2,8 +2,8 @@
     <div>
         <div class="pt-table--head">
             <div class="pt-messages--tabs">
-                <button class="pt-messages--tabs-btn" :class="{active: activeTab === 'all'}"
-                        @click.prevent="activateTab('all')">
+                <button class="pt-messages--tabs-btn" :class="{active: activeTab === ''}"
+                        @click.prevent="activateTab('')">
                     <!--                {{ $t('all') }}-->
                     All
                 </button>
@@ -29,7 +29,7 @@
                 </button>
             </div>
 
-            <form action="" @submit.prevent="" class="pt-search pt-ml-a">
+            <form action="" @submit.prevent="getNursesBookings()" class="pt-search pt-ml-a">
                 <input type="text" class="pt-search--input" v-model="search" placeholder="Suchen">
                 <button class="pt-search--btn">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -37,8 +37,8 @@
             </form>
         </div>
 
-        <div class="pt-table--container" v-show="activeTab === 'all'">
-            <div class="pt-table">
+        <div class="pt-table--container">
+            <div class="pt-table" v-if="bookings.length > 0">
                 <div class="pt-table--heading">
                     <div class="pt-table--col">
                         <div class="pt-table--text">
@@ -61,70 +61,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="pt-table--row" v-if="all_bookings.length > 0"
-                     v-for="(booking, index) in filterUsers(all_bookings)">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <div class="pt-table--number">
-                                {{ index + 1 }}
-                            </div>
-                            <div>
-                                {{ booking.nurse.full_name }}
-                                <span>{{ booking.nurse.entity.age }} Jahre Alt</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="pin"></pt-icon>
-                            12345 Berlin
-                            Some Strasse 69
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="calendar"></pt-icon>
-                            {{ booking.start_date }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-status" :class="booking.status">
-                            {{ $t(booking.status) }}
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="" v-else>
-                    No bookings
-                </h2>
-            </div>
-        </div>
-
-        <div class="pt-table--container" v-show="activeTab === 'not_approved'">
-            <div class="pt-table" v-if="not_approved_bookings.length > 0">
-                <div class="pt-table--heading">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Name') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Adresse') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Laufzeit') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Status') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-table--row" v-for="(booking, index) in not_approved_bookings">
+                <div class="pt-table--row"
+                     v-for="(booking, index) in bookings">
                     <div class="pt-table--col">
                         <div class="pt-table--text">
                             <div class="pt-table--number">
@@ -156,38 +94,42 @@
                             </div>
 
                             <pt-menu>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_booking', booking)">
-                                        {{ $t('show') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group" v-if="booking.have_alternative === 'no'">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_alternative', booking)">
-                                        {{ $t('alternative') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('show_chat', false, booking.client)">
-                                        {{ $t('send_message') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_confirm_approve', booking)">
-                                        {{ $t('approve') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_refuse', booking)">
-                                        {{ $t('refuse') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('complaint', false, booking.client)">
-                                        {{ $t('complaint') }}
-                                    </button>
-                                </div>
+                                <template v-for="item in ctrl[booking.status]" :key="item">
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_booking'">
+                                        <button class="pt-btn" @click.prevent="openPopup('show_booking', booking)">
+                                            {{ $t('show') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group"
+                                         v-show="item === 'show_alternative'"
+                                         v-if="booking.have_alternative === 'no'">
+                                        <button class="pt-btn" @click.prevent="openPopup('show_alternative', booking)">
+                                            {{ $t('alternative') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_chat'">
+                                        <button class="pt-btn"
+                                                @click.prevent="openPopup('show_chat', false, booking.client)">
+                                            {{ $t('send_message') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_confirm_approve'">
+                                        <button class="pt-btn" @click.prevent="openPopup('show_confirm_approve', booking)">
+                                            {{ $t('approve') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_refuse'">
+                                        <button class="pt-btn" @click.prevent="openPopup('show_refuse', booking)">
+                                            {{ $t('refuse') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'complaint'">
+                                        <button class="pt-btn"
+                                                @click.prevent="openPopup('complaint', false, booking.client)">
+                                            {{ $t('complaint') }}
+                                        </button>
+                                    </div>
+                                </template>
                             </pt-menu>
                         </div>
                     </div>
@@ -197,264 +139,19 @@
             <h2 class="" v-else>
                 No bookings
             </h2>
-        </div>
 
-        <div class="pt-table--container" v-show="activeTab === 'approved'">
-            <div class="pt-table" v-if="approved_bookings.length > 0">
-                <div class="pt-table--heading">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Name') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Adresse') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Laufzeit') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Status') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-table--row" v-for="(booking, index) in approved_bookings">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <div class="pt-table--number">
-                                {{ index + 1 }}
-                            </div>
-                            <div>
-                                {{ booking.nurse.full_name }}
-                                <span>{{ booking.nurse.entity.age }} Jahre Alt</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="pin"></pt-icon>
-                            12345 Berlin
-                            Some Strasse 69
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="calendar"></pt-icon>
-                            {{ booking.start_date }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--ctrl">
-                            <div class="pt-status" :class="booking.status">
-                                {{ $t(booking.status) }}
-                            </div>
-
-                            <pt-menu>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_booking', booking)">
-                                        {{ $t('show') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('show_chat', false, booking.client)">
-                                        {{ $t('send_message') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_refuse', booking)">
-                                        {{ $t('refuse') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('complaint', false, booking.client)">
-                                        {{ $t('complaint') }}
-                                    </button>
-                                </div>
-                            </pt-menu>
-                        </div>
-                    </div>
-                </div>
+            <div class="pt-pagination" v-if="bookings.length > 0">
+                <a href="" class="pt-pagination--link"
+                   v-for="(link, index) in pagination"
+                   @click.prevent="getNursesBookings(link)"
+                   :class="{active: link.active}"
+                >
+                    <i class="fa-solid fa-angle-left" v-if="index === 0"></i>
+                    <i class="fa-solid fa-angle-right" v-else-if="index === pagination.length-1"></i>
+                    <template v-else>{{ link.label }}</template>
+                </a>
             </div>
-
-            <h2 class="" v-else>
-                No bookings
-            </h2>
         </div>
-
-        <div class="pt-table--container" v-show="activeTab === 'in_process'">
-            <div class="pt-table" v-if="in_process_bookings.length > 0">
-                <div class="pt-table--heading">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Name') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Adresse') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Laufzeit') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Status') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-table--row" v-for="(booking, index) in in_process_bookings">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <div class="pt-table--number">
-                                {{ index + 1 }}
-                            </div>
-                            <div>
-                                {{ booking.nurse.full_name }}
-                                <span>{{ booking.nurse.entity.age }} Jahre Alt</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="pin"></pt-icon>
-                            12345 Berlin
-                            Some Strasse 69
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="calendar"></pt-icon>
-                            {{ booking.start_date }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--ctrl">
-                            <div class="pt-status" :class="booking.status">
-                                {{ $t(booking.status) }}
-                            </div>
-
-                            <pt-menu>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_booking', booking)">
-                                        {{ $t('show') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('show_chat', false, booking.client)">
-                                        {{ $t('send_message') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('complaint', false, booking.client)">
-                                        {{ $t('complaint') }}
-                                    </button>
-                                </div>
-                            </pt-menu>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h2 class="" v-else>
-                No bookings
-            </h2>
-        </div>
-
-        <div class="pt-table--container" v-show="activeTab === 'ended'">
-            <div class="pt-table" v-if="ended_bookings.length > 0">
-                <div class="pt-table--heading">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Name') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Adresse') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Laufzeit') }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            {{ $t('Status') }}
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-table--row" v-for="(booking, index) in ended_bookings">
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <div class="pt-table--number">
-                                {{ index + 1 }}
-                            </div>
-                            <div>
-                                {{ booking.nurse.full_name }}
-                                <span>{{ booking.nurse.entity.age }} Jahre Alt</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="pin"></pt-icon>
-                            12345 Berlin
-                            Some Strasse 69
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--text">
-                            <pt-icon type="calendar"></pt-icon>
-                            {{ booking.start_date }}
-                        </div>
-                    </div>
-                    <div class="pt-table--col">
-                        <div class="pt-table--ctrl">
-                            <div class="pt-status" :class="booking.status">
-                                {{ $t(booking.status) }}
-                            </div>
-
-                            <pt-menu>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn" @click.prevent="openPopup('show_booking', booking)">
-                                        {{ $t('show') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('show_chat', false, booking.client)">
-                                        {{ $t('send_message') }}
-                                    </button>
-                                </div>
-                                <div class="pt-table--ctrl-group">
-                                    <button class="pt-btn"
-                                            @click.prevent="openPopup('complaint', false, booking.client)">
-                                        {{ $t('complaint') }}
-                                    </button>
-                                </div>
-                            </pt-menu>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h2 class="" v-else>
-                No bookings
-            </h2>
-        </div>
-
 
         <div class="" v-if="false">
             <h4>{{ $t('bookings_wait_your_approve') }} 2</h4>
@@ -634,7 +331,6 @@
                 </tbody>
             </table>
         </div>
-
 
         <!--        show_booking-->
         <Modal
@@ -817,7 +513,6 @@ export default {
     data() {
         return {
             modal: {
-                test: false,
                 show_confirm_approve: false,
                 show_booking: false,
                 show_feedback: false,
@@ -827,15 +522,42 @@ export default {
                 show_chat: false,
             },
             search: '',
-            activeTab: 'all',
+            activeTab: '',
             show_modal: false,
+            pagination: false,
             booking: null,
-            all_bookings: [],
+            bookings: [],
             not_approved_bookings: [],
             approved_bookings: [],
             in_process_bookings: [],
             ended_bookings: [],
             client: null,
+            ctrl: {
+                not_approved: [
+                    'show_booking',
+                    'show_alternative',
+                    'show_chat',
+                    'show_confirm_approve',
+                    'show_refuse',
+                    'complaint',
+                ],
+                approved: [
+                    'show_booking',
+                    'show_chat',
+                    'show_refuse',
+                    'complaint',
+                ],
+                in_process: [
+                    'show_booking',
+                    'show_chat',
+                    'complaint',
+                ],
+                ended: [
+                    'show_booking',
+                    'show_chat',
+                    'complaint',
+                ],
+            }
         }
     },
     mounted() {
@@ -851,12 +573,6 @@ export default {
         });
     },
     methods: {
-        filterUsers(arr) {
-            let self = this
-            return _.filter(arr, function (e) {
-                return e.nurse.full_name.toLowerCase().indexOf(self.search.toLowerCase()) !== -1
-            })
-        },
         closePopup() {
             let self = this;
 
@@ -872,48 +588,12 @@ export default {
         activateTab(n) {
             this.activeTab = n
             this.search = ''
+            this.getNursesBookings()
         },
 
-        closeModal() {
-            this.show_modal = false;
-            this.booking = null;
-            this.client = null;
-        },
-        showComplaint(client) {
-            console.log('test')
-            this.show_modal = 'complaint';
-            this.client = client;
-            this.booking = null;
-        },
-        showCurrentBooking(booking) {
-            this.show_modal = 'show_booking';
-            this.booking = booking;
-            this.client = null;
-        },
-        showCurrentAlternativeBooking(booking) {
-            this.show_modal = 'show_alternative';
-            this.booking = booking;
-            this.client = null;
-        },
-        showChatWithClient(client) {
-            this.show_modal = 'show_chat';
-            this.client = client;
-            this.booking = null;
-        },
-        showRefuseBooking(booking) {
-            this.show_modal = 'show_refuse';
-            this.booking = booking;
-            this.client = null;
-        },
-        showApproveBookingConfirm(booking) {
-            this.show_modal = 'show_confirm_approve';
-            this.booking = booking;
-            this.client = null;
-        },
         confirmApproveBooking() {
             this.approveBooking();
         },
-
         approveBooking() {
             axios.put('/dashboard/nurse-bookings/' + this.booking.id) //update method in NurseBookingController
                 .then((response) => {
@@ -938,22 +618,27 @@ export default {
                 console.log(error)
             });
         },
+        getNursesBookings(link) {
+            let page = 1
+            if(link){
+                const url2 = new URL(link.url);
+                page = url2.searchParams.get('page')
+            }
 
-        getNursesBookings() {
-            axios.get('/dashboard/nurse-bookings?nurse_id=' + this.user.id)
+            let url = '/dashboard/nurse-bookings?nurse_id=' + this.user.id
+                + '&page='+ page
+                + '&status=' + this.activeTab
+                + '&search=' + this.search
+            axios.get(url)
                 .then((response) => {
                     if (response.data.success) {
                         console.log(response.data)
-                        this.all_bookings = [
-                            ...response.data.notApprovedBookings.data,
-                            ...response.data.approvedBookings.data,
-                            ...response.data.inProcessBookings.data,
-                            ...response.data.endedBookings.data
-                        ];
-                        this.not_approved_bookings = response.data.notApprovedBookings.data;
-                        this.approved_bookings = response.data.approvedBookings.data;
-                        this.in_process_bookings = response.data.inProcessBookings.data;
-                        this.ended_bookings = response.data.endedBookings.data;
+                        this.bookings = response.data.booking.data;
+                        this.pagination = response.data.booking.meta.links;
+                        // this.not_approved_bookings = response.data.notApprovedBookings.data;
+                        // this.approved_bookings = response.data.approvedBookings.data;
+                        // this.in_process_bookings = response.data.inProcessBookings.data;
+                        // this.ended_bookings = response.data.endedBookings.data;
                     }
                 })
                 .catch((error) => {
@@ -975,59 +660,4 @@ export default {
         white-space: nowrap;
     }
 }
-
-.single-chat-wrapper {
-    position: fixed;
-    z-index: 100;
-    background: #0a53be;
-    border: solid 1px black;
-    border-radius: 10px;
-    top: 10%;
-    left: 20%;
-    width: 60%;
-    height: 450px;
-}
-
-.alternative-booking-wrapper {
-    position: fixed;
-    z-index: 100;
-    background: #0a53be;
-    border: solid 1px black;
-    border-radius: 10px;
-    top: 5%;
-    left: 10%;
-    width: 80%;
-    height: 650px;
-    overflow: auto;
-}
-
-.refuse-booking-wrapper {
-    position: fixed;
-    z-index: 100;
-    background: #0a53be;
-    border: solid 1px black;
-    border-radius: 10px;
-    top: 20%;
-    left: 30%;
-    width: 40%;
-    height: 450px;
-}
-
-.approve-confirm-wrapper {
-    padding-top: 75px;
-    position: fixed;
-    z-index: 100;
-    background: #0a53be;
-    border: solid 1px black;
-    border-radius: 10px;
-    top: 20%;
-    left: 30%;
-    width: 40%;
-    height: 200px;
-}
-
-table {
-    margin-bottom: 50px;
-}
-
 </style>

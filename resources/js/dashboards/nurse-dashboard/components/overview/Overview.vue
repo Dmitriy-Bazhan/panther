@@ -1,30 +1,56 @@
 <template>
     <div class="pt-overview">
-        <div class="pt-row">
+        <div class="pt-row pt-row-stretch">
             <div class="pt-col-md-8">
-                <div class="pt-calendar">
-                    <Datepicker
-                                inline
-                                autoApply
-                                :monthChangeOnScroll="false"
-                                :enableTimePicker="false">
-                        <template #day="{ day, date }">
-                            <div class="pt-calendar--special">
-                                <div class="pt-calendar--special-day">
-                                    {{ day }}
-                                </div>
+                <div class="pt-calendar--wrapper">
+                    <div class="pt-calendar">
+                        <Datepicker
+                            inline
+                            autoApply
+                            @selected="selectDate()"
+                            @update-month-year="changeMonth($event)"
+                            v-model="date"
+                            :monthChangeOnScroll="false"
+                            :enableTimePicker="false">
+                            <template #day="{ day, date }">
+                                <div class="pt-calendar--special">
+                                    <div class="pt-calendar--special-day">
+                                        {{ day }}
+                                    </div>
 
-                                <div class="pt-calendar--special-times">
-                                    <div class="pt-calendar--special-time"
-                                         v-for="(n, index) in 4"
-                                         :class="{active: checkDateForEvent(date)[index] == 1}"
-                                    >
+                                    <div class="pt-calendar--special-times">
+                                        <div class="pt-calendar--special-time"
+                                             v-for="(n, index) in 4"
+                                             :class="{active: checkDateForEvent(date)[index] == 1}"
+                                        >
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </template>
-                    </Datepicker>
+                            </template>
+                        </Datepicker>
+                    </div>
+
+                    <div class="pt-calendar--info">
+                        <div class="pt-calendar--info-inner">
+                            <h3 class="pt-calendar--info-title">
+                                {{ selectedDate.date }}
+                            </h3>
+                            <ul class="pt-calendar--info-list">
+                                <li class="pt-calendar--info-list--item" v-for="item in selectedDate.time">
+                           <span
+                               class="pt-calendar--info-list--item-type"
+                               :class="{active: item.active === '1'}"></span>
+
+                                    <div class="pt-calendar--info-list--item-text">
+                                        {{ item.interval }}
+                                        <span v-if="item.active !== '1'">zugänglich</span>
+                                        <span v-else>booking</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="pt-col-md-4">
@@ -37,17 +63,17 @@
                         <img v-else :src="path + '/images/no-photo.jpg'" alt="no-photo">
                     </div>
                     <p class="pt-overview--user-name">
-                        {{user.full_name}}
+                        {{ user.full_name }}
                     </p>
                     <div class="pt-overview--user-rating">
 
                     </div>
                     <p class="pt-overview--user-text">
-                        {{user.entity.age}} Jahre Alt | {{user.zip_code}} <br>
+                        {{ user.entity.age }} Jahre Alt | {{ user.zip_code }} <br>
                         etwas Besuche pro Woche
                     </p>
                     <div class="pt-overview--user-price">
-                        €{{user.entity.price.hourly_payment}}/Stunde
+                        €{{ user.entity.price.hourly_payment }}/Stunde
                     </div>
 
                     <div class="pt-overview--user-divider"></div>
@@ -56,25 +82,25 @@
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Kunden:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.all_clients}}
+                                {{ user.all_clients }}
                             </div>
                         </div>
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Neue Kunden:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.new_clients}}
+                                {{ user.new_clients }}
                             </div>
                         </div>
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Payments:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.payments}}
+                                {{ user.payments }}
                             </div>
                         </div>
                         <div class="pt-overview--user-client">
                             <div class="pt-overview--user-client--label">Booking:</div>
                             <div class="pt-overview--user-client--count">
-                                {{user.bokkings_count}}
+                                {{ user.bokkings_count }}
                             </div>
                         </div>
                     </div>
@@ -82,7 +108,7 @@
             </div>
         </div>
 
-        <div class="pt-overview--messages" v-if="data.last_chats && data.last_chats.clients && data.last_chats.clients.length>0">
+        <div class="pt-overview--messages" v-if="data.last_chats && Object.keys(data.last_chats.clients).length>0">
             <div class="pt-overview--messages-head">
                 <h3 class="pt-overview--messages-head--title">
                     Messages
@@ -97,7 +123,8 @@
             </div>
             <div class="pt-client" v-for="nurse in data.last_chats.clients">
                 <div class="pt-client--avatar">
-                    <img :src="path + '/storage/' + nurse[0].entity.thumbnail_photo" alt="pic" v-if="nurse[0].entity.thumbnail_photo">
+                    <img :src="path + '/storage/' + nurse[0].entity.thumbnail_photo" alt="pic"
+                         v-if="nurse[0].entity.thumbnail_photo">
                     <div class="pt-client--avatar-no-photo" v-else>
                         <span>{{ nurse[0].first_name }}</span>
                         <span>{{ nurse[0].last_name }}</span>
@@ -106,14 +133,14 @@
                 </div>
                 <div class="pt-client--info">
                     <div class="pt-client--name">
-                        {{ nurse[0].full_name}}
+                        {{ nurse[0].full_name }}
                     </div>
                     <div class="pt-client--date">
-                        {{formatDate(nurse.last_message.created_at)}}
+                        {{ formatDate(nurse.last_message.created_at) }}
                     </div>
                 </div>
                 <div class="pt-client--msg" v-if="nurse.last_message">
-                    {{ nurse.last_message.message}}
+                    {{ nurse.last_message.message }}
                 </div>
                 <div class="pt-client--meta">
                     <router-link
@@ -131,208 +158,129 @@
 </template>
 
 <script>
-    export default {
-        name: "Overview",
-        props: ['user', 'data'],
-        data() {
-            return {
-                path: location.origin,
-                time_calendar: [],
-                chat: false,
+export default {
+    name: "Overview",
+    props: ['user', 'data'],
+    data() {
+        return {
+            path: location.origin,
+            time_calendar: [],
+            chat: false,
+            date: new Date(),
+            selectedDate: false,
+            neededDate: null,
+        }
+    },
+    mounted() {
+        this.getTimeCalendar();
+    },
+    watch: {
+        date(val) {
+            this.selectDate(val)
+        }
+    },
+    methods: {
+        changeMonth(date) {
+            let dateStr = ''
+            dateStr += date.year +'-'
+            dateStr += date.month<9?'0'+(date.month+1):(date.month+1)
+            dateStr += '-01'
+            this.neededDate = dateStr
+            this.getTimeCalendar();
+        },
+        selectDate(date) {
+            let tmp;
+            if (date) {
+                tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
+                date = dayjs(date).format('YYYY-MM-DD')
+            } else {
+                tmp = this.time_calendar[dayjs(this.date).format('YYYY-MM-DD')]
+                date = dayjs(this.date).format('YYYY-MM-DD')
             }
-        },
-        mounted() {
-            console.log(this.data)
-        },
-        created() {
 
-        },
-        methods: {
-            checkDateForEvent(date) {
-                let tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
-                let arr = []
-                if(tmp){
-                    _.forEach(tmp, function (item){
-                        arr.push(item)
+            let time = []
+            _.forEach(tmp, function (item, key) {
+                if (key.indexOf('_7_11') !== -1) {
+                    time.push({
+                        interval: '07:00 - 11:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_11_14') !== -1) {
+                    time.push({
+                        interval: '11:00 - 14:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_14_17') !== -1) {
+                    time.push({
+                        interval: '14:00 - 17:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_17_21') !== -1) {
+                    time.push({
+                        interval: '17:00 - 21:00',
+                        active: item
                     })
                 }
+            })
 
-                return arr
-            },
-            formatDate(date) {
-                let a = String(date).split('T');
-                return a[0] + ' ' + String(a[1].split('.')[0]);
-            },
-            getTimeCalendar() {
-                axios.post('/dashboard/nurse/get-time-calendar', {
-                    'nurse_id': this.user.id,
-                    'needed_date': this.neededDate
-                })
-                    .then((response) => {
-                        this.time_calendar = response.data.time_calendar;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+            this.selectedDate = {
+                date: date,
+                time: time,
             }
+        },
+        checkDateForEvent(date) {
+            let tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
+            let arr = []
+            if (tmp) {
+                _.forEach(tmp, function (item) {
+                    arr.push(item)
+                })
+            }
+
+            return arr
+        },
+        formatDate(date) {
+            let a = String(date).split('T');
+            return a[0] + ' ' + String(a[1].split('.')[0]);
+        },
+        getTimeCalendar() {
+            axios.post('/dashboard/nurse/get-time-calendar', {
+                'nurse_id': this.user.id,
+                'needed_date': this.neededDate
+            })
+                .then((response) => {
+                    this.time_calendar = response.data.time_calendar;
+                    this.selectDate()
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
+}
 
 </script>
 
+<style lang="scss">
+.pt-calendar--wrapper{
+    .pt-calendar {
+        .dp__menu{
+            border-radius: 0;
+            border: none;
+        }
+    }
+}
+</style>
+
 <style scoped lang="scss">
-.pt-calendar .dp__main{
-    max-width: 100%;
+.pt-calendar {
+    .dp__main{
+        max-width: 100%;
+    }
+
+    .dp__menu{
+        border-radius: 0;
+        border: none;
+    }
 }
-
-.chat-wrapper {
-    height: 400px;
-    overflow: auto;
-    background: lightcyan;
-    padding: 10px;
-}
-
-.chat-client-message-wrapper {
-    background: #85acff;
-    border: solid 1px #405dff;
-    padding: 10px;
-    border-radius: 10px;
-    width: 75%;
-    margin-bottom: 10px;
-}
-
-.chat-client-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: #051dff;
-}
-
-.chat-client-message {
-    font-size: 14px;
-    font-weight: 700;
-    color: #6500ff;
-}
-
-.chat-client-date {
-    font-size: 10px;
-    font-weight: 700;
-    color: #051dff;
-}
-
-.calendar {
-    display: flex;
-    flex-direction: column;
-}
-
-.header {
-    display: flex;
-    justify-content: stretch;
-    align-items: center;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #aaaaaa;
-    background-color: #ff7a58;
-}
-
-.arrow {
-    cursor: pointer;
-    padding: 0 0.4em 0.2em 0.4em;
-    font-size: 1.8rem;
-    font-weight: 500;
-    user-select: none;
-    flex-grow: 0;
-}
-
-.arrow:hover {
-    color: #dcdcdc;
-}
-
-.title {
-    cursor: pointer;
-    flex-grow: 1;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-.title:hover {
-    color: #dcdcdc;
-}
-
-.weekdays {
-    display: flex;
-    flex: auto;
-}
-
-.weekday {
-    width: 14.2857%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.4rem 0;
-    color: #aaaaaa;
-    border: 1px solid #aaaaaa;
-    background-color: #eaeaea;
-}
-
-.week {
-    display: flex;
-}
-
-.day {
-    width: 14.2857%;
-    height: 100px;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    color: #3a3a3a;
-    background-color: white;
-    border: solid 1px #aaaaaa;
-}
-
-.calendar-marker {
-    width: 50%;
-    display: inline-block;
-    text-align: center;
-}
-
-.calendar-marker-busy {
-    display: inline-block;
-    width: 50px;
-    height: 25px;
-    background-color: red;
-    margin-top: 5px;
-}
-
-.calendar-marker-not-busy {
-    display: inline-block;
-    width: 50px;
-    height: 25px;
-    background-color: green;
-    margin-top: 5px;
-}
-
-.today {
-    font-weight: 500;
-    color: white;
-    background-color: #ff7a58;
-}
-
-.checkday {
-    font-weight: 500;
-    color: white;
-    background-color: #1b40ff;
-
-}
-
-.day-content {
-    cursor: pointer;
-}
-
-.label-name {
-    font-size: 14px;
-    font-weight: 700;
-}
-
 </style>
