@@ -75,7 +75,11 @@ class NotificationController extends Controller
             'status' => 'read'
         ]);
 
+        $target_user_id = Notification::where('id', $notification_id)->select('target_user_id')->first()->target_user_id;
+
         if ($success) {
+            $unread_notifications_count = Notification::where('status', 'unread')->where('target_user_id', $target_user_id)->count();
+            broadcast(new NewNotificationEvent($unread_notifications_count, $target_user_id));
             return true;
         } else {
             Log::channel('app_logs')->error('NotificationController@setNotificationStatusRead Notification not update');
@@ -96,6 +100,8 @@ class NotificationController extends Controller
         ]);
 
         if ($success) {
+            $unread_notifications_count = Notification::where('status', 'unread')->where('target_user_id', $target_user_id)->count();
+            broadcast(new NewNotificationEvent($unread_notifications_count, $target_user_id));
             return true;
         } else {
             Log::channel('app_logs')->error('NotificationController@setNotificationStatusRead Notification not update');
