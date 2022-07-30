@@ -1,5 +1,6 @@
 import template from './wrapper.html';
 import AdminHeader from './Header';
+import Header from "../components/Header";
 import LeftPanel from "./LeftPanel";
 import Notification from "../admin-dashboard/Notification";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
@@ -17,6 +18,7 @@ export default {
         }
     },
     components: {
+        'pt-header' : Header,
         'admin-header': AdminHeader,
         'left-panel': LeftPanel,
         'notification': Notification,

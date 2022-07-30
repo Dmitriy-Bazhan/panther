@@ -1,20 +1,54 @@
 <template>
-    <div class="admin-dashboard-left-panel">
-        <h5>
-            Left Panel
-        </h5>
-
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboard' }">Dashboard</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardClients'}">Clients</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardNurses' }">Nurses</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardComplaints' }">Complaints</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardSettings' }">Settings</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardPages' }">Pages</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardTranslationPage' }">Translation</router-link></li>
-            <li class="list-group-item"><router-link :to="{ name : 'AdminDashboardMediaPage' }">Media</router-link></li>
-        </ul>
-    </div>
+    <ul class="pt-dashboard--menu">
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboard' }">
+                <pt-icon type="overview"></pt-icon>
+                Dashboard
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardClients' }">
+                <pt-icon type="overview"></pt-icon>
+                Clients
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardNurses' }">
+                <pt-icon type="overview"></pt-icon>
+                Nurses
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardComplaints' }">
+                <pt-icon type="overview"></pt-icon>
+                Complaints
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardSettings' }">
+                <pt-icon type="overview"></pt-icon>
+                Settings
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardPages' }">
+                <pt-icon type="overview"></pt-icon>
+                Pages
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardTranslationPage' }">
+                <pt-icon type="overview"></pt-icon>
+                Translation
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardMediaPage' }">
+                <pt-icon type="overview"></pt-icon>
+                Media
+            </router-link>
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -24,16 +58,5 @@ export default {
 </script>
 
 <style scoped>
-.admin-dashboard-left-panel {
-    height: 100%;
-    background: #d9d9d9;
-    min-height: calc(100vh - 50px);
-}
-.list-group-item {
-    background: #d9d9d9;
-}
 
-.list-group-item:hover {
-    background: #f8f7f7;
-}
 </style>

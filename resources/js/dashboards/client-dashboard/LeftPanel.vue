@@ -13,12 +13,12 @@
                 <span v-if="showAlarmNewMessage" class="alarm-signal blink"></span>
             </router-link>
         </li>
-        <li class="pt-dashboard--menu-item">
-            <router-link :to="{ name: 'ClientDashboardRatings' }">
-                <pt-icon type="star"></pt-icon>
-                {{ $t('ratings') }}
-            </router-link>
-        </li>
+<!--        <li class="pt-dashboard&#45;&#45;menu-item">-->
+<!--            <router-link :to="{ name: 'ClientDashboardRatings' }">-->
+<!--                <pt-icon type="star"></pt-icon>-->
+<!--                {{ $t('ratings') }}-->
+<!--            </router-link>-->
+<!--        </li>-->
         <li class="pt-dashboard--menu-item">
             <router-link :to="{ name: 'ClientDashboardBookings' }">
                 <pt-icon type="calendar"></pt-icon>

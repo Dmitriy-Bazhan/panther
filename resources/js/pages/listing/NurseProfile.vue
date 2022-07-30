@@ -18,7 +18,7 @@
                         <div class="pt-profile--head-info">
                             <div class="pt-profile--head-top">
                                 <div class="pt-profile--head-top--left">
-                                    <rate :user="nurse"></rate>
+                                    <pt-rate :rate="nurse.rate.round"></pt-rate>
                                     <div class="pt-profile--name">
                                         {{ nurse.first_name }}
                                         <div>{{ nurse.last_name }}</div>
@@ -164,7 +164,7 @@
             <div class="pt-profile--additional">
                 <h3 class="pt-profile--additional-title">
                     Bewertungen
-                    <rate :user="nurse"></rate>
+                    <pt-rate></pt-rate>
                 </h3>
 
                 <div class="pt-testimonials">
@@ -179,7 +179,7 @@
                                     <div>
                                         {{feedback.creator.last_name}}
                                     </div>
-                                    <rate :user="nurse"></rate>
+                                    <pt-rate></pt-rate>
                                 </div>
                                 <div class="pt-testimonial--date">
                                     {{serializeDate(feedback.created_at)}}
@@ -338,14 +338,12 @@
 
 <script>
 import SingleChat from "../../dashboards/nurse-dashboard/components/bookings/SingleChat";
-import Rate from '../components/Rate';
 
 export default {
     name: "NurseProfile",
     props: ['data', 'user'],
     components: {
         single_chat: SingleChat,
-        rate: Rate,
     },
     data() {
         return {
@@ -380,6 +378,7 @@ export default {
             .then((response) => {
                 if (response.data.success) {
                     self.nurse = response.data.nurse
+                    console.log(response.data.nurse)
                     self.getPrivateChats();
 
                     try {

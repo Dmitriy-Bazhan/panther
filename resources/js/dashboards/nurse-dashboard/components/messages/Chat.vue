@@ -235,7 +235,7 @@ export default {
             try {
                 window.Echo.private('client-between-nurse.' + this.user.id + '.' + this.client_id)
                     .listen('PrivateChat.ClientNurseSentMessage', (response) => {
-                        console.log('socket serve')
+                        console.log(response)
                         if(Number(response.result.client_user_id) === Number(self.client_id)){
                             let message = {
                                 'user_name': response.result.user_name,

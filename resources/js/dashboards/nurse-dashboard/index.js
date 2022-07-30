@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import LeftPanel from "../nurse-dashboard/LeftPanel";
 import Notification from "./Notification";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
-// import TestChat from "../../TestChat";
 
 export default {
     name: 'dashboard',
@@ -22,6 +21,10 @@ export default {
         }
     },
     mounted() {
+        this.$store.commit('setNotifications', this.data.notifications)
+        this.$store.commit('setMessages', this.data.count_of_unread_messages)
+        this.$store.commit('initStore', this.user)
+        this.$store.dispatch('messageListener')
         this.emitter.on('response-success-true', e => {
             this.response_success_true = true;
             setTimeout(() => {

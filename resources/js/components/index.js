@@ -2,6 +2,7 @@ import Icon from './Icon/Icon';
 import Dropdown from './Dropdown/Dropdown';
 import Menu from './Menu/Menu';
 import Input from './Input/Input';
+import Rate from './Rate/Rate';
 import Textarea from './Textarea/Textarea';
 import Accordeon from './Accordeon/Accordeon';
 import Preloader from './Preloader/Preloader';
@@ -56,6 +57,7 @@ if (window.dashboard === 'dashboard') {
             Vue.component('media-popup', MediaPopup);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);
+            Vue.component('pt-rate', Rate);
             Vue.component('pt-textarea', Textarea);
             Vue.component('pt-dropdown', Dropdown);
             Vue.component('pt-menu', Menu);
@@ -108,6 +110,7 @@ if (window.dashboard === 'dashboard') {
             Vue.component('pt-preloader', Preloader);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);
+            Vue.component('pt-rate', Rate);
             Vue.component('pt-accordeon', Accordeon);
             Vue.component('swiper-slide', SwiperSlide);
             Vue.component('swiper', Swiper);

@@ -62,6 +62,19 @@ name: "Header",
     },
     mounted() {
         console.log('tetttt')
+    },
+    methods: {
+        getNotice() {
+            axios.get('get-notification/' + this.user.id)
+                .then((response) => {
+                    console.log(response)
+                    if (response.data.success) {
+
+                    }
+                }).catch((error) => {
+                console.log(error)
+            });
+        },
     }
 }
 </script>

@@ -10,7 +10,7 @@
                         <div class="pt-testimonial--name">
                             {{feedback.creator.full_name}}
 
-<!--                            <rate :user="nurse"></rate>-->
+                            <pt-rate :rate="feedback.rate"></pt-rate>
                         </div>
                         <div class="pt-testimonial--date">
                             {{serializeDate(feedback.created_at)}}

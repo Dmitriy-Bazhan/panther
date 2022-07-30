@@ -827,7 +827,7 @@
   background-color: #ff9600;
   color: #ffffff;
 }
-.pt-dropdown.active a, .pt-dropdown:hover a {
+.pt-dropdown.active .pt-dropdown--btn, .pt-dropdown:hover .pt-dropdown--btn {
   color: inherit;
 }
 .pt-dropdown--btn {

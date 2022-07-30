@@ -28,7 +28,7 @@ if (window.dashboard === 'dashboard') {
     const dashboard = Vue.createApp({});
     dashboard.config.globalProperties.emitter = emitter;
     dashboard.use(Components);
-
+    dashboard.use(Store)
     if(window.guard in dasboardRoute){
         dashboard.use(dasboardRoute[window.guard]);
     }
