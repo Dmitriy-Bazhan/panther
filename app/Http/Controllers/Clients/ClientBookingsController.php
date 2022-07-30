@@ -257,7 +257,7 @@ class ClientBookingsController extends Controller
         $booking = Booking::find($id);
         $content = 'Client approve alternative for booking from ' . $booking->start_date;
         try {
-            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content, $booking->id);
         } catch (\Exception $exception) {
 
         }
