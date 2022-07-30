@@ -49,9 +49,10 @@ class NurseBookingController extends Controller
         ]);
 
         $status = request('status');
+        $id = request()->filled('id') && is_numeric(request('id')) ? request('id') : null;
 
         if($status){
-            $bookings = BookingsResource::collection($this->bookingRepo->search(null, $status))->response()->getData();
+            $bookings = BookingsResource::collection($this->bookingRepo->search($id, $status))->response()->getData();
         }else{
             $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
         }

@@ -48,7 +48,7 @@ class NotificationController extends Controller
             'type' => $type,
             'status' => 'unread',
             'resource_id' => $resource_id,
-            'content' => self::handleContent($content),
+            'content' => $content,
         ]);
 
         if ($notification) {
@@ -108,10 +108,5 @@ class NotificationController extends Controller
             Log::channel('app_logs')->error('NotificationController@setNotificationStatusRead Notification not update');
             return false;
         }
-    }
-
-    private function handleContent($content){
-
-        return $content;
     }
 }

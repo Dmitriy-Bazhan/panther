@@ -21,6 +21,7 @@ class NotificationResource extends JsonResource
             "creator_entity" => $this->creator_entity,
             "target_user_id" => $this->target_user_id,
             'target_user_name' => $this->target_user_name,
+            'resource_id' => $this->resource_id,
             "type" => $this->type,
             "status" => $this->status,
             "content" => $this->content,
