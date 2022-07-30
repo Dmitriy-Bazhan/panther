@@ -42,26 +42,16 @@ class ClientBookingsController extends Controller
         }
 
         $status = request('status');
+        $id = request()->filled('id') && is_numeric(request('id')) ? request('id') : null;
 
         if($status){
-            $bookings = BookingsResource::collection($this->bookingRepo->search(null, $status))->response()->getData();
+            $bookings = BookingsResource::collection($this->bookingRepo->search($id, $status))->response()->getData();
         }else{
             $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
         }
-
-//        $notApprovedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'not_approved'))->response()->getData();
-//        $approvedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'approved'))->response()->getData();
-//        $inProcessBookings = BookingsResource::collection($this->bookingRepo->search(null, 'in_process'))->response()->getData();
-//        $endedBookings = BookingsResource::collection($this->bookingRepo->search(null, 'ended'))->response()->getData();
-
         return response()->json([
             'success' => true,
             'booking' => $bookings,
-//            'notApprovedBookings' => $notApprovedBookings,
-//            'approvedBookings' => $approvedBookings,
-//            'inProcessBookings' => $inProcessBookings,
-//            'endedBookings' => $endedBookings,
-
         ]);
     }
 

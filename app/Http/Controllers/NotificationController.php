@@ -29,7 +29,7 @@ class NotificationController extends Controller
         }
     }
 
-    static public function createNotification($target_user_id = null, $type = null, $content = null)
+    static public function createNotification($target_user_id = null, $type = null, $content = null, $resource_id = 0)
     {
         if (is_null($target_user_id) || is_null($type) || is_null($content)) {
             Log::channel('app_logs')->error('NotificationController@createNotification Vars is null');
@@ -47,6 +47,7 @@ class NotificationController extends Controller
             'target_user_id' => $target_user_id,
             'type' => $type,
             'status' => 'unread',
+            'resource_id' => $resource_id,
             'content' => self::handleContent($content),
         ]);
 
@@ -100,7 +101,7 @@ class NotificationController extends Controller
         ]);
 
         if ($success) {
-            $unread_notifications_count = Notification::where('status', 'unread')->where('target_user_id', $target_user_id)->count();
+            $unread_notifications_count = 0;
             broadcast(new NewNotificationEvent($unread_notifications_count, $target_user_id));
             return true;
         } else {
