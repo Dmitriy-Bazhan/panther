@@ -54,7 +54,7 @@ class NurseBookingController extends Controller
         if($status){
             $bookings = BookingsResource::collection($this->bookingRepo->search($id, $status))->response()->getData();
         }else{
-            $bookings = BookingsResource::collection($this->bookingRepo->search())->response()->getData();
+            $bookings = BookingsResource::collection($this->bookingRepo->search($id))->response()->getData();
         }
 
         return response()->json([
