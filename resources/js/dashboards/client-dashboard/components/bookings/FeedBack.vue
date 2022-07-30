@@ -3,12 +3,30 @@
     <h3 class="pt-heading">
         Bewertung schreiben
     </h3>
-    <pt-textarea
-        v-model="feedback"
-        @update:modelValue="newValue => feedback = newValue"
-    ></pt-textarea>
 
-    <button class="pt-btn pt-lg pt-mt-20 pt-ml-a pt-mr-a" v-on:click="saveFeedBack()">{{ $t('save') }}</button>
+      <div class="pt-finder--form-block">
+          <div class="pt-finder--form-label">
+              Bewertung:
+          </div>
+          <pt-rate
+              v-model="rate"
+              @update:modelValue="newValue => rate = newValue">
+
+          </pt-rate>
+      </div>
+
+      <div class="pt-finder--form-block">
+          <div class="pt-finder--form-label">
+              Ihre Meinung:
+          </div>
+          <pt-textarea
+              v-model="feedback"
+              @update:modelValue="newValue => feedback = newValue"
+          ></pt-textarea>
+      </div>
+
+
+    <button class="pt-btn pt-lg pt-mt-20 pt-ml-a pt-mr-a" v-on:click="saveFeedBack()">{{ $t('send') }}</button>
   </div>
 </template>
 
@@ -19,6 +37,7 @@ export default {
   data() {
     return {
       feedback: null,
+      rate: null,
     }
   },
   methods: {
@@ -28,6 +47,7 @@ export default {
     saveFeedBack() {
       let data = {
         'feedback': this.feedback,
+        'rate': this.rate,
         'id': this.nurse.id,
         'type': 'nurse'
       };

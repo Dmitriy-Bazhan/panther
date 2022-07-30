@@ -469,10 +469,9 @@
             },
             getBookings(link) {
                 let page = 1
-                console.log(link)
                 if(link){
-                    const url2 = new URL(link.url);
-                    page = url2.searchParams.get('page')
+                    let linkUrl = new URL(link.url);
+                    page = linkUrl.searchParams.get('page')
                 }
 
                 let url = '/dashboard/client-bookings?client_id=' + this.user.id

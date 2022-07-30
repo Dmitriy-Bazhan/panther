@@ -11,26 +11,31 @@
             </h3>
             <div class="pt-dashboard--header-block">
                 <pt-dropdown icon="email" :href="msgUrl">
-                    <template v-if="data.count_of_unread_messages && data.count_of_unread_messages > 0" v-slot:counter>{{data.count_of_unread_messages}}</template>
+                    <template v-if="$store.state.messages && $store.state.messages > 0" v-slot:counter>
+                        {{$store.state.messages}}
+                    </template>
                 </pt-dropdown>
             </div>
             <div class="pt-dashboard--header-block">
-                <pt-dropdown icon="bell">
+                <pt-dropdown icon="bell" @click="getNotice">
+                    <template v-if="$store.state.notifications && $store.state.notifications > 0" v-slot:counter>
+                        {{$store.state.notifications}}
+                    </template>
                     <template v-slot:menu>
-                        <div class="pt-dropdown--menu-item">
+                        <div class="pt-dropdown--menu-item" v-for="(notification, index) in notifications">
                             <div class="pt-notification">
                                 <div class="pt-notification--number">
-                                    1
+                                    {{index + 1}}
                                 </div>
                                 <div class="pt-notification--body">
                                     <p class="pt-notification--date">
-                                        22.03.2022, 14:45
+                                        {{notification.created_at}}
                                     </p>
                                     <p class="pt-notification--title">
-                                        New Notification
+                                        New {{notification.type}}
                                     </p>
                                 </div>
-                                <button class="pt-notification--close">
+                                <button class="pt-notification--close" @click="readNotice(notification.id)">
                                     <pt-icon type="cross"></pt-icon>
                                 </button>
                             </div>
@@ -61,44 +66,48 @@ export default {
         'localization-component' : Localization,
         'logout-component' : Logout,
     },
+    data(){
+        return {
+            notifications: false
+        }
+    },
     mounted() {
-        console.log(this.data)
         try {
             window.Echo.private('notifications.' + this.user.id)
                 .listen('Notifications.NewNotificationEvent', (response) => {
                     console.log('This message for me.))');
-                    console.log(response);
+                    this.$store.commit('setNotifications', response.unread_notifications_count)
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNECT : ' + error);
             });
         } catch {
             console.log('Websockets not work now');
         }
-
-        if(this.user.entity_type === 'nurse'){
-            try {
-                window.Echo.private('nurse-have-new-message.' + this.user.id)
-                    .listen('PrivateChat.NurseHaveNewMessage', (response) => {
-                        console.log(response)
-                    }).error((error) => {
-                    console.log('ERROR IN SOCKETS CONNTECT : ' + error);
-                });
-            } catch (e) {
-                console.log('Websockets not work');
-            }
-        }
-        else{
-            try {
-                window.Echo.private('client-have-new-message.' + this.user.id)
-                    .listen('PrivateChat.ClientHaveNewMessage', (response) => {
-                        console.log(response)
-                    }).error((error) => {
-                    console.log('ERROR IN SOCKETS CONNTECT : ' + error);
-                });
-            } catch (e) {
-                console.log('Websockets not work');
-            }
-        }
+    },
+    methods: {
+        getNotice() {
+            axios.get('/get-notification/' + this.user.id)
+                .then((response) => {
+                    if (response.data.data) {
+                        console.log(response.data.data)
+                        this.notifications = response.data.data
+                    }
+                }).catch((error) => {
+                console.log(error)
+            });
+        },
+        readNotice(id) {
+            axios.post('/set-notification-status-read', {
+                notification_id: id
+            })
+                .then((response) => {
+                    if (response.data.data) {
+                        console.log(response.data)
+                    }
+                }).catch((error) => {
+                console.log(error)
+            });
+        },
     }
 }
 </script>

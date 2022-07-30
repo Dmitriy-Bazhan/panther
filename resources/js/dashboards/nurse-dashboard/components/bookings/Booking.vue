@@ -613,6 +613,7 @@ export default {
                         this.emitter.emit('response-success-true');
                         this.show_refuse = false;
                         this.getNursesBookings();
+                        this.closePopup()
                     }
                 }).catch((error) => {
                 console.log(error)
@@ -621,10 +622,9 @@ export default {
         getNursesBookings(link) {
             let page = 1
             if(link){
-                const url2 = new URL(link.url);
-                page = url2.searchParams.get('page')
+                let linkUrl = new URL(link.url);
+                page = linkUrl.searchParams.get('page')
             }
-
             let url = '/dashboard/nurse-bookings?nurse_id=' + this.user.id
                 + '&page='+ page
                 + '&status=' + this.activeTab

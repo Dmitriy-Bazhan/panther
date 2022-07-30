@@ -8,7 +8,7 @@
                          @error="$event.target.src=path + '/images/no-photo.jpg'">
                 </div>
                 <div class="pt-card--preview-rate">
-                    <rate :user="nurse"></rate>
+                    <pt-rate></pt-rate>
                 </div>
             </div>
             <div class="pt-card--info">
@@ -57,12 +57,10 @@
 </template>
 
 <script>
-import Rate from '../../pages/components/Rate';
-
 export default {
     name: "CardListing",
     components: {
-        rate: Rate,
+
     },
     props: ['nurse'],
     data(){

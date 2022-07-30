@@ -1,29 +1,15 @@
 <div>
+    <pt-header :user="user" :data="data"></pt-header>
 
-    <admin-header></admin-header>
-
-<!--    <test-chat :user="user"></test-chat>-->
-
-    <div class="container-fluid" data-test>
-
-        <div class="row">
-
-            <div class="col-2" style="padding: unset;">
-
-                <left-panel></left-panel>
-
-            </div>
-
-            <div class="col-10">
-
-                <notification :user="user" :data="data"></notification>
-
-                <router-view :user="user" :data="data"></router-view>
-
-            </div>
-
+    <div class="pt-dashboard--wrapper">
+        <div class="pt-dashboard--panel">
+            <left-panel :showAlarmNewMessage="showAlarmNewMessage"></left-panel>
         </div>
+        <div class="pt-dashboard--body">
+            <notification :user="user" :data="data"></notification>
 
+            <router-view :user="user" :data="data"></router-view>
+        </div>
     </div>
 
     <response-success-true v-if="response_success_true"></response-success-true>

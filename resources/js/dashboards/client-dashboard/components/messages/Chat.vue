@@ -192,6 +192,7 @@
                     'nurse_id': this.nurse_id,
                 }).then((response) => {
                     if(response.data.success === true){
+                        this.$store.commit('setMessages', response.data.client_count_unread_message)
                         this.showMarkIsReadBlock = false;
                         this.emitter.emit('disable-alert-on-nurse-name', this.nurse_id);
                         if(response.data.have_new_message === 'yes'){

@@ -12,7 +12,7 @@
                                          @error="$event.target.src=path + '/images/no-photo.jpg'">
                                 </div>
                                 <div class="pt-card--preview-rate">
-                                    <rate :user="nurse"></rate>
+                                    <pt-rate></pt-rate>
                                 </div>
                             </div>
                             <div class="pt-card--info">
@@ -80,14 +80,12 @@
 </template>
 
 <script>
-import Rate from '../components/Rate';
 import Filters from './Filters';
 
 export default {
     name: "NursesListing",
     props: ['nurses', 'data', 'filters'],
     components: {
-        rate: Rate,
         filters: Filters,
     },
     data() {
