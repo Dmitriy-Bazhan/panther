@@ -16,6 +16,7 @@ class Notification extends Model
         'type',
         'status',
         'content',
+        'resource_id',
     ];
 
     protected $appends = [

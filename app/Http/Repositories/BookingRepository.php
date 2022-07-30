@@ -52,8 +52,6 @@ class BookingRepository
                         'LIKE',
                         '%' . request('search') . '%'
                     );
-//                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
-//                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
                 });
             }
 
@@ -64,8 +62,6 @@ class BookingRepository
                         'LIKE',
                         '%' . request('search') . '%'
                     );
-//                    return $query->where('first_name', 'LIKE', '%' . request('search') . '%')
-//                        ->orWhere('last_name', 'LIKE', '%' . request('search') . '%');
                 });
             }
         }

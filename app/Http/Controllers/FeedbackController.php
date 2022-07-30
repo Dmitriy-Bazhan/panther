@@ -50,7 +50,7 @@ class FeedbackController extends Controller
 
         $content = 'You have new feedback';
         try {
-            NotificationController::createNotification($data['id'], 'feedback', $content);
+            NotificationController::createNotification($data['id'], 'feedback', $content, $feedback->id);
         } catch (\Exception $exception) {
 
         }
