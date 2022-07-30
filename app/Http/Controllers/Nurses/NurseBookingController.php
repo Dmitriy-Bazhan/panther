@@ -165,7 +165,7 @@ class NurseBookingController extends Controller
         $booking = Booking::find($data['id']);
         $content = 'Nurse make alternative for your booking from ' . $booking->start_date;
         try {
-            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content, $booking->id);
         } catch (\Exception $exception) {
 
         }
@@ -199,7 +199,7 @@ class NurseBookingController extends Controller
         $content = 'Nurse approve your booking from ' . $booking->start_date;
 
         try {
-            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content, $booking->id);
         } catch (\Exception $exception) {
 
         }
@@ -236,7 +236,7 @@ class NurseBookingController extends Controller
 
         $content = 'Nurse refuse your booking from ' . $booking->start_date;
         try {
-            NotificationController::createNotification($booking->client_user_id, 'booking', $content);
+            NotificationController::createNotification($booking->client_user_id, 'booking', $content, $booking->id);
         } catch (\Exception $exception) {
 
         }

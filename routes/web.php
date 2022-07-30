@@ -203,7 +203,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('agree-with-alternative/{id}', [ClientBookingsController::class, 'agreeWithAlternative']);
         Route::get('send-booking-again/{id}', [ClientBookingsController::class, 'sendBookingAgain']);
     });
-    Route::resource('client-bookings', ClientBookingsController::class);
+    Route::resource('client-bookings', ClientBookingsController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
     //client my information
     Route::prefix('client-my-information')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
