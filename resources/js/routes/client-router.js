@@ -12,25 +12,25 @@ const routes = [
         path: "/dashboard/client",
         name: 'ClientDashboard',
         component: Overview,
-        meta: {title: 'Overview'},
+        meta: {title: 'Overview', showInMenu: true},
     },
     {
         path: "/dashboard/client/messages",
         name: 'ClientDashboardMessages',
         component: Messages,
-        meta: {title: 'Messages'},
+        meta: {title: 'Messages', showInMenu: true},
         props: true,
     },
     {
         path: "/dashboard/client/ratings",
         name: 'ClientDashboardRatings',
-        meta: {title: 'Ratings'},
+        meta: {title: 'Ratings', showInMenu: true},
         component: Ratings
     },
     {
         path: "/dashboard/client/bookings",
         name: 'ClientDashboardBookings',
-        meta: {title: 'Bookings'},
+        meta: {title: 'Bookings', showInMenu: true},
         component: Bookings,
         props: true,
     },
@@ -44,21 +44,21 @@ const routes = [
     {
         path: "/dashboard/client/payments",
         name: 'ClientDashboardPayments',
-        meta: {title: 'Payments'},
+        meta: {title: 'Payments', showInMenu: true},
         component: Payments
     },
     {
         path: "/dashboard/client/my-information",
         name: 'ClientDashboardMyInformation',
         component: MyInformation,
-        meta: {title: 'My information'},
+        meta: {title: 'My information', showInMenu: true},
         props: true,
     },
     {
         path: "/dashboard/client/help-end-service",
         name: 'ClientDashboardHelpEndService',
         component: HelpAndService,
-        meta: {title: 'Help and service'},
+        meta: {title: 'Help and service', showInMenu: true},
     },
 
 ];

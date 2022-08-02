@@ -30,8 +30,8 @@ import "vue-select/dist/vue-select.css";
 import 'viewerjs/dist/viewer.css';
 
 import AdminDashboard from '../dashboards/admin-dashboard/index';
-import ClientDashboard from '../dashboards/client-dashboard/index';
-import NurseDashboard from '../dashboards/nurse-dashboard/index';
+import ClientDashboard from '../dashboards/client-dashboard/Dashboard';
+import NurseDashboard from '../dashboards/nurse-dashboard/Dashboard';
 
 let i18n = VueI18n.createI18n({
     locale: window.locale,
