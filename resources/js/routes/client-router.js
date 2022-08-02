@@ -5,7 +5,7 @@ import Ratings from "../dashboards/client-dashboard/components/Ratings";
 import Bookings from "../dashboards/client-dashboard/components/bookings/Booking";
 import Payments from "../dashboards/client-dashboard/components/payments/index";
 import MyInformation from "../dashboards/client-dashboard/components/my-information/MyInformation";
-import HelpAndService from "../dashboards/client-dashboard/components/HelpAndService";
+import HelpAndService from "../dashboards/components/HelpAndService";
 
 const routes = [
     {

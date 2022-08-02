@@ -29,12 +29,7 @@
                 </button>
             </div>
 
-            <form action="" @submit.prevent="getNursesBookings()" class="pt-search pt-ml-a">
-                <input type="text" class="pt-search--input" v-model="search" placeholder="Suchen">
-                <button class="pt-search--btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <pt-search class="pt-ml-a"></pt-search>
         </div>
 
         <div class="pt-table--container">
@@ -562,6 +557,11 @@ export default {
     },
     mounted() {
         this.getNursesBookings();
+
+        this.emitter.on('pt-search', (e) => {
+            this.search = e
+            this.getNursesBookings()
+        })
 
         this.emitter.on('close-alternative-booking-modal', (e) => {
             this.show_alternative = false;

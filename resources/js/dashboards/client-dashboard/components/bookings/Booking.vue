@@ -24,12 +24,7 @@
                 </button>
             </div>
 
-            <form action="" @submit.prevent="getBookings()" class="pt-search pt-ml-a">
-                <input type="text" class="pt-search--input" v-model="search" placeholder="Suchen">
-                <button class="pt-search--btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <pt-search class="pt-ml-a"></pt-search>
         </div>
 
         <div class="pt-table--container">
@@ -144,6 +139,13 @@
                                             <button class="pt-btn" @click.prevent="openPopup('show_pay_payment', booking)">
                                                 {{ $t('pay') }}
                                             </button>
+                                        </div>
+                                        <div class="pt-table--ctrl-group"
+                                             v-if="booking.nurse_is_refuse_booking === 'yes'"
+                                             v-show="item === 'show_refused_booking'">
+                                            <button class="btn btn-sm btn-danger" @click.prevent="openPopup('show_refused_booking', booking)">
+                                                {{ $t('nurse_refuse_booking') }}
+                                            </button>&nbsp;
                                         </div>
                                     </template>
                                 </template>
@@ -330,29 +332,31 @@
             </div>
         </Modal>
 
+<!--        show_refused_booking-->
+        <Modal
+            v-model="modal.show_refused_booking"
+            :close="closePopup"
+        >
+            <div class="pt-popup">
+                <button class="pt-popup--close" @click.prevent="closePopup">
+                    <pt-icon type="cross"></pt-icon>
+                </button>
+                <div class="pt-popup--inner">
+                    <h5>{{ $t('nurse') + ' ' + booking.nurse.first_name + ' ' + booking.nurse.last_name + ' ' + $t('refuse_this_booking_your_action')}}</h5>
 
-        <div v-if="show_modal === 'show_refused_booking'" class="client-refuse-booking-wrapper">
 
-            <div class="row">
-                <div class="col-2 offset-10">
-                    <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+                    <div class="row">
+                        <div class="col-2 offset-3">
+                            <button class="btn btn-sm btn-success" v-on:click="sendAgain(booking.id)">{{ $t('send_again') }}</button>
+
+                        </div>
+                        <div class="col-2 offset-2">
+                            <button class="btn btn-sm btn-danger" @click.prevent="openPopup('show_remove_confirm', booking)">{{ $t('remove') }}</button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            <h5>{{ $t('nurse') + ' ' + booking.nurse.first_name + ' ' + booking.nurse.last_name + ' ' + $t('refuse_this_booking_your_action')}}</h5>
-
-
-            <div class="row">
-                <div class="col-2 offset-3">
-                    <button class="btn btn-sm btn-success" v-on:click="sendAgain(booking.id)">{{ $t('send_again') }}</button>
-
-                </div>
-                <div class="col-2 offset-2">
-                    <button class="btn btn-sm btn-danger" @click.prevent="openPopup('show_remove_confirm', booking)">{{ $t('remove') }}</button>
-                </div>
-            </div>
-        </div>
-
+        </Modal>
     </div>
 </template>
 
@@ -388,6 +392,7 @@
                     show_remove_confirm: false,
                     show_chat: false,
                     show_pay_payment: false,
+                    show_refused_booking: false,
                 },
                 search: '',
                 activeTab: '',
@@ -408,6 +413,7 @@
                         'show_alternative',
                         'show_chat',
                         'show_remove_confirm',
+                        'show_refused_booking',
                     ],
                     approved: [
                         'show_booking',
@@ -438,6 +444,11 @@
         mounted() {
             this.getBookings();
 
+            this.emitter.on('pt-search', (e) => {
+                this.search = e
+                this.getBookings()
+            })
+
             this.emitter.on('close-modal', (e) => {
                 this.closePopup();
             });
@@ -446,8 +457,6 @@
                 this.closePopup();
                 this.getBookings();
             });
-
-
         },
         methods: {
             closePopup() {

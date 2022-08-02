@@ -5,7 +5,7 @@ import Ratings from "../dashboards/nurse-dashboard/components/Ratings";
 import Bookings from "../dashboards/nurse-dashboard/components/bookings/Booking";
 import Payments from "../dashboards/nurse-dashboard/components/payments/Payments";
 import MyInformation from "../dashboards/nurse-dashboard/components/my-information/MyInformation";
-import HelpAndService from "../dashboards/nurse-dashboard/components/HelpAndService";
+import HelpAndService from "../dashboards/components/HelpAndService";
 
 const routes = [
     {

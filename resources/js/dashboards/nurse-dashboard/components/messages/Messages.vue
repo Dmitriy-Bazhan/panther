@@ -12,12 +12,7 @@
     </div>
     <div class="pt-messages">
         <div class="pt-messages--panel">
-            <form action="" @submit.prevent="filterClients" class="pt-search">
-                <input type="text" class="pt-search--input" v-model="search" placeholder="Suchen">
-                <button class="pt-search--btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <pt-search></pt-search>
             <div v-if="clients" v-for="(client, index) in filteredClients">
                 <client :index="index" :client="client" :firstChat="firstChat"></client>
             </div>
@@ -74,6 +69,11 @@ export default {
         this.emitter.on('change-message-status', e => {
             this.activateTab(e)
         });
+
+        this.emitter.on('pt-search', (e) => {
+            this.search = e
+            this.filterClients()
+        })
 
         try {
             window.Echo.private('nurse-have-new-message.' + this.user.id)

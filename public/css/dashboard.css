@@ -1371,6 +1371,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  position: relative;
 }
 .pt-search--input {
   padding: 0 20px;
@@ -1387,6 +1388,11 @@
 .pt-search--btn .fa-solid {
   font-size: 20px;
   color: #ff9600;
+}
+.pt-search--btn_remove {
+  height: 100%;
+  z-index: 1;
+  padding: 0 10px;
 }
 
 .pt-heading {
