@@ -14,6 +14,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\FaqsController;
 
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\PaymentsController;
@@ -70,6 +71,10 @@ Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['au
 Route::post('/set-user-rate', [RateController::class, 'setUserRate'])->middleware(['auth:sanctum', 'verified']);
 Route::get('/booking/verification/{booking_id}/{client_id}', [BookingController::class, 'clientVerificationBooking']);
 Route::get('/dashboard/admin/get-page/{page}', [AdminDashboardController::class, 'getPage']);
+
+//Faqs
+Route::get('get-faqs', [FaqsController::class, 'index']);
+Route::post('save-faqs', [FaqsController::class, 'saveFaqs'])->middleware(['auth:sanctum', 'checkAdmin']);
 
 //notifications
 Route::get('get-notification/{user_id}', [NotificationController::class, 'getNotifications'])->middleware(['auth:sanctum', 'verified']);
