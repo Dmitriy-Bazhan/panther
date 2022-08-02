@@ -5,6 +5,7 @@ import SiteSettings from "./SiteSettings";
 import TypeOfLearning from "./TypeOfLearning";
 import TimeIntervals from "./TimeIntervals";
 import MailTemplate from "./MailTemplate";
+import Faq from "./Faq";
 
 export default {
     name: "Settings",
@@ -16,11 +17,12 @@ export default {
         type_of_learning: TypeOfLearning,
         time_intervals: TimeIntervals,
         mail_template: MailTemplate,
+        faq: Faq,
     },
     props: ['user', 'data'],
     data() {
         return {
-            active_menu: 'mail_template',
+            active_menu: 'site_settings',
         }
     },
     mounted() {

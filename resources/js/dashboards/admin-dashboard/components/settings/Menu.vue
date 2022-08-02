@@ -30,6 +30,11 @@
              v-on:click="showComponent('mail_template')">
             <span>{{ $t('mail_template') }}</span>
         </div>
+
+        <div v-bind:class="[active === 'faq' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('faq')">
+            <span>{{ $t('faq') }}</span>
+        </div>
     </div>
 </template>
 
