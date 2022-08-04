@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,9 +64,10 @@ class FeedbackController extends Controller
             return response()->json(['success' => false]);
         }
 
-        $feedbacks = Feedback::where('target_user_id', $id)->with('creator')->get();
+        $feedbacks = Feedback::where('target_user_id', $id)->with('creator')->paginate(config('settings.listing_paginate'));
+        $feedbacks = FeedbackResource::collection($feedbacks)->response()->getData();
 
-        if ($feedbacks->count() > 0 && request()->ajax()) {
+        if (request()->ajax()) {
             return response()->json(['success' => true, 'feedbacks' => $feedbacks]);
         } else {
             return response()->json(['success' => false]);
