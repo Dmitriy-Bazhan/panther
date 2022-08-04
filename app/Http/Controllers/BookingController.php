@@ -24,7 +24,7 @@ class BookingController extends Controller
     public function __construct(NurseRepository $nurseRepo)
     {
         parent::__construct();
-
+        $this->nurseRepo = $nurseRepo;
     }
 
     public function store(Request $request)
