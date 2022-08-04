@@ -75,7 +75,7 @@ class ClientNurseSentMessage implements ShouldBroadcastNow
             $client->last_email_about_new_messages = $now;
             $client->save();
 
-            if (config('mail_use_queue')) {
+            if (config('mail.mail_use_queue')) {
                 Mail::mailer('smtp')->to($client->email)
                     ->queue(new MailThatYouHaveNewMessagesMail($client));
             } else {
@@ -87,7 +87,7 @@ class ClientNurseSentMessage implements ShouldBroadcastNow
         if($sendEmailToNurse){
             $nurse->last_email_about_new_messages = $now;
             $nurse->save();
-            if (config('mail_use_queue')) {
+            if (config('mail.mail_use_queue')) {
                 Mail::mailer('smtp')->to($nurse->email)
                     ->queue(new MailThatYouHaveNewMessagesMail($nurse));
             } else {

@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
 
             $user = auth()->user();
-            if (config('mail_use_queue')) {
+            if (config('mail.mail_use_queue')) {
                 Mail::mailer('smtp')->to(auth()->user()->email)->
                 queue(new VerificationMail($url, $user));
             } else {
