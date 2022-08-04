@@ -8,7 +8,7 @@ use App\Http\Repositories\ChatRepository;
 use App\Models\Chat;
 use Carbon\Carbon;
 
-class RemoveTaskAfterThirtyDays
+class RemoveChatAfterThirtyDays
 {
     public function __invoke()
     {

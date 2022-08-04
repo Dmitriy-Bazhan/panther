@@ -46,7 +46,7 @@ class AdminComplaintController extends Controller
 
         $user = User::find($userId);
 
-        if (config('mail_use_queue')) {
+        if (config('mail.mail_use_queue')) {
             Mail::mailer('smtp')->to($user->email)
                 ->queue(new SendWarningToUser($user, $message));
         } else {
