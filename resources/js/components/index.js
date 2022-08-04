@@ -4,6 +4,7 @@ import Menu from './Menu/Menu';
 import Input from './Input/Input';
 import Rate from './Rate/Rate';
 import Textarea from './Textarea/Textarea';
+import Search from './Search/Search';
 import Accordeon from './Accordeon/Accordeon';
 import Preloader from './Preloader/Preloader';
 
@@ -29,8 +30,8 @@ import "vue-select/dist/vue-select.css";
 import 'viewerjs/dist/viewer.css';
 
 import AdminDashboard from '../dashboards/admin-dashboard/index';
-import ClientDashboard from '../dashboards/client-dashboard/index';
-import NurseDashboard from '../dashboards/nurse-dashboard/index';
+import ClientDashboard from '../dashboards/client-dashboard/Dashboard';
+import NurseDashboard from '../dashboards/nurse-dashboard/Dashboard';
 
 let i18n = VueI18n.createI18n({
     locale: window.locale,
@@ -60,6 +61,7 @@ if (window.dashboard === 'dashboard') {
             Vue.component('pt-rate', Rate);
             Vue.component('pt-textarea', Textarea);
             Vue.component('pt-dropdown', Dropdown);
+            Vue.component('pt-search', Search);
             Vue.component('pt-menu', Menu);
             Vue.component("v-select", vSelect);
             Vue.component('Datepicker', Datepicker);
@@ -111,6 +113,7 @@ if (window.dashboard === 'dashboard') {
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);
             Vue.component('pt-rate', Rate);
+            Vue.component('pt-search', Search);
             Vue.component('pt-accordeon', Accordeon);
             Vue.component('swiper-slide', SwiperSlide);
             Vue.component('swiper', Swiper);

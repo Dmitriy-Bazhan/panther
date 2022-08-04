@@ -1,19 +1,41 @@
-import template from './wrapper.html';
+<template>
+    <div>
+        <pt-header :user="user" :data="data" msg-url="NurseDashboardMessages"></pt-header>
+
+        <div class="pt-dashboard--wrapper">
+            <div class="pt-dashboard--panel">
+                <left-panel :showAlarmNewMessage="showAlarmNewMessage" :showAlarmHaveNotApproved="showAlarmHaveNotApproved"></left-panel>
+            </div>
+            <div class="pt-dashboard--body">
+                <notification :user="user"></notification>
+
+                <router-view :user="user" :data="data"></router-view>
+            </div>
+        </div>
+
+        <response-success-true v-if="response_success_true"></response-success-true>
+
+    </div>
+</template>
+
+<script>
 import Header from "../components/Header";
-import LeftPanel from "../client-dashboard/LeftPanel";
+import LeftPanel from "../nurse-dashboard/LeftPanel";
+import Notification from "./Notification";
 import ResponseSuccessTrue from "../components/ResponseSuccessTrue";
 
 export default {
     name: 'dashboard',
     props: ['user', 'data'],
-    template: template,
     components: {
-        'pt-header' : Header,
-        'left-panel' : LeftPanel,
+        'pt-header': Header,
+        'left-panel': LeftPanel,
+        'notification': Notification,
         'response-success-true': ResponseSuccessTrue,
-    },data() {
+    }, data() {
         return {
             showAlarmNewMessage: false,
+            showAlarmHaveNotApproved: false,
             response_success_true: false,
         }
     },
@@ -46,6 +68,8 @@ export default {
         //         console.error(error);
         //     });
 
+
+
         this.emitter.on('disable-show-alarm-new-message', e => {
             this.showAlarmNewMessage = false;
         });
@@ -54,9 +78,13 @@ export default {
             this.showAlarmNewMessage = true;
         }
 
+        if(this.data.have_not_approved_bookings){
+            this.showAlarmHaveNotApproved = true;
+        }
+
         try {
-            window.Echo.private('client-have-new-message.' + this.user.id)
-                .listen('PrivateChat.ClientHaveNewMessage', (response) => {
+            window.Echo.private('nurse-have-new-message.' + this.user.id)
+                .listen('PrivateChat.NurseHaveNewMessage', (response) => {
                     this.showAlarmNewMessage = true;
                 }).error((error) => {
                 console.log('ERROR IN SOCKETS CONNTECT : ' + error);
@@ -67,3 +95,8 @@ export default {
     }
 }
 
+</script>
+
+<style scoped>
+
+</style>

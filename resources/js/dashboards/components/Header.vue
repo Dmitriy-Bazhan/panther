@@ -78,7 +78,7 @@ export default {
                     console.log('This message for me.))');
                     this.$store.commit('setNotifications', response.unread_notifications_count)
                 }).error((error) => {
-                console.log('ERROR IN SOCKETS CONNECT : ' + error);
+                console.log('ERROR I SOCKETS CONNECT : ' + error);
             });
         } catch {
             console.log('Websockets not work now');

@@ -1603,6 +1603,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
 
     &--input{
         padding: 0 20px;
@@ -1620,6 +1621,12 @@
         .fa-solid{
             font-size: 20px;
             color: $highlight;
+        }
+
+        &_remove{
+            height: 100%;
+            z-index: 1;
+            padding: 0 10px;
         }
     }
 }
