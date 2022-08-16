@@ -17,7 +17,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\FaqsController;
 
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ChatController;
 
@@ -56,11 +57,19 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(function () {
-    Route::get('get-stripe-api-token', [PaymentsController::class, 'getStripeApiToken']);
-    Route::post('method/store', [PaymentsController::class, 'storePaymentMethod'])->name('payment.store');
-    Route::post('method/remove', [PaymentsController::class, 'removePaymentMethod']);
-    Route::post('payment-pay', [PaymentsController::class, 'paymentPay']);
-    Route::get('payment-methods', [PaymentsController::class, 'getPaymentMethods']);
+    Route::get('get-stripe-api-token', [StripeController::class, 'getStripeApiToken']);
+    Route::post('method/store', [StripeController::class, 'storePaymentMethod'])->name('payment.store');
+    Route::post('method/remove', [StripeController::class, 'removePaymentMethod']);
+    Route::post('payment-pay', [StripeController::class, 'paymentPay']);
+    Route::get('payment-methods', [StripeController::class, 'getPaymentMethods']);
+});
+
+//paypal
+Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(function () {
+    Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+    Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+    Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+    Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 });
 
 
