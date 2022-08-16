@@ -12,7 +12,7 @@ use App\Models\AlternativeBookingTime;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\User;
-use http\Env\Response;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -197,6 +197,15 @@ class NurseBookingController extends Controller
         $booking->save();
 
         $content = 'Nurse approve your booking from ' . $booking->start_date;
+
+        Payment::create([
+            'booking_id' => $booking->id,
+            'client_user_id' => $booking->client_user_id,
+            'nurse_user_id' => $booking->nurse_user_id,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'sum' => $booking->total,
+            'status' => 'wait',
+        ]);
 
         try {
             NotificationController::createNotification($booking->client_user_id, 'booking', $content, $booking->id);

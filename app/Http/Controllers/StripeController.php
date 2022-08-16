@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
 
-class PaymentsController extends Controller
+class StripeController extends Controller
 {
     public function getStripeApiToken()
     {
-        $stripeAPIToken = Config::get('app.stripe_api');
+        $stripeAPIToken = config('cashier.key');
         $intentToken = auth()->user()->createSetupIntent();
         return response()->json(['success' => true, 'stripeAPIToken' => $stripeAPIToken, 'intentToken' => $intentToken]);
     }

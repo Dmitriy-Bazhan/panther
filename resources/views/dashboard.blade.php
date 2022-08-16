@@ -16,6 +16,9 @@
     <script src="{{ asset('js/jQuery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('paypal.sandbox.client_id') }}"></script>
+
+
     <script>
         window.guard = '{{ auth()->user()->entity_type ?? 'guest'}}';
         window.locale = '{{ auth()->user()->prefs->pref_lang }}';
