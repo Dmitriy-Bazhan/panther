@@ -63,8 +63,8 @@ export default {
                 .then((response) => {
                     if(response.data.success){
                         self.feedbacks = response.data.feedbacks.data
-                        self.pagination = response.data.feedbacks.links
-                        console.log(response.data);
+                        self.pagination = response.data.feedbacks.meta.links
+                        console.log(self.pagination);
                     }
                 })
                 .catch((error) => {

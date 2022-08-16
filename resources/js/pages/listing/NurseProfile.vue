@@ -147,13 +147,13 @@
                     <div class="pt-profile--file-number">
                         {{ index + 1 }}
                     </div>
-                    <img :src="path + '/images/fake/fake-calendar.png'" alt="pic" class="pt-profile--file-preview">
+                    <img :src="path + '/storage/' + item.file_path" alt="pic" class="pt-profile--file-preview">
                     <div class="pt-profile--file-inner">
                         <div class="pt-profile--file-title">
-                            Medical Degree, University of Berlin
-                            <span>2020 - 2021</span>
+                            {{item.title}}
+                            <span>{{item.date}}</span>
                         </div>
-                        <button class="pt-btn--light pt-lg" @click="openPopup('gallery',path + '/images/fake/fake-calendar.png')">
+                        <button class="pt-btn--light pt-lg" @click="openPopup('gallery',path + '/' + item.file_path)">
                             <i class="fa-solid fa-magnifying-glass-plus"></i>
                             Uhrenzertifikat
                         </button>
@@ -164,7 +164,7 @@
             <div class="pt-profile--additional">
                 <h3 class="pt-profile--additional-title">
                     Bewertungen
-                    <pt-rate></pt-rate>
+                    <pt-rate :rate="nurse.rate.round"></pt-rate>
                 </h3>
 
                 <div class="pt-testimonials">
@@ -179,7 +179,7 @@
                                     <div>
                                         {{feedback.creator.last_name}}
                                     </div>
-                                    <pt-rate></pt-rate>
+                                    <pt-rate :rate="feedback.rate"></pt-rate>
                                 </div>
                                 <div class="pt-testimonial--date">
                                     {{serializeDate(feedback.created_at)}}
@@ -196,14 +196,14 @@
                 </div>
 
                 <div class="pt-pagination">
-                    <a href="" class="pt-pagination--link">
-                        <i class="fa-solid fa-angle-left"></i>
-                    </a>
-                    <a href="" class="pt-pagination--link" v-for="n in 5">
-                        {{ n }}
-                    </a>
-                    <a href="" class="pt-pagination--link">
-                        <i class="fa-solid fa-angle-right"></i>
+                    <a href="" class="pt-pagination--link"
+                       v-for="(link, index) in pagination"
+                       @click.prevent="getFeedback(link)"
+                       :class="{active: link.active}"
+                    >
+                        <i class="fa-solid fa-angle-left" v-if="index === 0"></i>
+                        <i class="fa-solid fa-angle-right" v-else-if="index === pagination.length-1"></i>
+                        <template v-else>{{ link.label }}</template>
                     </a>
                 </div>
             </div>
@@ -358,21 +358,14 @@ export default {
             privateMessage: '',
             comments: [],
             feedbacks: [],
+            pagination: false,
         }
     },
     mounted() {
         let self = this
         self.user = self.$store.state.user
 
-        axios.get('/feedback/' + self.$route.params.id).then((response) => {
-            if (response.data.success) {
-                console.log(response.data)
-                self.feedbacks = response.data.feedbacks
-            }
-        })
-            .catch((error) => {
-                console.log(error);
-            });
+        self.getFeedback()
 
         axios.get('/get-nurse-profile/' + self.$route.params.id)
             .then((response) => {
@@ -405,6 +398,20 @@ export default {
             });
     },
     methods: {
+        getFeedback(link) {
+            let self = this
+            let url = link&&link.url?link.url:'/feedback/' + self.$route.params.id
+            axios.get(url)
+                .then((response) => {
+                    if(response.data.success){
+                        self.feedbacks = response.data.feedbacks.data
+                        self.pagination = response.data.feedbacks.meta.links
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         serializeDate(date) {
             let publicDate = new Date(date)
             let result = ''

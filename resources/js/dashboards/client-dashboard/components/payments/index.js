@@ -2,6 +2,7 @@ import template from './template.html';
 import ShowBooking from "../bookings/ShowBooking";
 import ShowPayment from "./ShowPayment";
 import PayPayment from "./PayPayment";
+import PayPal from "./PayPal";
 import AddCard from "./AddCard";
 import './style.css';
 
@@ -13,6 +14,7 @@ export default {
         show_payment: ShowPayment,
         pay_payment: PayPayment,
         add_card: AddCard,
+        pay_pal: PayPal,
     },
     props: ['user', 'data'],
     data() {
