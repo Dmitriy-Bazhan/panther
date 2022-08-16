@@ -1,6 +1,6 @@
 import * as VueRouter from "vue-router";
 import Overview from "../dashboards/client-dashboard/components/Overview";
-import Messages from "../dashboards/components/messages/Messages";
+import Messages from "../dashboards/client-dashboard/components/messages/Messages";
 import Ratings from "../dashboards/client-dashboard/components/Ratings";
 import Bookings from "../dashboards/client-dashboard/components/bookings/Booking";
 import Payments from "../dashboards/client-dashboard/components/payments/index";
