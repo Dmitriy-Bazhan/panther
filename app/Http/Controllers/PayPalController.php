@@ -7,11 +7,6 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function createTransaction()
     {
         return redirect()->to('dashboard/client/payments');
