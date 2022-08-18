@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
                 DefaultFeedbackSeeder::class,
                 TimeIntervalSeeder::class,
                 MailTemplateSeeder::class,
+                PaymentApiSettingsSeeder::class,
             ]);
         }
 

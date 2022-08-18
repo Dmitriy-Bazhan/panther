@@ -2,7 +2,7 @@
 
 namespace App\Events\PrivateChat;
 
-use App\Mail\MailThatYouHaveNewMessagesMail;
+use App\Mail\UserThatYouHaveNewMessagesMail;
 use App\Models\PrivateChat;
 use App\Models\User;
 use Carbon\Carbon;
@@ -75,24 +75,24 @@ class ClientNurseSentMessage implements ShouldBroadcastNow
             $client->last_email_about_new_messages = $now;
             $client->save();
 
-            if (config('mail.mail_use_queue')) {
+            if (config('settings.mail_use_queue')) {
                 Mail::mailer('smtp')->to($client->email)
-                    ->queue(new MailThatYouHaveNewMessagesMail($client));
+                    ->queue(new UserThatYouHaveNewMessagesMail($client));
             } else {
                 Mail::mailer('smtp')->to($client->email)
-                    ->send(new MailThatYouHaveNewMessagesMail($client));
+                    ->send(new UserThatYouHaveNewMessagesMail($client));
             }
         }
 
         if($sendEmailToNurse){
             $nurse->last_email_about_new_messages = $now;
             $nurse->save();
-            if (config('mail.mail_use_queue')) {
+            if (config('settings.mail_use_queue')) {
                 Mail::mailer('smtp')->to($nurse->email)
-                    ->queue(new MailThatYouHaveNewMessagesMail($nurse));
+                    ->queue(new UserThatYouHaveNewMessagesMail($nurse));
             } else {
                 Mail::mailer('smtp')->to($nurse->email)
-                    ->send(new MailThatYouHaveNewMessagesMail($nurse));
+                    ->send(new UserThatYouHaveNewMessagesMail($nurse));
             }
         }
 

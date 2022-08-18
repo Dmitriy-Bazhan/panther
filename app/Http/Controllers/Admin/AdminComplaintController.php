@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\SendWarningToUser;
+use App\Mail\UserWarningMail;
 use App\Models\Complaint;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,12 +46,12 @@ class AdminComplaintController extends Controller
 
         $user = User::find($userId);
 
-        if (config('mail.mail_use_queue')) {
+        if (config('settings.mail_use_queue')) {
             Mail::mailer('smtp')->to($user->email)
-                ->queue(new SendWarningToUser($user, $message));
+                ->queue(new UserWarningMail($user, $message));
         } else {
             Mail::mailer('smtp')->to($user->email)
-                ->send(new SendWarningToUser($user, $message));
+                ->send(new UserWarningMail($user, $message));
         }
 
         return response()->json(['success' => true ]);

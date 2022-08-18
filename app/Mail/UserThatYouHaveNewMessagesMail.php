@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class MailThatYouHaveNewMessagesMail extends Mailable
+class UserThatYouHaveNewMessagesMail extends Mailable
 {
     use Queueable, SerializesModels;
 

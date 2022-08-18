@@ -104,7 +104,7 @@ class ClientRepository
             ]);
         }
 
-        if (config('mail.mail_use_queue')) {
+        if (config('settings.mail_use_queue')) {
             Mail::mailer('smtp')->to($user->email)
                 ->queue(new AdminAddNewUserMail($user, $password));
         } else {

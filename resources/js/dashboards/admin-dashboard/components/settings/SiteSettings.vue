@@ -4,11 +4,31 @@
     <input id="site_email" class="form-control form-control-sm" type="text"
            v-model="site_settings['site_email']">
 
+    <label for="phone" class="col-form-label-sm">{{ $t('phone') }}</label>
+    <input id="phone" class="form-control form-control-sm" type="text"
+           v-model="site_settings['phone']">
+
+    <label for="address" class="col-form-label-sm">{{ $t('address') }}</label>
+    <input id="address" class="form-control form-control-sm" type="text"
+           v-model="site_settings['address']">
+
+    <label for="country" class="col-form-label-sm">{{ $t('country') }}</label>
+    <input id="country" class="form-control form-control-sm" type="text"
+           v-model="site_settings['country']">
+
     <label for="listing_paginate" class="col-form-label-sm">{{ $t('listing_paginate') }}</label>
     <input id="listing_paginate" class="form-control form-control-sm" type="number" min="1"
            v-model="site_settings['listing_paginate']">
 
-    <label for="regularity_of_email_about_new_messages" class="col-form-label-sm">{{ $t('regularity_of_email_about_new_messages') }}</label>
+    <label for="mail_use_queue" class="col-form-label-sm">{{ $t('mail_use_queue') }}</label>
+    <select id="mail_use_queue" class="form-control form-control-sm"
+            v-model="site_settings['mail_use_queue']">
+        <option value="1">{{ $t('yes') }}</option>
+        <option value="0">{{ $t('no') }}</option>
+    </select>
+
+    <label for="regularity_of_email_about_new_messages" class="col-form-label-sm">{{
+        $t('regularity_of_email_about_new_messages') }}</label>
     <input id="regularity_of_email_about_new_messages" class="form-control form-control-sm" type="number" min="1"
            v-model="site_settings['regularity_of_email_about_new_messages']">
 

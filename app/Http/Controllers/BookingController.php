@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\NurseRepository;
 use App\Mail\ClientVerificationBookingMail;
-use App\Mail\SendNurseNewBookingMail;
+use App\Mail\NurseNewBookingMail;
 use App\Models\AdditionalInfo;
 use App\Models\Booking;
 use App\Models\BookingTime;
@@ -133,7 +133,7 @@ class BookingController extends Controller
         $nurse = User::find(request('nurse_user_id'));
         $client = auth()->user();
 
-        if (config('mail.mail_use_queue')) {
+        if (config('settings.mail_use_queue')) {
             Mail::mailer('smtp')->to($client->email)
                 ->queue(new ClientVerificationBookingMail($booking, $nurse, $client));
         } else {
@@ -189,12 +189,12 @@ class BookingController extends Controller
 
         app()->setLocale($nurse->prefs->pref_lang);
 
-        if (config('mail.mail_use_queue')) {
+        if (config('settings.mail_use_queue')) {
             Mail::mailer('smtp')->to($nurse->email)
-                ->queue(new SendNurseNewBookingMail($nurse, $client));
+                ->queue(new NurseNewBookingMail($nurse, $client));
         } else {
             Mail::mailer('smtp')->to($nurse->email)
-                ->send(new SendNurseNewBookingMail($nurse, $client));
+                ->send(new NurseNewBookingMail($nurse, $client));
         }
 
         $content = 'You have new booking';

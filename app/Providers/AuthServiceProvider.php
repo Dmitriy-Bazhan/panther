@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Mail\VerificationMail;
+use App\Mail\UserVerificationMail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -32,14 +32,14 @@ class AuthServiceProvider extends ServiceProvider
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
 
             $user = auth()->user();
-            if (config('mail.mail_use_queue')) {
+            if (config('settings.mail_use_queue')) {
                 Mail::mailer('smtp')->to(auth()->user()->email)->
-                queue(new VerificationMail($url, $user));
+                queue(new UserVerificationMail($url, $user));
             } else {
                 Mail::mailer('smtp')->to(auth()->user()->email)->
-                send(new VerificationMail($url, $user));
+                send(new UserVerificationMail($url, $user));
             }
-            return new VerificationMail($url, $user);
+            return new UserVerificationMail($url, $user);
         });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\PaymentRepository;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\User;
@@ -12,6 +13,14 @@ use Laravel\Cashier\Cashier;
 
 class StripeController extends Controller
 {
+    public $payment_repo;
+
+    public function __construct(PaymentRepository $payment_repo)
+    {
+        parent::__construct();
+        $this->payment_repo = $payment_repo;
+    }
+
     public function getStripeApiToken()
     {
         $stripeAPIToken = config('cashier.key');
@@ -94,7 +103,10 @@ class StripeController extends Controller
         ]);
 
         $payment->status = 'payed';
+        $payment->method = 'Stripe';
         $payment->save();
+
+        $this->payment_repo->sendNotificationsAfterPay($payment);
 
         return response()->json([
             'success' => true,

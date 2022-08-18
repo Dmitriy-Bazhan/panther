@@ -1,0 +1,19 @@
+{
+    "font awesome 6 brands": {
+        "normal": "font_awesome_6_brands_normal_8b581cee8e9518b507c81bfa4fb0bfef"
+    },
+    "font awesome 6 free": {
+        "normal": "C:\\OpenServer\\domains\\pflegepanther\\public\\fonts\/font_awesome_6_free_normal_b7c24dfba2df41d8ac42b450891b54f8",
+        "900": "font_awesome_6_free_900_b05d0ae66d3133f80c5bdcbca75d504f"
+    },
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_8b581cee8e9518b507c81bfa4fb0bfef"
+    },
+    "font awesome 5 free": {
+        "900": "C:\\OpenServer\\domains\\pflegepanther\\public\\fonts\/font_awesome_5_free_900_b05d0ae66d3133f80c5bdcbca75d504f",
+        "normal": "font_awesome_5_free_normal_b7c24dfba2df41d8ac42b450891b54f8"
+    },
+    "fontawesome": {
+        "normal": "fontawesome_normal_188a0270d95693e4dd7dc9fa22af4c11"
+    }
+}
