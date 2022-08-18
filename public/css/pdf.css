@@ -1,0 +1,21 @@
+.d-inline-block img {
+    width: 200px;
+    margin-bottom: 50px;
+    margin-right: 200px;
+}
+
+.invoice-pdf-payment-first-block {
+    width: 200px;
+    margin-left: 100px;
+}
+
+.invoice-pdf-payment-second-block {
+    margin-left: 200px;
+}
+.invoice-pdf-payment-booking-data-block{
+    margin-left: 100px;
+}
+
+.text-muted {
+    font-size: 14px;
+}

@@ -2,18 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\PaymentRepository;
+use App\Models\Booking;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalController extends Controller
 {
+    public $payment_repo;
+
+    public function __construct(PaymentRepository $payment_repo)
+    {
+        parent::__construct();
+        $this->payment_repo = $payment_repo;
+    }
+
     public function createTransaction()
     {
         return redirect()->to('dashboard/client/payments');
     }
 
+    //make transaction
     public function processTransaction(Request $request)
     {
+        session()->put('payment_id', $request->get('payment_id'));
+        $payment = Payment::find($request->get('payment_id'));
+
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -27,8 +42,8 @@ class PayPalController extends Controller
             "purchase_units" => [
                 0 => [
                     "amount" => [
-                        "currency_code" => "USD",
-                        "value" => "1000.00"
+                        "currency_code" => "EUR",
+                        "value" => $payment->sum
                     ]
                 ]
             ]
@@ -62,6 +77,20 @@ class PayPalController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+            $payment_id = session()->get('payment_id');
+            $payments = $this->payment_repo->search($payment_id);
+            $payment = $payments->first();
+
+            Booking::where('id', $payment->booking_id)->update([
+                'status' => 'in_process',
+            ]);
+
+            $payment->status = 'payed';
+            $payment->method = 'Stripe';
+            $payment->save();
+
+            $this->payment_repo->sendNotificationsAfterPay($payment);
+
             return redirect()
                 ->route('createTransaction')
                 ->with('success', 'Transaction complete.');

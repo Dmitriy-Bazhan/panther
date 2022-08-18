@@ -16,9 +16,13 @@ class Setting extends Model
     protected $fillable = [
         'listing_paginate',
         'site_email',
+        'phone',
+        'address',
+        'country',
         'facebook_link',
         'twitter_link',
         'instagram_link',
+        'mail_use_queue',
         'regularity_of_email_about_new_messages',
     ];
 

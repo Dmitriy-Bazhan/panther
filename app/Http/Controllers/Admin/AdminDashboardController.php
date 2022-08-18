@@ -16,6 +16,7 @@ use App\Models\MailTemplate;
 use App\Models\Media;
 use App\Models\Nurse;
 use App\Models\Page;
+use App\Models\PaymentApiSetting;
 use App\Models\Setting;
 use App\Models\TimeInterval;
 use App\Models\Translate;
@@ -320,11 +321,15 @@ class AdminDashboardController extends Controller
     {
         $rules = [
             'site_email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+            'country' => 'required|alpha',
             'listing_paginate' => 'required|numeric|min:1',
             'facebook_link' => 'required|active_url',
             'twitter_link' => 'required|active_url',
             'instagram_link' => 'required|active_url',
             'regularity_of_email_about_new_messages' => 'required|numeric|min:1',
+            'mail_use_queue' => 'required|boolean',
         ];
 
         $validator = Validator::make(request()->post('site_settings'), $rules);
@@ -343,6 +348,10 @@ class AdminDashboardController extends Controller
         $settings = Setting::create([
             'listing_paginate' => request()->post('site_settings')['listing_paginate'],
             'site_email' => request()->post('site_settings')['site_email'],
+            'phone' => request()->post('site_settings')['phone'],
+            'address' => request()->post('site_settings')['address'],
+            'country' => request()->post('site_settings')['country'],
+            'mail_use_queue' => request()->post('site_settings')['mail_use_queue'],
             'facebook_link' => request()->post('site_settings')['facebook_link'],
             'twitter_link' => request()->post('site_settings')['twitter_link'],
             'instagram_link' => request()->post('site_settings')['instagram_link'],
@@ -456,5 +465,60 @@ class AdminDashboardController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function getPaymentApiSettings(){
+        $payment_api_settings = PaymentApiSetting::first();
+        return response()->json(['success'=>true, 'payment_api_settings' => $payment_api_settings]);
+    }
+
+    public function setPaymentApiSettings(Request $request){
+
+        $payment_api_settings = $request->post('payment_api_settings');
+
+        $rules = [
+            //stripe
+            'stripe_key' => 'required|alpha_dash',
+            'stripe_secret' => 'required|alpha_dash',
+            'stripe_currency' => 'required|alpha',
+
+            //paypal
+            'paypal_mode' => 'required|alpha',
+            'paypal_sandbox_client_id' => 'required|alpha_dash',
+            'paypal_sandbox_client_secret' => 'required|alpha_dash',
+            'paypal_sandbox_app_id' => 'required|alpha_dash',
+            'paypal_live_client_id' => 'sometimes|nullable|alpha_dash',
+            'paypal_live_client_secret' => 'sometimes|nullable|alpha_dash',
+            'paypal_live_app_id' => 'sometimes|nullable|alpha_dash',
+
+            'paypal_payment_action' => 'required|alpha',
+            'paypal_currency' => 'required|alpha',
+            'paypal_notify_url' => 'sometimes',
+            'paypal_locale' => 'required|nullable|alpha_dash',
+            'paypal_validate_ssl' => 'required|boolean',
+        ];
+
+        Validator::make($payment_api_settings, $rules)->validate();
+
+        PaymentApiSetting::where('id', $payment_api_settings['id'])->update([
+            'stripe_key' => $payment_api_settings['stripe_key'],
+            'stripe_secret' => $payment_api_settings['stripe_secret'],
+            'stripe_currency' => $payment_api_settings['stripe_currency'],
+
+            'paypal_mode' => $payment_api_settings['paypal_mode'],
+            'paypal_sandbox_client_id' => $payment_api_settings['paypal_sandbox_client_id'],
+            'paypal_sandbox_client_secret' => $payment_api_settings['paypal_sandbox_client_secret'],
+            'paypal_sandbox_app_id' => $payment_api_settings['paypal_sandbox_app_id'],
+            'paypal_live_client_id' => $payment_api_settings['paypal_live_client_id'],
+            'paypal_live_client_secret' => $payment_api_settings['paypal_live_client_secret'],
+            'paypal_live_app_id' => $payment_api_settings['paypal_live_app_id'],
+            'paypal_payment_action' => $payment_api_settings['paypal_payment_action'],
+            'paypal_currency' => $payment_api_settings['paypal_currency'],
+            'paypal_notify_url' => $payment_api_settings['paypal_notify_url'],
+            'paypal_locale' => $payment_api_settings['paypal_locale'],
+            'paypal_validate_ssl' => $payment_api_settings['paypal_validate_ssl'],
+        ]);
+
+        return response()->json(['success'=>true]);
     }
 }

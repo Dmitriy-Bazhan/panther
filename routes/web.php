@@ -176,6 +176,9 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/set-default-time-intervals', [AdminDashboardController::class, 'setDefaultTimeIntervals']);
         Route::get('/get-templates', [AdminDashboardController::class, 'getTemplates']);
         Route::post('/update-template', [AdminDashboardController::class, 'updateTemplate']);
+        Route::get('/get-payment-api-settings', [AdminDashboardController::class, 'getPaymentApiSettings']);
+        Route::post('/set-payment-api-settings', [AdminDashboardController::class, 'setPaymentApiSettings']);
+
 
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'getClients']);
@@ -321,12 +324,6 @@ Route::get('/404', function () {
 });
 
 /*
- * test
- */
-Route::get('/test', [TestController::class, 'index']);
-Route::post('test/message', [TestController::class, 'testSetMessage'])->middleware('auth:sanctum');
-
-/*
  * Change languages
  */
 Route::get('change-lang/{lang}', [MainPageController::class, 'changeLang']);
@@ -355,12 +352,19 @@ Route::get('/booking-not-exists', function () {
     return view('main');
 });
 
+/*
+ * test
+ */
+Route::get('/test', [TestController::class, 'index']);
+Route::post('test/message', [TestController::class, 'testSetMessage'])->middleware('auth:sanctum');
+Route::get('/test-payment', [\App\Http\Repositories\PaymentRepository::class, 'sendNotificationsAfterPay']);
+
 //test email router
 Route::get('/test-email', function () {
     $user = \App\Models\User::find(108);
-//    return new \App\Mail\VerificationMail('url', \App\Models\User::find(101));
+//    return new \App\Mail\UserVerificationMail('url', \App\Models\User::find(101));
     $success = Mail::mailer('smtp')->to($user->email)
-        ->send(new \App\Mail\VerificationMail('url', \App\Models\User::find(101)));
+        ->send(new \App\Mail\UserVerificationMail('url', \App\Models\User::find(101)));
     dd($success);
 });
 

@@ -12,6 +12,13 @@ return [
     'client_booking_verification' => 'PflegePanter Überprüfung Ihrer Buchung',
 
     'hello_dear' => 'Hallo schatz',
+    'hello_admin' => 'Hallo Administrator',
+    'to_admin_of' => 'Zum Administrator von',
+    'to_client_of' => 'An den Kunden von',
+    'to_nurse_of' => 'Zur Pflege von',
+    'make_payment' => 'Zahlung leisten',
+    'client' => 'Kunde',
+
     'verification' => 'Überprüfung',
 
     'sent_new_booking_to_nurse_title' => 'Sie haben eine neue Buchung',

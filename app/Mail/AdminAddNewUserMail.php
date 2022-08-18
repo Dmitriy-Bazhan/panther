@@ -29,7 +29,7 @@ class AdminAddNewUserMail extends Mailable
     public function build()
     {
         return $this->subject(__('mail-message.you_have_been_added_to_the_site') . ' ' . Config::get('app.name'))
-            ->view('mail.admin-add-new-user')->with([
+            ->view('mail.user-to-new')->with([
                 'url' => $this->url,
                 'template' => $this->template,
                 'user' => $this->user,

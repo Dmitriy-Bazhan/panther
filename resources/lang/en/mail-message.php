@@ -11,6 +11,13 @@ return [
 
 
     'hello_dear' => 'Hello dear',
+    'hello_admin' => 'Hello admin',
+    'to_admin_of' => 'To admin of',
+    'to_client_of' => 'To client of',
+    'to_nurse_of' => 'To nurse of',
+    'make_payment' => 'Make payment',
+    'client' => 'Client',
+
     'verification' => 'Verification',
 
     'sent_new_booking_to_nurse_title' => 'You have a new booking',

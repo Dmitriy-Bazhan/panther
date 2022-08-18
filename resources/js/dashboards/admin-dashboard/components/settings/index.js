@@ -2,6 +2,7 @@ import template from './template.html';
 import Menu from './Menu';
 import HearAboutUs from "./HearAboutUs";
 import SiteSettings from "./SiteSettings";
+import PaymentApiSettings from "./PaymentApiSettings";
 import TypeOfLearning from "./TypeOfLearning";
 import TimeIntervals from "./TimeIntervals";
 import MailTemplate from "./MailTemplate";
@@ -14,6 +15,7 @@ export default {
         menu_settings: Menu,
         hear_about_us: HearAboutUs,
         site_settings: SiteSettings,
+        payment_api_settings: PaymentApiSettings,
         type_of_learning: TypeOfLearning,
         time_intervals: TimeIntervals,
         mail_template: MailTemplate,
@@ -22,7 +24,7 @@ export default {
     props: ['user', 'data'],
     data() {
         return {
-            active_menu: 'site_settings',
+            active_menu: 'payment_api_settings',
         }
     },
     mounted() {
