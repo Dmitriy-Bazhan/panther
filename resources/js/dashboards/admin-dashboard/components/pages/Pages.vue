@@ -6,6 +6,9 @@
             <li class="pt-admin--pages-list--item">
                 <router-link :to="{ name : 'AdminDashboardEditPage', params: { id: 'home' } }">Home</router-link>
             </li>
+            <li class="pt-admin--pages-list--item">
+                <router-link :to="{ name : 'AdminDashboardEditDefaultPage', params: { id: 'about' } }">About</router-link>
+            </li>
         </ul>
     </div>
 </template>

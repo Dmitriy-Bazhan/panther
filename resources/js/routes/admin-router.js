@@ -6,6 +6,7 @@ import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
 import Client from '../dashboards/admin-dashboard/components/clients/index';
 import Pages from '../dashboards/admin-dashboard/components/pages/Pages';
 import EditPage from '../dashboards/admin-dashboard/components/pages/EditPage';
+import EditDefaultPage from '../dashboards/admin-dashboard/components/pages/EditDefaultPage';
 import TranslationPage from '../dashboards/admin-dashboard/components/translation/Translation';
 import Media from '../dashboards/admin-dashboard/components/pages/Media';
 import Complaint from '../dashboards/admin-dashboard/components/complaint/index';
@@ -54,9 +55,15 @@ const routes = [
         props: true,
     },
     {
-        path: "/dashboard/admin/pages/:id",
+        path: "/dashboard/admin/pages/home",
         name: 'AdminDashboardEditPage',
         component: EditPage,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/pages/:id",
+        name: 'AdminDashboardEditDefaultPage',
+        component: EditDefaultPage,
         props: true,
     },
     {
