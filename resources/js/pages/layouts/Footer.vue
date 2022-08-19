@@ -13,19 +13,29 @@
                     </p>
                     <ul class="pt-footer--list">
                         <li class="pt-footer--list-item">
-                            <a href="">Für Pflegekraft</a>
+                            <router-link :to="{ name : 'RegisterNurse' }">
+                                Für Pflegekraft
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="">Für Klient</a>
+                            <router-link :to="{ name : 'RegisterClient'}">
+                                Für Klient
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="">FAQ</a>
+                            <router-link :to="{ name : 'FAQ' }">
+                                FAQ
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="">Über Uns</a>
+                            <router-link :to="{ name : 'About' }">
+                                Über Uns
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="">Kontakt</a>
+                            <router-link :to="{ name : 'Contacts' }">
+                                Kontakt
+                            </router-link>
                         </li>
                     </ul>
                 </div>

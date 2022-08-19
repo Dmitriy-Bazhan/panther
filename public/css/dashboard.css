@@ -134,6 +134,12 @@
   opacity: 1;
 }
 
+textarea.pt-simple-input {
+  height: 120px;
+  padding: 10px 20px;
+  resize: none;
+}
+
 .pt-input {
   width: 100%;
   height: 50px;
@@ -13275,6 +13281,41 @@ button {
 
 .pt-section-default {
   padding: 90px 0;
+}
+
+.pt-default--content {
+  padding: 90px 0;
+}
+.pt-default--content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+}
+.pt-default--content h2 {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.pt-default--content h3, .pt-default--content h4, .pt-default--content h5, .pt-default--content h6 {
+  font-weight: 700;
+  line-height: 1.6;
+}
+.pt-default--content P {
+  margin: 15px 0;
+  line-height: 1.6;
+  font-size: 18px;
+}
+.pt-default--content ul, .pt-default--content ol {
+  padding: 10px 0 10px 20px;
+}
+.pt-default--content ul li {
+  list-style-type: disc;
+}
+.pt-default--content ol li {
+  list-style-type: decimal;
 }
 
 .pt-block-heading {

@@ -75,6 +75,9 @@ Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(functi
 
 
 Route::get('/', [MainPageController::class, 'index']);
+Route::get('/about', [MainPageController::class, 'index']);
+Route::get('/contacts', [MainPageController::class, 'index']);
+Route::get('/faq', [MainPageController::class, 'index']);
 Route::get('/send-booking-message', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'verified']);;
 Route::get('/get-nurse-profile/{id}', [NurseController::class, 'show'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
 Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
@@ -302,6 +305,8 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 
 //Register
 Route::get('/register', [RegisterController::class, 'register'])->name('register');
+Route::get('/register/client', [RegisterController::class, 'register'])->name('register');
+Route::get('/register/nurse', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);
 
 //NurseRegister

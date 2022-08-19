@@ -152,6 +152,12 @@
     }
 }
 
+textarea.pt-simple-input{
+    height: 120px;
+    padding: 10px 20px;
+    resize: none;
+}
+
 .pt-input{
     $self: &;
     width: 100%;

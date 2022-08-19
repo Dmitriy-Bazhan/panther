@@ -1,5 +1,8 @@
 import * as VueRouter from "vue-router";
 import Home from '../pages/home/Home';
+import Default from '../pages/Info/Default';
+import Contacts from '../pages/Info/Contacts';
+import FAQ from '../pages/Info/FAQ';
 import Login from '../pages/auth/Login';
 import StartRegister from '../pages/auth/StartRegister';
 import NurseRegister from '../pages/auth/NurseRegister';
@@ -45,9 +48,16 @@ const routes = [
         props: true,
     },
     {
-        path: "/register",
+        path: "/register/nurse",
+        name: "RegisterNurse",
         component: StartRegister,
-        props: true,
+        meta: {activeTab: 2},
+    },
+    {
+        path: "/register/client",
+        name: "RegisterClient",
+        component: StartRegister,
+        meta: {activeTab: 1},
     },
     {
         path: "/email/verify",
@@ -75,6 +85,24 @@ const routes = [
         path: "/listing",
         name: 'Listing',
         component: Listing,
+        props: true,
+    },
+    {
+        path: "/about",
+        name: 'About',
+        component: Default,
+        props: true,
+    },
+    {
+        path: "/contacts",
+        name: 'Contacts',
+        component: Contacts,
+        props: true,
+    },
+    {
+        path: "/faq",
+        name: 'FAQ',
+        component: FAQ,
         props: true,
     },
     {

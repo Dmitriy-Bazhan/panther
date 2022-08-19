@@ -25,6 +25,52 @@
     padding: 90px 0;
 }
 
+.pt-default--content{
+    padding: 90px 0;
+
+    h1{
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    h2{
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    h3,h4,h5,h6{
+        font-weight: 700;
+        line-height: 1.6;
+    }
+
+    P{
+        margin: 15px 0;
+        line-height: 1.6;
+        font-size: 18px;
+    }
+
+    ul,ol{
+        padding: 10px 0 10px 20px;
+    }
+
+    ul{
+        li{
+            list-style-type: disc;
+        }
+    }
+
+    ol{
+        li{
+            list-style-type: decimal;
+        }
+    }
+}
+
 .pt-block-heading{
     color: $highlight-primary;
     font-size: 24px;
@@ -253,6 +299,9 @@
         font-weight: 400;
         transition: 0.3s;
         margin: 0 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &:hover,
         &.active{
