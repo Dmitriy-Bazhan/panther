@@ -57,7 +57,6 @@ class AdminDashboardController extends Controller
 
     public function savePage($page)
     {
-
         $pageData = request('pageData');
         $lang = request('lang');
 
