@@ -13510,6 +13510,9 @@ button {
   font-weight: 400;
   transition: 0.3s;
   margin: 0 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .pt-tabs .pt-tabs--btn:hover, .pt-tabs .pt-tabs--btn.active {
   background-color: #ff9600;

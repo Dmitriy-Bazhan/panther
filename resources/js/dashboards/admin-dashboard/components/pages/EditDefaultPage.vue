@@ -7,51 +7,71 @@
             <button class="btn btn-success" @click.prevent="savePage">Save</button>
         </div>
     </div>
-    <textarea v-model="pageData.data"></textarea>
+    <ckeditor :editor="editor" v-model="pageData.data" :config="editorConfig"></ckeditor>
 </template>
 
 <script>
-export default {
-    name: "EditDefaultPage",
-    data(){
-        return {
-            pageData: {
-                page: 'about',
-                data: false
-            },
-        }
-    },
-    mounted() {
-        this.getPage();
-    },
-    methods: {
-        savePage() {
-            axios.post('/dashboard/admin/save-page/about', {
-                'pageData': this.pageData,
-                'lang': window.locale,
-            })
-                .then((response) => {
-                    if(response.data.success){
-                        this.emitter.emit('response-success-true');
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+    export default {
+        name: "EditDefaultPage",
+        data() {
+            return {
+                pageData: {
+                    page: '',
+                    data: false
+                },
+                editor: ClassicEditor,
+                editorData: '<p>Content of the editor.</p>',
+                editorConfig: {
+                    toolbar:
+                        [
+                            'heading', '|',
+                            'fontfamily', 'fontsize', '|',
+                            'alignment', '|',
+                            'fontColor', 'fontBackgroundColor', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                            'link', '|',
+                            'outdent', 'indent', '|',
+                            'bulletedList', 'numberedList', 'todoList', '|',
+                            'code', 'codeBlock', '|',
+                            'insertTable', '|',
+                            'blockQuote', '|',
+                            'undo', 'redo'],
+                },
+            }
         },
-        getPage() {
-            axios.get('/dashboard/admin/get-page/about' + '?lang=' + window.locale)
-                .then((response) => {
-                    if(response.data.success){
-                        this.pageData = response.data.page;
-                    }
+        mounted() {
+            this.getPage();
+        },
+        methods: {
+            savePage() {
+                axios.post('/dashboard/admin/save-page/about', {
+                    'pageData': this.pageData,
+                    'lang': window.locale,
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.emitter.emit('response-success-true');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            getPage() {
+                axios.get('/dashboard/admin/get-page/about' + '?lang=' + window.locale)
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.pageData = response.data.page;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     }
-}
 </script>
 
 <style scoped>

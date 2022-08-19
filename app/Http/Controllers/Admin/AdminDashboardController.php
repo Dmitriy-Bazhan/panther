@@ -60,15 +60,14 @@ class AdminDashboardController extends Controller
         $pageData = request('pageData');
         $lang = request('lang');
 
-        Page::where('lang', $lang)->where('page', $pageData['page'])->delete();
 
-        if ($pageData['page'] != '') {
-            Page::create([
-                'page' => $pageData['page'],
-                'lang' => $lang,
-                'data' => json_encode($pageData['data']),
-            ]);
-        }
+        Page::where('lang', $lang)->where('page', $page)->delete();
+
+        Page::create([
+            'page' => $page,
+            'lang' => $lang,
+            'data' => json_encode($pageData['data']),
+        ]);
 
         return response()->json(['success' => true]);
     }
@@ -466,12 +465,14 @@ class AdminDashboardController extends Controller
         }
     }
 
-    public function getPaymentApiSettings(){
+    public function getPaymentApiSettings()
+    {
         $payment_api_settings = PaymentApiSetting::first();
-        return response()->json(['success'=>true, 'payment_api_settings' => $payment_api_settings]);
+        return response()->json(['success' => true, 'payment_api_settings' => $payment_api_settings]);
     }
 
-    public function setPaymentApiSettings(Request $request){
+    public function setPaymentApiSettings(Request $request)
+    {
 
         $payment_api_settings = $request->post('payment_api_settings');
 
@@ -518,6 +519,6 @@ class AdminDashboardController extends Controller
             'paypal_validate_ssl' => $payment_api_settings['paypal_validate_ssl'],
         ]);
 
-        return response()->json(['success'=>true]);
+        return response()->json(['success' => true]);
     }
 }
