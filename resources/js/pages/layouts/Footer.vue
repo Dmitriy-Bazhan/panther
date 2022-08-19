@@ -13,14 +13,14 @@
                     </p>
                     <ul class="pt-footer--list">
                         <li class="pt-footer--list-item">
-                            <router-link :to="{ name : 'RegisterNurse' }">
+                            <a href="/register/nurse">
                                 Für Pflegekraft
-                            </router-link>
+                            </a>
                         </li>
                         <li class="pt-footer--list-item">
-                            <router-link :to="{ name : 'RegisterClient'}">
+                            <a href="/register/client">
                                 Für Klient
-                            </router-link>
+                            </a>
                         </li>
                         <li class="pt-footer--list-item">
                             <router-link :to="{ name : 'FAQ' }">
