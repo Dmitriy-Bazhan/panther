@@ -6,6 +6,7 @@ use App\Http\Repositories\PaymentRepository;
 use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalController extends Controller
@@ -76,17 +77,18 @@ class PayPalController extends Controller
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
 
+        $payment_id = session()->get('payment_id');
+        $payments = $this->payment_repo->search($payment_id);
+        $payment = $payments->first();
+
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            $payment_id = session()->get('payment_id');
-            $payments = $this->payment_repo->search($payment_id);
-            $payment = $payments->first();
 
             Booking::where('id', $payment->booking_id)->update([
                 'status' => 'in_process',
             ]);
 
             $payment->status = 'payed';
-            $payment->method = 'Stripe';
+            $payment->method = 'Paypal';
             $payment->save();
 
             $this->payment_repo->sendNotificationsAfterPay($payment);
@@ -95,6 +97,19 @@ class PayPalController extends Controller
                 ->route('createTransaction')
                 ->with('success', 'Transaction complete.');
         } else {
+            Log::channel('app_logs')->error('PayPalController@successTransaction payment did not pass');
+            //payment did not pass
+            $payment->status = 'not_pass';
+            $payment->method = 'Stripe';
+            $payment->save();
+
+            //todo:sendNotificationsPaymentDidNotPass
+            //$this->payment_repo->sendNotificationsPaymentDidNotPass($payment);
+//            return back()->with('error', $exception->getMessage());
+            return response()->json([
+                'success' => false, 'error' => 'payment did not pass'
+            ]);
+
             return redirect()
                 ->route('createTransaction')
                 ->with('error', $response['message'] ?? 'Something went wrong.');

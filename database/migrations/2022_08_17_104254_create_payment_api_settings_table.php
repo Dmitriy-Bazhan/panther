@@ -22,9 +22,11 @@ class CreatePaymentApiSettingsTable extends Migration
 
             //paypal
             $table->string('paypal_mode')->default('sandbox');
+
             $table->string('paypal_sandbox_client_id')->default('');
             $table->string('paypal_sandbox_client_secret')->default('');
             $table->string('paypal_sandbox_app_id')->default('');
+
             $table->string('paypal_live_client_id')->nullable();
             $table->string('paypal_live_client_secret')->nullable();
             $table->string('paypal_live_app_id')->nullable();

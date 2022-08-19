@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\TestChatMessage;
+use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Nurses\NurseDashboardController;
 use App\Http\Repositories\ChatRepository;
+use App\Http\Repositories\ClientRepository;
 use App\Http\Repositories\NurseRepository;
 use App\Models\Booking;
 use App\Models\Chat;
@@ -28,15 +30,16 @@ class TestController extends Controller
     {
         request()->merge([
             'nurse_id' => 101,
+            'client_id' => 100,
             'needed_date' => '2022-05-01',
         ]);
 
-        $user = User::find(101);
+        $user = User::find(100);
 
-        $nurseRepo = new NurseRepository($user);
+        $nurseRepo = new ClientRepository($user);
         $chatRepo = new ChatRepository();
 
-        $contr = new NurseDashboardController( $nurseRepo,  $chatRepo);
+        $contr = new ClientDashboardController($chatRepo);
         $time = $contr->getTimeCalendar();
         dump($time->getOriginalContent()['time_calendar']);
         dd('stop');

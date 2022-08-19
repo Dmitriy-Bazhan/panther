@@ -1,4 +1,5 @@
 import * as VueRouter from "vue-router";
+import Payments from "../dashboards/admin-dashboard/components/payments/Payments";
 import Settings from '../dashboards/admin-dashboard/components/settings/index'
 import Dashboard from "../dashboards/admin-dashboard/components/Dashboard";
 import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
@@ -14,6 +15,12 @@ const routes = [
         path: "/dashboard/admin",
         name: 'AdminDashboard',
         component: Dashboard,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/payments",
+        name: 'AdminDashboardPayments',
+        component: Payments,
         props: true,
     },
     {

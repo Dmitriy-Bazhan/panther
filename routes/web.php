@@ -24,6 +24,7 @@ use App\Http\Controllers\ChatController;
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminClientController;
 use App\Http\Controllers\Admin\AdminNurseController;
@@ -138,6 +139,7 @@ Route::prefix('dashboard')->group(function () {
      */
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
+        Route::get('/payments', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/complaints', [AdminDashboardController::class, 'index']);
@@ -145,6 +147,10 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/media', [AdminDashboardController::class, 'index']);
         Route::get('/pages', [AdminDashboardController::class, 'index']);
         Route::get('/pages/{page}', [AdminDashboardController::class, 'index']);
+
+        //payments
+        Route::get('/get-payments', [AdminPaymentController::class, 'index']);
+        Route::get('/get-payment/{id}', [AdminPaymentController::class, 'show']);
 
         //media
         Route::post('/save-media', [AdminDashboardController::class, 'saveMedia']);
@@ -208,7 +214,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('my-information', [ClientDashboardController::class, 'index']);
         Route::get('help-end-service', [ClientDashboardController::class, 'index']);
         Route::get('send-booking-message', [ClientDashboardController::class, 'index']);
-
+        Route::post('get-time-calendar', [ClientDashboardController::class, 'getTimeCalendar']);
     });
     Route::resource('client', ClientDashboardController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
@@ -248,7 +254,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
         Route::post('get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar']);
-//        Route::get('/{id}', [NurseDashboardController::class, 'getThisNurse']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 

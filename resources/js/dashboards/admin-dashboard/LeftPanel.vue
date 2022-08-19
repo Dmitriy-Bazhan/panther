@@ -7,6 +7,12 @@
             </router-link>
         </li>
         <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardPayments' }">
+                <pt-icon type="overview"></pt-icon>
+                Payments
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
             <router-link :to="{ name: 'AdminDashboardClients' }">
                 <pt-icon type="overview"></pt-icon>
                 Clients

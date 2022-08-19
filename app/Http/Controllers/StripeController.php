@@ -81,7 +81,7 @@ class StripeController extends Controller
         return response()->json($methods);
     }
 
-    public function paymentPay()
+    public function paymentPay($stripedId)
     {
         $stripedId = auth()->user()->stripe_id;
         $payment = Payment::find(request()->post('payment_id'));
@@ -92,9 +92,16 @@ class StripeController extends Controller
             $cashier->charge($payment->sum * 100, $paymentMethodId);
         } catch (\Exception $exception) {
             Log::channel('app_logs')->error($exception->getMessage());
+            //payment did not pass
+            $payment->status = 'not_pass';
+            $payment->method = 'Stripe';
+            $payment->save();
+
+            //todo:sendNotificationsPaymentDidNotPass
+            //$this->payment_repo->sendNotificationsPaymentDidNotPass($payment);
 //            return back()->with('error', $exception->getMessage());
             return response()->json([
-                'success' => false,
+                'success' => false, 'error' => 'payment did not pass'
             ]);
         }
 
