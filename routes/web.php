@@ -244,6 +244,9 @@ Route::prefix('dashboard')->group(function () {
     /*
      * nurse
      */
+    Route::post('nurse/get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar'])
+        ->middleware(['auth:sanctum', 'verified']);
+
     Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
         Route::get('messages', [NurseDashboardController::class, 'index']);
         Route::get('ratings', [NurseDashboardController::class, 'index']);
@@ -252,7 +255,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
-        Route::post('get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
@@ -299,7 +301,9 @@ Route::get('/login', [LoginController::class, 'logIn'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 
 //Register
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
+Route::get('/register', function(){
+    return redirect()->to('/register/client');
+})->name('register');
 Route::get('/register/client', [RegisterController::class, 'register'])->name('register');
 Route::get('/register/nurse', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);
