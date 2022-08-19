@@ -73,7 +73,6 @@ Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(functi
     Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 });
 
-
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/about', [MainPageController::class, 'index']);
 Route::get('/contacts', [MainPageController::class, 'index']);
@@ -188,7 +187,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-payment-api-settings', [AdminDashboardController::class, 'getPaymentApiSettings']);
         Route::post('/set-payment-api-settings', [AdminDashboardController::class, 'setPaymentApiSettings']);
 
-
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'getClients']);
         Route::post('/add-new-client', [AdminClientController::class, 'addNewClient']);
@@ -203,7 +201,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/send-message-admin-to-user', [AdminComplaintController::class, 'sendMessageAdminToUser']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
-
 
     /*
      * client
@@ -244,10 +241,12 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
 
-
     /*
      * nurse
      */
+    Route::post('nurse/get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar'])
+        ->middleware(['auth:sanctum', 'verified']);
+
     Route::prefix('nurse')->middleware(['auth:sanctum', 'checkNurse', 'verified'])->group(function () {
         Route::get('messages', [NurseDashboardController::class, 'index']);
         Route::get('ratings', [NurseDashboardController::class, 'index']);
@@ -256,7 +255,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('payments', [NurseDashboardController::class, 'index']);
         Route::get('my-information', [NurseDashboardController::class, 'index']);
         Route::get('help-end-service', [NurseDashboardController::class, 'index']);
-        Route::post('get-time-calendar', [NurseDashboardController::class, 'getTimeCalendar']);
     });
     Route::resource('nurse', NurseDashboardController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 
@@ -293,7 +291,6 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
 
-
 /*
  * Login , register, log out
  *
@@ -304,7 +301,9 @@ Route::get('/login', [LoginController::class, 'logIn'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 
 //Register
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
+Route::get('/register', function(){
+    return redirect()->to('/register/client');
+})->name('register');
 Route::get('/register/client', [RegisterController::class, 'register'])->name('register');
 Route::get('/register/nurse', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'registerAndAuthenticate']);

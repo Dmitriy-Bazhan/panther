@@ -13317,6 +13317,9 @@ button {
 .pt-default--content ol li {
   list-style-type: decimal;
 }
+.pt-default--content a {
+  text-decoration: underline;
+}
 
 .pt-block-heading {
   color: #005eaf;
