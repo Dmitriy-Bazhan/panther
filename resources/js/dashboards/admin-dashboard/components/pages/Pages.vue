@@ -9,6 +9,12 @@
             <li class="pt-admin--pages-list--item">
                 <router-link :to="{ name : 'AdminDashboardEditDefaultPage', params: { id: 'about' } }">About</router-link>
             </li>
+            <li class="pt-admin--pages-list--item">
+                <router-link :to="{ name : 'AdminDashboardEditDefaultPage', params: { id: 'contacts' } }">Contacts</router-link>
+            </li>
+            <li class="pt-admin--pages-list--item">
+                <router-link :to="{ name : 'AdminDashboardEditDefaultPage', params: { id: 'faq' } }">FAQ</router-link>
+            </li>
         </ul>
     </div>
 </template>

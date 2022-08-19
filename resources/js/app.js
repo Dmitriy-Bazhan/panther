@@ -9,7 +9,7 @@ import publicRouter from './routes/router';
 import adminRouter from './routes/admin-router';
 import clientRouter from './routes/client-router';
 import nurseRouter from './routes/nurse-router';
-import CKEditor from '@ckeditor/ckeditor5-vue';
+
 
 
 // Install components and plugins
@@ -29,7 +29,6 @@ if (window.dashboard === 'dashboard') {
     const dashboard = Vue.createApp({});
     dashboard.config.globalProperties.emitter = emitter;
     dashboard.use(Components);
-    dashboard.use(CKEditor);
     dashboard.use(Store)
     if(window.guard in dasboardRoute){
         dashboard.use(dasboardRoute[window.guard]);
