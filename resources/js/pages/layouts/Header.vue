@@ -30,14 +30,15 @@
                             <pt-icon type="list"></pt-icon>
                             Pflegerkraft
                         </div>
-                        <div class="pt-header--nav-item">
+                        <router-link class="pt-header--nav-item" to="/info/about">
                             <pt-icon type="breifcase"></pt-icon>
                             Über Uns
-                        </div>
-                        <div class="pt-header--nav-item">
+                        </router-link>
+
+                        <router-link class="pt-header--nav-item" :to="{ name : 'FAQ' }">
                             <pt-icon type="help"></pt-icon>
                             FAQ
-                        </div>
+                        </router-link>
 
                         <div class="pt-header--nav-item" v-if="!auth">
                             <pt-icon type="user"></pt-icon>
@@ -62,7 +63,7 @@
                     </div>
                 </div>
                 <div class="pt-header--finder">
-                    <span class="pt-header--finder-link" v-if="auth.email_verified_at === null"
+                    <span class="pt-header--finder-link test1" v-if="auth.email_verified_at === null"
                           v-on:click="waitVerification()">
                         <pt-icon type="nurse"></pt-icon>
                         {{ $t('caregiver_finder') }}
@@ -75,10 +76,10 @@
                         {{ $t('caregiver_finder') }}
                     </router-link>
 
-                    <span class="pt-header--finder-link" v-else>
+                    <router-link :to="{ path : '/login' }" class="pt-header--finder-link" v-else>
                         <pt-icon type="nurse"></pt-icon>
                         {{ $t('caregiver_finder') }}
-                    </span>
+                    </router-link>
                 </div>
             </div>
         </div>

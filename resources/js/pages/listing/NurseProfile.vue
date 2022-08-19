@@ -359,6 +359,7 @@ export default {
             comments: [],
             feedbacks: [],
             pagination: false,
+            time_calendar: false,
         }
     },
     mounted() {
@@ -366,12 +367,13 @@ export default {
         self.user = self.$store.state.user
 
         self.getFeedback()
+        self.getTimeCalendar()
 
         axios.get('/get-nurse-profile/' + self.$route.params.id)
             .then((response) => {
                 if (response.data.success) {
                     self.nurse = response.data.nurse
-                    console.log(response.data.nurse)
+                    //console.log(response.data.nurse)
                     self.getPrivateChats();
 
                     try {
@@ -398,6 +400,20 @@ export default {
             });
     },
     methods: {
+        getTimeCalendar() {
+            axios.post('/dashboard/nurse/get-time-calendar', {
+                'nurse_id': this.$route.params.id,
+                'needed_date': this.neededDate
+            })
+                .then((response) => {
+                    console.log(response.data)
+                    this.time_calendar = response.data.time_calendar;
+                    this.selectDate()
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
         getFeedback(link) {
             let self = this
             let url = link&&link.url?link.url:'/feedback/' + self.$route.params.id

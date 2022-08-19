@@ -13,14 +13,14 @@
                     </p>
                     <ul class="pt-footer--list">
                         <li class="pt-footer--list-item">
-                            <a href="/register/nurse">
+                            <router-link to="/info/for-nurse">
                                 Für Pflegekraft
-                            </a>
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="/register/client">
+                            <router-link to="/info/for-client">
                                 Für Klient
-                            </a>
+                            </router-link>
                         </li>
                         <li class="pt-footer--list-item">
                             <router-link :to="{ name : 'FAQ' }">
@@ -28,7 +28,7 @@
                             </router-link>
                         </li>
                         <li class="pt-footer--list-item">
-                            <router-link :to="{ name : 'About' }">
+                            <router-link to="/info/about">
                                 Über Uns
                             </router-link>
                         </li>
@@ -45,16 +45,17 @@
                     </p>
                     <ul class="pt-footer--list">
                         <li class="pt-footer--list-item">
-                            <a href="">Kundenregistrierung</a>
+                            <a href="/register/client">
+                                Kundenregistrierung
+                            </a>
                         </li>
                         <li class="pt-footer--list-item">
-                            <a href="">Pflegekraftegistrierung</a>
+                            <a href="/register/nurse">
+                                Pflegekraftegistrierung
+                            </a>
                         </li>
                         <li class="pt-footer--list-item">
                             <a href="">Mein Konto</a>
-                        </li>
-                        <li class="pt-footer--list-item">
-                            <a href="">Support</a>
                         </li>
                     </ul>
                 </div>
@@ -100,18 +101,18 @@
 </template>
 
 <script>
-    export default {
-        name: "Footer",
-        data() {
-            return {
-                path: location.origin,
-            }
-        },
-    }
+export default {
+    name: "Footer",
+    data() {
+        return {
+            path: location.origin,
+        }
+    },
+}
 </script>
 
 <style scoped>
-    .footer-wrapper {
-        background: dimgray;
-    }
+.footer-wrapper {
+    background: dimgray;
+}
 </style>

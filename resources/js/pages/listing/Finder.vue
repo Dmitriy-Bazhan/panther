@@ -471,7 +471,7 @@
                                     <div class="pt-select--icon">
                                         <pt-icon type="help"></pt-icon>
                                     </div>
-                                    <v-select :options="data.additional_info"
+                                    <v-select multiple :options="data.additional_info"
                                               label="alias"
                                               v-model="clientSearchInfo.disease"
                                               :reduce="(option) => option.id">

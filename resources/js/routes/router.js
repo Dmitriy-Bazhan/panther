@@ -88,8 +88,8 @@ const routes = [
         props: true,
     },
     {
-        path: "/about",
-        name: 'About',
+        path: "/info/:page",
+        name: 'Info',
         component: Default,
         props: true,
     },

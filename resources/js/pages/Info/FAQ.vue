@@ -47,7 +47,7 @@ export default {
     mounted() {
         this.getFaqs()
         this.getPage()
-
+        console.log(this.$route)
         this.emitter.on('pt-search', (e) => {
             this.search = e
             this.getFaqs()

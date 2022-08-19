@@ -1,38 +1,38 @@
 <template>
-    <div class="page-default">
-        <div class="pt-default--content">
-            <div class="main-wrapper" v-html="pageData">
+    <div className="page-default">
+        <div className="pt-default--content">
+            <div className="main-wrapper" v-html="pageData">
 
             </div>
         </div>
 
-        <section class="pt-newsletter">
-            <div class="main-wrapper">
-                <div class="pt-newsletter--inner">
-                    <div class="wrapper">
-                        <div class="pt-newsletter--container">
-                            <p class="pt-subtitle">
+        <section className="pt-newsletter">
+            <div className="main-wrapper">
+                <div className="pt-newsletter--inner">
+                    <div className="wrapper">
+                        <div className="pt-newsletter--container">
+                            <p className="pt-subtitle">
                                 <span>newsletter</span>
                             </p>
-                            <h2 class="pt-title">
+                            <h2 className="pt-title">
                                 Mehr erfahren? Melden Sie sich jetzt für unseren Newsletter an
                             </h2>
 
-                            <form action="" class="pt-newsletter--form">
-                                <div class="pt-newsletter--form-group">
-                                    <p class="pt-newsletter--form-label">
+                            <form action="" className="pt-newsletter--form">
+                                <div className="pt-newsletter--form-group">
+                                    <p className="pt-newsletter--form-label">
                                         Wie lautet Ihr Fullname?
                                     </p>
-                                    <input type="text" class="pt-simple-input">
+                                    <input type="text" className="pt-simple-input">
                                 </div>
-                                <div class="pt-newsletter--form-group">
-                                    <p class="pt-newsletter--form-label">
+                                <div className="pt-newsletter--form-group">
+                                    <p className="pt-newsletter--form-label">
                                         Wie lautet Ihre E-Mail-Adresse? *
                                     </p>
-                                    <input type="text" class="pt-simple-input">
+                                    <input type="text" className="pt-simple-input">
                                 </div>
-                                <div class="pt-newsletter--form-group">
-                                    <button class="pt-btn--primary pt-md">
+                                <div className="pt-newsletter--form-group">
+                                    <button className="pt-btn--primary pt-md">
                                         anmelden
                                     </button>
                                 </div>
@@ -49,27 +49,32 @@
 
 export default {
     name: "Home",
-    data(){
+    data() {
         return {
             pageData: false
         }
     },
+    watch: {
+        $route() {
+            this.getPage()
+        },
+    },
     mounted() {
-        console.log(this.$route.name)
         this.getPage()
     },
     methods: {
         getPage() {
-            axios.get('/dashboard/admin/get-page/'+ this.$route.name.toLowerCase() + '?lang=' + window.locale)
-                .then((response) => {
-                    if (response.data.success) {
-                        console.log(response.data)
-                        this.pageData = response.data.page.data;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            if (this.$route.params.page) {
+                axios.get('/dashboard/admin/get-page/' + this.$route.params.page.toLowerCase() + '?lang=' + window.locale)
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.pageData = response.data.page.data;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     }
 }
