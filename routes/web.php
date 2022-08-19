@@ -73,7 +73,6 @@ Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(functi
     Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 });
 
-
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/about', [MainPageController::class, 'index']);
 Route::get('/contacts', [MainPageController::class, 'index']);
@@ -188,7 +187,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/get-payment-api-settings', [AdminDashboardController::class, 'getPaymentApiSettings']);
         Route::post('/set-payment-api-settings', [AdminDashboardController::class, 'setPaymentApiSettings']);
 
-
         //admin dashboards clients
         Route::get('/get-clients', [AdminClientController::class, 'getClients']);
         Route::post('/add-new-client', [AdminClientController::class, 'addNewClient']);
@@ -203,7 +201,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/send-message-admin-to-user', [AdminComplaintController::class, 'sendMessageAdminToUser']);
     });
     Route::resource('admin', AdminDashboardController::class)->middleware(['auth:sanctum', 'checkAdmin']);
-
 
     /*
      * client
@@ -243,7 +240,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('mark-as-read', [ClientMessageController::class, 'markAsRead']);
     });
     Route::resource('client-private-chats', ClientMessageController::class)->middleware(['auth:sanctum', 'checkClient', 'verified']);
-
 
     /*
      * nurse
@@ -292,7 +288,6 @@ Route::prefix('dashboard')->group(function () {
 
     Route::resource('nurse-private-chats', NursesMessageController::class)->middleware(['auth:sanctum', 'checkNurse', 'verified']);
 });
-
 
 /*
  * Login , register, log out
