@@ -1,35 +1,8 @@
 <template>
     <div class="page-default">
         <div class="pt-default--content">
-            <div class="main-wrapper">
-                <h1>Title 1</h1>
-                <h2>Title 2</h2>
-                <h3>Title 3</h3>
-                <h4>Title 4</h4>
-                <h5>Title 5</h5>
-                <h6>Title 6</h6>
+            <div class="main-wrapper" v-html="pageData">
 
-                <p>
-                    <a href="">Lorem ipsum</a> dolor sit amet, consectetur adipisicing elit. Accusantium atque eum laudantium mollitia nobis placeat quas reprehenderit unde voluptatem? Excepturi.
-                </p>
-                <p>
-                    Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipisicing elit. Accusantium atque eum laudantium mollitia nobis placeat quas reprehenderit unde voluptatem? Excepturi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at, dolores earum magnam non ratione!
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque eum laudantium mollitia nobis placeat quas reprehenderit unde voluptatem? Excepturi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem blanditiis eaque eius facilis, ipsum maiores modi nam non officia, pariatur repudiandae sed ullam.
-                </p>
-                <ul>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                </ul>
-                <ol>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                    <li>Lorem ipsum dolor.</li>
-                </ol>
             </div>
         </div>
 
@@ -82,21 +55,22 @@ export default {
         }
     },
     mounted() {
+        console.log(this.$route.name)
         this.getPage()
     },
     methods: {
         getPage() {
-            axios.get('/dashboard/admin/get-page/home' + '?lang=' + window.locale)
+            axios.get('/dashboard/admin/get-page/'+ this.$route.name.toLowerCase() + '?lang=' + window.locale)
                 .then((response) => {
-                    if(response.data.success){
+                    if (response.data.success) {
+                        console.log(response.data)
                         this.pageData = response.data.page.data;
-                        console.log(response.data.page)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-        },
+        }
     }
 }
 </script>

@@ -1,8 +1,7 @@
 <template>
     <div class="pt-section-default">
         <div class="main-wrapper">
-            <h1 class="pt-title">FAQ</h1>
-            <h2 class="pt-subtitle">Lorem ipsum dolor sit amet.</h2>
+            <tepmlate v-html="pageData"></tepmlate>
 
             <pt-search class="pt-mt-25"></pt-search>
 
@@ -39,6 +38,7 @@ export default {
     name: "FAQ",
     data() {
         return {
+            pageData: false,
             activeFaq: false,
             search: '',
             faqs: false
@@ -46,6 +46,7 @@ export default {
     },
     mounted() {
         this.getFaqs()
+        this.getPage()
 
         this.emitter.on('pt-search', (e) => {
             this.search = e
@@ -55,6 +56,18 @@ export default {
     methods: {
         open(n) {
             this.activeFaq = this.activeFaq === n?false: n
+        },
+        getPage() {
+            axios.get('/dashboard/admin/get-page/'+ this.$route.name.toLowerCase() + '?lang=' + window.locale)
+                .then((response) => {
+                    if (response.data.success) {
+                        console.log(response.data)
+                        this.pageData = response.data.page.data;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         getFaqs(){
             axios.get('/get-faqs?search=' + this.search)

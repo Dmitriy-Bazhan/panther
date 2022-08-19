@@ -15,6 +15,7 @@ import AboutBlock from './PageBlocks/AboutBlock';
 import BenefitsBlock from './PageBlocks/BenefitsBlock';
 import InfoBlock from './PageBlocks/InfoBlock';
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import * as VueI18n from 'vue-i18n'
@@ -55,6 +56,7 @@ if (window.dashboard === 'dashboard') {
                     console.log(error);
                 });
             Vue.use(i18n);
+            Vue.use(CKEditor);
             Vue.component('media-popup', MediaPopup);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);

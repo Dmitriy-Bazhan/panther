@@ -22,7 +22,6 @@
                     data: false
                 },
                 editor: ClassicEditor,
-                editorData: '<p>Content of the editor.</p>',
                 editorConfig: {
                     toolbar:
                         [
@@ -46,7 +45,7 @@
         },
         methods: {
             savePage() {
-                axios.post('/dashboard/admin/save-page/about', {
+                axios.post('/dashboard/admin/save-page/' + this.$route.params.id, {
                     'pageData': this.pageData,
                     'lang': window.locale,
                 })
@@ -60,7 +59,7 @@
                     });
             },
             getPage() {
-                axios.get('/dashboard/admin/get-page/about' + '?lang=' + window.locale)
+                axios.get('/dashboard/admin/get-page/' + this.$route.params.id + '?lang=' + window.locale)
                     .then((response) => {
                         if (response.data.success) {
                             this.pageData = response.data.page;
@@ -74,6 +73,23 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .ck-editor{
+        ul {
+            padding: 5px 0 5px 20px;
+            li{
+                list-style-type: disc;
+            }
+        }
+        ol {
+            padding: 5px 0 5px 20px;
+            li{
+                list-style-type: decimal;
+            }
+        }
 
+        a{
+            text-decoration: underline;
+        }
+    }
 </style>

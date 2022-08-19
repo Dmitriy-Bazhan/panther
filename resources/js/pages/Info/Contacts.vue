@@ -1,21 +1,9 @@
 <template>
     <div class="page-default">
         <div class="pt-default--content">
-            <div class="main-wrapper">
-                <h1>
-                    Kontakt
-                </h1>
-                <h2>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, similique!
-                </h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor eligendi est eum ex fuga molestiae
-                    quisquam recusandae reiciendis saepe sint. Adipisci, doloribus ducimus eaque eius facilis illum
-                    porro quisquam quo!
-                </p>
+            <div class="main-wrapper" v-html="pageData">
+
             </div>
-
-
         </div>
 
         <div class="main-wrapper">
@@ -110,11 +98,11 @@ export default {
     },
     methods: {
         getPage() {
-            axios.get('/dashboard/admin/get-page/home' + '?lang=' + window.locale)
+            axios.get('/dashboard/admin/get-page/'+ this.$route.name.toLowerCase() + '?lang=' + window.locale)
                 .then((response) => {
                     if (response.data.success) {
+                        console.log(response.data)
                         this.pageData = response.data.page.data;
-                        console.log(response.data.page)
                     }
                 })
                 .catch((error) => {

@@ -194,21 +194,22 @@
             filterOptions() {
                 let result = []
                 let lang = this.locale;
-                this.data.hear_about_us.forEach(function (item){
-                    if(item.is_show){
-                        let tmp = {
-                            id: item.id
-                        }
-
-                        item.data.forEach(function (val){
-                            if(val.lang == lang){
-                                tmp.title = val.data
-                            }
-                        })
-
-                        result.push(tmp)
-                    }
-                })
+                console.log(this.data)
+                // this.data.hear_about_us.forEach(function (item){
+                //     if(item.is_show){
+                //         let tmp = {
+                //             id: item.id
+                //         }
+                //
+                //         item.data.forEach(function (val){
+                //             if(val.lang == lang){
+                //                 tmp.title = val.data
+                //             }
+                //         })
+                //
+                //         result.push(tmp)
+                //     }
+                // })
                 return result
             },
         }
