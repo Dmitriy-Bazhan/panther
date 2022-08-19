@@ -4,6 +4,7 @@
 namespace App\Http\Repositories;
 
 
+use App\Http\Controllers\NotificationController;
 use App\Mail\AdminPaymentHappenedMail;
 use App\Mail\ClientPaymentHappenedMail;
 use App\Mail\NursePaymentHappenedMail;
@@ -27,6 +28,10 @@ class PaymentRepository
 
         if (!is_null($id)) {
             $payments->where('id', $id);
+        }
+
+        if(request()->filled('status_of_view')){
+            $payments->where('status_of_view', request('status_of_view'));
         }
 
         if (request()->filled('client_id')) {
@@ -56,6 +61,14 @@ class PaymentRepository
 
         foreach ($admins as $admin) {
             app()->setLocale(User::find($admin->id)->prefs->pref_lang);
+
+            $content = 'New payment';
+            try {
+                NotificationController::createNotification($admin->id, 'payment', $content, $payment->id);
+            } catch (\Exception $exception) {
+
+            }
+
             if (config('settings.mail_use_queue')) {
                 Mail::mailer('smtp')->to($admin->email)
                     ->queue(new AdminPaymentHappenedMail($admin, $payment));

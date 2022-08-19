@@ -156,8 +156,6 @@ class NurseDashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'id' => $nurseId,
-            'date' => $neededDate,
             'time_calendar' => $timeCalendar
         ]);
     }

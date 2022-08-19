@@ -10,6 +10,8 @@ use App\Models\Booking;
 use App\Models\Lang;
 use App\Models\PrivateChat;
 use App\Models\ProvideSupport;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClientDashboardController extends Controller
@@ -58,71 +60,93 @@ class ClientDashboardController extends Controller
         return view('dashboard', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getTimeCalendar()
     {
-        //
+        $client_id = request()->post('client_id');
+        $neededDate = request()->post('needed_date');
+
+        $bookings = Booking::where('client_user_id', $client_id)->whereIn('status', ['approved', 'in_process'])->with('time')->get();
+
+        if (is_null($neededDate)) {
+            $searchDate = Carbon::now()->format('Y-m-d');
+        } else {
+            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m-d');
+        }
+        $month = Carbon::createFromDate($neededDate)->format('m');
+
+        $firstDay = Carbon::createFromFormat('Y-m-d', $searchDate)
+            ->firstOfMonth()
+            ->format('Y-m-d');
+        $lastDay = Carbon::createFromFormat('Y-m-d', $searchDate)
+            ->endOfMonth()
+            ->format('Y-m-d');
+
+        $monthLength = Carbon::create($searchDate)->daysInMonth;
+        $timeCalendar = [];
+        for ($i = 0; $i < $monthLength; $i++){
+            $current = Carbon::createFromFormat('Y-m-d', $firstDay)->addDays($i)->format('Y-m-d');
+            $day = Carbon::createFromFormat('Y-m-d', $current)->dayName;
+            $timeCalendar[$current] = [];
+            if(in_array($day, ['Saturday', 'Sunday'])){
+                $timeCalendar[$current]['weekends_7_11'] = '1';
+                $timeCalendar[$current]['weekends_11_14'] = '1';
+                $timeCalendar[$current]['weekends_14_17'] = '1';
+                $timeCalendar[$current]['weekends_17_21'] = '1';
+            }else{
+                $timeCalendar[$current]['weekdays_7_11'] = '1';
+                $timeCalendar[$current]['weekdays_11_14'] = '1';
+                $timeCalendar[$current]['weekdays_14_17'] = '1';
+                $timeCalendar[$current]['weekdays_17_21'] = '1';
+            }
+        }
+
+        if($bookings->count() > 0) {
+            foreach ($bookings as $booking){
+                if($booking->one_time_or_regular == 'one') {
+                    if(key_exists($booking->start_date, $timeCalendar)){
+                        $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                        foreach ($times as $time){
+                            $timeCalendar[$booking->start_date][$time] = "0";
+                        }
+                    }
+                }
+
+                if($booking->one_time_or_regular == 'regular'){
+                    $weekWorkDays = json_decode($booking->days, true);
+                    if($booking->weeks > 0) {
+                        for($i = 0; $i <= $booking->weeks; $i++) {
+                            $startWeekDate = Carbon::createFromFormat('Y-m-d', $booking->start_date)
+                                ->addWeeks($i)->startOfWeek()->format('Y-m-d');
+                            $searchMonth =  Carbon::createFromDate($startWeekDate)->format('m');
+                            if($searchMonth !== $month){
+                                break 2;
+                            }
+
+                            for ($d = 0; $d <=6; $d++){
+                                $weekDay = Carbon::createFromFormat('Y-m-d', $startWeekDate)
+                                    ->addDays($d)->format('Y-m-d');
+
+                                $weekDayName = Carbon::createFromFormat('Y-m-d', $startWeekDate)
+                                    ->addDays($d)->dayOfWeek;;
+                                if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
+                                    $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                                    foreach ($times as $time){
+                                        $timeCalendar[$weekDay][$time] = "0";
+                                    }
+                                }
+                                if($weekDay >= $lastDay){
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'time_calendar' => $timeCalendar
+        ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
 }
