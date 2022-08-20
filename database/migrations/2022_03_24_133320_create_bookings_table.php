@@ -35,9 +35,6 @@ class CreateBookingsTable extends Migration
             $table->string('additional_email')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
-
-            $table->foreign('nurse_user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('client_user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 

@@ -176,17 +176,6 @@ class BookingController extends Controller
         $booking->is_verification = 'yes';
         $booking->save();
 
-        if (!$payment = Payment::where('booking_id', $booking->id)->first()) {
-            Payment::create([
-                'booking_id' => $booking->id,
-                'client_user_id' => $booking->client->id,
-                'nurse_user_id' => $booking->nurse->id,
-                'date' => $booking->start_date,
-                'sum' => $booking->total,
-                'status' => 'wait',
-            ]);
-        }
-
         app()->setLocale($nurse->prefs->pref_lang);
 
         if (config('settings.mail_use_queue')) {

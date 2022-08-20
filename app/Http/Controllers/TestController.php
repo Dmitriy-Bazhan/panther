@@ -28,6 +28,10 @@ class TestController extends Controller
 
     public function index()
     {
+        Booking::where('id', 66)->delete();
+
+        dd('Stop');
+
         request()->merge([
             'nurse_id' => 101,
             'client_id' => 100,
