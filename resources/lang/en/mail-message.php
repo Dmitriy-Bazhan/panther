@@ -17,6 +17,8 @@ return [
     'to_nurse_of' => 'To nurse of',
     'make_payment' => 'Make payment',
     'client' => 'Client',
+    'have_new_contact' => 'Have new contact',
+    'contact_info' => 'Contact info',
 
     'verification' => 'Verification',
 

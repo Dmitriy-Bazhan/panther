@@ -76,6 +76,8 @@ Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(functi
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/info/{page}', [MainPageController::class, 'index']);
 Route::get('/faq', [MainPageController::class, 'index']);
+Route::get('/contacts', [MainPageController::class, 'index']);
+Route::post('/send-contact-form', [MainPageController::class, 'saveContact']);
 Route::get('/send-booking-message', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'verified']);;
 Route::get('/get-nurse-profile/{id}', [NurseController::class, 'show'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
 Route::get('/nurse/{id}', [MainPageController::class, 'index'])->middleware(['auth:sanctum', 'checkClient', 'verified']);
@@ -143,6 +145,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/payments', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
+        Route::get('/contacts', [AdminDashboardController::class, 'index']);
         Route::get('/complaints', [AdminDashboardController::class, 'index']);
         Route::get('/clients', [AdminDashboardController::class, 'index']);
         Route::get('/media', [AdminDashboardController::class, 'index']);

@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminHaveNewContactMail;
+use App\Models\Contact;
 use App\Models\Lang;
 use App\Models\Translate;
+use App\Models\User;
 use App\Models\UserPref;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class MainPageController extends Controller
 {
@@ -21,34 +27,52 @@ class MainPageController extends Controller
         return view('main', $data);
     }
 
-    public function create()
+    public function saveContact(Request $request)
     {
-        //
-    }
+        $contact = $request->post();
 
-    public function store(Request $request)
-    {
-        //
-    }
+        $rules = [
+            'name' => 'required',
+            'phone' => 'required',
+            'mail' => 'required|email',
+            'comment' => 'required',
+        ];
 
-    public function show($id)
-    {
-        //
-    }
+        Validator::make($contact, $rules)->validate();
 
-    public function edit($id)
-    {
-        //
-    }
+        $new_contact = Contact::create([
+            'name' => $contact['name'],
+            'phone' => $contact['phone'],
+            'email' => $contact['mail'],
+            'comment' => $contact['comment'],
+        ]);
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if (!$new_contact) {
+            Log::channel('app_logs')->error('MainPageController@saveContact contact cant create');
+        }
 
-    public function destroy($id)
-    {
-        //
+        $admins = User::where('entity_type', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            app()->setLocale(User::find($admin->id)->prefs->pref_lang);
+
+            $content = 'New contact';
+            try {
+                NotificationController::createNotification($admin->id, 'contact', $content, $new_contact->id);
+            } catch (\Exception $exception) {
+
+            }
+
+            if (config('settings.mail_use_queue')) {
+                Mail::mailer('smtp')->to($admin->email)
+                    ->queue(new AdminHaveNewContactMail($admin, $new_contact));
+            } else {
+                Mail::mailer('smtp')->to($admin->email)
+                    ->send(new AdminHaveNewContactMail($admin, $new_contact));
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function changeLang($lang)

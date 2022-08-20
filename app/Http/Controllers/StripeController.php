@@ -93,7 +93,7 @@ class StripeController extends Controller
         } catch (\Exception $exception) {
             Log::channel('app_logs')->error($exception->getMessage());
             //payment did not pass
-            $payment->status = 'not_pass';
+            $payment->status = 'break';
             $payment->method = 'Stripe';
             $payment->save();
 

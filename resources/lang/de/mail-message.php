@@ -18,6 +18,8 @@ return [
     'to_nurse_of' => 'Zur Pflege von',
     'make_payment' => 'Zahlung leisten',
     'client' => 'Kunde',
+    'have_new_contact' => 'Habe neuen Kontakt',
+    'contact_info' => 'Kontaktinformation',
 
     'verification' => 'Überprüfung',
 
