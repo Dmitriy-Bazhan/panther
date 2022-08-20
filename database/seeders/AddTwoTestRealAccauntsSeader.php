@@ -24,7 +24,7 @@ class AddTwoTestRealAccauntsSeader extends Seeder
      */
     public function run()
     {
-        if (User::where('email', 'dbazhanwork1@gmail.com')->first()) {
+        if (!User::where('email', 'dbazhanwork1@gmail.com')->first()) {
             //add real test mail client
             $clientEntity = new Client();
             $clientEntity->save();
