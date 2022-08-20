@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
                 MailTemplateSeeder::class,
                 PaymentApiSettingsSeeder::class,
                 TypeOfLearningSeeder::class,
-
+                SiteSettingsSeeder::class,
             ]);
         }
 

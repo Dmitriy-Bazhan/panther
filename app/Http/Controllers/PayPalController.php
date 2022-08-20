@@ -99,7 +99,7 @@ class PayPalController extends Controller
         } else {
             Log::channel('app_logs')->error('PayPalController@successTransaction payment did not pass');
             //payment did not pass
-            $payment->status = 'not_pass';
+            $payment->status = 'break';
             $payment->method = 'Stripe';
             $payment->save();
 

@@ -25,6 +25,12 @@
             </router-link>
         </li>
         <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardContacts' }">
+                <pt-icon type="overview"></pt-icon>
+                Contacts
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
             <router-link :to="{ name: 'AdminDashboardComplaints' }">
                 <pt-icon type="overview"></pt-icon>
                 Complaints

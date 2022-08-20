@@ -3,6 +3,7 @@ import Payments from "../dashboards/admin-dashboard/components/payments/Payments
 import Settings from '../dashboards/admin-dashboard/components/settings/index'
 import Dashboard from "../dashboards/admin-dashboard/components/Dashboard";
 import Nurses from "../dashboards/admin-dashboard/components/nurses/index";
+import Contacts from '../dashboards/admin-dashboard/components/contacts/Contacts';
 import Client from '../dashboards/admin-dashboard/components/clients/index';
 import Pages from '../dashboards/admin-dashboard/components/pages/Pages';
 import EditPage from '../dashboards/admin-dashboard/components/pages/EditPage';
@@ -34,6 +35,12 @@ const routes = [
         path: "/dashboard/admin/settings",
         name: 'AdminDashboardSettings',
         component: Settings,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/contacts",
+        name: 'AdminDashboardContacts',
+        component: Contacts,
         props: true,
     },
     {

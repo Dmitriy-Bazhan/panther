@@ -18,7 +18,7 @@ class PaymentApiSettingsSeeder extends Seeder
             PaymentApiSetting::create([
                 //stripe
                 'stripe_key' => 'pk_test_51Kxad8JA09heq2ajolFvGObbLCUHVlcgAKGal5GAcXgjPUjWmANa5wVdaUTncfSQL6Y5IK9adEXoj2yLD2Ac2jDf007yFuP36k',
-                'stripe_secret' => 'AjrRH.KE40NaQ1W.aTeZXmVIcY6-AsK3kbt6vP7w9BaDgQJcIb4v3lzP',
+                'stripe_secret' => 'sk_test_51Kxad8JA09heq2ajAXmUb9kHBEMrNxkbICmu0JTX66RfLrU6jcVZPZKygMvARls1PiTb6ht69v0II9o76Ng8N2qg00ojPBs4sr',
                 'stripe_currency' => 'eur',
 
                 //paypal
