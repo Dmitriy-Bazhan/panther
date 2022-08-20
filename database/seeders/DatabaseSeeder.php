@@ -34,17 +34,19 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 AdditionalInfoSeeder::class,
                 UserSeeder::class,
-                //AddTestUsersSeeder::class,   //only for test, comment after deploy
+                AddTestUsersSeeder::class,   //only for test, comment after deploy
                 ProviderSupportSeeder::class,
-                //AddTestProviderSupports::class,  //only for test, comment after deploy
+                AddTestProviderSupports::class,  //only for test, comment after deploy
                 HearAboutUsSeeder::class,
-                //AddTwoTestRealAccauntsSeader::class,
+                AddTwoTestRealAccauntsSeader::class,
                 DefaultTranslateSeeder::class,
                 LangSeeder::class,
                 DefaultFeedbackSeeder::class,
                 TimeIntervalSeeder::class,
                 MailTemplateSeeder::class,
                 PaymentApiSettingsSeeder::class,
+                TypeOfLearningSeeder::class,
+
             ]);
         }
 

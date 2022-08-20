@@ -201,32 +201,37 @@ class AddTestUsersSeeder extends Seeder
 
         $lang = new NurseLang();
         $lang->nurse_id = 1;
-        $lang->lang = 'Deutsche';
+        $lang->lang_id = 2;
+        $lang->lang = 'german';
         $lang->level = 'B1';
         $lang->save();
 
         $lang = new NurseLang();
         $lang->nurse_id = 2;
-        $lang->lang = 'English';
-        $lang->level = 'B1';
+        $lang->lang_id = 1;
+        $lang->lang = 'english';
+        $lang->level = 'A1';
         $lang->save();
 
         $lang = new NurseLang();
         $lang->nurse_id = 3;
-        $lang->lang = 'English';
+        $lang->lang_id = 1;
+        $lang->lang = 'english';
         $lang->level = 'A1';
         $lang->save();
 
         $lang = new NurseLang();
         $lang->nurse_id = 4;
-        $lang->lang = 'Deutsche';
+        $lang->lang_id = 2;
+        $lang->lang = 'german';
         $lang->level = 'B1';
         $lang->save();
 
         $lang = new NurseLang();
         $lang->nurse_id = 5;
-        $lang->lang = 'Deutsche';
-        $lang->level = 'C1';
+        $lang->lang_id = 2;
+        $lang->lang = 'german';
+        $lang->level = 'B1';
         $lang->save();
     }
 }

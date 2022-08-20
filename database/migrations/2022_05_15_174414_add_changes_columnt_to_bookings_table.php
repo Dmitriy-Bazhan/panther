@@ -25,16 +25,6 @@ class AddChangesColumntToBookingsTable extends Migration
         Schema::table('alternative_booking_times', function (Blueprint $table) {
             $table->string('alternative_time')->change();
         });
-
-        Schema::table('payments', function (Blueprint $table) {
-            $table->dropForeign(['booking_id']);
-            $table->dropForeign(['client_user_id']);
-            $table->dropForeign(['nurse_user_id']);
-
-            $table->foreign('booking_id')->references('id')->on('bookings')->cascadeOnDelete();
-            $table->foreign('client_user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('nurse_user_id')->references('id')->on('users')->cascadeOnDelete();
-        });
     }
 
     /**
