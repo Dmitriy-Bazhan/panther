@@ -9,6 +9,11 @@ class BookingTime extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     protected $fillable = [
         'booking_id', 'time_interval', 'time',
     ];

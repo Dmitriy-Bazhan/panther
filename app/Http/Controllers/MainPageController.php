@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AdminHaveNewContactMail;
+use App\Models\Booking;
 use App\Models\Contact;
 use App\Models\Lang;
 use App\Models\Translate;
@@ -129,5 +130,14 @@ class MainPageController extends Controller
         }
 
         return response()->json(['success' => true, 'langs' => $langs]);
+    }
+
+    public function getTimeCalendarData()
+    {
+        $bookings = Booking::whereIn('id', request()->post('bookings'))
+            ->with('time')
+            ->get();
+
+        return response()->json(['success' => true, 'bookings' => $bookings]);
     }
 }

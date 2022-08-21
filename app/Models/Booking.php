@@ -34,6 +34,11 @@ class Booking extends Model
         'client_phone',
     ];
 
+    protected $appends = [
+        'hours',
+        'real_days'
+    ];
+
     public function time()
     {
         return $this->hasMany('App\Models\BookingTime', 'booking_id', 'id');

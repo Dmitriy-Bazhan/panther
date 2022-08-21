@@ -2,6 +2,19 @@
     <div>
         <div class="pt-table--head">
             <div class="pt-messages--tabs">
+                <button class="pt-messages--tabs-btn">
+                    <!--                {{ $t('all') }}-->
+                    Payed sum : {{ payments_payed_sum }}
+                </button>
+                <button class="pt-messages--tabs-btn">
+                    <!--                {{ $t('not_approved_bookings') }}-->
+                    Wait sum : {{ payments_wait_sum}}
+                </button>
+            </div>
+        </div>
+
+        <div class="pt-table--head">
+            <div class="pt-messages--tabs">
                 <button class="pt-messages--tabs-btn" :class="{active: activeTab === 'payed'}"
                         @click.prevent="activateTab('payed')">
                     <!--                {{ $t('all') }}-->
@@ -22,11 +35,11 @@
                     <!--                {{ $t('in_process_bookings') }}-->
                     Break
                 </button>
-<!--                <button class="pt-messages&#45;&#45;tabs-btn" :class="{active: activeTab === 'not_pass'}"-->
-<!--                        @click.prevent="activateTab('not_pass')">-->
-<!--                    &lt;!&ndash;                {{ $t('ended_bookings') }}&ndash;&gt;-->
-<!--                    Not Pass-->
-<!--                </button>-->
+                <!--                <button class="pt-messages&#45;&#45;tabs-btn" :class="{active: activeTab === 'not_pass'}"-->
+                <!--                        @click.prevent="activateTab('not_pass')">-->
+                <!--                    &lt;!&ndash;                {{ $t('ended_bookings') }}&ndash;&gt;-->
+                <!--                    Not Pass-->
+                <!--                </button>-->
             </div>
 
             <pt-search class="pt-ml-a"></pt-search>
@@ -42,7 +55,12 @@
                     </div>
                     <div class="pt-table--col">
                         <div class="pt-table--text">
-                            {{ $t('Adresse') }}
+                            {{ $t('sum') }}
+                        </div>
+                    </div>
+                    <div v-if="activeTab === 'payed'" class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('method') }}
                         </div>
                     </div>
                     <div class="pt-table--col">
@@ -63,22 +81,31 @@
                                 {{ index + 1 }}
                             </div>
                             <div>
-                                {{ payment.booking.nurse.full_name }}
-                                <span>{{ payment.booking.nurse.entity.age }} Jahre Alt</span>
+                                {{ payment.booking.client.first_name + ' ' + payment.booking.client.last_name }}
                             </div>
                         </div>
                     </div>
                     <div class="pt-table--col">
                         <div class="pt-table--text">
+                            <pt-icon type="sum"></pt-icon>
+                            {{ payment.sum }}
+                        </div>
+                    </div>
+                    <div v-if="payment.status === 'payed'" class="pt-table--col">
+                        <div class="pt-table--text">
                             <pt-icon type="pin"></pt-icon>
-                            12345 Berlin
-                            Some Strasse 69
+                            {{ payment.method }}
                         </div>
                     </div>
                     <div class="pt-table--col">
                         <div class="pt-table--text">
                             <pt-icon type="calendar"></pt-icon>
-                            {{ payment.booking.start_date }}
+                            <template v-if="payment.status == 'payed'">
+                                {{ payment.updated_at }}
+                            </template>
+                            <template v-else>
+                                {{ payment.updated_at }}
+                            </template>
                         </div>
                     </div>
                     <div class="pt-table--col">
@@ -177,6 +204,8 @@ export default {
             search: '',
             activeTab: 'payed',
             payments: [],
+            payments_wait_sum: 0,
+            payments_payed_sum: 0,
             pagination: false,
             ctrl: {
                 wait: [
@@ -234,19 +263,19 @@ export default {
             }
 
             let url = '/dashboard/admin/get-payments'
-                +'?page=' + page
+                + '?page=' + page
                 + '&status=' + this.activeTab
                 + '&search=' + this.search;
 
-            let query_string = '?status=' + this.status + '&status_of_view=' + this.status_of_view;
+            // let query_string = '?status=' + this.status + '&status_of_view=' + this.status_of_view;
 
             axios.get(url)
                 .then((response) => {
                     if (response.data.success) {
                         this.payments = response.data.payments.data;
+                        this.payments_wait_sum = response.data.payments_wait_sum;
+                        this.payments_payed_sum = response.data.payments_payed_sum;
                         this.pagination = response.data.payments.meta.links;
-                        console.log(this.payments);
-
                     }
                 })
                 .catch((error) => {
