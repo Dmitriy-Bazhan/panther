@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PaymentResource extends JsonResource
@@ -19,7 +20,6 @@ class PaymentResource extends JsonResource
             'booking' => $this->booking,
             'booking_id' => $this->booking_id,
             'client_user_id' => $this->client_user_id,
-            'created_at' => $this->created_at,
             'currency' => $this->currency,
             'date' => $this->date,
             'gateway' => $this->gateway,
@@ -31,7 +31,8 @@ class PaymentResource extends JsonResource
             'tax' => $this->tax,
             'method' => $this->method,
             'status_of_view' => $this->status_of_view,
-            'updated_at' => $this->updated_at,
+            'created_at' => Carbon::createFromDate($this->created_at)->format('Y-m-d'),
+            'updated_at' => Carbon::createFromDate($this->updated_at)->format('Y-m-d'),
         ];
     }
 }

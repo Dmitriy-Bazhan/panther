@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminClientController;
 use App\Http\Controllers\Admin\AdminNurseController;
 use App\Http\Controllers\Admin\AdminComplaintController;
+use App\Http\Controllers\Admin\AdminContactsController;
 
 use App\Http\Controllers\Clients\ClientDashboardController;
 use App\Http\Controllers\Clients\ClientMessageController;
@@ -99,6 +100,7 @@ Route::post('/set-chat-on-delete-status', [ChatController::class, 'setChatOnDele
 Route::post('/set-chat-on-active-status', [ChatController::class, 'setChatOnActiveStatus'])->middleware(['auth:sanctum', 'verified']);
 Route::post('/remove-chat-at-all', [ChatController::class, 'removeChatAtAll'])->middleware(['auth:sanctum', 'verified']);
 
+//translate
 Route::get('get-translate', [MainPageController::class, 'getTranslate']);
 Route::get('get-translate/{lang}', [MainPageController::class, 'getTranslate']);
 Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->middleware(['auth:sanctum', 'checkAdmin']);
@@ -106,10 +108,14 @@ Route::post('save-translates', [MainPageController::class, 'saveTranslates'])->m
 Route::get('export-translate', [AdminDashboardController::class, 'exportTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
 Route::post('import-translate', [AdminDashboardController::class, 'importTranslate'])->middleware(['auth:sanctum', 'checkAdmin']);
 
+//feedbacks
 Route::prefix('feedback')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/update-rate', [FeedbackController::class, 'updateRate']);
 });
 Route::resource('/feedback', FeedbackController::class)->middleware(['auth:sanctum']);
+
+//time Calendar data
+Route::post('get-time-calendar-bookings', [MainPageController::class, 'getTimeCalendarData'])->middleware(['auth:sanctum']);
 
 Route::prefix('finder')->middleware(['auth:sanctum', 'checkClient', 'verified'])->group(function () {
     Route::get('/', [MainPageController::class, 'index']);
@@ -163,6 +169,12 @@ Route::prefix('dashboard')->group(function () {
 
         //pages
         Route::post('/save-page/{page}', [AdminDashboardController::class, 'savePage']);
+
+        //contacts
+        Route::get('/get-contacts', [AdminContactsController::class, 'index']);
+        Route::get('/get-contact/{id}', [AdminContactsController::class, 'show']);
+
+        Route::resource('/get-contacts', AdminContactsController::class);
 
         //admin dashboard nurses
         Route::get('/get-nurses', [AdminNurseController::class, 'getNurses']);
