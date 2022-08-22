@@ -103,11 +103,15 @@
 <script>
 export default {
     name: "Footer",
+    props: ['data'],
     data() {
         return {
             path: location.origin,
         }
     },
+    mounted() {
+
+    }
 }
 </script>
 

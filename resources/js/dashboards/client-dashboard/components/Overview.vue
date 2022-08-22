@@ -17,7 +17,7 @@
                                 <div class="pt-calendar--special-times">
                                     <div class="pt-calendar--special-time"
                                          v-for="(n, index) in 4"
-                                         :class="{active: checkDateForEvent(date)[index] == 1}"
+                                         :class="{active: checkDateForEvent(date)[index] == 0}"
                                     >
 
                                     </div>
@@ -139,7 +139,7 @@ export default {
         }
     },
     mounted() {
-        //this.getTimeCalendar();
+        this.getTimeCalendar();
     },
     created() {
 
@@ -161,8 +161,8 @@ export default {
             return a[0] + ' ' + String(a[1].split('.')[0]);
         },
         getTimeCalendar() {
-            axios.post('/dashboard/nurse/get-time-calendar', {
-                'nurse_id': this.user.id,
+            axios.post('/dashboard/client/get-time-calendar', {
+                'client_id': this.user.id,
                 'needed_date': this.neededDate
             })
                 .then((response) => {

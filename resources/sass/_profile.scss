@@ -201,4 +201,19 @@
             }
         }
     }
+
+    .dp__main{
+        .dp__calendar .dp__calendar{
+            max-width: calc(100% - 40px);
+            margin: 0 auto 20px auto;
+        }
+
+        .dp__calendar .dp__cell_inner{
+            width: calc(100% - 2px);
+        }
+
+        .dp__calendar_item{
+            pointer-events: none;
+        }
+    }
 }

@@ -118,7 +118,33 @@
                     </div>
                 </div>
                 <div class="pt-col-md-6">
-                    <img :src="path + '/images/fake/fake-calendar.png'" alt="">
+                    <div class="pt-calendar">
+                        <Datepicker
+                            inline
+                            autoApply
+                            @selected="selectDate()"
+                            @update-month-year="changeMonth($event)"
+                            v-model="date"
+                            :monthChangeOnScroll="false"
+                            :enableTimePicker="false">
+                            <template #day="{ day, date }">
+                                <div class="pt-calendar--special">
+                                    <div class="pt-calendar--special-day">
+                                        {{ day }}
+                                    </div>
+
+                                    <div class="pt-calendar--special-times">
+                                        <div class="pt-calendar--special-time"
+                                             v-for="(n, index) in 4"
+                                             :class="{active: checkDateForEvent(date)[index] == 0}"
+                                        >
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </Datepicker>
+                    </div>
                 </div>
             </div>
 
@@ -408,12 +434,73 @@ export default {
                 .then((response) => {
                     console.log(response.data)
                     this.time_calendar = response.data.time_calendar;
-                    this.selectDate()
+                    //this.selectDate()
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
+
+        changeMonth(date) {
+            let dateStr = ''
+            dateStr += date.year +'-'
+            dateStr += date.month<9?'0'+(date.month+1):(date.month+1)
+            dateStr += '-01'
+            this.neededDate = dateStr
+            this.getTimeCalendar();
+        },
+        selectDate(date) {
+            let tmp;
+            if (date) {
+                tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
+                date = dayjs(date).format('YYYY-MM-DD')
+            } else {
+                tmp = this.time_calendar[dayjs(this.date).format('YYYY-MM-DD')]
+                date = dayjs(this.date).format('YYYY-MM-DD')
+            }
+
+            let time = []
+            _.forEach(tmp, function (item, key) {
+                if (key.indexOf('_7_11') !== -1) {
+                    time.push({
+                        interval: '07:00 - 11:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_11_14') !== -1) {
+                    time.push({
+                        interval: '11:00 - 14:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_14_17') !== -1) {
+                    time.push({
+                        interval: '14:00 - 17:00',
+                        active: item
+                    })
+                } else if (key.indexOf('_17_21') !== -1) {
+                    time.push({
+                        interval: '17:00 - 21:00',
+                        active: item
+                    })
+                }
+            })
+
+            this.selectedDate = {
+                date: date,
+                time: time,
+            }
+        },
+        checkDateForEvent(date) {
+            let tmp = this.time_calendar[dayjs(date).format('YYYY-MM-DD')]
+            let arr = []
+            if (tmp) {
+                _.forEach(tmp, function (item) {
+                    arr.push(item)
+                })
+            }
+
+            return arr
+        },
+
         getFeedback(link) {
             let self = this
             let url = link&&link.url?link.url:'/feedback/' + self.$route.params.id
@@ -504,4 +591,8 @@ export default {
 .pt-chat--message-body{
     background-color: #ffffff;
 }
+.pt-calendar .dp__main{
+    max-width: 100%;
+}
+
 </style>

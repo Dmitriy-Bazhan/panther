@@ -21,7 +21,7 @@
                                     <div class="pt-calendar--special-times">
                                         <div class="pt-calendar--special-time"
                                              v-for="(n, index) in 4"
-                                             :class="{active: checkDateForEvent(date)[index] == 1}"
+                                             :class="{active: checkDateForEvent(date)[index] == 0}"
                                         >
 
                                         </div>
@@ -40,11 +40,11 @@
                                 <li class="pt-calendar--info-list--item" v-for="item in selectedDate.time">
                            <span
                                class="pt-calendar--info-list--item-type"
-                               :class="{active: item.active === '1'}"></span>
+                               :class="{active: item.active === '0'}"></span>
 
                                     <div class="pt-calendar--info-list--item-text">
                                         {{ item.interval }}
-                                        <span v-if="item.active !== '1'">zugänglich</span>
+                                        <span v-if="item.active !== '0'">zugänglich</span>
                                         <span v-else>booking</span>
                                     </div>
                                 </li>
