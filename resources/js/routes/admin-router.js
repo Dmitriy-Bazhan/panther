@@ -11,6 +11,7 @@ import EditDefaultPage from '../dashboards/admin-dashboard/components/pages/Edit
 import TranslationPage from '../dashboards/admin-dashboard/components/translation/Translation';
 import Media from '../dashboards/admin-dashboard/components/pages/Media';
 import Complaint from '../dashboards/admin-dashboard/components/complaint/index';
+import Booking from "../dashboards/admin-dashboard/components/bookings/Booking";
 
 const routes = [
     {
@@ -23,6 +24,12 @@ const routes = [
         path: "/dashboard/admin/payments",
         name: 'AdminDashboardPayments',
         component: Payments,
+        props: true,
+    },
+    {
+        path: "/dashboard/admin/bookings",
+        name: 'AdminDashboardBookings',
+        component: Booking,
         props: true,
     },
     {
