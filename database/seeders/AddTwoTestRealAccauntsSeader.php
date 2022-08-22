@@ -12,6 +12,7 @@ use App\Models\NursePrice;
 use App\Models\ProvideSupportAssigned;
 use App\Models\User;
 use App\Models\UserPref;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,13 +65,13 @@ class AddTwoTestRealAccauntsSeader extends Seeder
             $client_search_info->other_areas = null;
             $client_search_info->where_should_help_be_provided = null;
             $client_search_info->one_or_regular = 'one';
-            $client_search_info->one_time_date = '2022-08-20';
+            $client_search_info->one_time_date = Carbon::now()->addDays(7)->format('Y-m-d');
             $client_search_info->regular_time_start_date = null;
             $client_search_info->regular_time_finish_date = null;
             $client_search_info->work_time_pref = '{"weekdays_7_11": "1", "weekends_7_11": "0", "weekdays_11_14": "1", "weekdays_14_17": "1", "weekdays_17_21": "0", "weekends_11_14": "0", "weekends_14_17": "0", "weekends_17_21": "0"}';
             $client_search_info->created_at = '2022-08-19 14:54:31';
             $client_search_info->updated_at = '2022-08-19 14:55:58';
-            $client_search_info->languages = '[{"id": null, "level": "A1"}]';
+            $client_search_info->languages = '[{"id": 1, "level": "A1"}, {"id": 2, "level": "B1"}]';
             $client_search_info->save();
 
             $userPrefs = new UserPref();

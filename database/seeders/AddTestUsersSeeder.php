@@ -22,9 +22,7 @@ class AddTestUsersSeeder extends Seeder
      */
     public function run()
     {
-        if (User::count() == 0) {
-
-
+        if (User::count() == 1) {
             for ($i = 1; $i < 50; $i++) {
                 //add client
                 $clientEntity = new Client();

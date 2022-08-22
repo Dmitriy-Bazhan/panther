@@ -11,7 +11,9 @@ class BookingTime extends Model
 
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'id',
+        'booking_id',
     ];
 
     protected $fillable = [

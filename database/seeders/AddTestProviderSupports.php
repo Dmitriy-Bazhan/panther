@@ -14,7 +14,7 @@ class AddTestProviderSupports extends Seeder
      */
     public function run()
     {
-        if (ProvideSupportAssigned::count() == 0) {
+        if (ProvideSupportAssigned::where('nurse_id', 1)->count() == 0) {
             for ($i = 1; $i <= 5; $i++) {
                 $provideAssigned = new ProvideSupportAssigned();
                 $provideAssigned->nurse_id = $i;

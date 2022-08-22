@@ -29,9 +29,9 @@ class CreatePaymentsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('booking_id')->references('id')->on('bookings');
-            $table->foreign('client_user_id')->references('id')->on('users');
-            $table->foreign('nurse_user_id')->references('id')->on('users');
+//            $table->foreign('booking_id')->references('id')->on('bookings');
+//            $table->foreign('client_user_id')->references('id')->on('users');
+//            $table->foreign('nurse_user_id')->references('id')->on('users');
         });
     }
 

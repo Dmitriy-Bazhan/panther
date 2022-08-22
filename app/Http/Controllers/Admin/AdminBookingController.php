@@ -52,6 +52,7 @@ class AdminBookingController extends Controller
             abort(409);
         }
 
+
         if ($data['one_time_or_regular'] == 'one') {
             $rules = [
                 'start_date' => 'required',
@@ -79,19 +80,11 @@ class AdminBookingController extends Controller
 
             BookingTime::where('booking_id', $id)->delete();
 
-            foreach ($data['week_days_checked'] as $value) {
+            foreach ($data['time'] as $item){
                 $bookingTime = new BookingTime();
                 $bookingTime->booking_id = $id;
-                $bookingTime->time_interval = $value['id'];
-                $bookingTime->time = $value['val'];
-                $bookingTime->save();
-            }
-
-            foreach ($data['week_ends_checked'] as $value) {
-                $bookingTime = new BookingTime();
-                $bookingTime->booking_id = $id;
-                $bookingTime->time_interval = $value['id'];
-                $bookingTime->time = $value['val'];
+                $bookingTime->time_interval = $item['time_interval'];
+                $bookingTime->time = $item['time'];
                 $bookingTime->save();
             }
 
@@ -126,27 +119,13 @@ class AdminBookingController extends Controller
             ]);
 
             BookingTime::where('booking_id', $id)->delete();
-            if (in_array(1, $data['days']) || in_array(2, $data['days'])
-                || in_array(3, $data['days']) || in_array(4, $data['days']) || in_array(5, $data['days'])) {
-                foreach ($data['week_days_checked'] as $value) {
-                    $bookingTime = new BookingTime();
+
+            foreach ($data['time'] as $item){
+                $bookingTime = new BookingTime();
                     $bookingTime->booking_id = $id;
-                    $bookingTime->time_interval = $value['id'];
-                    $bookingTime->time = $value['val'];
+                    $bookingTime->time_interval = $item['time_interval'];
+                    $bookingTime->time = $item['time'];
                     $bookingTime->save();
-
-                }
-            }
-
-            if (in_array(0, $data['days']) || in_array(6, $data['days'])) {
-                foreach ($data['week_ends_checked'] as $value) {
-                    $bookingTime = new BookingTime();
-                    $bookingTime->booking_id = $id;
-                    $bookingTime->time_interval = $value['id'];
-                    $bookingTime->time = $value['val'];
-                    $bookingTime->save();
-
-                }
             }
         }
 

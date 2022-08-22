@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddChangesColumntToBookingsTable extends Migration
+class AddChangesColumnToBookingsTable extends Migration
 {
     /**
      * Run the migrations.

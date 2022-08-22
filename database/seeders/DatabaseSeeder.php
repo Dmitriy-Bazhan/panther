@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 AddTestUsersSeeder::class,   //only for test, comment after deploy
                 ProviderSupportSeeder::class,
+                AddTwoTestRealAccauntsSeader::class,
                 AddTestProviderSupports::class,  //only for test, comment after deploy
                 HearAboutUsSeeder::class,
-                AddTwoTestRealAccauntsSeader::class,
                 DefaultTranslateSeeder::class,
                 LangSeeder::class,
                 DefaultFeedbackSeeder::class,
@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 PaymentApiSettingsSeeder::class,
                 TypeOfLearningSeeder::class,
                 SiteSettingsSeeder::class,
+                PageSeeder::class,
             ]);
         }
 

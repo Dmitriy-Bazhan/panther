@@ -14,7 +14,7 @@ class DefaultFeedbackSeeder extends Seeder
      */
     public function run()
     {
-        if (env('APP_ENV') == 'local' && Feedback::all()->count() == 0) {
+        if (env('APP_ENV') == 'local' && Feedback::count() == 0) {
             $arr = [3, 5, 7, 9, 11, 101];
             $string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aspernatur atque ducimus error ex explicabo ipsa labore, laudantium maiores modi molestiae mollitia placeat porro possimus praesentium recusandae, saepe tempore totam.';
 
