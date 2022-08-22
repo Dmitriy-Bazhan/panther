@@ -51,7 +51,7 @@ export default {
     },
     data() {
         return {
-            activeTab: 1,
+            activeTab: 0,
             startBooking: true,
             clientSearchInfo: false,
         }

@@ -14414,6 +14414,16 @@ button {
   font-size: 14px;
   font-weight: 400;
 }
+.pt-profile .dp__main .dp__calendar .dp__calendar {
+  max-width: calc(100% - 40px);
+  margin: 0 auto 20px auto;
+}
+.pt-profile .dp__main .dp__calendar .dp__cell_inner {
+  width: calc(100% - 2px);
+}
+.pt-profile .dp__main .dp__calendar_item {
+  pointer-events: none;
+}
 
 .pt-booking .pt-finder--form-label--number {
   background-color: #005eaf;
