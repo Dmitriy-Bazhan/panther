@@ -45,6 +45,23 @@ class BookingRepository
         }
 
         if (request()->filled('search') && request('search') != '') {
+
+            if(request()->user()->entity_type == 'admin'){
+                $bookings->whereHas('nurse', function ($query) {
+                    return $query->where(
+                        DB::raw('CONCAT(first_name, " ", last_name)'),
+                        'LIKE',
+                        '%' . request('search') . '%'
+                    );
+                })->orWhereHas('client', function ($query){
+                    return $query->where(
+                        DB::raw('CONCAT(first_name, " ", last_name)'),
+                        'LIKE',
+                        '%' . request('search') . '%'
+                    );
+                });
+            }
+
             if(request()->user()->entity_type == 'client'){
                 $bookings->whereHas('nurse', function ($query) {
                     return $query->where(

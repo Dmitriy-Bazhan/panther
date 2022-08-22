@@ -13,6 +13,12 @@
             </router-link>
         </li>
         <li class="pt-dashboard--menu-item">
+            <router-link :to="{ name: 'AdminDashboardBookings' }">
+                <pt-icon type="overview"></pt-icon>
+                Bookings
+            </router-link>
+        </li>
+        <li class="pt-dashboard--menu-item">
             <router-link :to="{ name: 'AdminDashboardClients' }">
                 <pt-icon type="overview"></pt-icon>
                 Clients

@@ -25,6 +25,7 @@ use App\Http\Controllers\ChatController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminPaymentController;
+use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminClientController;
 use App\Http\Controllers\Admin\AdminNurseController;
@@ -149,6 +150,7 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('admin')->middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
         Route::get('/settings', [AdminDashboardController::class, 'index']);
         Route::get('/payments', [AdminDashboardController::class, 'index']);
+        Route::get('/bookings', [AdminDashboardController::class, 'index']);
         Route::get('/translation', [AdminDashboardController::class, 'index']);
         Route::get('/nurses', [AdminDashboardController::class, 'index']);
         Route::get('/contacts', [AdminDashboardController::class, 'index']);
@@ -161,6 +163,9 @@ Route::prefix('dashboard')->group(function () {
         //payments
         Route::get('/get-payments', [AdminPaymentController::class, 'index']);
         Route::get('/get-payment/{id}', [AdminPaymentController::class, 'show']);
+
+        //bookings
+        Route::resource('/get-bookings', AdminBookingController::class);
 
         //media
         Route::post('/save-media', [AdminDashboardController::class, 'saveMedia']);

@@ -25,19 +25,38 @@ class ClientPaymentsController extends Controller
             abort(409);
         }
 
-        $waitingPayments = PaymentResource::collection($this->paymentRepo->search(null, 'wait'))->response()->getData();
-        $payedPayments = PaymentResource::collection($this->paymentRepo->search(null, 'payed'))->response()->getData();
-        $refusePayments = PaymentResource::collection($this->paymentRepo->search(null, 'refuse'))->response()->getData();
-        $breakPayments = PaymentResource::collection($this->paymentRepo->search(null, 'break'))->response()->getData();
+        $status = request('status');
+        $id = request()->filled('id') && is_numeric(request('id')) ? request('id') : null;
 
+        if($status){
+            $payments = PaymentResource::collection($this->payment_repo->search($id, $status))->response()->getData();
+        }else{
+            $payments = PaymentResource::collection($this->payment_repo->search($id))->response()->getData();
+        }
+
+        $payments_wait_sum = Payment::where('status', 'wait')->sum('sum');
+        $payments_payed_sum = Payment::where('status', 'payed')->sum('sum');
 
         return response()->json([
             'success' => true,
-            'waitingPayments' => $waitingPayments,
-            'payedPayments' => $payedPayments,
-            'refusePayments' => $refusePayments,
-            'breakPayments' => $breakPayments,
+            'payments' => $payments,
+            'payments_wait_sum' => $payments_wait_sum,
+            'payments_payed_sum' => $payments_payed_sum,
         ]);
+
+//        $waitingPayments = PaymentResource::collection($this->paymentRepo->search(null, 'wait'))->response()->getData();
+//        $payedPayments = PaymentResource::collection($this->paymentRepo->search(null, 'payed'))->response()->getData();
+//        $refusePayments = PaymentResource::collection($this->paymentRepo->search(null, 'refuse'))->response()->getData();
+//        $breakPayments = PaymentResource::collection($this->paymentRepo->search(null, 'break'))->response()->getData();
+//
+//
+//        return response()->json([
+//            'success' => true,
+//            'waitingPayments' => $waitingPayments,
+//            'payedPayments' => $payedPayments,
+//            'refusePayments' => $refusePayments,
+//            'breakPayments' => $breakPayments,
+//        ]);
     }
 
     /**
