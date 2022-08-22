@@ -83,6 +83,7 @@ class ClientDashboardController extends Controller
 
         $monthLength = Carbon::create($searchDate)->daysInMonth;
         $timeCalendar = [];
+        $time_bookings = [];
         for ($i = 0; $i < $monthLength; $i++){
             $current = Carbon::createFromFormat('Y-m-d', $firstDay)->addDays($i)->format('Y-m-d');
             $day = Carbon::createFromFormat('Y-m-d', $current)->dayName;
@@ -107,6 +108,7 @@ class ClientDashboardController extends Controller
                         $times = $booking->time->keyBy('time_interval')->keys()->toArray();
                         foreach ($times as $time){
                             $timeCalendar[$booking->start_date][$time] = "0";
+                            $time_bookings[$booking->start_date][] = $booking->id;
                         }
                     }
                 }
@@ -132,6 +134,7 @@ class ClientDashboardController extends Controller
                                     $times = $booking->time->keyBy('time_interval')->keys()->toArray();
                                     foreach ($times as $time){
                                         $timeCalendar[$weekDay][$time] = "0";
+                                        $time_bookings[$weekDay][] = $booking->id;
                                     }
                                 }
                                 if($weekDay >= $lastDay){
@@ -146,7 +149,8 @@ class ClientDashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'time_calendar' => $timeCalendar
+            'time_calendar' => $timeCalendar,
+            'time_bookings' => $time_bookings,
         ]);
     }
 }
