@@ -68,20 +68,18 @@ class ClientDashboardController extends Controller
         $bookings = Booking::where('client_user_id', $client_id)->whereIn('status', ['approved', 'in_process'])->with('time')->get();
 
         if (is_null($neededDate)) {
-            $searchDate = Carbon::now()->format('Y-m-d');
+            $searchDate = Carbon::now()->format('Y-m');
         } else {
-            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m-d');
+            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m');
         }
         $month = Carbon::createFromDate($neededDate)->format('m');
 
-        $firstDay = Carbon::createFromFormat('Y-m-d', $searchDate)
-            ->firstOfMonth()
+        $firstDay = Carbon::createFromDate($searchDate)->subWeek()
             ->format('Y-m-d');
-        $lastDay = Carbon::createFromFormat('Y-m-d', $searchDate)
-            ->endOfMonth()
+        $lastDay = Carbon::createFromDate($searchDate)->addWeek()
             ->format('Y-m-d');
 
-        $monthLength = Carbon::create($searchDate)->daysInMonth;
+        $monthLength = Carbon::create($searchDate)->daysInMonth + 14;
         $timeCalendar = [];
         $time_bookings = [];
         for ($i = 0; $i < $monthLength; $i++){
@@ -106,9 +104,9 @@ class ClientDashboardController extends Controller
                 if($booking->one_time_or_regular == 'one') {
                     if(key_exists($booking->start_date, $timeCalendar)){
                         $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                        $time_bookings[$booking->start_date][] = $booking->id;
                         foreach ($times as $time){
                             $timeCalendar[$booking->start_date][$time] = "0";
-                            $time_bookings[$booking->start_date][] = $booking->id;
                         }
                     }
                 }
@@ -116,13 +114,9 @@ class ClientDashboardController extends Controller
                 if($booking->one_time_or_regular == 'regular'){
                     $weekWorkDays = json_decode($booking->days, true);
                     if($booking->weeks > 0) {
-                        for($i = 0; $i <= $booking->weeks; $i++) {
+                        for($w = 0; $w <= $booking->weeks; $w++) {
                             $startWeekDate = Carbon::createFromFormat('Y-m-d', $booking->start_date)
-                                ->addWeeks($i)->startOfWeek()->format('Y-m-d');
-                            $searchMonth =  Carbon::createFromDate($startWeekDate)->format('m');
-                            if($searchMonth !== $month){
-                                break 2;
-                            }
+                                ->addWeeks($w)->format('Y-m-d');
 
                             for ($d = 0; $d <=6; $d++){
                                 $weekDay = Carbon::createFromFormat('Y-m-d', $startWeekDate)
@@ -132,13 +126,10 @@ class ClientDashboardController extends Controller
                                     ->addDays($d)->dayOfWeek;;
                                 if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
                                     $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                                    $time_bookings[$weekDay][] = $booking->id;
                                     foreach ($times as $time){
                                         $timeCalendar[$weekDay][$time] = "0";
-                                        $time_bookings[$weekDay][] = $booking->id;
                                     }
-                                }
-                                if($weekDay >= $lastDay){
-                                    break 2;
                                 }
                             }
                         }

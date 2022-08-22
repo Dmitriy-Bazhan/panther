@@ -77,27 +77,24 @@ class NurseDashboardController extends Controller
         $workTimePref = json_decode($nurse->entity->work_time_pref, true);
 
         if (is_null($neededDate)) {
-            $searchDate = Carbon::now()->format('Y-m-d');
+            $searchDate = Carbon::now()->format('Y-m');
         } else {
-            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m-d');
+            $searchDate = Carbon::createFromDate($neededDate)->format('Y-m');
         }
         $month = Carbon::createFromDate($neededDate)->format('m');
 
-        $firstDay = Carbon::createFromFormat('Y-m-d', $searchDate)
-            ->firstOfMonth()
+        $firstDay = Carbon::createFromDate($searchDate)->subWeek()
             ->format('Y-m-d');
-        $lastDay = Carbon::createFromFormat('Y-m-d', $searchDate)
-            ->endOfMonth()
+        $lastDay = Carbon::createFromDate($searchDate)->addWeek()
             ->format('Y-m-d');
 
-        $monthLength = Carbon::create($searchDate)->daysInMonth;
+        $monthLength = Carbon::create($searchDate)->daysInMonth + 14;
         $timeCalendar = [];
         $time_bookings = [];
         for ($i = 0; $i < $monthLength; $i++){
-            $current = Carbon::createFromFormat('Y-m-d', $firstDay)->addDays($i)->format('Y-m-d');
-            $day = Carbon::createFromFormat('Y-m-d', $current)->dayName;
+            $current = Carbon::createFromDate($firstDay)->addDays($i)->format('Y-m-d');
+            $day = Carbon::createFromDate( $current)->dayName;
             $timeCalendar[$current] = [];
-//            $timeCalendar[$current]['day'] = $day;
             if(in_array($day, ['Saturday', 'Sunday'])){
                 $timeCalendar[$current]['weekends_7_11'] = $workTimePref['weekends_7_11'];
                 $timeCalendar[$current]['weekends_11_14'] = $workTimePref['weekends_11_14'];
@@ -116,9 +113,9 @@ class NurseDashboardController extends Controller
                 if($booking->one_time_or_regular == 'one') {
                     if(key_exists($booking->start_date, $timeCalendar)){
                         $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                        $time_bookings[$booking->start_date][] = $booking->id;
                         foreach ($times as $time){
                             $timeCalendar[$booking->start_date][$time] = "0";
-                            $time_bookings[$booking->start_date][] = $booking->id;
                         }
                     }
                 }
@@ -126,13 +123,9 @@ class NurseDashboardController extends Controller
                 if($booking->one_time_or_regular == 'regular'){
                     $weekWorkDays = json_decode($booking->days, true);
                     if($booking->weeks > 0) {
-                        for($i = 0; $i <= $booking->weeks; $i++) {
-                            $startWeekDate = Carbon::createFromFormat('Y-m-d', $booking->start_date)
-                                ->addWeeks($i)->startOfWeek()->format('Y-m-d');
-                            $searchMonth =  Carbon::createFromDate($startWeekDate)->format('m');
-                            if($searchMonth !== $month){
-                                break 2;
-                            }
+                        for($w = 0; $w <= $booking->weeks; $w++) {
+                            $startWeekDate = Carbon::createFromDate($booking->start_date)
+                                ->addWeeks($w)->format('Y-m-d');
 
                             for ($d = 0; $d <=6; $d++){
                                 $weekDay = Carbon::createFromFormat('Y-m-d', $startWeekDate)
@@ -140,15 +133,12 @@ class NurseDashboardController extends Controller
 
                                 $weekDayName = Carbon::createFromFormat('Y-m-d', $startWeekDate)
                                     ->addDays($d)->dayOfWeek;;
-                                if(in_array($weekDayName, $weekWorkDays) && $firstDay < $weekDay){
+                                if(in_array($weekDayName, $weekWorkDays)){
                                     $times = $booking->time->keyBy('time_interval')->keys()->toArray();
+                                    $time_bookings[$weekDay][] = $booking->id;
                                     foreach ($times as $time){
                                         $timeCalendar[$weekDay][$time] = "0";
-                                        $time_bookings[$weekDay][] = $booking->id;
                                     }
-                                }
-                                if($weekDay >= $lastDay){
-                                    break 2;
                                 }
                             }
                         }

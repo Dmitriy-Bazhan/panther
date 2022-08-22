@@ -102,9 +102,6 @@
 
         </div>
 
-
-
-
         <div class="pt-finder--form-block"  v-if="checkWorkWeekDays()">
             <div class="pt-finder--form-group">
                 <p class="pt-form--label">
@@ -132,9 +129,9 @@
                         <label class="pt-checkbox">
                             <input type="checkbox" name="work_time_pref"
                                    :value="item"
-                                   v-model="booking.week_days_checked"
+                                   v-model="booking.time"
                                    v-on:change="getTotalPrice()">
-                            <span class="pt-checkbox--body">{{ item.val }}</span>
+                            <span class="pt-checkbox--body">{{ item.time }}</span>
                         </label>
                     </template>
                 </div>
@@ -168,8 +165,9 @@
                         <label class="pt-checkbox">
                             <input type="checkbox" name="work_time_pref"
                                    :value="item"
-                                   v-model="booking.week_ends_checked" v-on:change="getTotalPrice()">
-                            <span class="pt-checkbox--body">{{ item.val }}</span>
+                                   v-model="booking.time"
+                                   v-on:change="getTotalPrice()">
+                            <span class="pt-checkbox--body">{{ item.time }}</span>
                         </label>
                     </template>
                 </div>
@@ -181,7 +179,7 @@
 <script>
     export default {
         name: "BookingEdit",
-        props: ['data', 'inner_booking'],
+        props: ['data', 'booking'],
         data() {
             return {
                 weekdayLabels: {
@@ -200,26 +198,28 @@
                 weekends_intervals: false,
                 show_week_days_interval: true,
                 show_week_ends_interval: true,
-                booking: false,
             }
         },
         watch: {
             booking: {
                 handler(newValue, oldValue) {
-                    if (this.inner_booking.one_time_or_regular == 'regular') {
+                    if (this.booking.one_time_or_regular === 'regular') {
                         this.show_for_regular = true;
                     }
-                    if (typeof this.inner_booking.nurse.entity.work_time_pref === 'string') {
-                        this.inner_booking.nurse.entity.work_time_pref = JSON.parse(this.inner_booking.nurse.entity.work_time_pref);
+                    if (typeof this.booking.nurse.entity.work_time_pref === 'string') {
+                        this.booking.nurse.entity.work_time_pref = JSON.parse(this.booking.nurse.entity.work_time_pref);
                     }
                 },
                 immediate: true,
             }
         },
         mounted() {
-            this.booking = {...this.inner_booking};
+            for(let key in this.booking.nurse.entity.work_time_pref){
+                if(this.booking.nurse.entity.work_time_pref[key] === '1'){
+                    this.booking.time_interval[key] = '1';
+                }
+            }
 
-            this.booking.time_interval = this.booking.nurse.entity.work_time_pref;
             this.setIntervals();
             this.booking.week_days_checked = [];
             this.booking.week_ends_checked = [];
@@ -237,7 +237,6 @@
                     this.booking.week_days_checked.push(obj);
                 }
             }
-
             for (let i in this.weekends_intervals) {
                 let time = this.booking.time.filter(($value) => {
                     if ($value.time == this.weekends_intervals[i].val && $value.time_interval == this.weekends_intervals[i].id) {
@@ -259,6 +258,7 @@
         },
         methods: {
             setIntervals() {
+
                 let self = this
                 self.intervals = []
                 self.weekends_intervals = []
@@ -278,8 +278,8 @@
                 self.intervals.forEach(function (item) {
                     for (let i = item.start; i < item.end; i++) {
                         timeIntervals.push({
-                            id: item.id,
-                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                            time_interval: item.id,
+                            time: i + ':00 - ' + Number(i + 1) + ':00'
                         })
                     }
                 })
@@ -289,16 +289,18 @@
                 self.weekends_intervals.forEach(function (item) {
                     for (let i = item.start; i < item.end; i++) {
                         timeIntervals.push({
-                            id: item.id,
-                            val: i + ':00 - ' + Number(i + 1) + ':00'
+                            time_interval: item.id,
+                            time: i + ':00 - ' + Number(i + 1) + ':00'
                         })
                     }
                 })
                 self.weekends_intervals = timeIntervals;
+                console.log(this.booking.time);
+                console.log(this.intervals);
+                console.log(this.weekends_intervals);
             },
             getTotalPrice() {
                 let self = this;
-                console.log(this.booking);
                 if (self.booking.start_date) {
                     let year = dayjs(self.booking.start_date).get('year');
                     let month = dayjs(self.booking.start_date).get('month');
@@ -325,10 +327,10 @@
                         // }
 
                     }else{
-                        total = self.booking.suggested_price_per_hour * self.booking.week_days_checked.length;
-                        if (self.booking.week_days_checked.length === 0) {
-                            total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length;
-                        }
+                        total = this.booking.suggested_price_per_hour * this.booking.time.length;
+                        // if (self.booking.week_days_checked.length === 0) {
+                        //     total += self.booking.suggested_price_per_hour * self.booking.week_ends_checked.length;
+                        // }
                     }
 
                     this.booking.total = total.toFixed(2);
@@ -348,15 +350,15 @@
             },
             addDays(day) {
                 if (this.in_array(day, this.booking.days)) {
-                    let evens = this.booking.days.filter(function(item, day) {
-                        return item !== day;
-                    });
-                    this.booking.days = evens;
+                    for( let i = 0; i < this.booking.days.length; i++){
+                        if ( this.booking.days[i] == day) {
+                            this.booking.days.splice(i, 1);
+                        }
+                    }
                 } else {
                     this.booking.days.push(Number(day));
                 }
                 // this.checkWeekDaysOrEnds();
-                console.log(this.booking.days);
                 this.getTotalPrice();
             },
             checkWorkWeekDays() {

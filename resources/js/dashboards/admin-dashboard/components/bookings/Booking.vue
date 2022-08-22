@@ -147,7 +147,7 @@
                         {{ $t('client') + ': ' + booking.client.first_name + ' ' + booking.client.last_name }}
                     </h3>
 
-                    <edit_booking :data="data" :inner_booking="booking"></edit_booking>
+                    <edit_booking :data="data" :booking="booking"></edit_booking>
 
                     <button @click.prevent="updateBooking()" class="pt-btn--primary pt-sm pt-m-a pt-mt-25">
                         {{ $t('update') }}
