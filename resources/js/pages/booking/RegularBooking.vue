@@ -4,6 +4,21 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
+                <div class="pt-finder--form-label--number">1</div>
+                Price:
+            </div>
+            <div class="pt-finder--form-block--inner">
+                <div class="pt-finder--form-group">
+                    <pt-input type="number" :modelValue="booking.suggested_price_per_hour"
+                              icon="user"
+                              @update:modelValue="newValue => booking.suggested_price_per_hour = newValue"
+                    ></pt-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-finder--form-block">
+            <div class="pt-finder--form-label">
                 <div class="pt-finder--form-label--number">2</div>
                 Wochentag auswählen:
             </div>
@@ -34,7 +49,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">2</div>
+                <div class="pt-finder--form-label--number">3</div>
                 Wählen Sie ein Startdatum:
             </div>
             <div class="pt-finder--form-block--inner">
@@ -52,7 +67,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">3</div>
+                <div class="pt-finder--form-label--number">4</div>
                 verfügbare Zeit:
             </div>
             <div class="pt-finder--form-block--inner">
@@ -78,7 +93,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">4</div>
+                <div class="pt-finder--form-label--number">5</div>
                 Geben Sie die Anzahl der Stunden ein:
             </div>
             <div class="pt-finder--form-block--inner">
@@ -112,7 +127,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">3</div>
+                <div class="pt-finder--form-label--number">6</div>
                 verfügbare Zeit: (weekends)
             </div>
             <div class="pt-finder--form-block--inner">
@@ -138,7 +153,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">4</div>
+                <div class="pt-finder--form-label--number">7</div>
                 Geben Sie die Anzahl der Stunden ein: (weekends)
             </div>
             <div class="pt-finder--form-block--inner">
@@ -172,7 +187,7 @@
 
         <div class="pt-finder--form-block">
             <div class="pt-finder--form-label">
-                <div class="pt-finder--form-label--number">4</div>
+                <div class="pt-finder--form-label--number">8</div>
                 Anzahl der Wochen auswählen:
             </div>
             <div class="pt-finder--form-block--inner">
