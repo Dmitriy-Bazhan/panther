@@ -1,6 +1,8 @@
 <template>
     <div v-if="payment">
-        <a class="btn btn-primary m-3" v-on:click="toPaypal()">{{ payment.sum }} EUR</a>
+        <h3 class="pt-mb-10">Pay by PayPal</h3>
+
+        <a class="pt-btn pt-sm" v-on:click="toPaypal()">Pay {{ payment.sum }} EUR</a>
     </div>
 </template>
 

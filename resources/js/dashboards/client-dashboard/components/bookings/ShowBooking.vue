@@ -56,11 +56,11 @@
                 </template>
             </p>
         </div>
-
         <div class="pt-finder--form-group" v-show="booking.time">
             <p class="pt-form--label">
                 {{ $t('time') }}
             </p>
+
             <p class="pt-form--text">
                 <template v-for="(date, index) in booking.time">
                     <template v-if="index !== 0">, </template>

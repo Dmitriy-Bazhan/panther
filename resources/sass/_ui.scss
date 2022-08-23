@@ -1643,3 +1643,37 @@ textarea.pt-simple-input{
     font-weight: 700;
     text-align: center;
 }
+
+.pt-payment{
+    &--methods{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px 10px;
+        border: 2px solid $light-gray;
+        border-radius: 5px;
+        margin: 10px 0;
+        cursor: pointer;
+
+        &-type{
+            width: 140px;
+        }
+
+        &-card{
+            width: calc(100% - 280px);
+        }
+
+        &-ctrl{
+            width: 140px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        &.active{
+            color: $white;
+            background-color: $highlight-primary;
+            border-color: $highlight-primary;
+        }
+    }
+}

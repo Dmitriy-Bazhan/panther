@@ -57,6 +57,7 @@ if (window.dashboard === 'dashboard') {
                 });
             Vue.use(i18n);
             Vue.use(CKEditor);
+            Vue.component('pt-preloader', Preloader);
             Vue.component('media-popup', MediaPopup);
             Vue.component('pt-icon', Icon);
             Vue.component('pt-input', Input);

@@ -1,174 +1,225 @@
 <template>
     <div>
-        <h5>Card 1</h5>
+        <h2 class="pt-block-heading">Payments method</h2>
 
-        <div class="row">
-            <div class="col-8">
+        <div class="pt-finder--form-block">
+            <div class="pt-finder--form-group">
+                <label class="pt-box">
+                    <input type="radio" name="methods" value="stripe" v-model="payment_method">
+                    <span class="pt-box--body"></span>
+                    <span class="pt-box--label">Stripe</span>
+                </label>
+            </div>
+            <div class="pt-finder--form-group">
+                <label class="pt-box">
+                    <input type="radio" name="methods" value="paypal" v-model="payment_method">
+                    <span class="pt-box--body"></span>
+                    <span class="pt-box--label">PayPal</span>
+                </label>
+            </div>
+
+            <div class="pt-finder--form-group" v-show="payment_method === 'stripe'">
                 <add_card :user="user" :data="data"></add_card>
             </div>
 
-        </div>
-
-        <div class="row">
-            <div class="col-8">
-                <pay_pal :payment="payment"></pay_pal>
+            <div class="pt-finder--form-group" v-show="payment_method === 'paypal'">
+                You can go to paypal page when you start to pay
             </div>
         </div>
 
 
-        <h3>{{ $t('payment_wait') }}</h3>
+        <div class="pt-table--head">
+            <div class="pt-messages--tabs">
+                <button class="pt-messages--tabs-btn" :class="{active: activeTab === 'wait'}"
+                        @click.prevent="activateTab('wait')">
+                    <!--                {{ $t('not_approved_bookings') }}-->
+                    Wait
+                </button>
+                <button class="pt-messages--tabs-btn" :class="{active: activeTab === 'payed'}"
+                        @click.prevent="activateTab('payed')">
+                    <!--                {{ $t('all') }}-->
+                    Payed
+                </button>
+            </div>
 
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sum</th>
-                <th>Nurse</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-if="waiting_payments.length > 0" v-for="payment in waiting_payments">
-                <td>{{ payment.id }}</td>
-                <td>{{ payment.sum }}</td>
-                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
-                <td>{{ payment.date }}</td>
-                <td>
-                    <button class="btn btn-sm btn-success" v-on:click="showPaymentTemporary(payment)">{{ $t('pay') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+            <pt-search class="pt-ml-a"></pt-search>
+        </div>
 
-        <h3>{{ $t('payment_payed') }}</h3>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sum</th>
-                <th>Nurse</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-if="payed_payments.length > 0" v-for="payment in payed_payments">
-                <td>{{ payment.id }}</td>
-                <td>{{ payment.sum }}</td>
-                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
-                <td>{{ payment.date }}</td>
-                <td>
-                    <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h3>{{ $t('break_payments') }}<span class="dev-temporary-notification">Payment, when client payed, but nurse refuse booking or cant execute booking</span></h3>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sum</th>
-                <th>Nurse</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-if="break_payments.length > 0" v-for="payment in break_payments">
-                <td>{{ payment.id }}</td>
-                <td>{{ payment.sum }}</td>
-                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
-                <td>{{ payment.date }}</td>
-                <td>
-                    <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h3>{{ $t('refuse_payments') }}<span class="dev-temporary-notification">Payments, when client refuse payment( temporary)</span></h3>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sum</th>
-                <th>Nurse</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-if="break_payments.length > 0" v-for="payment in break_payments">
-                <td>{{ payment.id }}</td>
-                <td>{{ payment.sum }}</td>
-                <td>{{ payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</td>
-                <td>{{ payment.date }}</td>
-                <td>
-                    <button class="btn btn-sm btn-success">{{ $t('pay') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showBooking(payment.booking)">{{ $t('show-booking') }}</button>
-                    <button class="btn btn-sm btn-success" v-on:click="showPayment(payment)">{{ $t('show-payment') }}</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div v-if="show_booking" class="show-booking-wrapper">
-            <div class="container-fluid">
-                <h2>{{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name}}</h2>
-                <div class="row">
-                    <div class="col-2 offset-10">
-                        <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
+        <div class="pt-table--container">
+            <div class="pt-table" v-if="payments.length > 0">
+                <div class="pt-table--heading">
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('Name') }}
+                        </div>
                     </div>
-
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('sum') }}
+                        </div>
+                    </div>
+                    <div v-if="activeTab === 'payed'" class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('method') }}
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('Laufzeit') }}
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('order_number') }}
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ $t('Status') }}
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div class="row">
+                <div class="pt-table--row" v-for="(payment, index) in payments">
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            <div class="pt-table--number">
+                                {{ index + 1 }}
+                            </div>
+                            <div>
+                                {{ payment.booking.client.first_name + ' ' + payment.booking.client.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            <pt-icon type="card"></pt-icon>
+                            {{ payment.sum }}€
+                        </div>
+                    </div>
+                    <div v-if="payment.status === 'payed'" class="pt-table--col">
+                        <div class="pt-table--text">
+                            {{ payment.method }}
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            <pt-icon type="calendar"></pt-icon>
+                            <template v-if="payment.status == 'payed'">
+                                {{ payment.updated_at }}
+                            </template>
+                            <template v-else>
+                                {{ payment.updated_at }}
+                            </template>
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--text">
+                            <pt-icon type="calendar"></pt-icon>
+                            {{ payment.id }}
+                        </div>
+                    </div>
+                    <div class="pt-table--col">
+                        <div class="pt-table--ctrl">
+                            <div class="pt-status" :class="payment.status">
+                                {{ $t(payment.status) }}
+                            </div>
+
+                            <pt-menu>
+                                <template v-for="item in ctrl[payment.status]" :key="item">
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_booking'">
+                                        <button class="pt-btn"
+                                                @click.prevent="openPopup('show_booking', payment.booking)">
+                                            {{ $t('show-booking') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_booking'">
+                                        <button class="pt-btn"
+                                                @click.prevent="openPopup('show_payment', false, payment)">
+                                            {{ $t('show-payment') }}
+                                        </button>
+                                    </div>
+                                    <div class="pt-table--ctrl-group" v-show="item === 'show_pay_temporary'">
+                                        <button class="pt-btn"
+                                                @click.prevent="openPopup('show_pay_temporary', false, payment)">
+                                            {{ $t('pay') }}
+                                        </button>
+                                    </div>
+                                </template>
+                            </pt-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="" v-else>
+                No payments
+            </h2>
+
+            <div class="pt-pagination" v-if="payments.length > 0">
+                <a href="" class="pt-pagination--link"
+                   v-for="(link, index) in pagination"
+                   @click.prevent="getPayment(link)"
+                   :class="{active: link.active}"
+                >
+                    <i class="fa-solid fa-angle-left" v-if="index === 0"></i>
+                    <i class="fa-solid fa-angle-right" v-else-if="index === pagination.length-1"></i>
+                    <template v-else>{{ link.label }}</template>
+                </a>
+            </div>
+        </div>
+
+
+
+        <!--        show_booking-->
+        <Modal
+            v-model="modal.show_booking"
+            :close="closePopup"
+        >
+            <div class="pt-popup">
+                <button class="pt-popup--close" @click.prevent="closePopup">
+                    <pt-icon type="cross"></pt-icon>
+                </button>
+                <div class="pt-popup--inner" v-if="booking">
+                    <h2>
+                        {{ $t('booking_from_nurse') + ': ' + booking.nurse.first_name + ' ' + booking.nurse.last_name }}
+                    </h2>
+
                     <show_booking :booking="booking"></show_booking>
                 </div>
             </div>
-        </div>
+        </Modal>
 
-        <div v-if="show_payment" class="show-booking-wrapper">
-            <div class="container-fluid">
-                <h2>{{ $t('booking_from_nurse') + ': ' + payment.booking.nurse.first_name + ' ' + payment.booking.nurse.last_name}}</h2>
-                <div class="row">
-                    <div class="col-2 offset-10">
-                        <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
-                    </div>
-
-                </div>
-                <br>
-                <div class="row">
+        <!--        show_payment-->
+        <Modal
+            v-model="modal.show_payment"
+            :close="closePopup"
+        >
+            <div class="pt-popup">
+                <button class="pt-popup--close" @click.prevent="closePopup">
+                    <pt-icon type="cross"></pt-icon>
+                </button>
+                <div class="pt-popup--inner" v-if="payment">
                     <show_payment :payment="payment"></show_payment>
                 </div>
             </div>
-        </div>
+        </Modal>
 
-        <div v-if="show_pay_temporary" class="show-booking-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-2 offset-10">
-                        <button class="btn btn-sm btn-success" v-on:click="closeModal()">{{ $t('close') }}</button>
-                    </div>
+        <!--        show_pay_temporary-->
+        <Modal
+            v-model="modal.show_pay_temporary"
+            :close="closePopup"
+        >
+            <div class="pt-popup">
+                <button class="pt-popup--close" @click.prevent="closePopup">
+                    <pt-icon type="cross"></pt-icon>
+                </button>
+                <div class="pt-popup--inner">
+                    <pay_payment :payment="payment" v-if="payment_method === 'stripe'"></pay_payment>
 
-                </div>
-                <br>
-                <div class="row">
-                    <pay_payment :payment="payment"></pay_payment>
+                    <pay_pal :payment="payment" v-if="payment_method === 'paypal'"></pay_pal>
                 </div>
             </div>
-        </div>
+        </Modal>
     </div>
 </template>
 
@@ -202,45 +253,30 @@ export default {
             payment: null,
 
 
+
+            modal: {
+                show_booking: false,
+                show_payment: false,
+                show_pay_temporary: false,
+            },
+
             payments_wait_sum: 0,
             payments_payed_sum: 0,
-            status: 'payed',
+            payment_method: 'stripe',
+            status: 'wait',
             search: '',
-            activeTab: 'payed',
+            activeTab: 'wait',
             payments: [],
             pagination: false,
             ctrl: {
                 wait: [
-                    // 'show_booking_edit',
-                    // 'show_feedback',
-                    // 'complaint',
-                    // 'show_alternative',
-                    // 'show_chat',
-                    // 'show_remove_confirm',
-                    // 'show_refused_booking',
+                    'show_booking',
+                    'show_payment',
+                    'show_pay_temporary',
                 ],
                 payed: [
-                    // 'show_booking',
-                    // 'show_chat',
-                    // 'show_pay_payment',
-                    // 'show_feedback',
-                    // 'complaint',
-                ],
-                refuse: [
-                    // 'show_booking_edit',
-                    // 'show_remove_confirm',
-                    // 'show_booking',
-                    // 'show_chat',
-                    // 'show_feedback',
-                    // 'complaint',
-                ],
-                break: [
-                    // 'show_booking_edit',
-                    // 'show_remove_confirm',
-                    // 'show_booking',
-                    // 'show_chat',
-                    // 'show_feedback',
-                    // 'complaint',
+                    'show_booking',
+                    'show_payment',
                 ],
             }
         }
@@ -248,12 +284,39 @@ export default {
     mounted() {
         //this.getClientPayments();
         this.getPayments();
-        this.emitter.on('temporary-pay', e =>{
+        this.emitter.on('temporary-pay', e => {
             this.closeModal();
             this.getClientPayments();
         });
+
+        this.emitter.on('pt-search', (e) => {
+            this.search = e
+            this.getPayments()
+        })
+
+        this.emitter.on('close-modal', (e) => {
+            this.closePopup();
+        });
     },
     methods: {
+        closePopup() {
+            let self = this;
+            self.booking = null;
+            self.payment = null;
+            _.forEach(self.modal, function (item, key) {
+                self.modal[key] = false;
+            });
+        },
+        openPopup(id, booking, payment){
+            this.modal[id] = true
+            this.booking = booking;
+            this.payment = payment;
+        },
+        activateTab(n) {
+            this.activeTab = n;
+            this.search = '';
+            this.getPayments();
+        },
         getPayments(link) {
             //status = wait, payed ...
             //status_of_view = 'yes' or 'no'; for admin, does he watched this payment or not
