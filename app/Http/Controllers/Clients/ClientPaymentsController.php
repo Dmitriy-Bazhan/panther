@@ -27,11 +27,10 @@ class ClientPaymentsController extends Controller
 
         $status = request('status');
         $id = request()->filled('id') && is_numeric(request('id')) ? request('id') : null;
-
         if($status){
-            $payments = PaymentResource::collection($this->payment_repo->search($id, $status))->response()->getData();
+            $payments = PaymentResource::collection($this->paymentRepo->search($id, $status))->response()->getData();
         }else{
-            $payments = PaymentResource::collection($this->payment_repo->search($id))->response()->getData();
+            $payments = PaymentResource::collection($this->paymentRepo->search($id))->response()->getData();
         }
 
         $payments_wait_sum = Payment::where('status', 'wait')->sum('sum');
