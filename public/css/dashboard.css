@@ -1408,6 +1408,34 @@ textarea.pt-simple-input {
   text-align: center;
 }
 
+.pt-payment--methods {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 10px;
+  border: 2px solid #edf6f8;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.pt-payment--methods-type {
+  width: 140px;
+}
+.pt-payment--methods-card {
+  width: calc(100% - 280px);
+}
+.pt-payment--methods-ctrl {
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.pt-payment--methods.active {
+  color: #ffffff;
+  background-color: #005eaf;
+  border-color: #005eaf;
+}
+
 /*!
  * Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
