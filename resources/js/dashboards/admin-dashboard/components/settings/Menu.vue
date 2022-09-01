@@ -40,6 +40,11 @@
              v-on:click="showComponent('faq')">
             <span>{{ $t('faq') }}</span>
         </div>
+
+        <div v-bind:class="[active === 'contracts' ? 'menu-item-active' :'menu-item']"
+             v-on:click="showComponent('contracts')">
+            <span>{{ $t('contracts') }}</span>
+        </div>
     </div>
 </template>
 
@@ -48,7 +53,7 @@
         name: "Menu",
         data() {
             return {
-                active: 'payment_api_settings',
+                active: 'site_settings',
             }
         },
         methods: {

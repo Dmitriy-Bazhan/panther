@@ -7,6 +7,7 @@ import TypeOfLearning from "./TypeOfLearning";
 import TimeIntervals from "./TimeIntervals";
 import MailTemplate from "./MailTemplate";
 import Faq from "./Faq";
+import Contracts from "./Contracts";
 
 export default {
     name: "Settings",
@@ -20,11 +21,12 @@ export default {
         time_intervals: TimeIntervals,
         mail_template: MailTemplate,
         faq: Faq,
+        contracts: Contracts,
     },
     props: ['user', 'data'],
     data() {
         return {
-            active_menu: 'payment_api_settings',
+            active_menu: 'site_settings',
         }
     },
     mounted() {

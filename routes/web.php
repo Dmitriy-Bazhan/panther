@@ -15,6 +15,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\FaqsController;
+use App\Http\Controllers\ContractController;
 
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\StripeController;
@@ -59,7 +60,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(function () {
+Route::prefix('payment')->middleware(['auth:sanctum', 'verified', 'checkClient'])->group(function () {
     Route::get('get-stripe-api-token', [StripeController::class, 'getStripeApiToken']);
     Route::post('method/store', [StripeController::class, 'storePaymentMethod'])->name('payment.store');
     Route::post('method/remove', [StripeController::class, 'removePaymentMethod']);
@@ -68,12 +69,19 @@ Route::prefix('payment')->middleware('auth:sanctum', 'checkClient')->group(funct
 });
 
 //paypal
-Route::prefix('paypal')->middleware('auth:sanctum', 'checkClient')->group(function () {
+Route::prefix('paypal')->middleware(['auth:sanctum', 'verified', 'checkClient'])->group(function () {
     Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
     Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
     Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
     Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 });
+
+//contracts
+Route::prefix('contracts')->middleware(['auth:sanctum', 'verified'])->group(function (){
+    Route::get('download-pdf/{title}', [ContractController::class, 'downloadPdf']);
+});
+Route::resource('contracts', ContractController::class)->middleware(['auth:sanctum', 'verified']);
+
 
 Route::get('/', [MainPageController::class, 'index']);
 Route::get('/info/{page}', [MainPageController::class, 'index']);
@@ -320,7 +328,7 @@ Route::get('/login', [LoginController::class, 'logIn'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 
 //Register
-Route::get('/register', function(){
+Route::get('/register', function () {
     return redirect()->to('/register/client');
 })->name('register');
 Route::get('/register/client', [RegisterController::class, 'register'])->name('register');

@@ -1,5 +1,5 @@
 <template>
-    <h5>Mail Template</h5>
+    <h5>{{ $t('mail_templates') }}</h5>
     <div class="row">
         <div class="col-4">
             <table>
